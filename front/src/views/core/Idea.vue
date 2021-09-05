@@ -48,7 +48,7 @@
         
         <v-row justify='center'>
             <v-col cols='12'>
-                <IdeaItem v-for="(item, index) in this.IdeaItem"  :key="index" 
+                <IdeaItem v-for="(item, index) in ideaItem"  :key="index" 
                 :nickName="item.user.nickName" 
                 :ideaIdx="item.ideaIdx" 
                 :subject="item.subject" 
@@ -84,9 +84,7 @@
                   '최신 순',
                   '오래된 순'
                 ],
-
-                IdeaItem :  this.$store.getters.idea_get_data,
-                token: localStorage.getItem('accessToken'),
+                ideaItem :  [],
                 nickName:''
             }
         },
@@ -95,10 +93,10 @@
                 try {
                     await this.$store.dispatch('idea_show',{
                     })
-                    
                 }catch (err){
                     console.log(err)
                 }
+                this.ideaItem = this.$store.getters.idea_get_data;
             },
         },
         

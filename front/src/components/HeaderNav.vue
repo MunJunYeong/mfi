@@ -70,7 +70,6 @@
         },
         methods : {
             initialize(){
-                console.log(this.userData)
                if(this.accessToken != null){
                    return true;
                } else{
@@ -87,7 +86,6 @@
             },
             isLogin(){
                 if(this.accessToken != null){
-                    console.log(this.userData)
                     this.nickName = this.userData[0].nickName
                     return true;
                 }else if(this.accessToken === null) {
