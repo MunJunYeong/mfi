@@ -12,10 +12,11 @@ const ideaModule = {
             state.ideaList.push(ideaData);
         },
         click_idea_set_data(state, ideaData){
+            state.clickIdeaData = []; //하..
             state.clickIdeaData.push(ideaData);
-            // console.log(state.clickIdeaData[0]);
         },
         click_comment_set_data(state, commentData){
+            state.commentData = [];
             state.commentData.push(commentData);
         }
     },
@@ -55,7 +56,6 @@ const ideaModule = {
                     }
                 });
                 commit('click_idea_set_data', res.data.data)
-                console.log(res.data)
             }catch(err){
                 console.log(err);
             }
@@ -70,7 +70,6 @@ const ideaModule = {
                     }
                 });
                 commit('click_comment_set_data', res.data.data);
-                // console.log(res.data.data);
             }catch(err){
                 console.log(err)
             }

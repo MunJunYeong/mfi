@@ -4,7 +4,6 @@
             <v-col cols='4'>
                 <div id="subject">
                     <h1>{{ideaData.subject}}</h1>
-                    <!-- <h1>{{subject}}</h1> -->
                     </div>
             </v-col>
             <v-spacer></v-spacer>
@@ -121,12 +120,8 @@ import CommentItem from '../../components/CommentItem.vue';
                 commentData : [],
                 userData : {},
                 writeComment : '',
+                nickName: ''
             }
-        },
-        computed : {
-            subject : function(){
-                return this.$store.getters.auth_get_data[0].subject;
-            },
         },
         methods : {
             initialize(){
@@ -136,17 +131,15 @@ import CommentItem from '../../components/CommentItem.vue';
                 
             },
             async showIdea(){
-                console.log(this.ideaIdx)
                 try{
                     await this.$store.dispatch('click_idea',{
                         ideaIdx : this.ideaIdx
                     })
+                    this.ideaData = this.$store.getters.click_idea_get_data[0];
                 }catch(err){
                     console.log(err);
                 }
-                this.ideaData = this.$store.getters.click_idea_get_data[this.ideaIdx];
-
-                console.log(this.$store.getters.click_idea_get_data[0])
+                
             },
 
             async showComment(){
@@ -154,10 +147,10 @@ import CommentItem from '../../components/CommentItem.vue';
                     await this.$store.dispatch('idea_comment',{
                         ideaIdx : this.ideaIdx
                     })
+                    this.commentData = this.$store.getters.comment_get_data;
                 }catch(err){
                     console.log(err);
                 }
-                this.commentData = this.$store.getters.comment_get_data;
                 
             },
             

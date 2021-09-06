@@ -16,6 +16,31 @@ const authModule = {
         }
     },
     actions: {
+        //회원가입
+        // async auth_signup({commit}, loginData){
+        //     let res;
+        //     try{
+        //         res = await axios.post('http://localhost:8080/signUp', {
+        //             id : loginData.id,
+        //             pw : loginData.pw,
+        //             nickName : loginData.nickName,
+        //             email : loginData.email
+        //         })
+        //         commit
+        //         if(res.data.message){
+        //             throw Error(res.data.message);
+        //         }
+        //         if(res.data.data){
+        //             alert('회원가입이 성공적으로 완료됐습니다!');
+        //             location.href='#/home'
+        //             return;
+        //         }
+        //     }catch(err){
+        //         console.log(err);
+        //     }
+            
+        // },
+
         //로그인
         async auth_login ({ commit }, loginData) {
             let res;
