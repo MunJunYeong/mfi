@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
     <v-main>
       <router-view/>
     </v-main>
@@ -7,6 +8,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'App',
   components: {
@@ -18,7 +20,11 @@ export default {
 </script>
 
 <style>
+* {
+ font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+}
 a {
   text-decoration: none;
 }
+
 </style>
