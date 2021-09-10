@@ -1,11 +1,13 @@
 <template>
-    <v-app-bar app="app" color="grey" >
-        <h1 style="margin-right : 15px; margin-left : 10%;" v-on:click="goHome">
+    <v-app-bar app="app" color="grey" id="wrapper" >
+        <h1 id="title"  v-on:click="goHome">
             MFI
         </h1>
-        <h4 style="margin-top : 15px; margin-right : 60px" v-on:click="goHome">
+        <div class="subtitle" v-on:click="goHome">
             Metapor For Investing
-        </h4>
+
+        </div>
+        
         <router-link to="/home">
             <v-btn text="text" rounded="rounded">
                 home
@@ -26,18 +28,14 @@
 
         <v-spacer />
 
-        <div v-if="isLogin()" style="margin-right : 10%; ">
-            <div style="width : auto; background-color : yellow; display : inline-block; float : left;">
-                <h3 style="display: inline;">{{nickName}}</h3>님 환영합니다!&nbsp;&nbsp;&nbsp;
-            </div>
-            <div style="float : left;background-color : green; display : inline-block;">
-                <router-link to="info">
-                    <v-btn elevation="2" outlined="outlined" rounded="rounded" >내 정보</v-btn>
-                </router-link>
-            </div>
-            <div style="float : left;background-color : blue; display : inline-block;">
-                <v-btn elevation="2" outlined="outlined" rounded="rounded" v-on:click="logout"  >로그아웃</v-btn>
-            </div>
+        <div v-if="isLogin()" id="subWrapper">
+            <span id="loginWelcome"><h3  style="display: inline;">{{nickName}}</h3>님 환영합니다!</span>&nbsp;&nbsp;&nbsp;
+            
+            <router-link to="info">
+                <v-btn id="infoBtn" elevation="2" outlined="outlined" rounded="rounded" >내 정보</v-btn>
+            </router-link>
+            <v-btn id="logoutBtn" elevation="2" outlined="outlined" rounded="rounded" v-on:click="logout"  >로그아웃</v-btn>
+            <v-btn id="admin" v-if="admin()" elevation="2" outlined="outlined" rounded="rounded">관리자</v-btn>
         </div>
 
         <div v-else>
@@ -52,12 +50,7 @@
 
 </template>
 <style>
-    @media (max-width: 1023px){
-
-    }
-    @media (max-width: 767px){
-        
-    }
+    @import '../style/header.css';
 </style>
 <script>
 
@@ -102,6 +95,14 @@
                 }else if(this.accessToken === null) {
                     return false;
                 }
+            },
+            admin(){
+                if(this.userData[0].role === 'admin'){
+                    return true;
+                }else {
+                    return false;
+                }
+                
             }
             
         }

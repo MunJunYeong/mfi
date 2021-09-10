@@ -56,6 +56,23 @@
                 /> 
             </v-col>
         </v-row>
+        <v-row justify='center'>
+            <v-col cols="5">
+                <v-text-field v-model="searchSubject" label="Search by Title"></v-text-field>
+            </v-col>
+            <v-col cols="2"> 
+                <v-btn small @click="currentPage = 1; createPagination();">
+                Search
+                </v-btn>
+            </v-col>
+        </v-row>
+
+        <v-pagination
+        v-model="currentPage"
+        :length="totalPages"
+        @input="handlePageChange"
+        >
+        </v-pagination>
     </v-container>
 </template>
 <script>
@@ -64,10 +81,13 @@
     export default {
         name: 'Idea',
         created() {
-            this.showIdea();
+            this.createPagination();
         },
         components: {
             IdeaItem
+        },
+        mounted() {
+            // this.createPagination();
         },
         props: {
 
@@ -85,21 +105,34 @@
                   '오래된 순'
                 ],
                 ideaItem :  [],
-                nickName:''
+                ideaData : {},
+                nickName:'',
+                currentPage : 1,
+                totalPages : 0,
+                searchSubject : ''
             }
         },
         methods: {
-            async showIdea(){
-                try {
-                    await this.$store.dispatch('idea_show',{
+            async createPagination(){
+                try{
+                    await this.$store.dispatch('show_idea', {
+                        page : this.currentPage,
+                        subject : this.searchSubject
                     })
-                }catch (err){
+                }catch(err){
                     console.log(err)
                 }
-                this.ideaItem = this.$store.getters.idea_get_data;
+                // console.log(this.$store.getters.idea_get_data) //왜 두개가 넘어가는지?
+                this.ideaData = JSON.parse(JSON.stringify(this.$store.getters.idea_get_data));
+                // console.log(this.ideaData[0]);
+                this.ideaItem = this.ideaData[0].ideas;
+                this.totalPages = this.ideaData[0].totalPages;
             },
-        },
-        
+            handlePageChange(value){
+                 this.currentPage = value;
+                 this.createPagination();
+            },
+        },       
     }
 </script>
 <style >

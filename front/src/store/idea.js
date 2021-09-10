@@ -9,6 +9,7 @@ const ideaModule = {
     },
     mutations: {
         idea_set_data (state, ideaData) {
+            state.ideaList = [];
             state.ideaList.push(ideaData);
         },
         click_idea_set_data(state, ideaData){
@@ -22,7 +23,8 @@ const ideaModule = {
     },
     getters: {
         idea_get_data(state){
-            return state.ideaList[0];
+            // console.log(state.ideaList)
+            return state.ideaList;
         },
         click_idea_get_data(state){
             return state.clickIdeaData[0];
@@ -32,18 +34,34 @@ const ideaModule = {
         }
     },
     actions: {
-        //아이디어 보여주기
-        async idea_show ({ commit }) {
+        async show_idea({commit}, data){
             let res;
-            try {
-                res = await axios.get('http://localhost:8080/idea', {
-                    headers : {
-                        'Authorization' : token
-                    }
-                });
-                commit('idea_set_data', res.data.data);
-            } catch (err) {
-                console.log(err);
+            if(data.subject === ''){
+                try{
+                    res = await axios.get('http://localhost:8080/idea/size?page='+data.page, {
+                        headers : {
+                            'Authorization' : token
+                        }
+                    })
+                    commit('idea_set_data', res.data);
+                    return;
+                }catch(err){
+                    console.log(err);
+                    return;
+                }
+            }else {
+                try{
+                    res = await axios.get(`http://localhost:8080/idea/size?page=${data.page}&subject=${data.subject}`, {
+                        headers : {
+                            'Authorization' : token
+                        }
+                    })
+                    commit('idea_set_data', res.data);
+                    return;
+                }catch(err){
+                    console.log(err);
+                    return;
+                }
             }
             
         },
@@ -55,9 +73,11 @@ const ideaModule = {
                         'Authorization' : token
                     }
                 });
-                commit('click_idea_set_data', res.data.data)
+                commit('click_idea_set_data', res.data.data);
+                return;
             }catch(err){
                 console.log(err);
+                return;
             }
             
         },
@@ -70,8 +90,10 @@ const ideaModule = {
                     }
                 });
                 commit('click_comment_set_data', res.data.data);
+                return;
             }catch(err){
                 console.log(err)
+                return;
             }
             
         },
@@ -88,11 +110,14 @@ const ideaModule = {
                     headers : {
                         'Authorization' : token
                     }
-                })
+                });
+                res
+                return;
             }catch(err){
                 console.log(err);
+                return;
             }
-            res
+            
         }
     }
 }
