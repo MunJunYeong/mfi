@@ -1,0 +1,242 @@
+<template>
+    <v-container>
+        <v-row justify='center'>
+            <v-col cols='2' />
+            <v-col cols='4'>
+                <div id="subject">
+                    <h1>{{ideaData.subject}}</h1>
+                    </div>
+            </v-col>
+            <v-spacer></v-spacer>
+            <v-col cols='1'>
+                <router-link to="/add-idea">
+                    <v-btn style="height : 70px"
+                    block outlined
+                    >아이디어 내기
+                    </v-btn>
+                </router-link>
+            </v-col>
+            <v-col cols='2' />
+        </v-row>
+
+        <v-row justify='center'>
+            <v-col cols='2' />
+            <v-col cols='3'>
+                <div id="profile"></div>
+                <div style="float : left; width: 7%; height: 100%;"></div>
+                <div style="float : left; width: 73%; height: 100%;">
+                    <p id="nickName" v-if="ideaData.user">닉네임 : {{ideaData.user.nickName}}</p>
+                    <p id="created">{{createdAt}}</p>
+                </div>
+            </v-col>
+            <v-spacer></v-spacer>
+            <v-col cols='1' v-if="authFlag">
+                <v-btn id="modifyBtn" v-on:click="modifyBtn()"
+                block outlined
+                >수정
+                </v-btn>
+                
+            </v-col>
+            <v-col cols='1'  v-if="authFlag">
+                <v-btn id="deleteBtn" v-on:click="deleteBtn()"
+                block outlined
+                >삭제
+                </v-btn>
+            </v-col>
+            <v-col cols='2' />
+        </v-row>
+        
+        <!-- 내용 보이는 곳 -->
+        <br><br><br><br>
+        <v-row justify='center'>
+            <v-col cols='8'>
+                <!-- <div v-html="ideaData.content">
+                </div> -->
+                <Viewer ref="toastViewer" height="500px" />
+            </v-col>
+        </v-row>
+        <br><br>
+        <v-row justify='center'>
+            <v-col cols='8' >
+                <v-col cols='3'>
+                    <h2>댓글</h2>
+                </v-col>
+            </v-col>
+        </v-row>
+        
+        <!-- 댓글내용들 -->
+        <v-row justify='center'>
+            <v-col cols='9'>
+                <CommentItem v-for="(item,index) in this.commentData" :key="index"
+                :nickName = "item.user.nickName"
+                :comment = "item.comment"
+                :created = "item.created"
+                />
+            </v-col>
+        </v-row>
+        
+        <!-- 댓글적는곳 -->
+        <br><br><br>
+        <v-row justify='center'>
+            <v-spacer />
+            <v-col cols='1'>
+                <div style="text-align: center; font-weight : bold; height : 55px; line-height : 55px" >
+                    {{userData.nickName}}
+                </div>
+            </v-col>
+            <v-col cols='6' >
+                <v-text-field
+                outlined
+                label = ''
+                v-model="writeComment"
+                >
+                </v-text-field>
+            </v-col>
+            <v-col cols='1'>
+                <v-btn id="enrollBtn" v-on:click="enrollComment"
+                block 
+                >등록
+                </v-btn>    
+            </v-col>
+            
+            <v-spacer />
+        </v-row>
+    </v-container>
+    
+</template>
+<script>
+import CommentItem from '../../components/CommentItem.vue';
+import moment from 'moment';
+import {Viewer} from '@toast-ui/vue-editor'
+
+    export default {
+        name: 'IdeaClick',
+        created(){
+            this.initialize();
+        },
+        mounted(){
+           
+        },
+        computed: {
+            createdAt() {
+                return moment(this.ideaData.created).format("YY-MM-DD ㅣ HH시 mm분");
+            }
+        },
+        components : {
+            CommentItem,
+            Viewer
+        },
+        data(){
+            return {
+                ideaData : {},
+                commentData : [],
+                userData : {},
+                writeComment : '',
+                nickName: '',
+                ideaIdx: this.$route.params.ideaIdx,
+                authFlag: false,
+            }
+        },
+        methods : {
+            async initialize(){
+               await this.showIdea();
+               await this.showComment();
+               this.userData = this.$store.getters.auth_get_data;
+               this.checkAuth();
+            },
+            setContent(content) {
+              this.$refs.toastViewer.invoke('setMarkdown', content)
+            },
+            async showIdea(){
+                try{
+                    await this.$store.dispatch('click_idea',{
+                        ideaIdx : this.ideaIdx
+                    })
+                    this.ideaData = this.$store.getters.click_idea_get_data;
+                    this.setContent(this.ideaData.content);
+                }catch(err){
+                    console.log(err);
+                }
+            },
+
+            async showComment(){                
+                try{
+                    await this.$store.dispatch('idea_comment',{
+                        ideaIdx : this.ideaIdx
+                    })
+                    this.commentData = this.$store.getters.comment_get_data;
+                }catch(err){
+                    console.log(err);
+                }
+                
+            },
+            //등록버튼
+            async enrollComment(){
+                let confirmComment = confirm('댓글을 추가하겠습니까?');
+                if (confirmComment){
+                    try{
+                        await this.$store.dispatch('add_comment', {
+                            comment : this.writeComment,
+                            ideaIdx : this.ideaIdx
+                        })
+                        this.writeComment = '';
+                        this.showComment();
+                    }catch(err){
+                        console.log(err);
+                    }
+                }
+            },
+            //게시물 삭제 버튼
+            deleteBtn(){
+                let confirmDeleteIdea = confirm('게시물을 삭제하겠습니까?(삭제를 한 후에는 돌릴 수 없습니다.)');
+                if(confirmDeleteIdea){
+                    try{
+                        this.$store.dispatch('delete_idea', {
+                            ideaIdx : this.ideaData.ideaIdx
+                        })
+                        location.href='#/idea'
+                    }catch(err){
+                        console.log(err);
+                    }
+                }
+
+            },
+            //유저와 아이디어유저가 같은지 확인
+            checkAuth(){
+                if(this.userData.userIdx === this.ideaData.user.userIdx){
+                    this.authFlag = true;
+                    // return true;
+                }else{
+                    this.authFlag = false;
+                    // return false;
+                }
+            }
+        }
+
+    }
+
+
+</script>
+<style>
+    #subject {
+         line-height: 40px;
+    }
+    #profile{
+        width: 20%; height: 100%; background-image: url('../../assets/profile.png' ); background-size: 100% 100%; float: left;
+        
+    }
+    /* #nickName {
+
+    }
+    #created {
+
+    } */
+    #modifyBtn{
+        height: 50px;
+    }
+    #deleteBtn{
+        height: 50px;
+    }
+
+</style>
+
