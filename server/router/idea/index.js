@@ -45,7 +45,6 @@ ideaRouter.get('/:ideaIdx', async(req, res)=> {
     let whereDate = date.setDate(-45);
     
     console.log(whereDate)
-
     
     where.ideaIdx = ideaIdx;
     if(req.userData.role === 'normal'){
