@@ -34,17 +34,12 @@ const ideaModule = {
     actions: {
         //전체 아이디어 보여줄 때
         async show_idea({commit}, data){
-            let token = localStorage.getItem('accessToken');
             let res;
             if(data.subject === ''){
                 try{
-                    res = await axios.get('http://localhost:8080/idea/size?page='+data.page, {
-                        headers : {
-                            'Authorization' : token
-                        }
+                    res = await axios.get('http://localhost:8080/idea?page='+data.page, {
                     })
                     commit('idea_set_data', res.data);
-                    console.log(res.data)
                     return;
                 }catch(err){
                     console.log(err);
@@ -52,10 +47,7 @@ const ideaModule = {
                 }
             }else {
                 try{
-                    res = await axios.get(`http://localhost:8080/idea/size?page=${data.page}&subject=${data.subject}`, {
-                        headers : {
-                            'Authorization' : token
-                        }
+                    res = await axios.get(`http://localhost:8080/idea?page=${data.page}&subject=${data.subject}`, {
                     })
                     commit('idea_set_data', res.data);
                     return;
@@ -72,7 +64,7 @@ const ideaModule = {
             let res;
             if(data.subject === ''){
                 try{
-                    res = await axios.get(`http://localhost:8080/idea/info?page=${data.page}&userIdx=${data.userIdx}`,{
+                    res = await axios.get(`http://localhost:8080/info/idea?page=${data.page}&userIdx=${data.userIdx}`,{
                         headers : {
                             'Authorization' : token
                         }
@@ -85,7 +77,7 @@ const ideaModule = {
                 }
             }else {
                 try{
-                    res = await axios.get(`http://localhost:8080/idea/info?page=${data.page}&subject=${data.subject}`,{
+                    res = await axios.get(`http://localhost:8080/info/idea?page=${data.page}&subject=${data.subject}`,{
                             headers : {
                                 'Authorization' : token
                             }
@@ -126,12 +118,17 @@ const ideaModule = {
                 console.log(err)
             }
         },
+        //아이디어 클릭했을 때
         async click_idea({commit}, ideaIdx) {
             let token = localStorage.getItem('accessToken');
 
             let res;
             try {
-                res = await axios.get('http://localhost:8080/idea/idea-click?ideaIdx='+ideaIdx.ideaIdx, {
+                res = await axios.get('http://localhost:8080/idea/:ideaIdx', 
+                {
+                    params : {
+                        ideaIdx : ideaIdx.ideaIdx
+                    },
                     headers : {
                         'Authorization' : token
                     }
@@ -142,7 +139,6 @@ const ideaModule = {
                 console.log(err);
                 return;
             }
-            
         },
         async idea_comment({commit}, ideaIdx){
             let res;
