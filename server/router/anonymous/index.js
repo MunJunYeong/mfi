@@ -134,8 +134,9 @@ anonymousRouter.post('/checkNickName', async (req, res) =>{
 })
 
 //아이디어 보기
-anonymousRouter.get('/siz/ideae', ideaPagination.findAll);
+anonymousRouter.get('/idea', ideaPagination.findAll);
 
+anonymousRouter.get('/info/idea', ideaPagination.findAll);
 
 
 

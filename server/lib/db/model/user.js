@@ -39,8 +39,12 @@ const create = async (sequelize) => {
     });
 
     userTable.associate = function (models) {
-        userTable.hasMany(models.idea, {foreignKey: 'userIdx'});
-        userTable.hasMany(models.comment, {foreignKey: 'userIdx'});
+        userTable.hasMany(models.idea, 
+            {foreignKey: 'userIdx',
+        });
+        userTable.hasMany(models.comment, {
+            foreignKey: 'userIdx'
+        });
     };
 
     return userTable;

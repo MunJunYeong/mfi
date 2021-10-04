@@ -2,7 +2,6 @@
 const {models, Op} = require('../../lib/db');
 
 const getPagination = (page) => {
-    // console.log(page)
     let currentPage = page-1;
     const limit = 6;
     let offset = 0;
@@ -22,43 +21,41 @@ const getPagingData = (data, page, limit)=> {
 }
 
 exports.findAll = (req, res) => {
-    const {page, subject} = req.query;
+    const {page, subject, userIdx} = req.query;
     const {limit, offset} = getPagination(page);
-    //idea.vue
-    if(subject === undefined){
-        models['idea'].findAndCountAll({
-            include : [
-                {
-                    model : models['user'],
-                }
-            ],
-            order : [['ideaIdx', 'DESC']],
-            limit,
-            offset
-        }).then(data => {
-            const result = getPagingData(data, page, limit);
-            res.send(result);
-            return;
-        })
-    }else {
-        models['idea'].findAndCountAll({
-            where : {
-                subject : {
-                    [Op.like] : `%${subject}%`
-                }
-            },
-            include : [
-                {
-                    model : models['user'],
-                }
-            ],
-            order : [['ideaIdx', 'DESC']],
-            limit,
-            offset
-        }).then(data => {
-            const result = getPagingData(data, page, limit);
-            res.send(result);
-            return;
-        })
+
+    const where = {};
+    
+    //show idea where
+    if(userIdx === undefined){
+        if(subject !== undefined){
+            where.subject = {
+                [Op.like] : `%${subject}%`
+            }
+        }
+    }else{ //show my idea where
+        where.userIdx = userIdx;
+        if(subject !== undefined){
+            where.subject = {
+                [Op.like] : `%${subject}%`
+            }
+        }
     }
+    models['idea'].findAndCountAll({
+        where,
+        include : [
+            {
+                model : models['user'],
+            }
+        ],
+        order : [['ideaIdx', 'DESC']],
+        limit,
+        offset
+    }).then(data => {
+        const result = getPagingData(data, page, limit);
+        res.send(result);
+        return;
+    })
+    
+
 }

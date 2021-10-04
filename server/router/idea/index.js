@@ -1,10 +1,8 @@
 const express = require('express');
-const { where } = require('sequelize/types');
 const ideaRouter = express.Router();
-
+const IdeaController = require('../../controller/ideaController')
 const {models, Op} = require('../../lib/db');
 
-const ideaPagination = require('./ideaController');
 
 //아이디어 등록
 ideaRouter.post('/', async(req, res) => {
@@ -29,9 +27,6 @@ ideaRouter.post('/', async(req, res) => {
 //게시판 지우기
 ideaRouter.delete('/', async(req,res)=>{
     const ideaIdx = req.query.ideaIdx;
-    // if(!data.ideaIdx){
-    //     res.send({message : 'no ideaIdx'});
-    // }
     const result = await models['idea'].destroy({
         where : {
             ideaIdx : ideaIdx
@@ -40,18 +35,26 @@ ideaRouter.delete('/', async(req,res)=>{
     res.send({success : '1'})
 })
 
-//내가 적은 아이디어 보기
-ideaRouter.get('/info', ideaPagination.findAll);
-
 //아이디어 클릭시 아이디어 정보
-ideaRouter.get('/idea-click', async(req, res)=> {
+ideaRouter.get('/:ideaIdx', async(req, res)=> {
     const ideaIdx = req.query.ideaIdx;
 
-    if(req.user.role === 'normal') { where.createdAt = { [op.lte] : new Date().add(-45)}}
+    let where = {};
+
+    let date = new Date();
+    let whereDate = date.setDate(-45);
+    
+    console.log(whereDate)
+    
+    where.ideaIdx = ideaIdx;
+    if(req.userData.role === 'normal'){
+         where.created = {
+             [Op.gte] : whereDate
+         }
+    }
+    console.log(where)
     const result = await models['idea'].findAll({
-        where : {
-            ideaIdx : ideaIdx
-        },
+        where,
         include : [
             {
                 model : models['user'],
