@@ -44,15 +44,21 @@ ideaRouter.get('/:ideaIdx', async(req, res)=> {
     let date = new Date();
     let whereDate = date.setDate(-45);
     
-    console.log(whereDate)
-    
     where.ideaIdx = ideaIdx;
+
+    const middle =  await models['idea'].findAll({
+        where,
+    })
+
+    //등급이 normal이고 본인의 게시물이 아닐 시에 45일이 지나지 않은 게시물은 열람할 수 없다.
     if(req.userData.role === 'normal'){
-         where.created = {
-             [Op.gte] : whereDate
-         }
+        if(req.userData.userIdx !== middle[0].toJSON().userIdx){
+            where.created = {
+                [Op.lte] : whereDate
+            }
+        }
     }
-    console.log(where)
+    
     const result = await models['idea'].findAll({
         where,
         include : [
@@ -61,8 +67,16 @@ ideaRouter.get('/:ideaIdx', async(req, res)=> {
             }
         ]
     })
-    res.send({data : result});
-    return;
+
+    
+    if(result.length === 0){
+        res.send({message : 'cant approach'})
+        return;
+    }else {
+        res.send({data : result});
+        return;
+    }
+
 })
 
 

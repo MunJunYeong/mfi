@@ -45,7 +45,6 @@ export default {
     methods: {
         async save(){
             this.editorText = this.getContent();
-            console.log(this.editorText)
             try {
                 await this.$store.dispatch('add_Idea', {
                     subject : this.subject,

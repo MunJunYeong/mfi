@@ -133,6 +133,12 @@ const ideaModule = {
                         'Authorization' : token
                     }
                 });
+                console.log(res)
+                if(res.data.message){
+                    alert('접근할 수 없는 게시물입니다.');
+                    location.href='#/idea'
+                    return;
+                }
                 commit('click_idea_set_data', res.data.data);
                 return;
             }catch(err){
