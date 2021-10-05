@@ -104,7 +104,6 @@
                     this.nickName = this.userData.nickName
                     return true;
                 }else if(this.accessToken === null) {
-                    console.log('fafds')
                     return false;
                 }
             },
