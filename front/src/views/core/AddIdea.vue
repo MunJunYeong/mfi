@@ -9,17 +9,7 @@
 
                 </v-col>
             </v-row>
-            
 
-            <!-- <v-row justify='center' >
-                <v-col cols='12'>
-                    <div class="deitor" v-if="editor">
-                        <menu-bar class="editor__header" :editor="editor" />
-                        <br>
-                        <editor-content class="editor_content" :editor="editor" v-model="content" />
-                    </div>
-                </v-col>
-            </v-row> -->
 
             <v-row justify='center' >
                 <TextEditor id="myEditor" />

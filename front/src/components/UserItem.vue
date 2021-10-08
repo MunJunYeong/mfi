@@ -8,7 +8,7 @@
             <v-col cols='2' style="text-align:center;" >
                 {{nickName}}
             </v-col>
-            <v-col cols='2' v-bind:style="{ textAlign:'center', color : (role === 'winner')? 'yellow': 'red', fontWeight : 'bold', }">
+            <v-col cols='2' v-bind:style="{ textAlign:'center', color : (role === 'winner')? 'red': 'black', fontWeight : 'bold', }">
                 {{role}}
             </v-col>
             <v-col cols='3' style="text-align:center;">
@@ -62,6 +62,7 @@ export default {
                     console.log(err);
                 }
                 this.checkRole();
+                this.$router.go();
                 return;
             }
             if(this.role === 'normal'){
@@ -74,6 +75,7 @@ export default {
                     console.log(err);
                 }
                 this.checkRole();
+                this.$router.go();
                 return;
             }
         },

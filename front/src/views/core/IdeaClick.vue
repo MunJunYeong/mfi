@@ -49,10 +49,12 @@
         <!-- 내용 보이는 곳 -->
         <br><br><br><br>
         <v-row justify='center'>
-            <v-col cols='8'>
-                <!-- <div v-html="ideaData.content">
-                </div> -->
+            <v-col cols='8' v-if="contentFlag">
                 <Viewer ref="toastViewer" height="500px" />
+            </v-col>
+            <v-col cols='8' v-else>
+               <TextEditor :ideaIdx="ideaIdx" :ideaData = "ideaData" :contentFlag = "contentFlag"
+                @child="successModify" />
             </v-col>
         </v-row>
         <br><br>
@@ -66,13 +68,14 @@
         
         <!-- 댓글내용들 -->
         <v-row justify='center'>
-            <v-col cols='9'>
+            <v-col cols='9' >
                 <CommentItem v-for="(item,index) in this.commentData" :key="index"
                 :nickName = "item.user.nickName"
                 :comment = "item.comment"
                 :created = "item.created"
                 />
             </v-col>
+            
         </v-row>
         
         <!-- 댓글적는곳 -->
@@ -106,8 +109,12 @@
 </template>
 <script>
 import CommentItem from '../../components/CommentItem.vue';
-import moment from 'moment';
 import {Viewer} from '@toast-ui/vue-editor'
+import TextEditor from '../../components/editor/ModifyTextEditor.vue'
+import moment from 'moment';
+moment.lang('ko', {
+    weekdaysShort: ["일","월","화","수","목","금","토"],
+});
 
     export default {
         name: 'IdeaClick',
@@ -119,12 +126,13 @@ import {Viewer} from '@toast-ui/vue-editor'
         },
         computed: {
             createdAt() {
-                return moment(this.ideaData.created).format("YY-MM-DD ㅣ HH시 mm분");
+                return moment(this.ideaData.created).format("YY-MM-DD (ddd)  HH : mm");
             }
         },
         components : {
             CommentItem,
-            Viewer
+            Viewer,
+            TextEditor
         },
         data(){
             return {
@@ -135,6 +143,7 @@ import {Viewer} from '@toast-ui/vue-editor'
                 nickName: '',
                 ideaIdx: this.$route.params.ideaIdx,
                 authFlag: false,
+                contentFlag : true
             }
         },
         methods : {
@@ -143,6 +152,10 @@ import {Viewer} from '@toast-ui/vue-editor'
                await this.showComment();
                this.userData = this.$store.getters.auth_get_data;
                this.checkAuth();
+            },
+            successModify(success){
+                this.contentFlag = success;
+                this.showIdea();
             },
             setContent(content) {
               this.$refs.toastViewer.invoke('setMarkdown', content)
@@ -186,6 +199,9 @@ import {Viewer} from '@toast-ui/vue-editor'
                     }
                 }
             },
+            modifyBtn(){
+                this.contentFlag = false;
+            },
             //게시물 삭제 버튼
             deleteBtn(){
                 let confirmDeleteIdea = confirm('게시물을 삭제하겠습니까?(삭제를 한 후에는 돌릴 수 없습니다.)');
@@ -205,10 +221,8 @@ import {Viewer} from '@toast-ui/vue-editor'
             checkAuth(){
                 if(this.userData.userIdx === this.ideaData.user.userIdx){
                     this.authFlag = true;
-                    // return true;
                 }else{
                     this.authFlag = false;
-                    // return false;
                 }
             }
         }

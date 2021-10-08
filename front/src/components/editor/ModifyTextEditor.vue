@@ -12,13 +12,13 @@
 
         <v-row justify='center'>
             <v-col cols='4'>
-                <v-btn  block elvation="2" v-on:click="save">
-                    아이디어 추가하기
+                <v-btn  block elvation="2" v-on:click="modify">
+                    아이디어 수정하기
                 </v-btn>
             </v-col>
             <v-col cols='4'>
                 <v-btn  block elvation="2" v-on:click="goIdeaPage">
-                    아이디어 취소하기
+                    수정 취소하기
                 </v-btn>
             </v-col>
         </v-row>
@@ -33,37 +33,50 @@ import { Editor } from '@toast-ui/vue-editor';
 
 export default {
     nama : 'TextEditor',
+    created() {
+
+    },
+    props : [
+        'ideaIdx',
+        'ideaData',
+        'contentFlag',
+    ],
     data() {
         return {
-            editorText : '',
-            subject : '',
+            editorText : this.ideaData.content,
+            subject : this.ideaData.subject,
+            changeFlag : false,
         }
     },
     components : {
         Editor
     },
     methods: {
-        async save(){
+        async modify(){
             this.editorText = this.getContent();
             try {
-                await this.$store.dispatch('add_idea', {
+                await this.$store.dispatch('modify_idea', {
+                    ideaIdx : this.ideaIdx,
                     subject : this.subject,
                     content : this.editorText
                 })
-
+                this.changeFlag = this.contentFlag;
+                this.changeFlag = this.$store.getters.modify_get_flage;
+                // console.log(this.changeFlag)
+                this.$emit('child', this.changeFlag);
             }catch(err){
-                console.log(err)
+                console.log(err);
             }
         },
         getContent() {
-          return this.$refs.toastEditor.invoke('getMarkdown')
+            // content를 저장하는 액션처리
+            return this.$refs.toastEditor.invoke('getMarkdown')
         },
         goIdeaPage(){
             let result = confirm("취소하시겠습니까 ?");
             if(result){
                 location.href='#/idea'
             }
-            
         },
     },
 }

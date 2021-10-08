@@ -14,8 +14,10 @@
     </v-row>
 </template>
 <script>
-    import moment from 'moment';
-
+import moment from 'moment';
+moment.lang('ko', {
+    weekdaysShort: ["일","월","화","수","목","금","토"],
+});
     export default {
         name: 'commentItem',
         created(){
@@ -27,7 +29,7 @@
         ],
         computed: {
             createdAt() {
-                return moment(this.created).format("YY-MM-DD ㅣ HH시 mm분");
+                return moment(this.created).format("YY-MM-DD (ddd)  HH : mm");
             }
         },
         data(){

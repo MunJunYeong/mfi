@@ -5,6 +5,7 @@ const ideaModule = {
         ideaList : [],
         clickIdeaData : {},
         commentData : [],
+        successModify : false,
     },
     mutations: {
         idea_set_data (state, ideaData) {
@@ -18,6 +19,9 @@ const ideaModule = {
             state.commentData = [];
             state.commentData.push(commentData);
         },
+        change_modify_flag(state, success){
+            state.successModify = success;
+        }
     },
     getters: {
         idea_get_data(state){
@@ -29,6 +33,9 @@ const ideaModule = {
         },
         comment_get_data(state){
             return state.commentData[0];
+        },
+        modify_get_flage(state){
+            return state.successModify
         }
     },
     actions: {
@@ -92,7 +99,7 @@ const ideaModule = {
             }
         },
         //아이디어 추가
-        async add_Idea({commit}, data){
+        async add_idea({commit}, data){
             let token = localStorage.getItem('accessToken');
             let res;
             try {
@@ -133,7 +140,6 @@ const ideaModule = {
                         'Authorization' : token
                     }
                 });
-                console.log(res)
                 if(res.data.message){
                     alert('접근할 수 없는 게시물입니다.');
                     location.href='#/idea'
@@ -141,6 +147,31 @@ const ideaModule = {
                 }
                 commit('click_idea_set_data', res.data.data);
                 return;
+            }catch(err){
+                console.log(err);
+                return;
+            }
+        },
+        async modify_idea({commit}, ideaData){
+            let res;
+            let token = localStorage.getItem('accessToken');
+            try{
+                res = await axios.put('http://localhost:8080/idea/:ideaIdx', 
+                {
+                    params : {
+                        ideaIdx : ideaData.ideaIdx,
+                        subject : ideaData.subject,
+                        content : ideaData.content
+                    }
+                },
+                {
+                    headers : {
+                        'Authorization' : token
+                    }
+                })
+                if(res.data.data[0] === 1){
+                    commit('change_modify_flag', true);
+                }
             }catch(err){
                 console.log(err);
                 return;
@@ -164,6 +195,7 @@ const ideaModule = {
             }
             
         },
+        
         async delete_idea({commit}, ideaData){
             let res;
             let token = localStorage.getItem('accessToken');

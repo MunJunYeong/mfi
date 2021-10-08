@@ -32,7 +32,7 @@ exports.findAll = (req, res) => {
                     [Op.ne] : 'admin'
                 }
             },
-            order : [['userIdx', 'ASC']],
+            order : [['userIdx', 'DESC']],
             order : [['role', 'DESC']],
             limit,
             offset

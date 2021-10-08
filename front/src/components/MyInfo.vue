@@ -48,7 +48,7 @@
                     가입한 날자
                 </v-col>
                 <v-col cols='8'>
-                    {{created}}
+                    {{createdAt}}
                 </v-col>
             </v-row>
         </v-container>
@@ -57,10 +57,20 @@
     </v-container>
 </template>
 <script>
+import moment from 'moment';
+moment.lang('ko', {
+    weekdaysShort: ["일","월","화","수","목","금","토"],
+});
+
 export default {
     name : 'MyInfo',
     created() {
         this.initialize();
+    },
+    computed : {
+        createdAt() {
+            return moment(this.created).format("YY-MM-DD (ddd)  HH : mm");
+        }
     },
     data() {
         return {
