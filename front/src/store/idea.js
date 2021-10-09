@@ -42,6 +42,9 @@ const ideaModule = {
         //전체 아이디어 보여줄 때
         async show_idea({commit}, data){
             let res;
+            let baseUrl = 'http://localhost:8080/idea?page='+data.page;
+
+            if(data.subject) { baseUrl + `&subject=${data.subject}`}
             if(data.subject === ''){
                 try{
                     res = await axios.get('http://localhost:8080/idea?page='+data.page, {
