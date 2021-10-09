@@ -62,7 +62,6 @@ export default {
                 })
                 this.changeFlag = this.contentFlag;
                 this.changeFlag = this.$store.getters.modify_get_flage;
-                // console.log(this.changeFlag)
                 this.$emit('child', this.changeFlag);
             }catch(err){
                 console.log(err);

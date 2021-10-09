@@ -18,18 +18,20 @@
             </router-link>
             <v-col cols='2'  >
                 <div style="">
-                    <v-combobox
+                    <v-combobox outlined
                     v-model="modelIdea"
-                    :items="selectIdea" outlined
+                    :items="selectIdea" 
+                    @change="changeSortRole"
                     >
                     </v-combobox>
                 </div>
             </v-col>
             <v-col cols='1'  >
                 <div style="">
-                    <v-combobox
+                    <v-combobox outlined
                     v-model="modelDate"
-                    :items="selectDate" outlined
+                    :items="selectDate" 
+                    @change="changeSortDate"
                     >
                     </v-combobox>
                 </div>
@@ -95,7 +97,7 @@
             IdeaItem
         },
         mounted() {
-            // this.createPagination();
+            
         },
         props: {
 
@@ -103,11 +105,11 @@
         data() {
             return {
                 modelIdea: ['모든 아이디어'],
+                modelDate : ['최신 순'],
                 selectIdea: [
                   '모든 아이디어',
                   '위너 아이디어'
                 ],
-                modelDate : ['최신 순'],
                 selectDate: [
                   '최신 순',
                   '오래된 순'
@@ -140,6 +142,24 @@
                  this.currentPage = value;
                  this.createPagination();
             },
+            changeSortRole(){
+                if(this.modelIdea === '위너 아이디어'){
+                    try{
+                        this.$store.dispatch('show_idea', {
+                            page : this.currentPage,
+                            subject : this.searchSubject,
+                            role : 'winner'
+                        })
+                    }catch(err){
+                        console.log(err);
+                    }
+                }
+            },
+            changeSortDate(){
+                if(this.modelDate === '오래된 순'){
+                    console.log('dfa')
+                }
+            }
         },       
     }
 </script>
