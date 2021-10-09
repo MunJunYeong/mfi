@@ -21,7 +21,7 @@
                     <v-combobox outlined
                     v-model="modelIdea"
                     :items="selectIdea" 
-                    @change="changeSortRole"
+                    @change="changeSorting"
                     >
                     </v-combobox>
                 </div>
@@ -31,7 +31,7 @@
                     <v-combobox outlined
                     v-model="modelDate"
                     :items="selectDate" 
-                    @change="changeSortDate"
+                    @change="changeSorting"
                     >
                     </v-combobox>
                 </div>
@@ -128,7 +128,7 @@
                 try{
                     await this.$store.dispatch('show_idea', {
                         page : this.currentPage,
-                        subject : this.searchSubject
+                        subject : this.searchSubject,
                     })
                 }catch(err){
                     console.log(err)
@@ -142,24 +142,71 @@
                  this.currentPage = value;
                  this.createPagination();
             },
-            changeSortRole(){
+            changeSorting(){
                 if(this.modelIdea === '위너 아이디어'){
-                    try{
-                        this.$store.dispatch('show_idea', {
-                            page : this.currentPage,
-                            subject : this.searchSubject,
-                            role : 'winner'
-                        })
-                    }catch(err){
-                        console.log(err);
+                    if(this.modelDate === '오래된순'){
+                        //위너아이디어 + 오래된순
+                        this.winnerOld();
+                    }else{
+                    //위너아이디어 + 최신순
+                        this.winnerRecent();
+                    }
+                }else {
+                    if(this.modelDate === '오래된 순'){
+                        //모든아이디어 + 오래된순
+                        this.allOld();               
+                    }else{
+                        //모든아이디어 + 최신순
+                        this.allRecent();
                     }
                 }
             },
-            changeSortDate(){
-                if(this.modelDate === '오래된 순'){
-                    console.log('dfa')
+            async winnerOld(){
+                try{
+                    await this.$store.dispatch('show_idea', {
+                        page : this.currentPage,
+                        subject : this.searchSubject,
+                        role : 'winner',
+                        order : 'ASC',
+                    })
+                }catch(err){
+                    console.log(err);
                 }
-            }
+            },
+            async winnerRecent(){
+                try{
+                    await this.$store.dispatch('show_idea', {
+                        page : this.currentPage,
+                        subject : this.searchSubject,
+                        role : 'winner',
+                        order : 'DESC',
+                    })
+                }catch(err){
+                    console.log(err);
+                }
+            },
+            async allOld(){
+                try{
+                    await this.$store.dispatch('show_idea', {
+                        page : this.currentPage,
+                        subject : this.searchSubject,
+                        order : 'ASC',
+                    })
+                }catch(err){
+                    console.log(err);
+                }
+            },
+            async allRecent(){
+                try{
+                    await this.$store.dispatch('show_idea', {
+                        page : this.currentPage,
+                        subject : this.searchSubject,
+                        order : 'DESC',
+                    })
+                }catch(err){
+                    console.log(err);
+                }
+            },
         },       
     }
 </script>

@@ -1,7 +1,5 @@
 const express = require('express');
 const ideaRouter = express.Router();
-const IdeaController = require('../../controller/ideaController')
-const {models, Op} = require('../../lib/db');
 
 const { idea: ideaService } = require('../../service');
 
@@ -17,55 +15,49 @@ ideaRouter.post('/', async(req, res) => {
         res.send({message : 'no content'});
         return;
     }
-
-    const result = await models['idea'].create({
-        subject : data.subject,
-        content : data.content,
-        userIdx : req.userData.userIdx
-    });
+    const result = await ideaService.createIdea(data.subject, data.content, req.userData.userIdx);
     res.send({data : result});
 })
 
 //게시판 지우기
 ideaRouter.delete('/', async(req,res)=>{
     const ideaIdx = req.query.ideaIdx;
-    const result = await models['idea'].destroy({
-        where : {
-            ideaIdx : ideaIdx
-        },
-    }) 
-    res.send({success : '1'})
+    if(!ideaIdx){
+        res.send({message : 'required ideaIdx'})
+    }
+    const result = await ideaService.deleteIdea(ideaIdx);
+    if(result === 1){
+        res.send({success : '1'});
+        return;
+    }
+
 })
+
+//아이디어 수정
 ideaRouter.put('/:ideaIdx', async(req,res)=>{
     const ideaIdx = req.body.params.ideaIdx;
     const subject = req.body.params.subject;
     const content = req.body.params.content;
+    if(!ideaIdx && !subject && !content){
+        res.send({message : 'required ideaIdx, userIdx, role'})
+        return;
+    }
 
-    const result = await models['idea'].update(
-        {
-            subject : subject,
-            content : content
-        },
-        {
-            where : {
-                ideaIdx : ideaIdx,
-            },
-        }
-    )
+    const result = await ideaService.updateIdea(ideaIdx, subject, content);
     res.send({data : result});
 
 })
 
 //아이디어 클릭시 아이디어 정보
-//근데 여기서 req.body.params로 주진 않았는데 ㅇ어떻게 돌아가는지 ?
 ideaRouter.get('/:ideaIdx', async(req, res)=> {
     const ideaIdx = req.query.ideaIdx;
     const { userIdx, role } = req.userData;
-
-    if(!(ideaIdx && userIdx && role )){ res.send({message: 'required ideaIdx, userIdx, role'})}
+    if(!(ideaIdx && userIdx && role )){ 
+        res.send({message: 'required ideaIdx, userIdx, role'})
+        return;
+    }
 
     const result = await ideaService.getIdea(ideaIdx, req.userData.userIdx, req.userData.role );
-
     if(result.length === 0){
         res.send({message : 'cant approach'})
         return;

@@ -44,27 +44,27 @@ const ideaModule = {
             let res;
             let baseUrl = 'http://localhost:8080/idea?page='+data.page;
 
-            if(data.subject) { baseUrl + `&subject=${data.subject}`}
-            if(data.subject === ''){
-                try{
-                    res = await axios.get('http://localhost:8080/idea?page='+data.page, {
-                    })
-                    commit('idea_set_data', res.data);
-                    return;
-                }catch(err){
-                    console.log(err);
-                    return;
-                }
-            }else {
-                try{
-                    res = await axios.get(`http://localhost:8080/idea?page=${data.page}&subject=${data.subject}`, {
-                    })
-                    commit('idea_set_data', res.data);
-                    return;
-                }catch(err){
-                    console.log(err);
-                    return;
-                }
+            if(data.subject) {
+                baseUrl += `&subject=${data.subject}`
+            }
+            console.log(baseUrl)
+            // let condition = {};
+            // if(data.role){
+            //     condition.role = data.role;
+            // }
+            // if(data.order){
+            //     condition.order = data.order;
+            // }
+            try{
+                res = await axios.get( baseUrl , {
+                    role : data.role,
+                    order : data.order
+                });
+                commit('idea_set_data', res.data);
+                return;
+            }catch(err){
+                console.log(err);
+                return;
             }
         },
         //내가 쓴 아이디어 보여주기
@@ -155,6 +155,7 @@ const ideaModule = {
                 return;
             }
         },
+        //아이디어 수정
         async modify_idea({commit}, ideaData){
             let res;
             let token = localStorage.getItem('accessToken');

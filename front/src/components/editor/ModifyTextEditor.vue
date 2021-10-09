@@ -53,18 +53,21 @@ export default {
     },
     methods: {
         async modify(){
-            this.editorText = this.getContent();
-            try {
-                await this.$store.dispatch('modify_idea', {
-                    ideaIdx : this.ideaIdx,
-                    subject : this.subject,
-                    content : this.editorText
-                })
-                this.changeFlag = this.contentFlag;
-                this.changeFlag = this.$store.getters.modify_get_flage;
-                this.$emit('child', this.changeFlag);
-            }catch(err){
-                console.log(err);
+            let flag = confirm('수정하시겠습니까?');
+            if(flag){
+                this.editorText = this.getContent();
+                try {
+                    await this.$store.dispatch('modify_idea', {
+                        ideaIdx : this.ideaIdx,
+                        subject : this.subject,
+                        content : this.editorText
+                    })
+                    this.changeFlag = this.contentFlag;
+                    this.changeFlag = this.$store.getters.modify_get_flage;
+                    this.$emit('child', this.changeFlag);
+                }catch(err){
+                    console.log(err);
+                }
             }
         },
         getContent() {

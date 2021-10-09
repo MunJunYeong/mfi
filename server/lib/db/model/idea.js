@@ -2,7 +2,6 @@ const { DataTypes, Sequelize }= require('sequelize');
 
 const create = async (sequelize) => {
   const ideaTable = await sequelize.define('idea', {
-      // Model attributes are defined here
       ideaIdx: {
         type: DataTypes.INTEGER,
         allowNull: false,
