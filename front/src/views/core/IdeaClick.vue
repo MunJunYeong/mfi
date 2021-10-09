@@ -157,6 +157,9 @@ moment.lang('ko', {
                 this.contentFlag = success;
                 this.showIdea();
             },
+            modifyBtn(){
+                this.contentFlag = false;
+            },
             setContent(content) {
               this.$refs.toastViewer.invoke('setMarkdown', content)
             },
@@ -171,7 +174,7 @@ moment.lang('ko', {
                     console.log(err);
                 }
             },
-
+            //댓글보여주기
             async showComment(){                
                 try{
                     await this.$store.dispatch('idea_comment',{
@@ -198,9 +201,6 @@ moment.lang('ko', {
                         console.log(err);
                     }
                 }
-            },
-            modifyBtn(){
-                this.contentFlag = false;
             },
             //게시물 삭제 버튼
             deleteBtn(){

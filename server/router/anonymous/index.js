@@ -1,21 +1,16 @@
 const express = require('express')
 const anonymousRouter = express.Router();
 const ideaPagination = require('./ideaController');
-
-const {models, Op} = require('../../lib/db');
-
-const jwt = require('jsonwebtoken');
+const {anonymous : anonymousService} = require('../../service/index');
 
 let checkEng = /[a-zA-Z]/;
 let checkNum = /[0-9]/; 
 let checkSpe = /[~!@#$%^&*()_+|<>?:{}]/;
 let checkKor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
 
-
 //회원가입하기
 anonymousRouter.post('/signUp', async (req, res) =>{
     const data = req.body;
-    console.log(data);
 
     if(!data.id || !data.pw || !data.nickName || !data.email){
         res.send({ message : 'no data'});
@@ -27,13 +22,8 @@ anonymousRouter.post('/signUp', async (req, res) =>{
         res.send({ message : '영어, 숫자, 특수기호를 모두 사용해주세요.'});
         return;
     }
-    const result = await models['user'].create({
-        id : data.id,
-        pw : data.pw,
-        nickName : data.nickName,
-        email : data.email,
-        role : 'normal'
-    });
+
+    const result = await anonymousService.signUp(data.id, data.pw, data.nickName, data.email, 'normal');
     res.send({data : result});
     return;
 })
@@ -41,36 +31,15 @@ anonymousRouter.post('/signUp', async (req, res) =>{
 //로그인하기
 anonymousRouter.post('/signIn', async(req,res) =>{
     const data = req.body;
-    let accessToken;
+    
 
     if(!data.id || !data.pw){
         res.send({message : 'no data'});
         return;
     }
-    const findId = await models['user'].findOne({
-        where : {
-            id : data.id
-        }
-    });
+    const result = await anonymousService.signIn(data.id, data.pw);
 
-    if(findId){
-        const tokenData = {
-            ...findId.toJSON()
-        }
-        console.log(tokenData);
-        if(data.pw === tokenData.pw){
-            delete tokenData.pw;
-            accessToken = jwt.sign(tokenData, 'shhhhh');
-        }else {
-            res.send({message : 'wrong pw'})
-            return;
-        }
-    }else {
-        res.send({message : 'not exist id'});
-        return;
-    }
-    res.send({token : accessToken});
-    return;
+    res.send(result);
 })
 
 //아이디 중복확인
@@ -85,12 +54,9 @@ anonymousRouter.post('/checkId', async (req, res) =>{
         return;
     }else if(data.id.length <6){
         res.send({message : '6글자 이상 입력해주세요.'});
+        return;
     }
-    const result = await models['user'].findOne({
-        where : {
-            id : data.id
-        }
-    });
+    const result = await anonymousService.duplicateId(data.id);
     if(result){
         res.send({
             value : 'false',
@@ -115,11 +81,7 @@ anonymousRouter.post('/checkNickName', async (req, res) =>{
         res.send({ message : '3글자 이상 입력해주세요'})
         return;
     }
-    const result = await models['user'].findOne({
-        where : {
-            nickName : data.nickName
-        }
-    });
+    const result = await anonymousService.duplicateNickName(data.nickName);
     if(result){
         res.send({
             value : 'false',

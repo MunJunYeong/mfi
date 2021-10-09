@@ -21,7 +21,9 @@ const getPagingData = (data, page, limit)=> {
 }
 
 exports.findAll = (req, res) => {
+    console.log(req.query.role)
     const {page, subject, userIdx} = req.query;
+    
     const {limit, offset} = getPagination(page);
 
     const where = {};
@@ -41,6 +43,12 @@ exports.findAll = (req, res) => {
             }
         }
     }
+    // if(role === 'winner'){
+    //     where.role = {
+    //         role : winner
+    //     };
+    // }
+    // console.log(role);
     models['idea'].findAndCountAll({
         where,
         include : [

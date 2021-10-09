@@ -26,6 +26,8 @@
 </template>
 <script>
 import moment from 'moment';
+require('moment-timezone'); 
+moment.tz.setDefault("Asia/Seoul"); 
 moment.lang('ko', {
     weekdaysShort: ["일","월","화","수","목","금","토"],
 });

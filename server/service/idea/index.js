@@ -1,7 +1,16 @@
 const {models, Op} = require('../../lib/db');
 
+const createIdea = async (subject, content, userIdx)=>{
+    const result = await models['idea'].create({
+        subject : subject,
+        content : content,
+        userIdx : userIdx
+    });
+    return result;
+}
+
+//클릭시 아이디어 가져오기
 const getIdea = async (ideaIdx, userIdx, role ) => {
-    
     let where = {};
 
     let date = new Date();
@@ -28,11 +37,36 @@ const getIdea = async (ideaIdx, userIdx, role ) => {
             }
         ]
     })
-
     return result;
+}
+
+const updateIdea = async(ideaIdx, subject, content) =>{
+    const result = await models['idea'].update(
+        {
+            subject : subject,
+            content : content
+        },
+        {
+            where : {
+                ideaIdx : ideaIdx,
+            },
+        }
+    )
+    return result;
+}
+const deleteIdea = async(ideaIdx) => {
+    const result = await models['idea'].destroy({
+        where : {
+            ideaIdx : ideaIdx
+        },
+    })
+    return result; 
 }
 
 
 module.exports = {
     getIdea,
+    updateIdea,
+    deleteIdea,
+    createIdea
 }

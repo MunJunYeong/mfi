@@ -39,28 +39,6 @@ userRouter.put('/',  async (req, res) =>{
   }
 })
 
-// userRouter.put('/', async (req, res) =>{
-//     const data = req.body;
-    
-//     if(!data.age && !data.tel){
-//       res.send({messeage : 'no data'});
-//     }
-    
-//     const result = await models['user'].update(
-//       { 
-//         age : data.age,
-//         tel : data.tel
-//       },
-//       {
-//         where : {
-//           userIdx : req.userData.userIdx
-//         }
-//       }
-//     )
-//     if(result){
-//       res.send({data : "수정이 됐습니다."});
-//     }
-// })
 
 
 
