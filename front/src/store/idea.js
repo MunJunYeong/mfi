@@ -159,6 +159,14 @@ const ideaModule = {
         async modify_idea({commit}, ideaData){
             let res;
             let token = localStorage.getItem('accessToken');
+            if(!ideaData.subject){
+                alert('제목을 입력해주세요.');
+                return;
+            }
+            if(!ideaData.content){
+                alert('내용을 입력해주세요.');
+                return;
+            }
             try{
                 res = await axios.put('http://localhost:8080/idea/:ideaIdx', 
                 {
