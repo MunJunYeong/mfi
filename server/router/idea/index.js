@@ -38,11 +38,18 @@ ideaRouter.put('/:ideaIdx', async(req,res)=>{
     const ideaIdx = req.body.params.ideaIdx;
     const subject = req.body.params.subject;
     const content = req.body.params.content;
-    if(!ideaIdx && !subject && !content){
-        res.send({message : 'required ideaIdx, userIdx, role'})
+    if(!ideaIdx){
+        res.send({message : 'required ideaIdx'})
         return;
     }
-
+    if(!subject){
+        res.send({message : 'required subject'})
+        return;
+    }
+    if(!content){
+        res.send({message : 'required content'})
+        return;
+    }
     const result = await ideaService.updateIdea(ideaIdx, subject, content);
     res.send({data : result});
 
