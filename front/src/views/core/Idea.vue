@@ -137,6 +137,9 @@
                 this.ideaItem = this.ideaData[0].ideas;
                 this.totalPages = this.ideaData[0].totalPages;
                 this.totalItems = this.ideaData[0].totalItems;
+                for(var i =0; i<this.ideaItem.length(); i++){
+                    this.ideaItem[i].nubmer = i+1;
+                }
             },
             handlePageChange(value){
                  this.currentPage = value;

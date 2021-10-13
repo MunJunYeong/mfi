@@ -63,7 +63,6 @@ ideaRouter.get('/:ideaIdx', async(req, res)=> {
         res.send({message: 'required ideaIdx, userIdx, role'})
         return;
     }
-
     const result = await ideaService.getIdea(ideaIdx, req.userData.userIdx, req.userData.role );
     if(result.length === 0){
         res.send({message : 'cant approach'})
