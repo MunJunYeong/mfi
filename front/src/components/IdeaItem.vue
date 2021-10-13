@@ -4,7 +4,7 @@
         <v-row justify='center' id="ideaItem" v-on:click = "clickIdea(ideaIdx)">
             <v-col cols='1' />
             <v-col cols='1' id="ideaIdx">
-                {{ideaIdx}}
+                {{number}}
             </v-col>
             <v-col cols='3' id="subject" >
                 {{subject}}
@@ -31,6 +31,7 @@ moment.tz.setDefault("Asia/Seoul");
 moment.lang('ko', {
     weekdaysShort: ["일","월","화","수","목","금","토"],
 });
+
     export default {
         name: 'ideaList',
         props: [
@@ -38,6 +39,7 @@ moment.lang('ko', {
             "nickName",
             "subject",
             "created",
+            "number",
         ],
         computed: {
             createdAt() {

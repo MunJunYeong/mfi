@@ -63,6 +63,7 @@
                 :subject="item.subject" 
                 :content="item.content"
                 :created="item.created"
+                :number="item.number"
                 /> 
             </v-col>
         </v-row>
@@ -121,6 +122,7 @@
                 totalPages : 0,
                 searchSubject : '',
                 totalItems : 0,
+                number : 0,
             }
         },
         methods: {
@@ -137,9 +139,12 @@
                 this.ideaItem = this.ideaData[0].ideas;
                 this.totalPages = this.ideaData[0].totalPages;
                 this.totalItems = this.ideaData[0].totalItems;
-                for(var i =0; i<this.ideaItem.length(); i++){
-                    this.ideaItem[i].nubmer = i+1;
+                
+                for(let i =0; i<this.ideaItem.length; i++){
+                    this.ideaItem[i].number = ++this.number;
+                    console.log(this.number)
                 }
+                console.log(this.ideaItem)
             },
             handlePageChange(value){
                  this.currentPage = value;
