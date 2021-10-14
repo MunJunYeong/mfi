@@ -1,109 +1,135 @@
 <template>
-    
-    <v-container>
+    <v-container >
+        <link href="https://unpkg.com/vueperslides/dist/vueperslides.css" rel="stylesheet">
         <!-- main -->
+        <br><br>
         <v-row justify="center">
-            <v-col cols="12">
-
-                <!-- 회원가입할지, 아이디어제출할지 -->
-                <v-row justify="center">
-                    <v-col cols="4">
-                        <v-col class="chooseWrapper" cols = "12">
-                            <v-row justify="center">
-                                <v-col  class="icon" cols= "4">
-                                    
-                                </v-col >
-                                <v-col  class="chooseComment" cols= "8">
-                                    <div id="comment">
-                                        <p>당신은 가치있는 투자자인가요 ?</p>
-                                    </div>
-                                    <router-link to="auth/signup">
-                                        <v-btn
-                                        elevation="2"
-                                        >회원가입하기
-                                        </v-btn>
-                                    </router-link>
-                                </v-col >
-                            </v-row>
-                        </v-col> 
-                    </v-col>
-                    <v-col cols="4">
-                        <v-col class="chooseWrapper" cols = "12">
-                            <v-row justify="center">
-                                <v-col  class="icon" cols= "4">
-                                    
-                                </v-col >
-                                <v-col  class="chooseComment" cols= "8">
-                                    <div id="comment">
-                                        <p>편협한 시야에서 벗어나세요!</p>
-                                    </div>
-                                    <router-link to="/add-idea">
-                                        <v-btn
-                                        elevation="2"
-                                        >아이디어 내기
-                                        </v-btn>
-                                    </router-link>
-                                </v-col >
-                            </v-row>
-                        </v-col> 
-                    </v-col>
-                </v-row>
-
-                <!-- slogan -->
-                <v-row justify="center">
-                    <v-col cols="3">
-                        <div class="topic">
-                            <h1>성공 스토리</h1> <br>
-                            <p>가치있는 투자자와 함께 합니다.</p>
-                        </div>
-                    </v-col>
-                </v-row>
-
-                <!-- 총방문자, 게시물, 아이디어확인 -->
-                <v-row justify="center">
-                    <v-col cols="1">
-                    </v-col>
-                    <v-col cols="2" style="height : 250px;">
-                        <div id="home"></div>
-                        <div class="middle" >1230</div>
-                        <div class="last">총 방문자</div>
-                    </v-col>
-                    <v-col cols="1">
-                    </v-col>
-
-                    <v-col cols="2" style="height : 250px;">
-                        <div id="idea"></div>
-                        <div class="middle" >24</div>
-                        <div class="last">총 게시물</div>
-                    </v-col>
-                    <v-col cols="1">
-                    </v-col>
-
-                    <v-col cols="2" style="height : 250px;">
-                        <div id="idea"></div>
-                        <div class="middle" >24</div>
-                        <div class="last">총 게시물</div>
-                    </v-col>
-                    <v-col cols="1">
-                    </v-col>
-
-                    
-
-                </v-row>
-            </v-col>
+            <v-row justify="center">
+                <v-col cols='4' />
+                <v-col cols='4' style="text-align: center;">
+                     <h1>성공적인 투자 분석</h1> <br>
+                     <p>가치있는 투자자와 함께 합니다.</p>
+                </v-col>
+                <v-col cols='4' />
+                
+            </v-row>                 
         </v-row>
+
+        <v-row justify="center"> 
+            <v-col cols='2' />
+            <v-col col='4'>
+                <hr style="border : solid 2px green;">
+            </v-col>
+            <v-col cols='2' />
+        </v-row >
+
+        <v-row justify="center" >
+            <v-col cols='2' />
+            <v-col col='4' style="">
+                <VueperSlides fade :touchable="false" >
+                    <VueperSlide v-for="(slide, i) in slides"
+                    :key="i" 
+                    :image="slide.image" 
+                    :content="slide.content" />
+                </VueperSlides>
+            </v-col>
+            <v-col cols='2' />
+        </v-row>
+
+        <v-row justify="center" style="text-align : center">
+            <v-col cols='2' />
+            <v-col cols='2' class="model"  >
+                <div class="modelContainer">
+                    <div style="height : 200px">
+                        <img src="" alt="">
+                    </div>
+                    <div style="height : 150px">
+                        내 정보와 내가 적은 주식 분석 글을 확인해보세요 !
+                    </div>
+                    <div>
+                        <router-link to="info">내 정보 바로가기</router-link>
+                    </div>
+                </div>
+            </v-col>
+            <v-col cols='2' class="model">
+                <div class="modelContainer">
+                    <div style="height : 200px">
+                        <img src="" alt="">
+                    </div>
+                    <div style="height : 150px">
+                        다양한 기업에 대한 분석과 투자 스타일을 확인해보세요 !!
+                    </div>
+                    <div>
+                        <router-link to="idea">아이디어 바로가기</router-link>
+                    </div>
+                </div>
+            </v-col>
+            <v-col cols='2' class="model">
+                <div class="modelContainer">
+                    <div style="height : 200px">
+                        <img src="" alt="">
+                    </div>
+                    <div style="height : 150px"> 
+                        MFI를 이용하기 전, 어떤 사이트인지 확인해보세요 !
+                    </div>
+                    <div>
+                        <router-link to="about">MFI 약관 바로가기</router-link>
+                    </div>
+                </div>
+            </v-col>
+            <v-col cols='2' class="model">
+                <div class="modelContainer">
+                    <div style="height : 200px">
+                        <img src="" alt="">
+                    </div>
+                    <div style="height : 150px">
+                        d
+                    </div>
+                    <div>
+                        <router-link to="info">d 바로가기</router-link>
+                    </div>
+                </div>
+            </v-col>
+            <v-col cols='2' />
+        </v-row>
+        
     </v-container>
 </template>
 
 <script>
+import { VueperSlides, VueperSlide } from 'vueperslides'
+
   export default {
     name: 'Home',
-
     components: {
-      
-      },
+        VueperSlides,VueperSlide,
+
+    },
+    data() {
+        return {
+            slides : [
+                {
+                    image : require('@/assets/home_signup.jpg'),
+                    content : `가치있는 투자자인가요? <router-link to="auth/signup"> 회원가입 하기</router-link> `
+                },
+                {
+                    image : require('@/assets/home_idea.jpg'),
+                    content : '본인의 투자 분석과 생각에 대해 마음껏 펼쳐보세요 <router-link to="add-idea"> 회원가입 하기</router-link>'
+                }
+            ]
+        }
+    },
+
   }
 </script>
 <style>
-    @import '../../style/home.css';
+    image {
+        -webkit-filter: blur(5px); -moz-filter: blur(5px); -o-filter: blur(5px); -ms-filter: blur(5px); filter: blur(5px);
+    }
+    .model {
+        padding: 10px 10px 10px 10px; 
+    }
+    .modelContainer{
+        border: 1px solid black; height: 400px;
+    }
 </style>

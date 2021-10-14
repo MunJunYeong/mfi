@@ -68,6 +68,7 @@
             </v-col>
         </v-row>
         <v-row justify='center'>
+            <v-col cols='2' />
             <v-col cols="5">
                 <v-text-field v-model="searchSubject" label="Search by Title"></v-text-field>
             </v-col>
