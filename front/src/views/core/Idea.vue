@@ -136,16 +136,20 @@
                 }catch(err){
                     console.log(err)
                 }
+                
                 this.ideaData = JSON.parse(JSON.stringify(this.$store.getters.idea_get_data));
                 this.ideaItem = this.ideaData[0].ideas;
                 this.totalPages = this.ideaData[0].totalPages;
                 this.totalItems = this.ideaData[0].totalItems;
+
+                const startPageIndex = ((Number(this.currentPage) - 1) * 6) + 1;
+                
                 
                 for(let i =0; i<this.ideaItem.length; i++){
-                    this.ideaItem[i].number = ++this.number;
-                    console.log(this.number)
+                    this.ideaItem[i].number = startPageIndex+ i;
+                    
                 }
-                console.log(this.ideaItem)
+                
             },
             handlePageChange(value){
                  this.currentPage = value;

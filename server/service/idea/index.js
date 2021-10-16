@@ -6,6 +6,8 @@ const createIdea = async (subject, content, userIdx)=>{
         content : content,
         userIdx : userIdx
     });
+    const ttt= new Date();
+    console.log(ttt)
     return result;
 }
 

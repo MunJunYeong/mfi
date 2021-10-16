@@ -23,7 +23,7 @@ const create = async (sequelize) => {
       },
       created: { 
         type: DataTypes.DATE,
-        defaultValue: Sequelize.NOW
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
 
     }, {

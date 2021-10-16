@@ -26,8 +26,6 @@
 </template>
 <script>
 import moment from 'moment';
-require('moment-timezone'); 
-moment.tz.setDefault("Asia/Seoul"); 
 moment.lang('ko', {
     weekdaysShort: ["일","월","화","수","목","금","토"],
 });
@@ -43,7 +41,8 @@ moment.lang('ko', {
         ],
         computed: {
             createdAt() {
-                return moment(this.created).format("YY-MM-DD (ddd)  HH : mm");
+                console.log(moment(this.created).local());
+                return moment(this.created).local().format("YY-MM-DD (ddd)  HH : mm");
             }
         },
         methods : {

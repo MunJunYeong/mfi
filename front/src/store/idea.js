@@ -57,8 +57,10 @@ const ideaModule = {
             // }
             try{
                 res = await axios.get( baseUrl , {
-                    role : data.role,
-                    order : data.order
+                    params: {
+                        role : data.role,
+                        order : data.order
+                    }
                 });
                 commit('idea_set_data', res.data);
                 return;

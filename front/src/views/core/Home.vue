@@ -30,7 +30,9 @@
                     <VueperSlide v-for="(slide, i) in slides"
                     :key="i" 
                     :image="slide.image" 
-                    :content="slide.content" />
+                    :content="slide.content"
+                    :link ="slide.link" 
+                    />
                 </VueperSlides>
             </v-col>
             <v-col cols='2' />
@@ -110,11 +112,14 @@ import { VueperSlides, VueperSlide } from 'vueperslides'
             slides : [
                 {
                     image : require('@/assets/home_signup.jpg'),
-                    content : `가치있는 투자자인가요? <router-link to="auth/signup"> 회원가입 하기</router-link> `
+                    content : `가치있는 투자자인가요? 회원가입 하기`,
+                    link: "/#/auth/signup",
                 },
                 {
                     image : require('@/assets/home_idea.jpg'),
-                    content : '본인의 투자 분석과 생각에 대해 마음껏 펼쳐보세요 <router-link to="add-idea"> 회원가입 하기</router-link>'
+                    content : '본인의 투자 분석과 생각에 대해 마음껏 펼쳐보세요 <router-link to="add-idea"> 회원가입 하기</router-link>',
+                    link: "auth/signup",
+
                 }
             ]
         }

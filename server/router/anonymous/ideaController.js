@@ -21,7 +21,7 @@ const getPagingData = (data, page, limit)=> {
 }
 
 exports.findAll = (req, res) => {
-    console.log(req.query.role)
+    console.log(req.query)
     const {page, subject, userIdx} = req.query;
     
     const {limit, offset} = getPagination(page);
