@@ -41,7 +41,6 @@ moment.lang('ko', {
         ],
         computed: {
             createdAt() {
-                console.log(moment(this.created).local());
                 return moment(this.created).local().format("YY-MM-DD (ddd)  HH : mm");
             }
         },
