@@ -47,14 +47,6 @@ const ideaModule = {
             if(data.subject) {
                 baseUrl += `&subject=${data.subject}`
             }
-            console.log(baseUrl)
-            // let condition = {};
-            // if(data.role){
-            //     condition.role = data.role;
-            // }
-            // if(data.order){
-            //     condition.order = data.order;
-            // }
             try{
                 res = await axios.get( baseUrl , {
                     params: {

@@ -156,7 +156,7 @@
             },
             changeSorting(){
                 if(this.modelIdea === '위너 아이디어'){
-                    if(this.modelDate === '오래된순'){
+                    if(this.modelDate === '오래된 순'){
                         //위너아이디어 + 오래된순
                         this.winnerOld();
                     }else{
