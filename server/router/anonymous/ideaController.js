@@ -21,21 +21,21 @@ const getPagingData = (data, page, limit)=> {
 }
 
 exports.findAll = (req, res) => {
-    console.log(req.query)
     const {page, subject, userIdx} = req.query;
     
     const {limit, offset} = getPagination(page);
 
     const where = {};
+    let order = [['ideaIdx', 'DESC']];
     
-    //show idea where
+    //전체 아이디어 보기 where절
     if(userIdx === undefined){
         if(subject !== undefined){
             where.subject = {
                 [Op.like] : `%${subject}%`
             }
         }
-    }else{ //show my idea where
+    }else{ //내 아이디어 보기 where절
         where.userIdx = userIdx;
         if(subject !== undefined){
             where.subject = {
@@ -43,27 +43,52 @@ exports.findAll = (req, res) => {
             }
         }
     }
-    // if(role === 'winner'){
-    //     where.role = {
-    //         role : winner
-    //     };
-    // }
-    // console.log(role);
-    models['idea'].findAndCountAll({
-        where,
-        include : [
-            {
-                model : models['user'],
-            }
-        ],
-        order : [['ideaIdx', 'DESC']],
-        limit,
-        offset
-    }).then(data => {
-        const result = getPagingData(data, page, limit);
-        res.send(result);
-        return;
-    })
-    
+    //최신, 오래된 순 정렬
+    if(req.query.order === 'ASC'){
+        order = [['ideaIdx', 'ASC']]
+    }else {
+        order = [['ideaIdx', 'DESC']]
+    }
+    // console.log(order)
 
+    
+    //위너 아이디어만 보여주기
+    if(req.query.role === 'winner'){
+        models['idea'].findAndCountAll({
+            where,
+            include : [
+                {
+                    model : models['user'],
+                    where : {
+                      role : 'winner'  
+                    },
+                    required: false,
+                }
+            ],
+            order,
+            limit,
+            offset
+        }).then(data => {
+            const result = getPagingData(data, page, limit);
+            res.send(result);
+            return;
+        })
+    }else {
+        //전체 아이디어 보여주기
+        models['idea'].findAndCountAll({
+            where,
+            include : [
+                {
+                    model : models['user'],
+                }
+            ],
+            order,
+            limit,
+            offset
+        }).then(data => {
+            const result = getPagingData(data, page, limit);
+            res.send(result);
+            return;
+        })
+    }
 }
