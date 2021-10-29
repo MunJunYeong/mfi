@@ -26,6 +26,7 @@
                 :subject="item.subject" 
                 :content="item.content"
                 :created="item.created"
+                :number="item.number"
                 />
             </v-col>
         </v-row>
@@ -68,7 +69,8 @@ export default {
             nickName:'',
             currentPage : 1,
             totalPages : 0,
-            searchSubject : ''
+            searchSubject : '',
+            number : 0,
         }
     },
     methods: {
@@ -86,6 +88,13 @@ export default {
             this.ideaData = JSON.parse(JSON.stringify(this.$store.getters.idea_get_data));
             this.ideaItem = this.ideaData[0].ideas;
             this.totalPages = this.ideaData[0].totalPages;
+
+            const startPageIndex = ((Number(this.currentPage) - 1) * 6) + 1;
+                
+            for(let i =0; i<this.ideaItem.length; i++){
+                this.ideaItem[i].number = startPageIndex+ i;
+            }
+
         },
         handlePageChange(value){
              this.currentPage = value;

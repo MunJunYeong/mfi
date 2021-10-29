@@ -143,10 +143,8 @@
 
                 const startPageIndex = ((Number(this.currentPage) - 1) * 6) + 1;
                 
-                
                 for(let i =0; i<this.ideaItem.length; i++){
                     this.ideaItem[i].number = startPageIndex+ i;
-                    
                 }
                 
             },
