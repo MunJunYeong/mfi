@@ -1,7 +1,7 @@
 <template>
-    <v-app-bar app="app" color="grey" id="wrapper" >
+    <v-app-bar app="app" color="#CFD8DC" id="wrapper" >
         <v-row justify='center'>
-            <v-col cols='2' v-on:click="goHome">
+            <v-col cols='3' v-on:click="goHome">
                 <h1 id="title"  >
                     MFI
                 </h1>
@@ -11,21 +11,21 @@
             </v-col>
             <v-col cols='1' class="navItem">
                 <router-link to="../home">
-                    <v-btn text="text" rounded="rounded">
+                    <v-btn text="text" rounded="rounded" color="#455A64" style="margin-top:10px;">
                         home
                     </v-btn>
                 </router-link>
             </v-col>
             <v-col cols='1' class="navItem">
                 <router-link to="../idea">
-                    <v-btn text="text" rounded="rounded">
+                    <v-btn text="text" rounded="rounded" color="#455A64" style="margin-top:10px;">
                         idea
                     </v-btn>
                 </router-link>
             </v-col>
             <v-col cols='1' class="navItem">
                 <router-link to="../about">
-                    <v-btn text="text" rounded="rounded">
+                    <v-btn text="text" rounded="rounded" color="#455A64" style="margin-top:10px;">
                         about
                     </v-btn>
                 </router-link>          
@@ -41,7 +41,7 @@
                 </router-link>
             </v-col>
             <v-col cols='1'   v-if="isLogin()">
-                <v-btn id="logoutBtn" elevation="2" outlined="outlined" rounded="rounded" v-on:click="logout"  >로그아웃</v-btn>
+                <v-btn id="logoutBtn" elevation="2" outlined="outlined" rounded="rounded" v-on:click="logout" >로그아웃</v-btn>
             </v-col>
             <v-col cols='1'  v-if="isLogin()">
                 <router-link to="../admin">
@@ -51,10 +51,10 @@
             
             <v-col cols='4' v-else>
                 <router-link to="../auth/signin"   >
-                    <v-btn elevation="2" outlined="outlined" rounded="rounded" color="yellow">로그인</v-btn>
+                    <v-btn elevation="2" class="btn_loginEnter" outlined="outlined" rounded="rounded">로그인</v-btn>
                 </router-link>
                 <router-link to="../auth/signup"  >
-                    <v-btn elevation="2" outlined="outlined" rounded="rounded" color="yellow" >회원가입</v-btn>
+                    <v-btn elevation="2" class="btn_loginEnter" outlined="outlined" rounded="rounded">회원가입</v-btn>
                 </router-link>
             </v-col>    
         </v-row>
@@ -120,16 +120,53 @@
     }
 </script>
 <style scoped>
-    #wrapper{
+@font-face {
+    font-family: 'ROKABold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.1/ROKABold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Recipekorea';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/Recipekorea.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+     font-family: 'S-CoreDream-3Light';
+     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+     font-weight: normal;
+     font-style: normal;
+}
+   
+    .menus{
+        font-family: 'ROKABold';
     }
+    
     #title {
-        display: inline; padding-left: 50px;
+        display: inline; 
+        padding-left: 50px;
+         font-family: 'Recipekorea';
+         font-size:35px;
+         cursor:pointer;
     }
     #subtitle{
+        padding-left:5px;
         display: inline;
+        font-family: 'S-CoreDream-3Light';
     }
-    .navItem{
-        
+   
+    .btn_menu{
+        display: table-cell;
+        vertical-align: middle;
+    }
+    .btn_loginEnter{
+        margin-top:10px;
+         color:#546E7A;
+    }
+    .btn_loginEnter:hover{
+        background-color: #F0F4C3;
+        color:#3E2723;
     }
     #subWrapper{
         
