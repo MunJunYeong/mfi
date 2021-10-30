@@ -1,5 +1,6 @@
 <template>
     <v-container v-if="checkAdmin()">
+        <br><br>
         <v-row justify='center'>
             <v-col cols='1' />
             <v-col cols='1' style=" border-top: black solid 1px; border-bottom: black solid 1px;text-align: center;">

@@ -103,6 +103,21 @@
         props: {
 
         },
+        computed : {
+            // ideaData : function(){
+            //     return JSON.parse(JSON.stringify(this.$store.getters.idea_get_data));
+            // },
+            // ideaItem : function(){
+            //     return this.ideaData[0].ideas;
+            // },
+            // totalPages : function(){
+            //     return this.ideaData[0].totalPages;
+            // },
+            // totalItems : function(){
+            //     return this.ideaData[0].totalItems;
+            // },
+            
+        },
         data() {
             return {
                 modelIdea: ['모든 아이디어'],

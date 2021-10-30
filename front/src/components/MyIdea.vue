@@ -73,6 +73,9 @@ export default {
             number : 0,
         }
     },
+    computed : {
+        
+    },
     methods: {
         async createPagination(){
             try{
