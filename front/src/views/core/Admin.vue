@@ -54,6 +54,7 @@
 import UserItem from '../../components/UserItem.vue'
 export default {
     created() {
+        console.log(1);
         this.createPagination();
     },
     components : {
@@ -64,13 +65,18 @@ export default {
     },
     data() {
         return {
-            userData : this.$store.getters.auth_get_data,
+            // userData : this.$store.getters.auth_get_data,
             userItemData : {},
             userItem : [],
             currentPage : 1,
             totalPages : 0,
             searchNickName : '',
             totalItems : 0,
+        }
+    },
+    computed: {
+        userData: function() {
+            return this.$store.getters.auth_get_data;
         }
     },
     methods: {

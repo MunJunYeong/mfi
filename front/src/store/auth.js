@@ -54,6 +54,7 @@ const authModule = {
         //admin이 유저 리스트 가져오기
         async get_user_list_admin({commit}, data){
             let res;
+            let token = localStorage.getItem('accessToken');
             if(!token){
                 return;
             }
