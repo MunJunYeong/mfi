@@ -97,7 +97,8 @@
              },
             logout(){
                 localStorage.removeItem('accessToken');
-                this.$router.go(); //새로고침
+                this.$router.go('#/home'); //새로고침
+
             },
             isLogin(){
                 if(this.accessToken != null){
