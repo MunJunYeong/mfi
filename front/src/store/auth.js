@@ -58,29 +58,21 @@ const authModule = {
             if(!token){
                 return;
             }
-            console.log(data)
-            if(data.nickName === ''){
-                try{
-                    res = await axios.get('http://localhost:8080/user?page='+data.page,{
-                        headers : {
-                            'Authorization' : token
-                        }
-                    })
-                    commit('user_set_data_admin', res.data);
-                }catch(err){
-                    console.log(err);
-                }
-            }else {
-                try{
-                    res = await axios.get(`http://localhost:8080/user?page=${data.page}&nickName=${data.nickName}`,{
-                        headers : {
-                            'Authorization' : token
-                        }
-                    })
-                    commit('user_set_data_admin', res.data);
-                }catch(err){
-                    console.log(err);
-                }
+
+            let where = `page=+${data.page}`;
+            if(data.nickName !== ''){
+                where += `&nickName=${data.nickName}`
+            }
+            
+            try{
+                res = await axios.get(`http://localhost:8080/user?${where}`,{
+                    headers : {
+                        'Authorization' : token
+                    }
+                })
+                commit('user_set_data_admin', res.data);
+            }catch(err){
+                console.log(err);
             }
             
         },

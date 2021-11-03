@@ -54,14 +54,10 @@
 import UserItem from '../../components/UserItem.vue'
 export default {
     created() {
-        console.log(1);
         this.createPagination();
     },
     components : {
         UserItem
-    },
-    watch : {
-        // '$route' : 'createPagination'
     },
     data() {
         return {
