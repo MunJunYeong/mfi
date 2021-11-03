@@ -152,6 +152,7 @@
                 }
                 
                 this.ideaData = JSON.parse(JSON.stringify(this.$store.getters.idea_get_data));
+                console.log(this.ideaData)
                 this.ideaItem = this.ideaData[0].ideas;
                 this.totalPages = this.ideaData[0].totalPages;
                 this.totalItems = this.ideaData[0].totalItems;
