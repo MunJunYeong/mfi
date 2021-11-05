@@ -6,11 +6,26 @@ const createIdea = async (subject, content, userIdx)=>{
         content : content,
         userIdx : userIdx
     });
-    const ttt= new Date();
-    console.log(ttt)
     return result;
 }
 
+const getAllIdea = async (where, userWhere, order, limit, offset) => {
+    const data = await models['idea'].findAndCountAll({
+        where,
+        include : [
+            {
+                model : models['user'],
+                where : userWhere,
+                required: true,
+            }
+        ],
+        order,
+        limit,
+        offset
+    });
+    return data;
+
+}
 //클릭시 아이디어 가져오기
 const getIdea = async (ideaIdx, userIdx, role ) => {
     let where = {};
@@ -67,6 +82,7 @@ const deleteIdea = async(ideaIdx) => {
 
 
 module.exports = {
+    getAllIdea,
     getIdea,
     updateIdea,
     deleteIdea,

@@ -1,21 +1,11 @@
 const express = require('express')
 const userRouter = express.Router();
-const {user : userService} = require('../../service');
-const userPagination = require('./userController')
-
-const jwt = require('jsonwebtoken');
+const {auth : userController} = require('../../controllers');
 
 
-userRouter.get('/', userPagination.findAll);
-
-userRouter.put('/',  async (req, res) =>{
-  const data = req.body;
-  
-  const result = await userService.updateRole(data.role, data.userIdx);
-  if(result){
-    res.send(result)
-  }
-})
+// userRouter.get('/', userPagination.findAll);
+userRouter.get('/', userController.getUser);
+userRouter.put('/',  userController.updateUserRole);
 
 
 
