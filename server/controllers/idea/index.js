@@ -20,7 +20,7 @@ const _getPagingData = (data, page, limit)=> {
     return {totalItems, ideas, totalPages, currentPage};
 }
 
-const findAll = async (req, res) => {
+const showIdea = async (req, res) => {
     const {page, subject, userIdx} = req.query;
     
     const {limit, offset} = _getPagination(page);
@@ -70,5 +70,5 @@ const findAll = async (req, res) => {
 }
 
 module.exports = {
-    findAll,
+    showIdea,
 }
