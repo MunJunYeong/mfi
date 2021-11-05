@@ -1,4 +1,7 @@
 const {anonymous: anonymousService } = require('../../service');
+const {user : userService} = require('../../service');
+const { Op } = require('../../lib/db');
+const method = require('../../function');
 
 let checkEng = /[a-zA-Z]/;
 let checkNum = /[0-9]/; 
@@ -88,10 +91,42 @@ const checkNickName = async (req, res) => {
     }
 }
 
+const updateUserRole = async (req, res) => {
+    const data = req.body;
+  
+    const result = await userService.updateRole(data.role, data.userIdx);
+    if(result){
+      res.send(result)
+    }
+}
+
+const getUser = async (req, res)=> {
+    const {page, nickName} = req.query;
+            
+    const {limit, offset} = method.getPagination(page);
+        
+    let where = {};
+    where.role = {
+        [Op.ne] : 'admin'
+    }
+    if(nickName !== undefined){
+        where.nickName = {
+            [Op.like] : `%${nickName}%`
+        }
+    }
+    const data = await userService.getUser(where, limit, offset);
+    const result = method.getPagingUserData(data, page, limit);
+    res.send(result);
+}
+
+
+
 
 module.exports = {
     signUP,
     signIn,
     checkId,
-    checkNickName
+    checkNickName,
+    updateUserRole,
+    getUser
 }

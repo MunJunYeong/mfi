@@ -14,6 +14,18 @@ const updateRole = async (role, userIdx) => {
     return result;
 }
 
+const getUser =  async (where, limit, offset) => {
+  const data = await models['user'].findAndCountAll({
+    where,
+    order : [['userIdx', 'DESC']],
+    order : [['role', 'DESC']],
+    limit,
+    offset
+  })
+  return data;
+}
+
 module.exports = {
-    updateRole
+    updateRole,
+    getUser
 }
