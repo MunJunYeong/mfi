@@ -61,7 +61,6 @@ export default {
     },
     data() {
         return {
-            // userData : this.$store.getters.auth_get_data,
             userItemData : {},
             userItem : [],
             currentPage : 1,
