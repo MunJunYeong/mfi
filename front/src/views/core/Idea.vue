@@ -104,18 +104,22 @@
 
         },
         computed : {
-            // ideaData : function(){
-            //     return JSON.parse(JSON.stringify(this.$store.getters.idea_get_data));
-            // },
-            // ideaItem : function(){
-            //     return this.ideaData[0].ideas;
-            // },
-            // totalPages : function(){
-            //     return this.ideaData[0].totalPages;
-            // },
-            // totalItems : function(){
-            //     return this.ideaData[0].totalItems;
-            // },
+            ideaData : function(){
+                return JSON.parse(JSON.stringify(this.$store.getters.idea_get_data));
+            },
+            ideaItem : function(){
+                return this.ideaData[0].ideas;
+            },
+            totalPages : function(){
+                return this.ideaData[0].totalPages;
+            },
+            totalItems : function(){
+                return this.ideaData[0].totalItems;
+            },
+            startPageIndex : function(){
+                return ((Number(this.currentPage) - 1) * 6) + 1;
+            },
+
             
         },
         data() {
@@ -130,13 +134,13 @@
                   '최신 순',
                   '오래된 순'
                 ],
-                ideaData : {},
-                ideaItem :  [],
+                // ideaData : {},
+                // ideaItem :  [],
+                // totalPages : 0,
+                // totalItems : 0,
                 nickName:'',
                 currentPage : 1,
-                totalPages : 0,
-                searchSubject : '',
-                totalItems : 0,
+                searchSubject : '',         
                 number : 0,
             }
         },
@@ -151,16 +155,16 @@
                     console.log(err)
                 }
                 
-                this.ideaData = JSON.parse(JSON.stringify(this.$store.getters.idea_get_data));
-                this.ideaItem = this.ideaData[0].ideas;
-                this.totalPages = this.ideaData[0].totalPages;
-                this.totalItems = this.ideaData[0].totalItems;
+                // this.ideaData = JSON.parse(JSON.stringify(this.$store.getters.idea_get_data));
+                // this.ideaItem = this.ideaData[0].ideas;
+                // this.totalPages = this.ideaData[0].totalPages;
+                // this.totalItems = this.ideaData[0].totalItems;
 
-                const startPageIndex = ((Number(this.currentPage) - 1) * 6) + 1;
-                
+                // const startPageIndex = ((Number(this.currentPage) - 1) * 6) + 1;
                 for(let i =0; i<this.ideaItem.length; i++){
-                    this.ideaItem[i].number = startPageIndex+ i;
+                    this.ideaItem[i].number = this.startPageIndex+ i;
                 }
+                
                 
             },
             handlePageChange(value){

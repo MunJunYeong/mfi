@@ -1,7 +1,7 @@
 
 const  getPagination = (page)=> {
     let currentPage = page-1;
-    const limit = 10;
+    const limit = 6;
     let offset = 0;
     if(currentPage < 1){
         return {limit, offset};
