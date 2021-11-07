@@ -9,6 +9,7 @@ const createIdea = async (subject, content, userIdx)=>{
     return result;
 }
 
+//repositry where절을 여기서 
 const getAllIdea = async (where, userWhere, order, limit, offset) => {
     const data = await models['idea'].findAndCountAll({
         where,
