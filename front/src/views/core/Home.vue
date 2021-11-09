@@ -130,10 +130,15 @@ import { VueperSlides, VueperSlide } from 'vueperslides'
   }
 </script>
 <style>
-@import url(//fonts.googleapis.com/earlyaccess/hanna.css);
 @font-face {
     font-family: 'SLEIGothicTTF';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.0/SLEIGothicTTF.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'KOTRA_BOLD-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10-21@1.1/KOTRA_BOLD-Bold.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
@@ -157,8 +162,8 @@ import { VueperSlides, VueperSlide } from 'vueperslides'
 }
 
     h1{
-        font-family: 'SLEIGothicTTF';
-        font-size:38px;
+       font-family: 'KOTRA_BOLD-Bold';
+        font-size:40px;
     }
     .subtitle{
         font-family: 'Chosunilbo_myungjo';
