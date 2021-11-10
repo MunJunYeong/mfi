@@ -74,40 +74,29 @@ const getClickIdea = async (req, res) =>{
 }
 
 const showIdea = async (req, res) => {
-    const {page, subject, userIdx} = req.query;
-    
+    const {page, subject, userIdx, order, role} = req.query;
     const {limit, offset} = method.getPagination(page);
 
-    const where = {};
-    let order = [['ideaIdx', 'DESC']];
-    
-    if(userIdx) {where.userIdx = userIdx ;}
-    if(subject){
-        where.subject = {
-            [Op.like] : `%${subject}%`
-        }
-    }
-    //최신, 오래된 순 정렬
-    if(req.query.order === 'ASC'){
-        order = [['ideaIdx', 'ASC']]
-    }else {
-        order = [['ideaIdx', 'DESC']]
-    }
-    //위너 아이디어만 보여주기
-    const userWhere = {};
-    if(req.query.role === 'winner'){ userWhere.role = 'winner' };
-
-    const data = await ideaService.getAllIdea(where, userWhere, order, limit, offset);
+    const data = await ideaService.getAllIdea(limit, offset, subject, userIdx, order, role);
 
     const result = method.getPagingIdeaData(data, page, limit);
-
     res.send(result);
     return;
+}
+const showMyIdea = async (req, res) => {
+    const {page, subject, userIdx} = req.query;
+    const {limit, offset} = method.getPagination(page);
 
+    const data = await ideaService.getMyIdea(limit, offset, subject, userIdx);
+    
+    const result = method.getPagingIdeaData(data, page, limit);
+    res.send(result);
+    return;
 }
 
 module.exports = {
     showIdea,
+    showMyIdea,
     postIdea,
     deleteIdea,
     updateIdea,

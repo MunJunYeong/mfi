@@ -10,7 +10,26 @@ const createIdea = async (subject, content, userIdx)=>{
 }
 
 //repositry where절을 여기서 
-const getAllIdea = async (where, userWhere, order, limit, offset) => {
+const getAllIdea = async (limit, offset, subject, userIdx, orderData, role) => {
+    const where = {};
+    let order = [['ideaIdx', 'DESC']];
+    
+    if(userIdx) {where.userIdx = userIdx ;}
+    if(subject){
+        where.subject = {
+            [Op.like] : `%${subject}%`
+        }
+    }
+    //최신, 오래된 순 정렬
+    if(orderData === 'ASC'){
+        order = [['ideaIdx', 'ASC']]
+    }else {
+        order = [['ideaIdx', 'DESC']]
+    }
+    //위너 아이디어만 보여주기
+    const userWhere = {};
+    if(role === 'winner'){ userWhere.role = 'winner' };
+
     const data = await models['idea'].findAndCountAll({
         where,
         include : [
@@ -25,7 +44,31 @@ const getAllIdea = async (where, userWhere, order, limit, offset) => {
         offset
     });
     return data;
+}
+const getMyIdea = async (limit, offset, subject, userIdx)=>{
+    const where = {};
+    if(subject){
+        where.subject = {
+            [Op.like] : `%${subject}%`
+        }
+    }
+    const userWhere = {};
+    userWhere.userIdx = userIdx;
 
+    const data = await models['idea'].findAndCountAll({
+        where,
+        include : [
+            {
+                model : models['user'],
+                where : userWhere,
+                required: true,
+            }
+        ],
+        order : [['ideaIdx', 'DESC']],
+        limit,
+        offset
+    });
+    return data;
 }
 //클릭시 아이디어 가져오기
 const getIdea = async (ideaIdx, userIdx, role ) => {
@@ -84,6 +127,7 @@ const deleteIdea = async(ideaIdx) => {
 
 module.exports = {
     getAllIdea,
+    getMyIdea,
     getIdea,
     updateIdea,
     deleteIdea,

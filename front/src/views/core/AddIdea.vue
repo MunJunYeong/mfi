@@ -10,15 +10,11 @@
                 </v-col>
             </v-row>
 
-
             <v-row justify='center' >
                 <TextEditor id="myEditor" />
             </v-row>
             
-
             <br><br><br><br>
-            
-
         </v-col>
     </v-row>
 </template>
@@ -31,19 +27,20 @@
         components: {
             TextEditor
         },
-
+        created() {
+            this.checkUser();
+        },
         data() {
             return {
                 
             }
         },
-
-        created() {
-            
-        },
-
         methods : {
-            
+            checkUser(){
+                if(!this.$store.getters.auth_get_token){
+                    location.href='#/idea'
+                }
+            },
         }
     }
 </script>

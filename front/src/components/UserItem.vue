@@ -36,9 +36,17 @@ export default {
         'nickName',
         'role'
     ],
+    created (){
+        
+    },
     data() {
         return {
             
+        }
+    },
+    computed : {
+        userRole() {
+            return this.$store.getters.admin_get_user_role;
         }
     },
     methods: {
@@ -51,33 +59,23 @@ export default {
                 return false;
             }
         },
-        changeRole(){
+        async changeRole(){
+            
+            let role = 'winner';
             if(this.role === 'winner'){
-                try {
-                    this.$store.dispatch('change_user_role', {
-                        role : 'normal',
-                        userIdx : this.userIdx
-                    })
-                }catch(err){
-                    console.log(err);
-                }
-                this.checkRole();
-                this.$router.go();
-                return;
+                role = 'normal';
             }
-            if(this.role === 'normal'){
-                try {
-                    this.$store.dispatch('change_user_role', {
-                        role : 'winner',
-                        userIdx : this.userIdx
-                    })
-                }catch(err){
-                    console.log(err);
-                }
-                this.checkRole();
-                this.$router.go();
-                return;
+            try {
+                await this.$store.dispatch('change_user_role', {
+                    role : role,
+                    userIdx : this.userIdx
+                })
+            }catch(err){
+                console.log(err);
             }
+            this.checkRole();
+            this.role = this.$store.getters.admin_get_user_role;
+            return;
         },
         checkIdea(){
             

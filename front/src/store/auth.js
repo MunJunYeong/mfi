@@ -6,6 +6,7 @@ const authModule = {
     state : {
         userData : {},
         userListData : [],
+        userRole : {},
     },
     mutations: {
         auth_set_data (state, authData) {
@@ -14,14 +15,29 @@ const authModule = {
         user_set_data_admin(state, userData){
             state.userListData = [];
             state.userListData.push(userData);
+        },
+        set_user_role(state, role){
+            state.userRole = role;
         }
     },
     getters: {
         auth_get_data (state) {
             return state.userData;
         },
-        user_get_data_admin(state){
-            return state.userListData;
+        auth_get_token(){
+            return localStorage.getItem('accessToken');
+        },
+        admin_get_user_items(state){
+            return state.userListData[0].user;
+        },
+        admin_get_total_pages(state){
+            return state.userListData[0].totalPages;
+        },
+        admin_get_total_items(state){
+            return state.userListData[0].totalItems;
+        },
+        admin_get_user_role(state){
+            return state.userRole;
         }
     },
     actions: {
@@ -77,7 +93,6 @@ const authModule = {
             
         },
         async change_user_role({commit}, data){
-            console.log(data)
             let res;
             try{
                 res = await axios.put('http://localhost:8080/user',{
@@ -89,8 +104,7 @@ const authModule = {
                         'Authorization' : token
                     }
                 })
-                commit
-                console.log(res.data)
+                commit('set_user_role', res.data);
             }catch(err){
                 console.log(err);
             }
