@@ -11,7 +11,7 @@
             <v-col cols='2'></v-col>
             <router-link to="/add-idea">
                 <v-col cols='1'  >
-                    <v-btn block outlined  style="height : 60px">
+                    <v-btn block outlined  style="height : 60px" v-on:click="addIdea()">
                         아이디어 내기
                     </v-btn>
                 </v-col>
@@ -103,25 +103,6 @@
         props: {
 
         },
-        computed : {
-            ideaData : function(){
-                return JSON.parse(JSON.stringify(this.$store.getters.idea_get_data));
-            },
-            ideaItem : function(){
-                return this.ideaData[0].ideas;
-            },
-            totalPages : function(){
-                return this.ideaData[0].totalPages;
-            },
-            totalItems : function(){
-                return this.ideaData[0].totalItems;
-            },
-            startPageIndex : function(){
-                return ((Number(this.currentPage) - 1) * 6) + 1;
-            },
-
-            
-        },
         data() {
             return {
                 modelIdea: ['모든 아이디어'],
@@ -134,16 +115,27 @@
                   '최신 순',
                   '오래된 순'
                 ],
-                // ideaData : {},
-                // ideaItem :  [],
-                // totalPages : 0,
-                // totalItems : 0,
                 nickName:'',
                 currentPage : 1,
                 searchSubject : '',         
                 number : 0,
             }
         },
+        computed : {
+            ideaItem : function(){
+                return this.$store.getters.idea_get_item
+            },
+            totalPages : function(){
+                return this.$store.getters.idea_get_total_pages;
+            },
+            totalItems : function(){
+                return this.$store.getters.idea_get_total_items;
+            },
+            startPageIndex : function(){
+                return ((Number(this.currentPage) - 1) * 6) + 1;
+            },
+        },
+        
         methods: {
             async createPagination(){
                 try{
@@ -154,18 +146,9 @@
                 }catch(err){
                     console.log(err)
                 }
-                
-                // this.ideaData = JSON.parse(JSON.stringify(this.$store.getters.idea_get_data));
-                // this.ideaItem = this.ideaData[0].ideas;
-                // this.totalPages = this.ideaData[0].totalPages;
-                // this.totalItems = this.ideaData[0].totalItems;
-
-                // const startPageIndex = ((Number(this.currentPage) - 1) * 6) + 1;
                 for(let i =0; i<this.ideaItem.length; i++){
                     this.ideaItem[i].number = this.startPageIndex+ i;
                 }
-                
-                
             },
             handlePageChange(value){
                  this.currentPage = value;
@@ -177,7 +160,7 @@
                         //위너아이디어 + 오래된순
                         this.winnerOld();
                     }else{
-                    //위너아이디어 + 최신순
+                        //위너아이디어 + 최신순
                         this.winnerRecent();
                     }
                 }else {
@@ -236,6 +219,12 @@
                     console.log(err);
                 }
             },
+            addIdea(){
+                if(!this.$store.getters.auth_get_token){
+                    alert('로그인 후 아이디어를 추가해주세요!');
+                    location.href='#/idea'
+                }
+            }
         },       
     }
 </script>

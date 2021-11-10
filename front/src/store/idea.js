@@ -24,9 +24,14 @@ const ideaModule = {
         }
     },
     getters: {
-        idea_get_data(state){
-            // console.log(state.ideaList)
-            return state.ideaList;
+        idea_get_item(state){
+            return state.ideaList[0].ideas;
+        },
+        idea_get_total_pages(state){
+            return state.ideaList[0].totalPages;
+        },
+        idea_get_total_items(state){
+            return state.ideaList[0].totalItems;
         },
         click_idea_get_data(state){
             return state.clickIdeaData;
@@ -78,6 +83,7 @@ const ideaModule = {
                     }
                 });
                 commit('idea_set_data', res.data);
+                console.log(res.data)
                 return;
             }catch(err){
                 console.log(err);

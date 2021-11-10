@@ -1,4 +1,3 @@
-
 <template>
     <v-container>
         <v-row justify='center' id="ideaItem" v-on:click = "clickIdea(ideaIdx)">

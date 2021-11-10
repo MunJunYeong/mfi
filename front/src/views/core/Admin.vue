@@ -61,18 +61,23 @@ export default {
     },
     data() {
         return {
-            userItemData : {},
-            userItem : [],
             currentPage : 1,
-            totalPages : 0,
             searchNickName : '',
-            totalItems : 0,
         }
     },
     computed: {
         userData: function() {
             return this.$store.getters.auth_get_data;
-        }
+        },
+        userItem : function(){
+            return this.$store.getters.admin_get_user_items;
+        },
+        totalPages : function(){
+            return this.$store.getters.admin_get_total_pages;
+        },
+        totalItems : function(){
+            return this.$store.getters.admin_get_total_items;
+        },
     },
     methods: {
         checkAdmin(){
@@ -91,10 +96,6 @@ export default {
             }catch(err){
                 console.log(err)
             }
-            this.userItemData = JSON.parse(JSON.stringify(this.$store.getters.user_get_data_admin));
-            this.userItem = this.userItemData[0].user;
-            this.totalPages = this.userItemData[0].totalPages;
-            this.totalItems = this.userItemData[0].totalItems;
         },
         handlePageChange(value){
             this.currentPage = value;

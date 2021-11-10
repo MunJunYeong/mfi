@@ -11,7 +11,12 @@ const updateRole = async (role, userIdx) => {
           }
         }
     )
-    return result;
+    if(result[0] === 1){
+      return role;
+    }else{
+      return {message : 'wrong data'};
+    }
+    
 }
 
 const getUser =  async (where, limit, offset) => {

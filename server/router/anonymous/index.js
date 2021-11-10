@@ -19,7 +19,7 @@ anonymousRouter.post('/checkNickName', authController.checkNickName)
 //아이디어 보기
 anonymousRouter.get('/idea', ideaController.showIdea);
 
-anonymousRouter.get('/info/idea', ideaController.showIdea);
+anonymousRouter.get('/info/idea', ideaController.showMyIdea);
 
 
 

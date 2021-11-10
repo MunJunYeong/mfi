@@ -64,17 +64,22 @@ export default {
     data() {
         return {
             userData : this.$store.getters.auth_get_data,
-            ideaItem :  [],
-            ideaData : {},
             nickName:'',
             currentPage : 1,
-            totalPages : 0,
             searchSubject : '',
             number : 0,
         }
     },
     computed : {
-        
+        ideaItem : function(){
+                return this.$store.getters.idea_get_item
+            },
+        totalPages : function(){
+            return this.$store.getters.idea_get_total_pages;
+        },
+        startPageIndex : function(){
+            return ((Number(this.currentPage) - 1) * 6) + 1;
+        },
     },
     methods: {
         async createPagination(){
@@ -86,16 +91,9 @@ export default {
                 })
             }catch(err){
                 console.log(err)
-            }
-            
-            this.ideaData = JSON.parse(JSON.stringify(this.$store.getters.idea_get_data));
-            this.ideaItem = this.ideaData[0].ideas;
-            this.totalPages = this.ideaData[0].totalPages;
-
-            const startPageIndex = ((Number(this.currentPage) - 1) * 6) + 1;
-                
+            }   
             for(let i =0; i<this.ideaItem.length; i++){
-                this.ideaItem[i].number = startPageIndex+ i;
+                this.ideaItem[i].number = this.startPageIndex+ i;
             }
 
         },
