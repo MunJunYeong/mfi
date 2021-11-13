@@ -10,21 +10,21 @@
                 </p>
             </v-col>
             <v-col cols='1' class="navItem">
-                <router-link to="../home">
+                <router-link to="/home">
                     <v-btn text="text" rounded="rounded" color="#455A64" style="margin-top:10px;">
                         home
                     </v-btn>
                 </router-link>
             </v-col>
             <v-col cols='1' class="navItem">
-                <router-link to="../idea">
+                <router-link to="/idea">
                     <v-btn text="text" rounded="rounded" color="#455A64" style="margin-top:10px;">
                         idea
                     </v-btn>
                 </router-link>
             </v-col>
             <v-col cols='1' class="navItem">
-                <router-link to="../about">
+                <router-link to="/about">
                     <v-btn text="text" rounded="rounded" color="#455A64" style="margin-top:10px;">
                         about
                     </v-btn>
@@ -36,7 +36,7 @@
                 <span id="loginWelcome"><h3  style="display: inline;">{{nickName}}</h3>님 환영합니다!</span>&nbsp;&nbsp;&nbsp;
             </v-col>
             <v-col cols='1'   v-if="isLogin()">
-                <router-link to="../info">
+                <router-link to="/info">
                     <v-btn id="infoBtn" elevation="2" outlined="outlined" rounded="rounded" >내 정보</v-btn>
                 </router-link>
             </v-col>
@@ -44,16 +44,16 @@
                 <v-btn id="logoutBtn" elevation="2" outlined="outlined" rounded="rounded" v-on:click="logout" >로그아웃</v-btn>
             </v-col>
             <v-col cols='1'  v-if="isLogin()">
-                <router-link to="../admin">
+                <router-link to="/admin">
                     <v-btn id="admin" v-if="admin()" elevation="2" outlined="outlined" rounded="rounded">관리자</v-btn>
                 </router-link>
             </v-col>
             
             <v-col cols='4' v-else>
-                <router-link to="../auth/signin"   >
+                <router-link to="/auth/signin"   >
                     <v-btn elevation="2" class="btn_loginEnter" outlined="outlined" rounded="rounded">로그인</v-btn>
                 </router-link>
-                <router-link to="../auth/signup"  >
+                <router-link to="/auth/signup"  >
                     <v-btn elevation="2" class="btn_loginEnter" outlined="outlined" rounded="rounded">회원가입</v-btn>
                 </router-link>
             </v-col>    
@@ -81,7 +81,9 @@
             }
         },
         computed: {
-
+            // accessToken : function(){
+            //     return this.$store.getters.auth_get_token;
+            // }
         },
         methods : {
             initialize(){
@@ -98,7 +100,6 @@
             logout(){
                 localStorage.removeItem('accessToken');
                 this.$router.go('#/home'); //새로고침
-
             },
             isLogin(){
                 if(this.accessToken != null){

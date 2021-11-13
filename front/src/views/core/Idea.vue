@@ -151,8 +151,8 @@
                 }
             },
             handlePageChange(value){
-                 this.currentPage = value;
-                 this.createPagination();
+                this.currentPage = value;
+                this.createPagination();
             },
             changeSorting(){
                 if(this.modelIdea === '위너 아이디어'){

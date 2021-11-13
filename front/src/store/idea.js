@@ -75,7 +75,6 @@ const ideaModule = {
             if(data.subject !== ''){
                 where += `&subject=${data.subject}`
             }
-
             try{
                 res = await axios.get(`http://localhost:8080/info/idea?${where}`,{
                     headers : {
@@ -89,9 +88,27 @@ const ideaModule = {
                 console.log(err);
                 return;
             }
-
-                
-         
+        },
+        async show_admin_user_idea({commit}, data){
+            let token = localStorage.getItem('accessToken');
+            let res;
+            let where = `page=${data.page}&userIdx=${data.userIdx}`
+            if(data.subject !== ''){
+                where += `&subject=${data.subject}`
+            }
+            try{
+                res = await axios.get(`http://localhost:8080/info/idea?${where}`,{
+                    headers : {
+                        'Authorization' : token
+                    }
+                });
+                commit('idea_set_data', res.data);
+                console.log(res.data)
+                return;
+            }catch(err){
+                console.log(err);
+                return;
+            }
         },
         //아이디어 추가
         async add_idea({commit}, data){

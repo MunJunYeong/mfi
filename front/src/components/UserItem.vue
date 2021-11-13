@@ -78,7 +78,7 @@ export default {
             return;
         },
         checkIdea(){
-            
+            this.$router.push({path: `admin/user/${this.userIdx}/idea`});
         }
     },
 

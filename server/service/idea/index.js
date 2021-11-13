@@ -70,6 +70,30 @@ const getMyIdea = async (limit, offset, subject, userIdx)=>{
     });
     return data;
 }
+const getAdminUserIdea = async (limit, offset, subject, userIdx)=>{
+    const where = {};
+    if(subject){
+        where.subject = {
+            [Op.like] : `%${subject}%`
+        }
+    }
+    const userWhere = {};
+    userWhere.userIdx = userIdx;
+    const data = await models['idea'].findAndCountAll({
+        where,
+        include : [
+            {
+                model : models['user'],
+                where : userWhere,
+                required: true,
+            }
+        ],
+        order : [['ideaIdx', 'DESC']],
+        limit,
+        offset
+    });
+    return data;
+}
 //클릭시 아이디어 가져오기
 const getIdea = async (ideaIdx, userIdx, role ) => {
     let where = {};
@@ -131,5 +155,6 @@ module.exports = {
     getIdea,
     updateIdea,
     deleteIdea,
-    createIdea
+    createIdea,
+    getAdminUserIdea
 }

@@ -119,8 +119,8 @@ import { VueperSlides, VueperSlide } from 'vueperslides'
                 },
                 {
                     image : require('@/assets/home_idea.jpg'),
-                    content : '<router-link to="add-idea"> 본인의 투자 분석과 생각에 대해 마음껏 펼쳐보세요</router-link>',
-                    link: "auth/signup",
+                    content : '본인의 투자 분석과 생각에 대해 마음껏 펼쳐보세요',
+                    link: "/#/idea",
 
                 }
             ]

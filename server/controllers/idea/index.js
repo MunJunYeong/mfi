@@ -30,9 +30,7 @@ const deleteIdea = async (req, res) => {
         res.send({success : '1'});
         return;
     }
-
 }
-
 const updateIdea =  async (req, res) => {
     const ideaIdx = req.body.params.ideaIdx;
     const subject = req.body.params.subject;
@@ -54,7 +52,6 @@ const updateIdea =  async (req, res) => {
     res.send({data : result});
 
 }
-
 const getClickIdea = async (req, res) =>{
     const ideaIdx = req.query.ideaIdx;
     const { userIdx, role } = req.userData;
@@ -93,12 +90,22 @@ const showMyIdea = async (req, res) => {
     res.send(result);
     return;
 }
+const showAdminUserIdea = async (req, res) => {
+    const {page, subject, userIdx} = req.query;
+    const {limit, offset} = method.getPagination(page);
 
+    const data = await ideaService.getAdminUserIdea(limit, offset, subject, userIdx);
+    
+    const result = method.getPagingIdeaData(data, page, limit);
+    res.send(result);
+    return;
+}
 module.exports = {
     showIdea,
     showMyIdea,
     postIdea,
     deleteIdea,
     updateIdea,
-    getClickIdea
+    getClickIdea,
+    showAdminUserIdea
 }
