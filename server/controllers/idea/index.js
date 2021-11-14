@@ -76,7 +76,7 @@ const showIdea = async (req, res) => {
 
     const data = await ideaService.getAllIdea(limit, offset, subject, userIdx, order, role);
 
-    const result = method.getPagingIdeaData(data, page, limit);
+    const result = await method.getPagingIdeaData(data, page, limit);
     res.send(result);
     return;
 }
@@ -86,17 +86,17 @@ const showMyIdea = async (req, res) => {
 
     const data = await ideaService.getMyIdea(limit, offset, subject, userIdx);
     
-    const result = method.getPagingIdeaData(data, page, limit);
+    const result = await method.getPagingIdeaData(data, page, limit);
     res.send(result);
     return;
 }
 const showAdminUserIdea = async (req, res) => {
     const {page, subject, userIdx} = req.query;
     const {limit, offset} = method.getPagination(page);
-
+    
     const data = await ideaService.getAdminUserIdea(limit, offset, subject, userIdx);
     
-    const result = method.getPagingIdeaData(data, page, limit);
+    const result = await method.getPagingIdeaData(data, page, limit);
     res.send(result);
     return;
 }
