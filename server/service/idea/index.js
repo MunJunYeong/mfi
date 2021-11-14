@@ -72,6 +72,7 @@ const getMyIdea = async (limit, offset, subject, userIdx)=>{
 }
 const getAdminUserIdea = async (limit, offset, subject, userIdx)=>{
     const where = {};
+    // console.log(subject)
     if(subject){
         where.subject = {
             [Op.like] : `%${subject}%`

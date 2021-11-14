@@ -93,48 +93,24 @@ const ideaModule = {
             let token = localStorage.getItem('accessToken');
             let res;
             let where = `page=${data.page}&userIdx=${data.userIdx}`
-            if(data.subject !== ''){
+            // let where = `page=${data.page}}`
+            if(data.subject !== undefined){
                 where += `&subject=${data.subject}`
             }
             try{
-                res = await axios.get(`http://localhost:8080/info/idea?${where}`,{
+                res = await axios.get(`http://localhost:8080/admin/user/:userIdx/idea?${where}`,{
+                    // params : {
+                    //     ideaIdx : data.ideaIdx
+                    // },
                     headers : {
                         'Authorization' : token
                     }
                 });
                 commit('idea_set_data', res.data);
-                console.log(res.data)
                 return;
             }catch(err){
                 console.log(err);
                 return;
-            }
-        },
-        //아이디어 추가
-        async add_idea({commit}, data){
-            let token = localStorage.getItem('accessToken');
-            let res;
-            try {
-                res = await axios.post('http://localhost:8080/idea',{
-                    subject : data.subject,
-                    content : data.content,
-                },
-                {
-                    headers : {
-                        'Authorization' : token
-                    }
-                });
-                commit
-                if(res.data.message === 'no subject'){
-                    alert('제목을 입력해주세요.');
-                } else if(res.data.message === 'no content'){
-                    alert('내용을 입력해주세요.');
-                } else {
-                    alert("아이디어를 무사히 제출했습니다!");
-                    location.href='#/idea'
-                }
-            }catch(err){
-                console.log(err)
             }
         },
         //아이디어 클릭했을 때
@@ -163,7 +139,35 @@ const ideaModule = {
                 console.log(err);
                 return;
             }
+        },        
+        //아이디어 추가
+        async add_idea({commit}, data){
+            let token = localStorage.getItem('accessToken');
+            let res;
+            try {
+                res = await axios.post('http://localhost:8080/idea',{
+                    subject : data.subject,
+                    content : data.content,
+                },
+                {
+                    headers : {
+                        'Authorization' : token
+                    }
+                });
+                commit
+                if(res.data.message === 'no subject'){
+                    alert('제목을 입력해주세요.');
+                } else if(res.data.message === 'no content'){
+                    alert('내용을 입력해주세요.');
+                } else {
+                    alert("아이디어를 무사히 제출했습니다!");
+                    location.href='#/idea'
+                }
+            }catch(err){
+                console.log(err)
+            }
         },
+
         //아이디어 수정
         async modify_idea({commit}, ideaData){
             let res;

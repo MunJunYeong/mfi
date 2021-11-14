@@ -52,11 +52,15 @@
 </template>
 
 <script>
+import IdeaItem from '../../components/IdeaItem.vue'
 
 export default {
     name : 'UserIdea',
     created() {
         this.createPagination();
+    },
+    components: {
+        IdeaItem
     },
     computed : {
             ideaItem : function(){
