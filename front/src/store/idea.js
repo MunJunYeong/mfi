@@ -2,15 +2,18 @@ import axios from "axios";
 
 const ideaModule = {
     state: {
-        ideaList : [],
         clickIdeaData : {},
         commentData : [],
         successModify : false,
+        ideas : [],
+        totalPages : {},
+        totalItems : {},
     },
     mutations: {
         idea_set_data (state, ideaData) {
-            state.ideaList = [];
-            state.ideaList.push(ideaData);
+            state.ideas = ideaData.ideas;
+            state.totalPages = ideaData.totalPages;
+            state.totalItems = ideaData.totalItems;
         },
         click_idea_set_data(state, ideaData){
             state.clickIdeaData = {...ideaData[0]};
@@ -25,13 +28,13 @@ const ideaModule = {
     },
     getters: {
         idea_get_item(state){
-            return state.ideaList[0].ideas;
+            return state.ideas;
         },
         idea_get_total_pages(state){
-            return state.ideaList[0].totalPages;
+            return state.totalPages;
         },
         idea_get_total_items(state){
-            return state.ideaList[0]?.totalItems ? state.ideaList[0].totalItems : 0;
+            return state.totalItems;
         },
         click_idea_get_data(state){
             return state.clickIdeaData;
@@ -99,9 +102,6 @@ const ideaModule = {
             }
             try{
                 res = await axios.get(`http://localhost:8080/admin/user/${data.userIdx}/idea?${where}`,{
-                    // params : {
-                    //     ideaIdx : data.ideaIdx
-                    // },z
                     headers : {
                         'Authorization' : token
                     }
@@ -116,14 +116,10 @@ const ideaModule = {
         //아이디어 클릭했을 때
         async click_idea({commit}, ideaIdx) {
             let token = localStorage.getItem('accessToken');
-
             let res;
             try {
-                res = await axios.get('http://localhost:8080/idea/:ideaIdx', 
+                res = await axios.get(`http://localhost:8080/idea/${ideaIdx.ideaIdx}`, 
                 {
-                    params : {
-                        ideaIdx : ideaIdx.ideaIdx
-                    },
                     headers : {
                         'Authorization' : token
                     }

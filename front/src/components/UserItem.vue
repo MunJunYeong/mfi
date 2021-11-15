@@ -41,7 +41,7 @@ export default {
     },
     data() {
         return {
-            
+            // userRole : this.role,
         }
     },
     computed : {
@@ -60,7 +60,6 @@ export default {
             }
         },
         async changeRole(){
-            
             let role = 'winner';
             if(this.role === 'winner'){
                 role = 'normal';

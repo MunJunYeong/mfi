@@ -32,6 +32,7 @@ const deleteIdea = async (req, res) => {
     }
 }
 const updateIdea =  async (req, res) => {
+    console.log(req.params)
     const ideaIdx = req.body.params.ideaIdx;
     const subject = req.body.params.subject;
     const content = req.body.params.content;
@@ -53,7 +54,7 @@ const updateIdea =  async (req, res) => {
 
 }
 const getClickIdea = async (req, res) =>{
-    const ideaIdx = req.query.ideaIdx;
+    const ideaIdx = req.params.ideaIdx;
     const { userIdx, role } = req.userData;
     if(!(ideaIdx && userIdx && role )){ 
         res.send({message: 'required ideaIdx, userIdx, role'})
@@ -91,7 +92,8 @@ const showMyIdea = async (req, res) => {
     return;
 }
 const showAdminUserIdea = async (req, res) => {
-    const {page, subject, userIdx} = req.query;
+    const userIdx = req.params.userIdx;
+    const {page, subject} = req.query;
     const {limit, offset} = method.getPagination(page);
     
     const data = await ideaService.getAdminUserIdea(limit, offset, subject, userIdx);

@@ -7,14 +7,20 @@ const authModule = {
         userData : {},
         userListData : [],
         userRole : {},
+        adminUser : [],
+        adminTotalPages : {},
+        adminTotalItems : {},
     },
     mutations: {
         auth_set_data (state, authData) {
             state.userData = {...authData}
         },
         user_set_data_admin(state, userData){
-            state.userListData = [];
-            state.userListData.push(userData);
+            // state.userListData = [];
+            // state.userListData.push(userData);
+            state.adminUser = userData.user;
+            state.adminTotalPages = userData.totalPages;
+            state.adminTotalItems = userData.totalItems
         },
         set_user_role(state, role){
             state.userRole = role;
@@ -28,13 +34,13 @@ const authModule = {
             return localStorage.getItem('accessToken');
         },
         admin_get_user_items(state){
-            return state.userListData[0].user;
+            return state.adminUser;
         },
         admin_get_total_pages(state){
-            return state.userListData[0].totalPages;
+            return state.adminTotalPages;
         },
         admin_get_total_items(state){
-            return state.userListData[0].totalItems;
+            return state.adminTotalItems;
         },
         admin_get_user_role(state){
             return state.userRole;
