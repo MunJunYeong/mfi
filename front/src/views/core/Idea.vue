@@ -6,7 +6,7 @@
             <v-col cols='3'  >
                 <div style=" height: 75px; " >
                     <p style="font-size: 1.5em;">모든아이디어</p> 
-                    <p style="font-size: 0.8em;">검색결과 : {{totalItems}}개</p></div>
+                    <p style="font-size: 0.8em;">검색결과 : {{totalItems && totalItems > 0? totalItems: 0}}개</p></div>
             </v-col>
             <v-col cols='2'></v-col>
             <router-link to="/add-idea">
@@ -80,7 +80,7 @@
         </v-row>
         <v-pagination
         v-model="currentPage"
-        :length="totalPages"
+        :length="totalPages && totalPages >= 1? totalPages: 1"
         @input="handlePageChange"
         >
         </v-pagination>

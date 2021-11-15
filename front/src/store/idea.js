@@ -31,7 +31,7 @@ const ideaModule = {
             return state.ideaList[0].totalPages;
         },
         idea_get_total_items(state){
-            return state.ideaList[0].totalItems;
+            return state.ideaList[0]?.totalItems ? state.ideaList[0].totalItems : 0;
         },
         click_idea_get_data(state){
             return state.clickIdeaData;
@@ -92,16 +92,16 @@ const ideaModule = {
         async show_admin_user_idea({commit}, data){
             let token = localStorage.getItem('accessToken');
             let res;
-            let where = `page=${data.page}&userIdx=${data.userIdx}`
+            let where = `page=${data.page}`
             // let where = `page=${data.page}}`
             if(data.subject !== undefined){
                 where += `&subject=${data.subject}`
             }
             try{
-                res = await axios.get(`http://localhost:8080/admin/user/:userIdx/idea?${where}`,{
+                res = await axios.get(`http://localhost:8080/admin/user/${data.userIdx}/idea?${where}`,{
                     // params : {
                     //     ideaIdx : data.ideaIdx
-                    // },
+                    // },z
                     headers : {
                         'Authorization' : token
                     }
