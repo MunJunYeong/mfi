@@ -80,6 +80,7 @@ export default {
         return {
             userIdx : this.$route.params.userIdx,
             currentPage : 1,
+            searchSubject : '',
 
         }
     },

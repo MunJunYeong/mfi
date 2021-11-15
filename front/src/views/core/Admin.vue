@@ -43,7 +43,7 @@
         </v-row>
         <v-pagination
         v-model="currentPage"
-        :length="totalPages"
+        :length="totalPages && totalPages >= 1? totalPages: 1"
         @input="handlePageChange"
         >
         </v-pagination>
