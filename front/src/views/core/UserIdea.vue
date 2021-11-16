@@ -27,7 +27,6 @@
                 :content="item.content"
                 :created="item.created"
                 :number="item.number"
-                :adminFlag="adminFlag"
                 /> 
             </v-col>
         </v-row>
@@ -82,7 +81,6 @@ export default {
             userIdx : this.$route.params.userIdx,
             currentPage : 1,
             searchSubject : '',
-            adminFlag : true,
         }
     },
     methods: {

@@ -2,12 +2,8 @@
     <v-app-bar app="app" color="#CFD8DC" id="wrapper" >
         <v-row justify='center'>
             <v-col cols='3' v-on:click="goHome">
-                <h1 id="title"  >
-                    MFI
-                </h1>
-                <p id="subtitle">
-                    Metapor For Investing
-                </p>
+                <v-img  src="@/assets/mfi_logo.png" width="330" height="70">
+                </v-img>
             </v-col>
             <v-col cols='1' class="navItem">
                 <router-link to="/home">
@@ -49,7 +45,7 @@
                 </router-link>
             </v-col>
             
-            <v-col cols='4' v-else>
+            <v-col cols='3' v-else>
                 <router-link to="/auth/signin"   >
                     <v-btn elevation="2" class="btn_loginEnter" outlined="outlined" rounded="rounded">로그인</v-btn>
                 </router-link>
@@ -76,7 +72,6 @@
         data(){
             return{
                 accessToken : localStorage.getItem('accessToken'),
-                userData : this.$store.getters.auth_get_data,
                 nickName : ''
             }
         },
@@ -84,6 +79,9 @@
             // accessToken : function(){
             //     return this.$store.getters.auth_get_token;
             // }
+            userData : function(){
+                return this.$store.getters.auth_get_data;
+            }
         },
         methods : {
             initialize(){
