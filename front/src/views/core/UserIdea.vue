@@ -27,6 +27,7 @@
                 :content="item.content"
                 :created="item.created"
                 :number="item.number"
+                :adminFlag="adminFlag"
                 /> 
             </v-col>
         </v-row>
@@ -44,7 +45,7 @@
         </v-row>
         <v-pagination
         v-model="currentPage"
-        :length="totalPages"
+        :length="totalPages && totalPages >= 1? totalPages: 1"
         @input="handlePageChange"
         >
         </v-pagination>
@@ -81,7 +82,7 @@ export default {
             userIdx : this.$route.params.userIdx,
             currentPage : 1,
             searchSubject : '',
-
+            adminFlag : true,
         }
     },
     methods: {
