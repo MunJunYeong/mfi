@@ -51,7 +51,6 @@ const ideaModule = {
         async show_idea({commit}, data){
             let res;
             let baseUrl = 'http://localhost:8080/idea?page='+data.page;
-
             if(data.subject) {
                 baseUrl += `&subject=${data.subject}`
             }
@@ -59,7 +58,9 @@ const ideaModule = {
                 res = await axios.get( baseUrl , {
                     params: {
                         role : data.role,
-                        order : data.order
+                        order : data.order,
+                        userIdx : data.userData.userIdx,
+                        userRole : data.userData.role,
                     }
                 });
                 commit('idea_set_data', res.data);
@@ -114,11 +115,11 @@ const ideaModule = {
             }
         },
         //아이디어 클릭했을 때
-        async click_idea({commit}, ideaIdx) {
+        async click_idea({commit}, data) {
             let token = localStorage.getItem('accessToken');
             let res;
             try {
-                res = await axios.get(`http://localhost:8080/idea/${ideaIdx.ideaIdx}`, 
+                res = await axios.get(`http://localhost:8080/idea/${data.ideaIdx}`, 
                 {
                     headers : {
                         'Authorization' : token

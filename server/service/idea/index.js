@@ -10,11 +10,13 @@ const createIdea = async (subject, content, userIdx)=>{
 }
 
 //repositry where절을 여기서 
-const getAllIdea = async (limit, offset, subject, userIdx, orderData, role) => {
+const getAllIdea = async (limit, offset, subject, userIdx, userRole, orderData, role) => {
     const where = {};
+    let date= new Date();
+    const whereDate = date.setDate(-45);
     let order = [['ideaIdx', 'DESC']];
+
     
-    if(userIdx) {where.userIdx = userIdx ;}
     if(subject){
         where.subject = {
             [Op.like] : `%${subject}%`
@@ -28,7 +30,29 @@ const getAllIdea = async (limit, offset, subject, userIdx, orderData, role) => {
     }
     //위너 아이디어만 보여주기
     const userWhere = {};
-    if(role === 'winner'){ userWhere.role = 'winner' };
+    if(role === 'winner'){
+        userWhere.role = 'winner'
+    };
+
+    //비유저거나 노말회원일 경우에는 45일 이전의 게시물은 볼 수 없다.
+    // 여기서 추가해야될 부분은 본인이 게시한 아이디어는 볼 수 있어야 한다. ??이걸 해결 못함 ㅠ 위에 로그인된 유저idx는 가지고옴.
+    if(userRole === undefined){
+        where.created = {
+            [Op.lte] : whereDate
+        }
+    }
+    if(userRole === 'normal'){
+        where.created = {
+            [Op.lte] : whereDate
+        }
+        if(userIdx){
+            userWhere.userIdx = userIdx
+        }
+    }
+    // if(userRole === 'normal'){
+    //     userWhere.userIdx = userIdx;
+    // }
+    
 
     const data = await models['idea'].findAndCountAll({
         where,
@@ -43,6 +67,7 @@ const getAllIdea = async (limit, offset, subject, userIdx, orderData, role) => {
         limit,
         offset
     });
+    console.log(data)
     return data;
 }
 const getMyIdea = async (limit, offset, subject, userIdx)=>{
@@ -96,24 +121,10 @@ const getAdminUserIdea = async (limit, offset, subject, userIdx)=>{
     return data;
 }
 //클릭시 아이디어 가져오기
-const getIdea = async (ideaIdx, userIdx, role ) => {
+const getIdea = async (ideaIdx) => {
     let where = {};
-
-    let date = new Date();
-    let whereDate = date.setDate(-45);
     
     where.ideaIdx = ideaIdx;
-    const setWhere =  await models['idea'].findAll({
-        where,
-    })
-    //등급이 normal이고 본인의 게시물이 아닐 시에 45일이 지나지 않은 게시물은 열람할 수 없다. where에 추가
-    if(role === 'normal'){
-        if(userIdx !== setWhere[0].toJSON().userIdx){
-            where.created = {
-                [Op.lte] : whereDate
-            }
-        }
-    }
     //where을 토대로 idea 가져오기.
     const result = await models['idea'].findAll({
         where,
