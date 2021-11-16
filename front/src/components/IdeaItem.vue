@@ -37,6 +37,7 @@ moment.lang('ko', {
             "subject",
             "created",
             "number",
+            "adminFlag",
         ],
         computed: {
             createdAt() {
@@ -45,6 +46,9 @@ moment.lang('ko', {
         },
         methods : {
             clickIdea(ideaIdx){
+                if(this.adminFlag){
+                    this.$router.push({path: `../${ideaIdx}`});
+                }
                 this.$router.push({path: `idea/${ideaIdx}`});
             },
         },

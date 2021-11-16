@@ -101,7 +101,7 @@ const ideaModule = {
                 where += `&subject=${data.subject}`
             }
             try{
-                res = await axios.get(`http://localhost:8080/admin/user/${data.userIdx}/idea?${where}`,{
+                res = await axios.get(`http://localhost:8080/user/${data.userIdx}/idea?${where}`,{
                     headers : {
                         'Authorization' : token
                     }

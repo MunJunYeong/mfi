@@ -82,9 +82,16 @@ const routes = [
         component : Admin
       },
       {
-        path : 'admin/user/:userIdx/idea',
-        component : UserIdea
-      }
+        path : 'user/:userIdx/idea',
+        component : UserIdea,
+        children : [
+          {
+            path : '/:ideaIdx',
+            component : IdeaClick
+          }
+          
+        ]
+      },
     ]
   },
 ]
