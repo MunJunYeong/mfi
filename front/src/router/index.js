@@ -84,14 +84,11 @@ const routes = [
       {
         path : 'user/:userIdx/idea',
         component : UserIdea,
-        children : [
-          {
-            path : '/:ideaIdx',
-            component : IdeaClick
-          }
-          
-        ]
       },
+      {
+        path : 'user/:userIdx/idea/:ideaIdx',
+        component : IdeaClick,
+      }
     ]
   },
 ]

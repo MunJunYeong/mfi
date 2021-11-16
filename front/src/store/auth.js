@@ -5,6 +5,7 @@ let token = localStorage.getItem('accessToken');
 const authModule = {
     state : {
         userData : {},
+        userToken : {},
         userListData : [],
         userRole : {},
         adminUser : [],
@@ -12,12 +13,11 @@ const authModule = {
         adminTotalItems : {},
     },
     mutations: {
-        auth_set_data (state, authData) {
-            state.userData = {...authData}
+        auth_set_data (state, authData) { // 로그인 한 유저 데이터 저장
+            state.userData = {...authData};
+            // state.userToken = userData
         },
         user_set_data_admin(state, userData){
-            // state.userListData = [];
-            // state.userListData.push(userData);
             state.adminUser = userData.user;
             state.adminTotalPages = userData.totalPages;
             state.adminTotalItems = userData.totalItems
@@ -58,7 +58,6 @@ const authModule = {
             } catch (err) {
                 console.log(err);
             }
-            console.log(res.data)
             if(res.data.token){
                 localStorage.setItem("accessToken", res.data.token);               
                 commit('auth_set_data',  jwt_decode(res.data.token));

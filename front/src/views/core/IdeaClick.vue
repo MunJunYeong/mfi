@@ -1,10 +1,11 @@
 <template>
     <v-container>
+        <br>
         <v-row justify='center'>
             <v-col cols='2' />
             <v-col cols='4'>
                 <div id="subject">
-                    <h1>{{ideaData.subject}}</h1>
+                    <h2>{{ideaData.subject}}</h2>
                     </div>
             </v-col>
             <v-spacer></v-spacer>
@@ -127,6 +128,9 @@ moment.lang('ko', {
         computed: {
             createdAt() {
                 return moment(this.ideaData.created).format("YY-MM-DD (ddd)  HH : mm");
+            },
+            ideaData : function(){
+                return this.$store.getters.click_idea_get_data;
             }
         },
         components : {
@@ -136,7 +140,6 @@ moment.lang('ko', {
         },
         data(){
             return {
-                ideaData : {},
                 commentData : [],
                 userData : {},
                 writeComment : '',
@@ -168,7 +171,6 @@ moment.lang('ko', {
                     await this.$store.dispatch('click_idea',{
                         ideaIdx : this.ideaIdx
                     })
-                    this.ideaData = this.$store.getters.click_idea_get_data;
                     this.setContent(this.ideaData.content);
                 }catch(err){
                     console.log(err);
@@ -221,7 +223,10 @@ moment.lang('ko', {
             checkAuth(){
                 if(this.userData.userIdx === this.ideaData.user.userIdx){
                     this.authFlag = true;
-                }else{
+                }else if(this.userData.role === 'admin'){
+                    this.authFlag = true;
+                }
+                else{
                     this.authFlag = false;
                 }
             }
@@ -232,6 +237,9 @@ moment.lang('ko', {
 
 </script>
 <style>
+    h1 {
+
+    }
     #subject {
          line-height: 40px;
     }
@@ -239,12 +247,6 @@ moment.lang('ko', {
         width: 20%; height: 100%; background-image: url('../../assets/profile.png' ); background-size: 100% 100%; float: left;
         
     }
-    /* #nickName {
-
-    }
-    #created {
-
-    } */
     #modifyBtn{
         height: 50px;
     }

@@ -16,7 +16,7 @@
                 올린 게시물 확인
             </v-col>
             <v-col cols='2' style=" border-top: black solid 1px; border-bottom: black solid 1px;text-align: center;" >
-                등급조정
+                등급 조정
             </v-col>
             <v-col cols='1' />
         </v-row>

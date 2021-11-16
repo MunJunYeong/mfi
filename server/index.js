@@ -7,13 +7,15 @@ const port = 8080
 
 const router = require('./router/index');
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit : 5000000}));
 app.use(cors());
 app.use(router.basicRouter);
 
 app.get('/', async(req, res) => {
 
 })
+
+
 
 app.listen(port, async () => {
     await db.initialize();
