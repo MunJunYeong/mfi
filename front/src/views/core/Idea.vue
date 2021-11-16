@@ -134,6 +134,9 @@
             startPageIndex : function(){
                 return ((Number(this.currentPage) - 1) * 6) + 1;
             },
+            userData : function(){
+                return this.$store.getters.auth_get_data;
+            }
         },
         
         methods: {
@@ -142,6 +145,7 @@
                     await this.$store.dispatch('show_idea', {
                         page : this.currentPage,
                         subject : this.searchSubject,
+                        userData : this.userData
                     })
                 }catch(err){
                     console.log(err)

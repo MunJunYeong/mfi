@@ -28,8 +28,9 @@
             </v-col>
             <!-- 5 cols -->
             <v-spacer />
-            <v-col cols='1'   v-if="isLogin()">
-                <span id="loginWelcome"><h3  style="display: inline;">{{nickName}}</h3>님 환영합니다!</span>&nbsp;&nbsp;&nbsp;
+            
+            <v-col cols='1' id="loginWelcomeWrapper"   v-if="isLogin()">
+                <span id="loginWelcome" >{{nickName}}</span>&nbsp;&nbsp;&nbsp;
             </v-col>
             <v-col cols='1'   v-if="isLogin()">
                 <router-link to="/info">
@@ -78,7 +79,7 @@
         computed: {
             // accessToken : function(){
             //     return this.$store.getters.auth_get_token;
-            // }
+            // },
             userData : function(){
                 return this.$store.getters.auth_get_data;
             }
@@ -92,18 +93,18 @@
                }
             },
             goHome(){
-                // this.$router.go('#/home')
                 location.href='#/home'
              },
             logout(){
                 localStorage.removeItem('accessToken');
                 this.$router.go('#/home'); //새로고침
             },
+
             isLogin(){
                 if(this.accessToken != null){
                     this.nickName = this.userData.nickName
                     return true;
-                }else if(this.accessToken === null) {
+                }else {
                     return false;
                 }
             },
@@ -138,7 +139,9 @@
      font-weight: normal;
      font-style: normal;
 }
-   
+   #wrapper{
+        /* padding-top: 0.5%; */
+   }
     .menus{
         font-family: 'ROKABold';
     }
@@ -160,7 +163,7 @@
         display: table-cell;
         vertical-align: middle;
     }
-    .btn_loginEnter{
+    .btn_loginEnter, #infoBtn, #logoutBtn, #admin{
         margin-top:10px;
          color:#546E7A;
     }
@@ -168,11 +171,14 @@
         background-color: #F0F4C3;
         color:#3E2723;
     }
-    #subWrapper{
-        
+    #infoBtn, #logoutBtn, #admin{
+        margin-top:15px;
+    }
+    #loginWelcomeWrapper{
+         padding-top: 1.5%;
     }
     #loginWelcome{
-        
+        font-weight: 400; font-size: 1.5em; 
     }
     
 </style>

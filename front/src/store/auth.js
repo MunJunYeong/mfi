@@ -15,7 +15,9 @@ const authModule = {
     mutations: {
         auth_set_data (state, authData) { // 로그인 한 유저 데이터 저장
             state.userData = {...authData};
-            // state.userToken = userData
+        },
+        auth_set_token(state, token){
+            state.userToken = token;
         },
         user_set_data_admin(state, userData){
             state.adminUser = userData.user;
@@ -31,7 +33,8 @@ const authModule = {
             return state.userData;
         },
         auth_get_token(){
-            return localStorage.getItem('accessToken');
+            // return state.userToken
+            return localStorage.getItem('accessToken')
         },
         admin_get_user_items(state){
             return state.adminUser;
@@ -61,6 +64,7 @@ const authModule = {
             if(res.data.token){
                 localStorage.setItem("accessToken", res.data.token);               
                 commit('auth_set_data',  jwt_decode(res.data.token));
+                commit('auth_set_token', res.data.token);
                 location.href='#/home'
             }else if(res.data.message === "wrong pw"){
                 throw Error('wrongPw');

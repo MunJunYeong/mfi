@@ -55,12 +55,11 @@ const updateIdea =  async (req, res) => {
 }
 const getClickIdea = async (req, res) =>{
     const ideaIdx = req.params.ideaIdx;
-    const { userIdx, role } = req.userData;
-    if(!(ideaIdx && userIdx && role )){ 
+    if(!(ideaIdx)){ 
         res.send({message: 'required ideaIdx, userIdx, role'})
         return;
     }
-    const result = await ideaService.getIdea(ideaIdx, req.userData.userIdx, req.userData.role );
+    const result = await ideaService.getIdea(ideaIdx);
 
     if(result.length === 0){
         res.send({message : 'cant approach'})
@@ -72,10 +71,9 @@ const getClickIdea = async (req, res) =>{
 }
 
 const showIdea = async (req, res) => {
-    const {page, subject, userIdx, order, role} = req.query;
+    const {page, subject, order, role, userIdx, userRole} = req.query;
     const {limit, offset} = method.getPagination(page);
-
-    const data = await ideaService.getAllIdea(limit, offset, subject, userIdx, order, role);
+    const data = await ideaService.getAllIdea(limit, offset, subject, userIdx, userRole, order, role);
 
     const result = await method.getPagingIdeaData(data, page, limit);
     res.send(result);

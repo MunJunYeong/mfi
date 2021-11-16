@@ -169,7 +169,8 @@ moment.lang('ko', {
             async showIdea(){
                 try{
                     await this.$store.dispatch('click_idea',{
-                        ideaIdx : this.ideaIdx
+                        ideaIdx : this.ideaIdx,
+                        userIdx : this.userData.userIdx
                     })
                     this.setContent(this.ideaData.content);
                 }catch(err){
