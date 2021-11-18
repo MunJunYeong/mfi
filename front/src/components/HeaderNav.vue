@@ -29,8 +29,8 @@
             <!-- 5 cols -->
             <v-spacer />
             
-            <v-col cols='1' id="loginWelcomeWrapper"   v-if="isLogin()">
-                <span id="loginWelcome" >{{nickName}}</span>&nbsp;&nbsp;&nbsp;
+            <v-col cols='2' id="loginWelcomeWrapper"   v-if="isLogin()">
+                <span id="loginWelcome" >{{nickName}} <p id="showRole">[{{role}}]</p></span>&nbsp;&nbsp;&nbsp;
             </v-col>
             <v-col cols='1'   v-if="isLogin()">
                 <router-link to="/info">
@@ -73,7 +73,8 @@
         data(){
             return{
                 accessToken : localStorage.getItem('accessToken'),
-                nickName : ''
+                nickName : '',
+                role : ''
             }
         },
         computed: {
@@ -102,7 +103,8 @@
 
             isLogin(){
                 if(this.accessToken != null){
-                    this.nickName = this.userData.nickName
+                    this.nickName = this.userData.nickName;
+                    this.role = this.userData.role;
                     return true;
                 }else {
                     return false;
@@ -178,7 +180,9 @@
          padding-top: 1.5%;
     }
     #loginWelcome{
-        font-weight: 400; font-size: 1.5em; 
+        font-weight: 400; font-size: 1.5em; color: black;
     }
-    
+    #showRole{
+        font-size: 0.6em; display: inline; color: darkgreen;
+    }
 </style>
