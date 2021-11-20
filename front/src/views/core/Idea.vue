@@ -184,6 +184,7 @@
                         subject : this.searchSubject,
                         role : 'winner',
                         order : 'ASC',
+                        userData : this.userData
                     })
                 }catch(err){
                     console.log(err);
@@ -196,6 +197,7 @@
                         subject : this.searchSubject,
                         role : 'winner',
                         order : 'DESC',
+                        userData : this.userData
                     })
                 }catch(err){
                     console.log(err);
@@ -207,6 +209,7 @@
                         page : this.currentPage,
                         subject : this.searchSubject,
                         order : 'ASC',
+                        userData : this.userData
                     })
                 }catch(err){
                     console.log(err);
@@ -218,6 +221,7 @@
                         page : this.currentPage,
                         subject : this.searchSubject,
                         order : 'DESC',
+                        userData : this.userData
                     })
                 }catch(err){
                     console.log(err);
