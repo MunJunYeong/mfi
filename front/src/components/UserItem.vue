@@ -37,18 +37,18 @@ export default {
         'role'
     ],
     created (){
-        
+        console.log(this.role);
     },
     data() {
         return {
             // userRole : this.role,
         }
     },
-    computed : {
-        userRole() {
-            return this.$store.getters.admin_get_user_role;
-        }
-    },
+    // computed : {
+    //     userRole() {
+    //         return this.$store.getters.admin_get_user_role;
+    //     }
+    // },
     methods: {
         checkRole(){
             if(this.role === 'admin'){
@@ -73,7 +73,7 @@ export default {
                 console.log(err);
             }
             this.checkRole();
-            this.role = this.$store.getters.admin_get_user_role;
+            // this.role = this.$store.getters.admin_get_user_role;
             return;
         },
         checkIdea(){

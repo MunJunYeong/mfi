@@ -24,8 +24,17 @@ const authModule = {
             state.adminTotalPages = userData.totalPages;
             state.adminTotalItems = userData.totalItems
         },
-        set_user_role(state, role){
-            state.userRole = role;
+        set_user_role(state, param){
+            console.log(param);
+            const tempArray = [...state.adminUser];
+            const findIndex = tempArray.findIndex((data) => data.userIdx === param.userIdx );
+            if(findIndex > -1 ){ tempArray[findIndex].role = param.role }
+            console.log(state.adminUser, "11111");
+            state.adminUser = [...tempArray];
+            console.log(state.adminUser, "222222");
+            console.log(tempArray, '33333333')
+            // console.log(role);
+            // // state.userRole = role;
         }
     },
     getters: {
@@ -113,7 +122,7 @@ const authModule = {
                         'Authorization' : token
                     }
                 })
-                commit('set_user_role', res.data);
+                commit('set_user_role', { userIdx: data.userIdx, role: res.data } );
             }catch(err){
                 console.log(err);
             }

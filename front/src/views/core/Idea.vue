@@ -129,7 +129,9 @@
                 return this.$store.getters.idea_get_total_pages;
             },
             totalItems : function(){
-                return this.$store.getters.idea_get_total_items;
+                const arrat= this.$store.getters.idea_get_total_items;;
+
+                return  arrat;
             },
             startPageIndex : function(){
                 return ((Number(this.currentPage) - 1) * 6) + 1;

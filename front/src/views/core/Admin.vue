@@ -22,7 +22,7 @@
         </v-row>
         <v-row justify='center'>
             <v-col cols='12'>
-                <UserItem v-for="(item, index) in userItem" :key="index"
+                <UserItem v-for="(item, index) in this.userItem" :key="index"
                 :userIdx="item.userIdx"
                 :nickName="item.nickName"
                 :role="item.role"
@@ -70,6 +70,7 @@ export default {
             return this.$store.getters.auth_get_data;
         },
         userItem : function(){
+            console.log(this.$store.getters.admin_get_user_items);
             return this.$store.getters.admin_get_user_items;
         },
         totalPages : function(){
