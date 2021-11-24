@@ -26,7 +26,7 @@
                     </v-combobox>
                 </div>
             </v-col>
-            <v-col cols='1'  >
+            <v-col cols='2'  >
                 <div style="">
                     <v-combobox outlined
                     v-model="modelDate"
@@ -36,7 +36,7 @@
                     </v-combobox>
                 </div>
             </v-col>
-            <v-col cols='1'></v-col>
+            <!-- <v-col cols='1'></v-col> -->
         </v-row>
         <v-row justify='center'>
             <v-col cols='1' />
@@ -123,14 +123,17 @@
         },
         computed : {
             ideaItem : function(){
-                return this.$store.getters.idea_get_item
+                let tempIdea = this.$store.getters.idea_get_item;
+                for(let i =0; i<tempIdea.length; i++){
+                    tempIdea[i].number = this.startPageIndex+ i;
+                }
+                return tempIdea;
             },
             totalPages : function(){
                 return this.$store.getters.idea_get_total_pages;
             },
             totalItems : function(){
-                const arrat= this.$store.getters.idea_get_total_items;;
-
+                const arrat= this.$store.getters.idea_get_total_items;
                 return  arrat;
             },
             startPageIndex : function(){
@@ -152,9 +155,7 @@
                 }catch(err){
                     console.log(err)
                 }
-                for(let i =0; i<this.ideaItem.length; i++){
-                    this.ideaItem[i].number = this.startPageIndex+ i;
-                }
+                
             },
             handlePageChange(value){
                 this.currentPage = value;

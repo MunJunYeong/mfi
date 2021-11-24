@@ -42,9 +42,9 @@ moment.lang('ko', {
             createdAt() {
                 return moment(this.created).local().format("YY-MM-DD (ddd)  HH : mm");
             },
-            // userData(){
-            //     return this.$store.getters.auth_get_data;
-            // }
+            userData(){
+                return this.$store.getters.auth_get_data;
+            }
         },
         methods : {
             clickIdea(ideaIdx){

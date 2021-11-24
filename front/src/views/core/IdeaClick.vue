@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container v-if="checkValidate()">
         <br>
         <v-row justify='center'>
             <v-col cols='2' />
@@ -83,12 +83,12 @@
         <br><br><br>
         <v-row justify='center'>
             <v-spacer />
-            <v-col cols='1'>
+            <v-col cols='2'>
                 <div style="text-align: center; font-weight : bold; height : 55px; line-height : 55px" >
                     {{userData.nickName}}
                 </div>
             </v-col>
-            <v-col cols='6' >
+            <v-col cols='5' >
                 <v-text-field
                 outlined
                 label = ''
@@ -131,7 +131,10 @@ moment.lang('ko', {
             },
             ideaData : function(){
                 return this.$store.getters.click_idea_get_data;
-            }
+            },
+            userData : function(){
+                return this.$store.getters.auth_get_data;
+            },
         },
         components : {
             CommentItem,
@@ -141,20 +144,41 @@ moment.lang('ko', {
         data(){
             return {
                 commentData : [],
-                userData : {},
                 writeComment : '',
                 nickName: '',
                 ideaIdx: this.$route.params.ideaIdx,
                 authFlag: false,
-                contentFlag : true
+                contentFlag : true,
             }
         },
         methods : {
             async initialize(){
                await this.showIdea();
                await this.showComment();
-               this.userData = this.$store.getters.auth_get_data;
                this.checkAuth();
+            },
+            async checkValidate(){
+                // let date= new Date();
+                // const dateCondition =  date.setDate(-45);
+
+                console.log(this.ideaData.created);
+                // if(this.ideaCreated <= dateCondition){
+                //     console.log('dfasfasf')
+                // }
+                // if(this.ideaData.created <= dateCondition){
+                //     return true;
+                // }else{
+                //     if(this.userData.role == 'normal'){
+                //         // console.log(this.ideaData)
+                //         if(this.ideaData.userIdx === this.userData.userIdx){return true}
+                //         else{
+                //             alert("위너만 접근 가능한 페이지입니다.")
+                //             location.href='#/idea'
+                //             return false
+                //         }
+                //     }
+                // }
+                return true;
             },
             successModify(success){
                 this.contentFlag = success;

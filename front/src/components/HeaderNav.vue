@@ -98,6 +98,7 @@
              },
             logout(){
                 localStorage.removeItem('accessToken');
+                location.href='#/home'
                 this.$router.go('#/home'); //새로고침
             },
 

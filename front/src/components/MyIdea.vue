@@ -63,16 +63,18 @@ export default {
     },
     data() {
         return {
-            userData : this.$store.getters.auth_get_data,
             nickName:'',
             currentPage : 1,
             searchSubject : '',
-            number : 0,
         }
     },
     computed : {
         ideaItem : function(){
-                return this.$store.getters.idea_get_item
+            let tempIdea = this.$store.getters.idea_get_item;
+            for(let i =0; i<tempIdea.length; i++){
+                tempIdea[i].number = this.startPageIndex+ i;
+            }
+                return tempIdea;
             },
         totalPages : function(){
             return this.$store.getters.idea_get_total_pages;
@@ -80,6 +82,9 @@ export default {
         startPageIndex : function(){
             return ((Number(this.currentPage) - 1) * 6) + 1;
         },
+        userData : function(){
+            return this.$store.getters.auth_get_data;
+        }
     },
     methods: {
         async createPagination(){
@@ -92,9 +97,7 @@ export default {
             }catch(err){
                 console.log(err)
             }   
-            for(let i =0; i<this.ideaItem.length; i++){
-                this.ideaItem[i].number = this.startPageIndex+ i;
-            }
+            
 
         },
         handlePageChange(value){

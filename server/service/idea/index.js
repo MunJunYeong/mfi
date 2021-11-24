@@ -40,7 +40,7 @@ const getAllIdea = async (limit, offset, subject, userIdx, userRole, orderData, 
     };
 
     //비유저거나 노말회원일 경우에는 45일 이전의 게시물은 볼 수 없다.
-    // 여기서 추가해야될 부분은 본인이 게시한 아이디어는 볼 수 있어야 한다. ??이걸 해결 못함 ㅠ 위에 로그인된 유저idx는 가지고옴.
+    //비회원ㅣ 경우 45일 이전의 게시물만 확인할 수 있다.
     if(userRole === undefined){
         const createdWhere = {
             created : {
@@ -49,38 +49,39 @@ const getAllIdea = async (limit, offset, subject, userIdx, userRole, orderData, 
         };
         where[Op.and].push(createdWhere);   
     }
+
+    //  45일 지난 모든 아이디어 || (45일 안 지난 아이디어 && 내가 쓴 아이디어 )
+    //노말 회원일 경우에는 45일 
     if(userRole === 'normal'){
         const  orWhere = {
          [Op.or]: [],   
-        } 
-        const created = {
-            [Op.lte] : whereDate
         }
-
-        orWhere[Op.or].push({ created });
-
-
+        //45일 이전의 게시물
+        const lteCreated = {
+            created : {
+                [Op.lte] : whereDate
+            }
+        }
+        
+        //45일 이후의 게시물 중 내 게시물을 가지고 온다.
         const  andWhere = {
             [Op.and]: [],   
-           } 
-        const gtCreated = {
-            [Op.gt] : whereDate
         }
-
-        andWhere[Op.and].push({ created: gtCreated });
-
-        where['$user.userIdx$']= userIdx;
-
+        const gtCreated = {
+            created : {
+                [Op.gt] : whereDate
+            }
+        }
+        andWhere[Op.and].push(gtCreated);
+        andWhere['$user.userIdx$']= userIdx;
         andWhere[Op.and].push({ '$user.userIdx$': userIdx });
-
+        
+        //1. 첫 번째 더하기
+        orWhere[Op.or].push(lteCreated);
+        // //2. 두 번째 더하기
         orWhere[Op.or].push(andWhere);
-
         where[Op.and].push(orWhere);
-
     }
-    // if(userRole === 'normal'){
-    //     userWhere.userIdx = userIdx;
-    // }
     
 
     const data = await models['idea'].findAndCountAll({
