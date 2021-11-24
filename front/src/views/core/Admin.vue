@@ -70,7 +70,6 @@ export default {
             return this.$store.getters.auth_get_data;
         },
         userItem : function(){
-            console.log(this.$store.getters.admin_get_user_items);
             return this.$store.getters.admin_get_user_items;
         },
         totalPages : function(){
@@ -85,6 +84,8 @@ export default {
             if(this.userData.role === 'admin'){
                 return true;
             }else {
+                alert("관리자만 접근 가능한 페이지입니다.")
+                location.href='#/home'
                 return false;
             }
         },

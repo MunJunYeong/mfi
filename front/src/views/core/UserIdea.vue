@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container v-if="checkAdmin()">
         <br>
         <v-row justify='center'>
             <v-col cols='1' />
@@ -63,19 +63,26 @@ export default {
         IdeaItem
     },
     computed : {
-            ideaItem : function(){
-                return this.$store.getters.idea_get_item
-            },
-            totalPages : function(){
-                return this.$store.getters.idea_get_total_pages;
-            },
-            totalItems : function(){
-                return this.$store.getters.idea_get_total_items;
-            },
-            startPageIndex : function(){
-                return ((Number(this.currentPage) - 1) * 6) + 1;
-            },
+        userData: function() {
+            return this.$store.getters.auth_get_data;
         },
+        ideaItem : function(){
+            let tempIdea = this.$store.getters.idea_get_item;
+            for(let i =0; i<tempIdea.length; i++){
+                tempIdea[i].number = this.startPageIndex+ i;
+            }
+            return tempIdea;
+        },
+        totalPages : function(){
+            return this.$store.getters.idea_get_total_pages;
+        },
+        totalItems : function(){
+            return this.$store.getters.idea_get_total_items;
+        },
+        startPageIndex : function(){
+            return ((Number(this.currentPage) - 1) * 6) + 1;
+        },
+    },
     data() {
         return {
             userIdx : this.$route.params.userIdx,
@@ -94,14 +101,21 @@ export default {
                 }catch(err){
                     console.log(err)
                 }
-                for(let i =0; i<this.ideaItem.length; i++){
-                    this.ideaItem[i].number = this.startPageIndex+ i;
-                }
+                
             },
-            handlePageChange(value){
-                this.currentPage = value;
-                this.createPagination();
-            },
+        handlePageChange(value){
+            this.currentPage = value;
+            this.createPagination();
+        },
+        checkAdmin(){
+            if(this.userData.role === 'admin'){
+                return true;
+            }else {
+                alert("관리자만 접근 가능한 페이지입니다.")
+                location.href='#/home'
+                return false;
+            }
+        },
     },
 }
 </script>

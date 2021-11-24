@@ -86,7 +86,6 @@ const ideaModule = {
                     }
                 });
                 commit('idea_set_data', res.data);
-                console.log(res.data)
                 return;
             }catch(err){
                 console.log(err);
@@ -97,7 +96,6 @@ const ideaModule = {
             let token = localStorage.getItem('accessToken');
             let res;
             let where = `page=${data.page}`
-            // let where = `page=${data.page}}`
             if(data.subject !== undefined){
                 where += `&subject=${data.subject}`
             }

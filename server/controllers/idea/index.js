@@ -53,21 +53,13 @@ const updateIdea =  async (req, res) => {
     res.send({data : result});
 
 }
+//click한 아이디어 가져오기
 const getClickIdea = async (req, res) =>{
     const ideaIdx = req.params.ideaIdx;
-    if(!(ideaIdx)){ 
-        res.send({message: 'required ideaIdx, userIdx, role'})
-        return;
-    }
-    const result = await ideaService.getIdea(ideaIdx);
 
-    if(result.length === 0){
-        res.send({message : 'cant approach'})
-        return;
-    }else {
-        res.send({data : result});
-        return;
-    }
+    const result = await ideaService.getIdea(ideaIdx);
+    
+    res.send({data : result});
 }
 
 const showIdea = async (req, res) => {
@@ -75,7 +67,7 @@ const showIdea = async (req, res) => {
     const {limit, offset} = method.getPagination(page);
     const data = await ideaService.getAllIdea(limit, offset, subject, userIdx, userRole, order, role);
 
-    const result = await method.getPagingIdeaData(data, page, limit);
+    const result = method.getPagingIdeaData(data, page, limit);
     res.send(result);
     return;
 }

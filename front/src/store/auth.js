@@ -25,16 +25,10 @@ const authModule = {
             state.adminTotalItems = userData.totalItems
         },
         set_user_role(state, param){
-            console.log(param);
-            const tempArray = [...state.adminUser];
+            const tempArray = [...state.adminUser]
             const findIndex = tempArray.findIndex((data) => data.userIdx === param.userIdx );
             if(findIndex > -1 ){ tempArray[findIndex].role = param.role }
-            console.log(state.adminUser, "11111");
-            state.adminUser = [...tempArray];
-            console.log(state.adminUser, "222222");
-            console.log(tempArray, '33333333')
-            // console.log(role);
-            // // state.userRole = role;
+            state.adminUser = [...tempArray]
         }
     },
     getters: {
@@ -97,7 +91,6 @@ const authModule = {
             if(data.nickName !== ''){
                 where += `&nickName=${data.nickName}`
             }
-            
             try{
                 res = await axios.get(`http://localhost:8080/user?${where}`,{
                     headers : {
