@@ -1,0 +1,27 @@
+version: "3.9"  # optional since v1.27.0
+services:
+  db:
+    image: postgres:13-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres 
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      dockerfile: ./server/dockerfile
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build:
+      dockerfile: ./front/dockerfile
+    ports:
+      - "80:80"
+volumes:
+  db_data:

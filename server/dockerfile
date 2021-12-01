@@ -1,6 +1,9 @@
 FROM node:14-alpine
 # RUN apk add --no-cache python g++ make
 WORKDIR /app
-COPY . .
+COPY ./server .
+
+
+# CMD [ "ls", "-al" ]
 RUN npm install
 CMD [ "npm","start" ]

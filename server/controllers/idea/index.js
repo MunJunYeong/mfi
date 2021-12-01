@@ -56,7 +56,7 @@ const updateIdea =  async (req, res) => {
 //click한 아이디어 가져오기
 const getClickIdea = async (req, res) =>{
     const ideaIdx = req.params.ideaIdx;
-
+    //아이디어 가져오는 절
     const result = await ideaService.getIdea(ideaIdx);
     
     res.send({data : result});
