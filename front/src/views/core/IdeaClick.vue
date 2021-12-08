@@ -158,26 +158,6 @@ moment.lang('ko', {
                this.checkAuth();
             },
             async checkValidate(){
-                // let date= new Date();
-                // const dateCondition =  date.setDate(-45);
-
-                console.log(this.ideaData.created);
-                // if(this.ideaCreated <= dateCondition){
-                //     console.log('dfasfasf')
-                // }
-                // if(this.ideaData.created <= dateCondition){
-                //     return true;
-                // }else{
-                //     if(this.userData.role == 'normal'){
-                //         // console.log(this.ideaData)
-                //         if(this.ideaData.userIdx === this.userData.userIdx){return true}
-                //         else{
-                //             alert("위너만 접근 가능한 페이지입니다.")
-                //             location.href='#/idea'
-                //             return false
-                //         }
-                //     }
-                // }
                 return true;
             },
             successModify(success){

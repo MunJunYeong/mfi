@@ -21,6 +21,14 @@ import FindPw from '../views/auth/FindPw.vue'
 
 Vue.use(VueRouter)
 
+// router.beforeEach(function (to, from, next) {
+//   // to : 이동할 url
+//   // from : 현재 url
+//   // next : to에서 지정한 url로 이동하기 위해 꼭 호출해야 하는 함수
+  
+// });
+
+
 const routes = [ 
   {
     path: '/',
@@ -84,10 +92,15 @@ const routes = [
       {
         path : 'user/:userIdx/idea',
         component : UserIdea,
+        
       },
       {
         path : 'user/:userIdx/idea/:ideaIdx',
         component : IdeaClick,
+        // meta: {authRequired: true},
+        beforeEnter: function(to, from, next) {
+          // 인증 값 검증 로직 추가
+        }
       }
     ]
   },
