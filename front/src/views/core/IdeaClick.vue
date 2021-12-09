@@ -158,6 +158,7 @@ moment.lang('ko', {
                this.checkAuth();
             },
             async checkValidate(){
+<<<<<<< HEAD
                 // let date= new Date();
                 // const dateCondition =  date.setDate(-45);
                 // if(this.ideaCreated <= dateCondition){
@@ -176,6 +177,8 @@ moment.lang('ko', {
                 //         }
                 //     }
                 // }
+=======
+>>>>>>> 6edfe5bd06718e34da601a56aad91583251143f8
                 return true;
             },
             successModify(success){
