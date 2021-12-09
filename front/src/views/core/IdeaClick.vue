@@ -160,8 +160,6 @@ moment.lang('ko', {
             async checkValidate(){
                 // let date= new Date();
                 // const dateCondition =  date.setDate(-45);
-
-                console.log(this.ideaData.created);
                 // if(this.ideaCreated <= dateCondition){
                 //     console.log('dfasfasf')
                 // }
