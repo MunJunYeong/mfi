@@ -123,7 +123,6 @@ const authModule = {
         //토근 유효성 확인
         async auth_vertify_token ({ commit }, token) {
             if(!token) return;
-
             // 검증은 알아서..
             commit('auth_set_data',  jwt_decode(token));
         }
