@@ -86,7 +86,6 @@ const authModule = {
             if(!token){
                 return;
             }
-
             let where = `page=+${data.page}`;
             if(data.nickName !== ''){
                 where += `&nickName=${data.nickName}`
