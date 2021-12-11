@@ -1,4 +1,4 @@
-Metaphor for Investing
+Metaphor for Investing \n
 본인의 주식 분석 자료를 올린다. role : Winner or Normal
 Winner : 다른 사람이 올린 모든 분석 자료를 볼 수 있다.
 Normal : 45일이 지난 분석 자료를 볼 수 있다.
