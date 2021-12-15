@@ -2,7 +2,7 @@
     <v-container ref="boardContainer" >
         <br>
         <v-row justify='center'>
-            <v-col cols='1' />
+            <!-- <v-col cols='1' /> -->
             <v-col cols='3'  >
                 <div style=" height: 75px; " >
                     <p style="font-size: 1.5em;">모든아이디어</p> 
@@ -36,7 +36,6 @@
                     </v-combobox>
                 </div>
             </v-col>
-            <!-- <v-col cols='1'></v-col> -->
         </v-row>
         <v-row justify='center'>
             <v-col cols='1' />

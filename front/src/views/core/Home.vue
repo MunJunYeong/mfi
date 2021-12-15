@@ -123,9 +123,10 @@ import { VueperSlides, VueperSlide } from 'vueperslides'
                     link: "/#/idea",
 
                 }
-            ]
+            ],
         }
     },
+    
 
   }
 </script>
