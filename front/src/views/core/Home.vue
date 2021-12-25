@@ -2,7 +2,6 @@
     <v-container style="background-color:#F5F5F5;">
         <link href="https://unpkg.com/vueperslides/dist/vueperslides.css" rel="stylesheet">
         <!-- main -->
-        <br><br>
         <v-row justify="center">
             <v-row justify="center">
                 <v-col cols='4' />
@@ -23,6 +22,33 @@
             <v-col cols='2' />
         </v-row >
 
+         <v-row justify="center" style="text-align : center">
+            
+            <v-col cols='4' class="model"  >
+                <div class="modelContainer">
+                    <div class = "div_article">
+                        <img src="@/assets/article1.jpg" alt="주식 분석 글" class="article">
+                    </div>
+                    <div class="article_content">
+                        <br> 함께하는 투자자 <br> <span style="font-size : 2em"> {{userCount}} </span> 명
+                    </div>
+                    <!-- <div>
+                        <router-link to="info" class="link_to" style="color:#5C6BC0">내 정보 바로가기</router-link>
+                    </div> -->
+                </div>
+            </v-col>
+            <v-col cols='4' class="model">
+                <div class="modelContainer">
+                    <div class="div_article">
+                        <img src="@/assets/article5.png" alt="경제 사진" class="article">
+                    </div>
+                    <div class="article_content">
+                        <br> 현재 종목 분석 글 <br> <span style="font-size : 2em"> {{ideaCount}} </span> 개
+                    </div>
+                </div>
+            </v-col>
+         </v-row>
+         
         <v-row justify="center" >
             <v-col cols='2' />
             <v-col col='4' style="">
@@ -38,64 +64,6 @@
             </v-col>
             <v-col cols='2' />
         </v-row>
-
-
-        <v-row justify="center" style="text-align : center">
-            <v-col cols='2' />
-            <v-col cols='2' class="model"  >
-                <div class="modelContainer">
-                    <div class = "div_article">
-                        <img src="@/assets/article1.jpg" alt="주식 분석 글" class="article">
-                    </div>
-                    <div class="article_content">
-                        내 정보와 내가 적은 주식 분석 글을 확인해보세요 !
-                    </div>
-                    <div>
-                        <router-link to="info" class="link_to" style="color:#5C6BC0">내 정보 바로가기</router-link>
-                    </div>
-                </div>
-            </v-col>
-            <v-col cols='2' class="model">
-                <div class="modelContainer">
-                    <div class="div_article">
-                        <img src="@/assets/article5.png" alt="경제 사진" class="article">
-                    </div>
-                    <div class="article_content">
-                        다양한 기업에 대한 분석과 투자 스타일을 확인해보세요 !!
-                    </div>
-                    <div>
-                        <router-link to="idea" class="link_to" style="color:#5C6BC0">아이디어 바로가기</router-link>
-                    </div>
-                </div>
-            </v-col>
-            <v-col cols='2' class="model">
-                <div class="modelContainer">
-                    <div class="div_article">
-                        <img src="@/assets/article2.jpg" alt="사이트사진" class="article">
-                    </div>
-                    <div class="article_content"> 
-                        MFI를 이용하기 전, 어떤 사이트인지 확인해보세요 !
-                    </div>
-                    <div>
-                        <router-link to="about" class="link_to" style="color:#5C6BC0">MFI 약관 바로가기</router-link>
-                    </div>
-                </div>
-            </v-col>
-            <v-col cols='2' class="model">
-                <div class="modelContainer">
-                    <div class="div_article">
-                        <img src="@/assets/article4.jpg" alt="기타" class="article">
-                    </div>
-                    <div class="article_content">
-                        d
-                    </div>
-                    <div>
-                        <router-link to="info" class="link_to" style="color:#5C6BC0">d 바로가기</router-link>
-                    </div>
-                </div>
-            </v-col>
-            <v-col cols='2' />
-        </v-row>
         
     </v-container>
 </template>
@@ -108,6 +76,18 @@ import { VueperSlides, VueperSlide } from 'vueperslides'
     components: {
         VueperSlides,VueperSlide,
 
+    },
+    created() {
+        this.getUserCount();
+        this.getIdeaCount();
+    },
+    computed : {
+        userCount : function(){
+            return this.$store.getters.get_user_count.data;
+        },
+        ideaCount : function(){
+            return this.$store.getters.get_idea_count.data;
+        }
     },
     data() {
         return {
@@ -126,7 +106,24 @@ import { VueperSlides, VueperSlide } from 'vueperslides'
             ],
         }
     },
-    
+    methods : {
+        async getUserCount(){
+            try{
+                await this.$store.dispatch('get_user_count', {
+                })
+            }catch(err){
+                console.log(err)
+                }
+        },
+        async getIdeaCount(){
+            try{
+                await this.$store.dispatch('get_Idea_count', {
+                })
+            }catch(err){
+                console.log(err)
+                }
+        },
+    }
 
   }
 </script>
@@ -181,12 +178,13 @@ import { VueperSlides, VueperSlide } from 'vueperslides'
         padding: 10px 10px 10px 10px; 
     }
     .modelContainer{
-        border: 1px solid black; height: 400px;
+        height: 400px;
     }
     hr{
         border : solid 2px #43A047;
     }
     .div_article{
+        width: 100%;
         height:200px;
         overflow:hidden;
         margin:0 auto;
@@ -197,11 +195,12 @@ import { VueperSlides, VueperSlide } from 'vueperslides'
         object-fit:cover;
     }
     .article_content{
+        width: 100%;
         height:150px;
-         display: table-cell;
+        text-align: center;
+        /* display: table-cell; */
         vertical-align: middle;
         font-family: 'S-CoreDream-3Light';
-        text-justify: distribute;
         font-weight: bold;
     }
     .link_to{

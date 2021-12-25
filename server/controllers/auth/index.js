@@ -8,6 +8,11 @@ let checkNum = /[0-9]/;
 let checkSpe = /[~!@#$%^&*()_+|<>?:{}]/;
 let checkKor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
 
+const getUserCount = async(req, res) => {
+    const result = await anonymousService.getUserCount();
+    res.send({data : result});
+}
+
 //회원가입
 const signUP = async (req, res) => {
     const data = req.body;
@@ -128,5 +133,6 @@ module.exports = {
     checkId,
     checkNickName,
     updateUserRole,
-    getUser
+    getUser,
+    getUserCount
 }

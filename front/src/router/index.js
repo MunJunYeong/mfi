@@ -18,6 +18,9 @@ import SignUp from '../views/auth/SignUp.vue'
 import FindId from '../views/auth/FindId.vue'
 import FindPw from '../views/auth/FindPw.vue'
 
+import jwt_decode from 'jwt-decode'
+
+
 
 Vue.use(VueRouter)
 
@@ -92,15 +95,21 @@ const routes = [
       {
         path : 'user/:userIdx/idea',
         component : UserIdea,
-        
       },
       {
         path : 'user/:userIdx/idea/:ideaIdx',
         component : IdeaClick,
-        // meta: {authRequired: true},
         beforeEnter: function(to, from, next) {
           // 인증 값 검증 로직 추가
+          let token = localStorage.getItem('accessToken');
+          if(jwt_decode(token).role === 'admin'){
+            next();
+          }else {
+            alert('관리자만 접근 가능한 페이지 주소입니다.');
+          }
         }
+        // meta: {authRequired: true},
+        
       }
     ]
   },
