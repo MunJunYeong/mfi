@@ -44,6 +44,7 @@
                     </div>
                     <div class="article_content">
                         <br> 현재 종목 분석 글 <br> <span style="font-size : 2em"> {{ideaCount}} </span> 개
+                        <br> <span style="font-size:0.7em">(모든 종목 분석 글이며, 회원 등급에 따라 수가 달라질 수 있습니다.)</span>
                     </div>
                 </div>
             </v-col>

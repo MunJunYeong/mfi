@@ -46,6 +46,7 @@
 </script>
 
 <style lang="scss" scoped>
+
 .editor {
   display: flex;
   flex-direction: column;

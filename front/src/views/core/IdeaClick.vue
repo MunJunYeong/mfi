@@ -1,6 +1,5 @@
 <template>
     <v-container v-if="checkValidate()">
-        <br>
         <v-row justify='center'>
             <v-col cols='2' />
             <v-col cols='4'>
@@ -242,9 +241,6 @@ moment.lang('ko', {
 
 </script>
 <style>
-    h1 {
-
-    }
     #subject {
          line-height: 40px;
     }
