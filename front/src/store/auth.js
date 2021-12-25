@@ -1,6 +1,5 @@
 import axios from "axios";
 import jwt_decode from 'jwt-decode'
-let token = localStorage.getItem('accessToken');
 
 const authModule = {
     state : {
@@ -140,6 +139,7 @@ const authModule = {
         },
         async change_user_role({commit}, data){
             let res;
+            let token = localStorage.getItem('accessToken');
             try{
                 res = await axios.put('http://localhost:8080/user',{
                     role : data.role,

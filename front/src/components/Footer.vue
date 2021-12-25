@@ -1,7 +1,7 @@
 <template>
    <footer>
         <br>
-      <p>copyRight moonjunyoung@naver.com</p>
+        <p>copyRight msw711666@naver.com</p>
         <div id="wrapper">
             <a href="#"><img src="@/assets/blog.png" alt="블로그" class="iconclick"></a>
             <a href="#"><img src="@/assets/face.png" alt="페이스북" class="iconclick"></a>
