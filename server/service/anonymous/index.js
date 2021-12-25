@@ -1,5 +1,11 @@
 const {models, Op} = require('../../lib/db');
 
+const  getUserCount = async ()=>{
+    const result  = await models['user'].count();
+    return result;
+
+}
+
 const signUp = async (id, pw, nickName, email, role) => {
     const result = await models['user'].create({
         id : id,
@@ -54,5 +60,6 @@ module.exports = {
     signUp,
     signIn,
     duplicateId,
-    duplicateNickName
+    duplicateNickName,
+    getUserCount
 }

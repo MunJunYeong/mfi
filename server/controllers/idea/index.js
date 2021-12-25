@@ -4,6 +4,13 @@ const {Op} = require('../../lib/db');
 const {idea : ideaService} = require ('../../service');
 const method = require('../../function');
 
+
+
+const getIdeaCount = async(req, res) => {
+    const result = await ideaService.getIdeaCount();
+    res.send({data : result});
+}
+
 const postIdea = async (req, res) => {
     const data = req.body;
 
@@ -93,6 +100,7 @@ const showAdminUserIdea = async (req, res) => {
     return;
 }
 module.exports = {
+    getIdeaCount,
     showIdea,
     showMyIdea,
     postIdea,

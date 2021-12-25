@@ -1,5 +1,12 @@
 const {models, Op} = require('../../lib/db');
 
+
+const  getIdeaCount = async ()=>{
+    const result  = await models['idea'].count();
+    return result;
+
+}
+
 const createIdea = async (subject, content, userIdx)=>{
     const result = await models['idea'].create({
         subject : subject,
@@ -8,6 +15,8 @@ const createIdea = async (subject, content, userIdx)=>{
     });
     return result;
 }
+
+
 
 //repositry where절을 여기서 
 const getAllIdea = async (limit, offset, subject, userIdx, userRole, orderData, role) => {
@@ -192,6 +201,7 @@ const deleteIdea = async(ideaIdx) => {
 
 
 module.exports = {
+    getIdeaCount,
     getAllIdea,
     getMyIdea,
     getIdea,

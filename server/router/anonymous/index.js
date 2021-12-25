@@ -5,6 +5,10 @@ const { auth: authController} = require('../../controllers');
 const {idea : ideaController} = require('../../controllers');
 
 
+
+anonymousRouter.get('/userCount', authController.getUserCount);
+anonymousRouter.get('/ideaCount', ideaController.getIdeaCount);
+
 //회원가입하기
 anonymousRouter.post('/signUp', authController.signUP);
 

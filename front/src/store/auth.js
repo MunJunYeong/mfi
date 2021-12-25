@@ -4,6 +4,8 @@ let token = localStorage.getItem('accessToken');
 
 const authModule = {
     state : {
+        userCount : {},
+        ideaCount : {},
         userData : {},
         userToken : {},
         userListData : [],
@@ -13,6 +15,12 @@ const authModule = {
         adminTotalItems : {},
     },
     mutations: {
+        user_count (state, count){
+            state.userCount = count;
+        },
+        idea_count (state, count){
+            state.ideaCount = count;
+        },
         auth_set_data (state, authData) { // 로그인 한 유저 데이터 저장
             state.userData = {...authData};
         },
@@ -32,6 +40,12 @@ const authModule = {
         }
     },
     getters: {
+        get_user_count(state){
+            return state.userCount;
+        },
+        get_idea_count(state){
+            return state.ideaCount;
+        },
         auth_get_data (state) {
             return state.userData;
         },
@@ -53,6 +67,28 @@ const authModule = {
         }
     },
     actions: {
+        //메인페이지 정보 
+        async get_user_count({commit}){
+            let res;
+            try{
+                res = await axios.get('http://localhost:8080/userCount', {
+                })
+            }catch(err){
+                console.log(err);
+            }
+            commit('user_count', res.data);
+        },
+        async get_Idea_count({commit}){
+            let res;
+            try{
+                res = await axios.get('http://localhost:8080/ideaCount', {
+
+                })
+            }catch(err){
+                console.log(err);
+            }
+            commit('idea_count', res.data);
+        },
         //로그인
         async auth_login ({ commit }, loginData) {
             let res;
