@@ -7,21 +7,21 @@
             </v-col>
             <v-col cols='1' class="navItem">
                 <router-link to="/home">
-                    <v-btn text="text" rounded="rounded" color="#455A64" style="margin-top:10px;">
+                    <v-btn text="text" rounded="rounded" color="#455A64" style="margin-top:15px;">
                         home
                     </v-btn>
                 </router-link>
             </v-col>
             <v-col cols='1' class="navItem">
                 <router-link to="/idea">
-                    <v-btn text="text" rounded="rounded" color="#455A64" style="margin-top:10px;">
+                    <v-btn text="text" rounded="rounded" color="#455A64" style="margin-top:15px;">
                         idea
                     </v-btn>
                 </router-link>
             </v-col>
             <v-col cols='1' class="navItem">
                 <router-link to="/about">
-                    <v-btn text="text" rounded="rounded" color="#455A64" style="margin-top:10px;">
+                    <v-btn text="text" rounded="rounded" color="#455A64" style="margin-top:15px;">
                         about
                     </v-btn>
                 </router-link>          
@@ -78,9 +78,6 @@
             }
         },
         computed: {
-            // accessToken : function(){
-            //     return this.$store.getters.auth_get_token;
-            // },
             userData : function(){
                 return this.$store.getters.auth_get_data;
             }
@@ -142,13 +139,9 @@
      font-weight: normal;
      font-style: normal;
 }
-   #wrapper{
-        /* padding-top: 0.5%; */
-   }
     .menus{
         font-family: 'ROKABold';
     }
-    
     #title {
         display: inline; 
         padding-left: 50px;
@@ -178,10 +171,15 @@
         margin-top:15px;
     }
     #loginWelcomeWrapper{
-         padding-top: 1.5%;
+         /* padding-top: 1.5%; */
+        line-height: 64px;   text-align: center;
+
     }
     #loginWelcome{
-        font-weight: 400; font-size: 1.5em; color: black;
+        vertical-align: middle;
+        font-family: 'Chosunilbo_myungjo';
+        font-weight: 400;
+        font-weight: normal;
     }
     #showRole{
         font-size: 0.6em; display: inline; color: darkgreen;

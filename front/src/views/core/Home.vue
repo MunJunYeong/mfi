@@ -1,27 +1,32 @@
 <template>
     <v-container style="background-color:#F5F5F5;">
         <link href="https://unpkg.com/vueperslides/dist/vueperslides.css" rel="stylesheet">
+        
         <!-- main -->
-        <v-row justify="center">
+        <v-row justify="center" style="height : 400px;">
             <v-row justify="center">
-                <v-col cols='4' />
-                <v-col cols='4' style="text-align: center;">
-                     <h1>성공적인 투자 분석</h1> <br>
-                     <p class="subtitle">가치있는 투자자와 함께 합니다.</p>
+                <v-col cols='12' class="imageWrapper"  style="text-align: center;">
+                    <div id="imageText">
+                        <h1>Metaphor For Investing</h1> <br><br>
+                        <p class="subtitle">MFI는 가치있는 투자자와 함께 성공적인 투자 분석 아이디어를 공유합니다.</p>
+                    </div>
                 </v-col>
-                <v-col cols='4' />
-                
             </v-row>                 
-        </v-row>
-
+        </v-row> <br> <br><br>
         <v-row justify="center"> 
-            <v-col cols='2' />
-            <v-col col='4'>
+            <v-col cols='1' />
+            <v-col col='10'>
                 <hr>
             </v-col>
-            <v-col cols='2' />
+            <v-col cols='1' />
         </v-row >
-
+        <v-row justify="center">
+            <v-col cols='1' />
+            <v-col>
+                <h2 style="font-size : 30px;">MFI Highlight</h2> 
+                <h4>MFI는 웹을 활용하여 주식 종목 분석 정보를 얻고, 다양한 견해를 생각해볼 수 있습니다.</h4>
+            </v-col>
+        </v-row>
          <v-row justify="center" style="text-align : center">
             
             <v-col cols='4' class="model"  >
@@ -40,7 +45,7 @@
             <v-col cols='4' class="model">
                 <div class="modelContainer">
                     <div class="div_article">
-                        <img src="@/assets/article5.png" alt="경제 사진" class="article">
+                        <img src="@/assets/winner.png" alt="경제 사진" class="article">
                     </div>
                     <div class="article_content">
                         <br> 현재 종목 분석 글 <br> <span style="font-size : 2em"> {{ideaCount}} </span> 개
@@ -50,7 +55,7 @@
             </v-col>
          </v-row>
          
-        <v-row justify="center" >
+        <!-- <v-row justify="center" >
             <v-col cols='2' />
             <v-col col='4' style="">
                 <VueperSlides fade :touchable="false" >
@@ -64,18 +69,18 @@
                 </VueperSlides>
             </v-col>
             <v-col cols='2' />
-        </v-row>
+        </v-row> -->
         
     </v-container>
 </template>
 
 <script>
-import { VueperSlides, VueperSlide } from 'vueperslides'
+// import { VueperSlides, VueperSlide } from 'vueperslides'
 
   export default {
     name: 'Home',
     components: {
-        VueperSlides,VueperSlide,
+        // VueperSlides,VueperSlide,
 
     },
     created() {
@@ -136,12 +141,6 @@ import { VueperSlides, VueperSlide } from 'vueperslides'
     font-style: normal;
 }
 @font-face {
-    font-family: 'KOTRA_BOLD-Bold';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10-21@1.1/KOTRA_BOLD-Bold.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-@font-face {
     font-family: 'Chosunilbo_myungjo';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Chosunilbo_myungjo.woff') format('woff');
     font-weight: normal;
@@ -159,15 +158,18 @@ import { VueperSlides, VueperSlide } from 'vueperslides'
     font-weight: normal;
     font-style: normal;
 }
-
+    .imageWrapper{
+        background-image: url("../../assets/home_idea.jpg"); background-repeat : no-repeat;
+        background-size : cover; opacity: 0.85;
+    }
     h1{
-       font-family: 'KOTRA_BOLD-Bold';
-        font-size:40px;
+       font-family: 'Chosunilbo_myungjo'; color: white; line-height: 200px;
+        font-size:80px; font-weight: 900;
     }
     .subtitle{
-        font-family: 'Chosunilbo_myungjo';
+        font-family: 'Chosunilbo_myungjo';color: white; 
         font-size:22px;
-        font-weight: normal;
+        font-weight: normal; font-weight: 900;
     }
     .vueSlider{
         font-size:30px;
@@ -184,6 +186,7 @@ import { VueperSlides, VueperSlide } from 'vueperslides'
     hr{
         border : solid 2px #43A047;
     }
+    
     .div_article{
         width: 100%;
         height:200px;
