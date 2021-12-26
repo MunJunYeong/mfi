@@ -11,13 +11,13 @@ app.use(bodyParser.json({limit : 5000000}));
 app.use(cors());
 app.use(router.basicRouter);
 
-app.get('/', async(req, res) => {
-
+app.get('/ping', async(req, res) => {
+  res.send('pong');
 })
 
 
 
 app.listen(port, async () => {
-    await db.initialize();
+    // await db.initialize();
     console.log(`Example app listening at http://localhost:${port}`)
   })
