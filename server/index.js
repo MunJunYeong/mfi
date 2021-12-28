@@ -18,6 +18,6 @@ app.get('/ping', async(req, res) => {
 
 
 app.listen(port, async () => {
-    // await db.initialize();
+    await db.initialize();
     console.log(`Example app listening at http://localhost:${port}`)
   })

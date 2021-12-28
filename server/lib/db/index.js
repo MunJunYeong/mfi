@@ -4,7 +4,7 @@ const { modelDefines, modelList } = require('./model');
 const models = {};
 
 const initialize = async () => {
-    const sequelize = new Sequelize('mfi', 'postgres', 'postgres', {
+    const sequelize = new Sequelize('mfi', 'mfi', 'postgres', {
       host: 'localhost',
       dialect: 'postgres',
     })
