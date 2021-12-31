@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/core/Home.vue'
 import Idea from '../views/core/Idea.vue'
 import About from '../views/core/About.vue'
+import Notice from '../views/core/Notice.vue'
 import AddIdea from '../views/core/AddIdea.vue'
 import IdeaClick from '../views/core/IdeaClick.vue'
 import Info from '../views/core/Info.vue'
@@ -75,6 +76,10 @@ const routes = [
       {
         path : 'about',
         component : About
+      },
+      {
+        path : 'notice',
+        component : Notice
       },
       {
         path : 'add-idea',

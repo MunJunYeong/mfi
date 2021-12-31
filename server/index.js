@@ -1,12 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const cookParser = require('cookie-parser');
 const db = require('./lib/db');
 const app = express();
 const port = 8080
 
 const router = require('./router/index');
 
+app.use(cookParser);
 app.use(bodyParser.json({limit : 5000000}));
 app.use(cors());
 app.use(router.basicRouter);

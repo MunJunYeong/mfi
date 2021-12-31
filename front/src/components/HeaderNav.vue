@@ -6,23 +6,23 @@
                 </v-img>
             </v-col>
             <v-col cols='1' class="navItem">
-                <router-link to="/home">
+                <router-link to="/about">
                     <v-btn text="text" rounded="rounded" color="#455A64" style="margin-top:15px;">
-                        home
+                        MFI 소개
                     </v-btn>
                 </router-link>
             </v-col>
             <v-col cols='1' class="navItem">
                 <router-link to="/idea">
                     <v-btn text="text" rounded="rounded" color="#455A64" style="margin-top:15px;">
-                        idea
+                        분석글
                     </v-btn>
                 </router-link>
             </v-col>
             <v-col cols='1' class="navItem">
-                <router-link to="/about">
+                <router-link to="/notice">
                     <v-btn text="text" rounded="rounded" color="#455A64" style="margin-top:15px;">
-                        about
+                        공지
                     </v-btn>
                 </router-link>          
             </v-col>
