@@ -28,11 +28,24 @@
             </v-col>
         </v-row>
          <v-row justify="center" style="text-align : center">
-            
-            <v-col cols='4' class="model"  >
+             <v-col cols='1' />
+            <v-col cols='3' class="model"  >
                 <div class="modelContainer">
                     <div class = "div_article">
-                        <img src="@/assets/article1.jpg" alt="주식 분석 글" class="article">
+                        <img src="@/assets/visit.svg" alt="방문자" class="article">
+                    </div>
+                    <div class="article_content">
+                        <br> 방문자 수 <br> <span style="font-size : 2em"> {{userCount}} </span> 명
+                    </div>
+                    <!-- <div>
+                        <router-link to="info" class="link_to" style="color:#5C6BC0">내 정보 바로가기</router-link>
+                    </div> -->
+                </div>
+            </v-col>
+            <v-col cols='3' class="model"  >
+                <div class="modelContainer">
+                    <div class = "div_article">
+                        <img src="@/assets/user.svg" alt="주식 분석 글" class="article">
                     </div>
                     <div class="article_content">
                         <br> 함께하는 투자자 <br> <span style="font-size : 2em"> {{userCount}} </span> 명
@@ -42,10 +55,10 @@
                     </div> -->
                 </div>
             </v-col>
-            <v-col cols='4' class="model">
+            <v-col cols='3' class="model">
                 <div class="modelContainer">
                     <div class="div_article">
-                        <img src="@/assets/winner.png" alt="경제 사진" class="article">
+                        <img src="@/assets/idea.svg" alt="경제 사진" class="article">
                     </div>
                     <div class="article_content">
                         <br> 현재 종목 분석 글 <br> <span style="font-size : 2em"> {{ideaCount}} </span> 개
@@ -53,6 +66,7 @@
                     </div>
                 </div>
             </v-col>
+            <v-col cols='1' />
          </v-row>
          
         <!-- <v-row justify="center" >
@@ -189,13 +203,13 @@
     
     .div_article{
         width: 100%;
-        height:200px;
+        height:150px;
         overflow:hidden;
         margin:0 auto;
     }
     .article{
-         width:100%;
-        height:100%;
+        width:130px;
+        height:150px;
         object-fit:cover;
     }
     .article_content{
