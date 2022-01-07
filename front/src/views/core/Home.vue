@@ -35,7 +35,8 @@
                         <img src="@/assets/visit.svg" alt="방문자" class="article">
                     </div>
                     <div class="article_content">
-                        <br> 방문자 수 <br> <span style="font-size : 2em"> {{userCount}} </span> 명
+                        <br> 방문자 수 <br> total : <span style="font-size : 2em"> {{totalVisitor}} </span> 명 <br>
+                        today : {{todayVisitor}}
                     </div>
                     <!-- <div>
                         <router-link to="info" class="link_to" style="color:#5C6BC0">내 정보 바로가기</router-link>
@@ -107,6 +108,12 @@
         },
         ideaCount : function(){
             return this.$store.getters.get_idea_count.data;
+        },
+        totalVisitor : function(){
+            return 9;
+        },
+        todayVisitor : function(){
+            return 6;
         }
     },
     data() {

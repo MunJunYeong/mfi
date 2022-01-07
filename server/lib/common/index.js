@@ -1,3 +1,3 @@
 const middleware = require('./middleware');
-
-module.exports = {middleware};
+const countVisitors = require('./countVisitors')
+module.exports = {middleware, countVisitors};

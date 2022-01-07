@@ -6,7 +6,6 @@ const userRouter = require('./user');
 const ideaRouter = require('./idea');
 const commentRouter = require('./comment');
 
-//미들웨어 부분은 왜 {} ?
 
 basicRouter.use('/', anonymousRouter);
 basicRouter.use('/user', middleware.validateToken, userRouter)
