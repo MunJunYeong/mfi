@@ -7,7 +7,7 @@ const modelList = [
     'user',
     'idea',
     'comment',
-    // 'visitor'
+    'visitor'
 ];
 
 module.exports = {

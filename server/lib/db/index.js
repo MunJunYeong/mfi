@@ -13,9 +13,10 @@ const initialize = async () => {
         for(let i =0; i <modelList.length; i++){
             models[modelList[i]] = await modelDefines[modelList[i]](sequelize);
         }
+        // console.log(models[user]);
     }
     const relationInit = async () => {
-        for (let i = 0; i < modelList.length; i++) {
+        for (let i = 0; i < modelList.length-1; i++) {
             models[modelList[i]].associate(models)
         }
     }
