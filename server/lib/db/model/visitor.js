@@ -15,6 +15,12 @@ const create = async(sequelize) => {
             type : DataTypes.STRING
         }
     })
+
+    visitorTable.associate = function (models) {
+   
+    };
+
+    return visitorTable;
 }
 
 module.exports = create;

@@ -8,7 +8,8 @@ const method = require('../../function');
 
 const getIdeaCount = async(req, res) => {
     const result = await ideaService.getIdeaCount();
-    res.send({data : result});
+
+    // res.send({data : result});
 }
 
 const postIdea = async (req, res) => {
