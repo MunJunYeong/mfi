@@ -1,0 +1,23 @@
+{
+    "local": {
+        "username": "mfi",
+        "password": "postgres",
+        "database": "mfi",
+        "host": "localhost",
+        "dialect": "postgres"
+    },
+    "development": {
+        "username": "mfi",
+        "password": "postgres",
+        "database": "mfi",
+        "host": "localhost",
+        "dialect": "postgres"
+    },
+    "production": {
+        "username": "mfi",
+        "password": "postgres",
+        "database": "mfi",
+        "host": "localhost",
+        "dialect": "postgres"
+    }
+}

@@ -16,7 +16,7 @@ const initialize = async () => {
         // console.log(models[user]);
     }
     const relationInit = async () => {
-        for (let i = 0; i < modelList.length-1; i++) {
+        for (let i = 0; i < modelList.length; i++) {
             models[modelList[i]].associate(models)
         }
     }
