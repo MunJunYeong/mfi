@@ -21,3 +21,5 @@ Backend : Node express
 ORM : Sequelize
 
 DB : Postgresql
+
+Sequelize-cli를 이용한 DB migration 및 seeder 작업 
