@@ -41,10 +41,11 @@ const create = async (sequelize) => {
   commentTable.associate = function (models) {
     commentTable.belongsTo(models.user, {
       foreignKey: 'userIdx',
+      onDelete: 'CASCADE',
     });
     commentTable.belongsTo(models.idea, {
         foreignKey: 'ideaIdx',
-        onDelete: "cascade",
+        onDelete: 'CASCADE',
       });
   };
 
