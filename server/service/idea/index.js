@@ -23,6 +23,7 @@ const getAllIdea = async (limit, offset, subject, userIdx, userRole, orderData, 
     const where = {
         [Op.and] : [],
     };
+    console.log(userRole)
     let date= new Date();
     const whereDate = date.setDate(-45);
     let order = [['ideaIdx', 'DESC']];
@@ -106,7 +107,6 @@ const getAllIdea = async (limit, offset, subject, userIdx, userRole, orderData, 
         limit,
         offset
     });
-    console.log(data)
     return data;
 }
 const getMyIdea = async (limit, offset, subject, userIdx)=>{
@@ -136,7 +136,6 @@ const getMyIdea = async (limit, offset, subject, userIdx)=>{
 }
 const getAdminUserIdea = async (limit, offset, subject, userIdx)=>{
     const where = {};
-    // console.log(subject)
     if(subject){
         where.subject = {
             [Op.like] : `%${subject}%`

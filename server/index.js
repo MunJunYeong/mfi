@@ -8,7 +8,7 @@ const port = 8080
 
 const router = require('./router/index');
 
-app.use(cookParser());
+// app.use(cookParser());
 app.use(bodyParser.json({limit : 5000000}));
 app.use(cors());
 

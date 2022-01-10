@@ -40,7 +40,6 @@ const deleteIdea = async (req, res) => {
     }
 }
 const updateIdea =  async (req, res) => {
-    console.log(req.params)
     const ideaIdx = req.body.params.ideaIdx;
     const subject = req.body.params.subject;
     const content = req.body.params.content;
