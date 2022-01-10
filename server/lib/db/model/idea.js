@@ -10,6 +10,7 @@ const create = async (sequelize) => {
       },
       userIdx: {
         type: DataTypes.INTEGER,
+        onDelete: 'CASCADE',
         references: {
             model: 'user',
             key: 'userIdx',
@@ -34,8 +35,10 @@ const create = async (sequelize) => {
   );
   ideaTable.associate = function (models) {
     ideaTable.belongsTo(models.user, {
-      foreignKey: 'userIdx'
-    });
+      foreignKey: 'userIdx',
+      onDelete: 'CASCADE',
+    },
+    );
   };
 
   return ideaTable;

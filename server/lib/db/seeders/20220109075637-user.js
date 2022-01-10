@@ -3,6 +3,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
+    
     await queryInterface.bulkInsert('user', [
       {
         userIdx : 1,
@@ -23,7 +24,7 @@ module.exports = {
         role : 'winner'
       },
       {
-        userIdx : 1,
+        userIdx : 3,
         id : 'c',
         pw : 'c',
         nickName : '노말계정',
@@ -35,6 +36,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    
+    await queryInterface.bulkDelete('user', null, {});
   }
 };

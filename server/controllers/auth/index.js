@@ -10,7 +10,7 @@ let checkKor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
 
 const getUserCount = async(req, res) => {
     const result = await anonymousService.getUserCount();
-    // res.send({data : result});
+    res.send({data : result});
 }
 
 //회원가입

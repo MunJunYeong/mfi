@@ -2,33 +2,34 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('visitor', { 
+    await queryInterface.createTable('comment', { 
       commentIdx: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
       },
       userIdx: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
         references: {
             model: 'user',
             key: 'userIdx',
           },
       },
       ideaIdx: {
-        type: DataTypes.INTEGER,
-        onDelete: "cascade",
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
         references: {
             model: 'idea',
             key: 'ideaIdx',
           },
       },
       comment: {
-        type: DataTypes.STRING
+        type: Sequelize.STRING
       },
       created: {
-        type: DataTypes.DATE,
+        type: Sequelize.DATE,
         defaultValue: Sequelize.NOW
       },
    });
