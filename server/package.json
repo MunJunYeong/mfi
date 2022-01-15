@@ -18,12 +18,13 @@
     "node": "^16.6.1",
     "nodemon": "^2.0.12",
     "pg": "^8.7.1",
+    "pm2": "^5.1.2",
     "sequelize": "^6.6.5"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:local": "NODE_ENV=local nodemon index.js ",
-    "start:dev": "NODE_ENV=development nodemon index.js "
+    "start:dev": "NODE_ENV=development pm2 start index.js "
   },
   "author": "",
   "license": "ISC",
