@@ -3,11 +3,18 @@ const { modelDefines, modelList } = require('./model');
 
 const models = {};
 
+const env = process.env.NODE_ENV || 'local';
+
 const initialize = async () => {
-    const sequelize = new Sequelize('mfi', 'mfi', 'postgres', {
-      host: 'localhost',
-      dialect: 'postgres',
-    })
+    const sequelize = new Sequelize(
+        process.env[`${env.toUpperCase()}_DATABASE`],
+        process.env[`${env.toUpperCase()}_USERNAME`], 
+        process.env[`${env.toUpperCase()}_PASSWORD`], 
+        {
+            host: process.env[`${env.toUpperCase()}_HOST`],
+            dialect: 'postgres',
+        }
+    )
 
     const modelInit = async () =>{
         for(let i =0; i <modelList.length; i++){
