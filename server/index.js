@@ -1,6 +1,8 @@
 const dotenv = require('dotenv')
 dotenv.config();
 
+console.log(`NODE_ENV= ${process.env.NODE_ENV}`);
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -35,7 +37,7 @@ app.get('/ping', async(req, res) => {
 })
 
 
-
+// scp  -i ~/Desktop/first-ec2.pem ./.env  ubuntu@3.34.226.52:~/mfi_new/server 
 
 app.listen(port, async () => {
     await db.initialize();

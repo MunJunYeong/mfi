@@ -1,7 +1,7 @@
 {
     "local": {
         "username": "mfi",
-        "password": "postgres",
+        "password": "mfianswnsdud!",
         "database": "mfi",
         "host": "localhost",
         "dialect": "postgres"

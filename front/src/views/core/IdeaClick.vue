@@ -1,6 +1,8 @@
 <template>
     <v-container v-if="checkValidate()">
-        <v-row justify='center'>
+
+        <!-- pc/ tablet version -->
+        <v-row justify='center' class="pc" >
             <v-col cols='2' />
             <v-col cols='4'>
                 <div id="subject">
@@ -19,7 +21,7 @@
             <v-col cols='2' />
         </v-row>
 
-        <v-row justify='center'>
+        <v-row justify='center' class="pc">
             <v-col cols='2' />
             <v-col cols='3'>
                 <div id="profile"></div>
@@ -47,8 +49,8 @@
         </v-row>
         
         <!-- 내용 보이는 곳 -->
-        <br><br><br><br>
-        <v-row justify='center'>
+        <br class="pc"><br class="pc"><br class="pc"><br class="pc">
+        <v-row justify='center' class="pc">
             <v-col cols='8' v-if="contentFlag">
                 <Viewer ref="toastViewer" height="500px" />
             </v-col>
@@ -57,8 +59,8 @@
                 @child="successModify" />
             </v-col>
         </v-row>
-        <br><br>
-        <v-row justify='center'>
+        <br class="pc"><br class="pc">
+        <v-row justify='center' class="pc">
             <v-col cols='8' >
                 <v-col cols='3'>
                     <h2>댓글</h2>
@@ -67,7 +69,7 @@
         </v-row>
         
         <!-- 댓글내용들 -->
-        <v-row justify='center'>
+        <v-row justify='center' class="pc">
             <v-col cols='9' >
                 <CommentItem v-for="(item,index) in this.commentData" :key="index"
                 :nickName = "item.user.nickName"
@@ -77,10 +79,9 @@
             </v-col>
             
         </v-row>
-        
         <!-- 댓글적는곳 -->
-        <br><br><br>
-        <v-row justify='center'>
+        <br class="pc"><br class="pc"><br class="pc">
+        <v-row justify='center' class="pc">
             <v-spacer />
             <v-col cols='2'>
                 <div style="text-align: center; font-weight : bold; height : 55px; line-height : 55px" >
@@ -104,9 +105,101 @@
             
             <v-spacer />
         </v-row>
+
+
+        <!-- mobile version  -->
+        <!-- 제목 -->
+        <v-row justify='center' class="mobile" >
+            <v-spacer />
+            <v-col cols='10'>
+                <div id="subject">
+                    <h2>{{ideaData.subject}}</h2>
+                    </div>
+            </v-col>
+            <v-spacer />
+        </v-row>
+
+        <v-row justify='center' class="mobile">
+            <v-spacer />
+            <v-col cols='8'>
+                <p id="nickName" v-if="ideaData.user">닉네임 : {{ideaData.user.nickName}}</p>
+                <p id="created">{{createdAt}}</p>
+            </v-col>
+            <!-- <v-col cols='2' v-if="authFlag">
+                <v-btn id="modifyBtn" v-on:click="modifyBtn()"
+                block outlined
+                >수정
+                </v-btn>
+            </v-col> -->
+            <v-col cols='2'  v-if="authFlag">
+                <v-btn id="deleteBtn" v-on:click="deleteBtn()"
+                block outlined
+                >삭제
+                </v-btn>
+            </v-col>
+            <v-spacer />           
+        </v-row>
+
+        <br class="mobile"><br class="mobile"><br class="mobile"><br class="mobile">
+        <v-row justify='center' class="mobile">
+            <v-col cols='8' v-if="contentFlag">
+                <Viewer ref="toastViewer" height="500px" />
+            </v-col>
+            <v-col cols='8' v-else>
+               <TextEditor :ideaIdx="ideaIdx" :ideaData = "ideaData" :contentFlag = "contentFlag"
+                @child="successModify" />
+            </v-col>
+        </v-row>
+        <br class="mobile"><br class="mobile">
+        <v-row justify='center' class="mobile">
+            <v-col cols='1' />
+            <v-col cols='3'>
+                <h3>댓글</h3>
+            </v-col>
+            <v-spacer />
+        </v-row>
+        <v-row justify='center' class="mobile">
+            <v-col cols='9' >
+                <CommentItem v-for="(item,index) in this.commentData" :key="index"
+                :nickName = "item.user.nickName"
+                :comment = "item.comment"
+                :created = "item.created"
+                />
+            </v-col>
+            다음번에 댓글 추가하는 서버 쪽 확인 및 댓글 보여주는 뷰포트 완성하기
+        </v-row>
+
+
     </v-container>
     
 </template>
+<style>
+@media all and (max-width:767px) {
+    .pc{
+        display: none;
+    }
+}
+
+@media all and (min-width:1024px) {
+    .mobile{
+        display: none;
+    }
+}
+    #subject {
+         line-height: 40px;
+    }
+    #profile{
+        width: 20%; height: 100%; background-image: url('../../assets/profile.png' ); background-size: 100% 100%; float: left;
+        
+    }
+    #modifyBtn{
+        height: 50px;
+    }
+    #deleteBtn{
+        height: 50px;
+    }
+
+</style>
 <script>
 import CommentItem from '../../components/CommentItem.vue';
 import {Viewer} from '@toast-ui/vue-editor'
@@ -240,20 +333,5 @@ moment.lang('ko', {
 
 
 </script>
-<style>
-    #subject {
-         line-height: 40px;
-    }
-    #profile{
-        width: 20%; height: 100%; background-image: url('../../assets/profile.png' ); background-size: 100% 100%; float: left;
-        
-    }
-    #modifyBtn{
-        height: 50px;
-    }
-    #deleteBtn{
-        height: 50px;
-    }
 
-</style>
 
