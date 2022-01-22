@@ -1,7 +1,8 @@
 <template>
     <v-container ref="boardContainer" >
-        <br>
-        <v-row justify='center'>
+        <br class="pc">
+        <!-- pc tablet version -->
+        <v-row justify='center' class="pc">
             <!-- <v-col cols='1' /> -->
             <v-col cols='3'  >
                 <div style=" height: 75px; " >
@@ -37,7 +38,8 @@
                 </div>
             </v-col>
         </v-row>
-        <v-row justify='center'>
+
+        <v-row justify='center' class="pc">
             <v-col cols='1' />
             <v-col cols='1' class="table">
                 번호
@@ -54,7 +56,7 @@
             <v-col cols='1' class="table"></v-col>
         </v-row>
 
-        <v-row justify='center'>
+        <v-row justify='center' class="pc">
             <v-col cols='12'>
                 <IdeaItem style="cursor:pointer"  v-for="(item, index) in ideaItem"  :key="index" 
                 :nickName="item.user.nickName" 
@@ -66,7 +68,7 @@
                 /> 
             </v-col>
         </v-row>
-        <v-row justify='center'>
+        <v-row justify='center' class="pc">
             <v-col cols='2' />
             <v-col cols="5">
                 <v-text-field v-model="searchSubject" label="Search by Title"></v-text-field>
@@ -77,6 +79,58 @@
                 </v-btn>
             </v-col>
         </v-row>
+
+        <!-- mobile version -->
+        <v-row justify='center' class="mobile" >  
+            <v-spacer />  
+            <v-col cols='7'  >
+                <div style=" height: 75px; " >
+                    <p style="font-size: 1em;">모든 아이디어</p> 
+                    <p style="font-size: 0.8em;">검색결과 : {{totalItems && totalItems > 0? totalItems: 0}}개</p></div>
+            </v-col>
+            <v-col cols='3'>
+                <router-link to="/add-idea">
+                        <v-btn small>아이디어 내기</v-btn>
+                </router-link>
+            </v-col>
+            <v-spacer />
+        </v-row>
+
+        <v-row justify='center' class="mobile">
+            <v-spacer />
+            <v-col cols='3' class="table">
+                번호
+            </v-col>
+            <v-col cols='6' class="table" >
+                제목
+            </v-col>
+            <v-col cols='3' class="table" >
+                작성자
+            </v-col>
+            <v-spacer />
+        </v-row>
+        <v-row justify='center' class="mobile">
+            <v-col cols='12'>
+                <IdeaItemMobile style="cursor:pointer"  v-for="(item, index) in ideaItem"  :key="index" 
+                    :ideaIdx="item.ideaIdx"
+                    :number="item.number"
+                    :subject="item.subject" 
+                    :nickName="item.user.nickName" 
+                /> 
+            </v-col>
+        </v-row>
+        <v-row justify='center' class="mobile">
+            <v-spacer />
+            <v-col cols="7">
+                <v-text-field v-model="searchSubject" label="Search by Title"></v-text-field>
+            </v-col>
+            <v-col cols="3"> 
+                <v-btn small @click="currentPage = 1; createPagination();">
+                Search
+                </v-btn>
+            </v-col>
+            <v-spacer />
+        </v-row>
         <v-pagination
         v-model="currentPage"
         :length="totalPages && totalPages >= 1? totalPages: 1"
@@ -85,16 +139,37 @@
         </v-pagination>
     </v-container>
 </template>
+<style >
+@media all and (max-width:767px) {
+    .pc{
+        display: none;
+    }
+}
+@media all and (max-width:1023px) {
+    /* 태블릿은 잘보임 */
+}
+@media all and (min-width:1024px) {
+    .mobile{
+        display: none;
+    }
+}
+    #icon{
+        background-image: url('../../assets/logo.png');background-size: 100% 100%;
+    }
+    .table {
+        border-top: black solid 1px; border-bottom: black solid 1px;text-align: center;
+    }
+</style>
 <script>
     import IdeaItem from '../../components/IdeaItem.vue'
-    
+    import IdeaItemMobile from '../../components/IdeaItemMobile.vue'  
     export default {
         name: 'Idea',
         created() {
             this.createPagination();
         },
         components: {
-            IdeaItem
+            IdeaItem,IdeaItemMobile
         },
         mounted() {
             
@@ -238,11 +313,3 @@
         },       
     }
 </script>
-<style >
-    #icon{
-        background-image: url('../../assets/logo.png');background-size: 100% 100%;
-    }
-    .table {
-        border-top: black solid 1px; border-bottom: black solid 1px;text-align: center;
-    }
-</style>
