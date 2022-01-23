@@ -1,6 +1,7 @@
 <template>
     <v-container>
-        <v-row >
+        <!-- pc version -->
+        <v-row class="pc">
             <v-col cols='5'>
                 <v-text-field
                 label="제목 입력"
@@ -8,9 +9,9 @@
                 </v-text-field>
             </v-col>
         </v-row>
-        <Editor :initialValue="editorText" ref="toastEditor" initialEditType="wysiwyg"  height="500px" />
+        <Editor :initialValue="editorText" ref="toastEditor" initialEditType="wysiwyg"  height="500px"  class="pc"/>
 
-        <v-row justify='center'>
+        <v-row justify='center'  class="pc">
             <v-col cols='4'>
                 <v-btn  block elvation="2" v-on:click="save">
                     아이디어 추가하기
@@ -22,9 +23,55 @@
                 </v-btn>
             </v-col>
         </v-row>
+
+
+        <!-- mobile version -->
+        <v-row  class="mobile">
+            <v-col cols='1' />
+            <v-col cols='8'>
+                <v-text-field
+                label='  제목 입력'
+                v-model="subject">
+                </v-text-field>
+            </v-col>
+        </v-row>
+        <Editor :initialValue="editorText" ref="toastEditor" initialEditType="wysiwyg"  height="500px" class="mobile" />
+
+        <v-row justify='center'  class="mobile">
+            
+            <v-col cols='5'>
+                <v-btn  block elvation="2" v-on:click="save">
+                    아이디어 추가하기
+                </v-btn>
+            </v-col>
+            <v-col cols='1' />
+            <v-col cols='5'>
+                <v-btn  block elvation="2" v-on:click="goIdeaPage">
+                    아이디어 취소하기
+                </v-btn>
+            </v-col>
+            <v-col cols='1' />
+        </v-row>
     </v-container>
     
 </template>
+<style scoped>
+@media all and (max-width:767px) {
+    .pc{
+        display: none;
+    }
+}
+@media all and (max-width:1023px) and (min-width:767px) {
+    .mobile{
+        display: none;
+    }
+}
+@media all and (min-width:1024px) {
+    .mobile{
+        display: none;
+    }
+}
+</style>
 <script>
 import 'codemirror/lib/codemirror.css'; 
 import '@toast-ui/editor/dist/toastui-editor.css'; 

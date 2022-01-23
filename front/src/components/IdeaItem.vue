@@ -5,13 +5,13 @@
             <v-col cols='1' id="ideaIdx">
                 {{number}}
             </v-col>
-            <v-col cols='3' id="subject" >
+            <v-col cols='3' id="subject" style="overflow : hidden;" >
                 {{subject}}
             </v-col>
-            <v-col cols='3' id="nickName">
+            <v-col cols='3' id="nickName" style="overflow : hidden;">
                 {{nickName}}
             </v-col>
-            <v-col cols='2' id="created">
+            <v-col cols='2' id="created" style="overflow : hidden;">
                 {{createdAt}}
             </v-col>
             <v-col cols='1'></v-col>
@@ -40,7 +40,8 @@ moment.lang('ko', {
         ],
         computed: {
             createdAt() {
-                return moment(this.created).local().format("YY-MM-DD (ddd)  HH : mm");
+                return moment(this.created).local().format("YY-MM-DD (ddd) ");
+                // return moment(this.created).local().format("YY-MM-DD (ddd)  HH : mm");
             },
             userData(){
                 return this.$store.getters.auth_get_data;

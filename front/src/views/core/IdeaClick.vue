@@ -120,7 +120,7 @@
         </v-row>
 
         <v-row justify='center' class="mobile">
-            <v-spacer />
+            <v-col cols='1'></v-col>
             <v-col cols='8'>
                 <p id="nickName" v-if="ideaData.user">닉네임 : {{ideaData.user.nickName}}</p>
                 <p id="created">{{createdAt}}</p>
@@ -140,14 +140,10 @@
             <v-spacer />           
         </v-row>
 
-        <br class="mobile"><br class="mobile"><br class="mobile"><br class="mobile">
+        <br class="mobile"><br class="mobile">
         <v-row justify='center' class="mobile">
-            <v-col cols='8' v-if="contentFlag">
+            <v-col cols='10' v-if="contentFlag">
                 <Viewer ref="toastViewer" height="500px" />
-            </v-col>
-            <v-col cols='8' v-else>
-               <TextEditor :ideaIdx="ideaIdx" :ideaData = "ideaData" :contentFlag = "contentFlag"
-                @child="successModify" />
             </v-col>
         </v-row>
         <br class="mobile"><br class="mobile">
@@ -159,14 +155,39 @@
             <v-spacer />
         </v-row>
         <v-row justify='center' class="mobile">
-            <v-col cols='9' >
-                <CommentItem v-for="(item,index) in this.commentData" :key="index"
+            <v-col cols='1' />
+            <v-col cols='10' >
+                <CommentItemMobile v-for="(item,index) in this.commentData" :key="index"
                 :nickName = "item.user.nickName"
                 :comment = "item.comment"
                 :created = "item.created"
                 />
             </v-col>
-            다음번에 댓글 추가하는 서버 쪽 확인 및 댓글 보여주는 뷰포트 완성하기
+            <v-spacer />
+        </v-row>
+        <br class="mobile"><br class="mobile"><br class="mobile">
+        <v-row justify='center' class="mobile">
+
+            <v-col cols='4'>
+                <div style="text-align: center; font-weight : bold; height : 55px; line-height : 55px" >
+                    {{userData.nickName}}
+                </div>
+            </v-col>
+            <v-col cols='6' >
+                <v-text-field
+                outlined
+                label = ''
+                v-model="writeComment"
+                >
+                </v-text-field>
+            </v-col>
+            <v-col cols='2'>
+                <v-btn id="enrollBtn" v-on:click="enrollComment"
+                block 
+                >등록
+                </v-btn>    
+            </v-col>
+            <v-spacer />
         </v-row>
 
 
@@ -179,7 +200,6 @@
         display: none;
     }
 }
-
 @media all and (min-width:1024px) {
     .mobile{
         display: none;
@@ -202,6 +222,7 @@
 </style>
 <script>
 import CommentItem from '../../components/CommentItem.vue';
+import CommentItemMobile from '../../components/CommentItemMobile.vue';
 import {Viewer} from '@toast-ui/vue-editor'
 import TextEditor from '../../components/editor/ModifyTextEditor.vue'
 import moment from 'moment';
@@ -229,7 +250,7 @@ moment.lang('ko', {
             },
         },
         components : {
-            CommentItem,
+            CommentItem, CommentItemMobile,
             Viewer,
             TextEditor
         },
