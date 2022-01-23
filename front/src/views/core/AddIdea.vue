@@ -1,52 +1,60 @@
 <template>
-    <v-row justify='center' >
-        <v-col cols='12'>
-            <v-row justify='center' >
-                <v-col cols='10'>
-                    <div style="height: 120px; font-size : 2.2em;  padding-top : 35px">아이디어 추가하기</div>
-                </v-col>
-                <v-col cols='2' align="right">
+    <v-card>
+        <v-row justify='center' class="pc" >
+            <v-col cols='12'>
+                <v-row justify='center' >
+                    <v-col cols='10'>
+                        <div style="height: 120px; font-size : 2.2em;  padding-top : 35px">아이디어 추가하기</div>
+                    </v-col>
+                    <v-col cols='2' align="right">
 
-                </v-col>
-            </v-row>
+                    </v-col>
+                </v-row>
 
-            <v-row justify='center' >
-                <TextEditor id="myEditor" />
-            </v-row>
-            
-            <br><br><br><br>
-        </v-col>
-    </v-row>
-</template>
-<script>
-    import TextEditor from '../../components/editor/TextEditor.vue'
-
-    export default {
-        name: 'AddIdea',
-        props: [ ],
-        components: {
-            TextEditor
-        },
-        created() {
-            this.checkUser();
-        },
-        data() {
-            return {
+                <v-row justify='center' >
+                    <TextEditor id="myEditor" />
+                </v-row>
                 
-            }
-        },
-        methods : {
-            checkUser(){
-                if(!this.$store.getters.auth_get_token){
-                    location.href='#/idea'
-                }
-            },
-        }
-    }
-</script>
+                <br><br><br><br>
+            </v-col>
+        </v-row>
+        <v-row justify='center' class="mobile" >
+            <v-col cols='12'>
+                <v-row justify='center' >
+                    <v-col cols='1' />
+                    <v-col cols='10'>
+                        <div style="height: 120px; font-size : 1.4em;  padding-top : 35px">아이디어 추가하기</div>
+                    </v-col>
+                    <v-col cols='1' align="right">
 
+                    </v-col>
+                </v-row>
+                <v-row justify='center' >
+                    <TextEditor id="myEditor" />
+                </v-row>
+                
+                <br><br><br><br>
+            </v-col>
+        </v-row>
+    </v-card>
+    
+</template>
 <style lang="scss" scoped>
-
+@media all and (max-width:767px) {
+    .pc{
+        display: none;
+    }
+}
+@media all and (max-width:1023px) and (min-width:767px) {
+    .mobile{
+        display: none;
+    }
+}
+@media all and (min-width:1024px) {
+    .mobile{
+        display: none;
+    }
+}
 .editor {
   display: flex;
   flex-direction: column;
@@ -75,9 +83,33 @@
   #myEditor{
       background-color: darkcyan;
   }
-
-  
-
-  
 }
 </style>
+
+<script>
+    import TextEditor from '../../components/editor/TextEditor.vue'
+
+    export default {
+        name: 'AddIdea',
+        props: [ ],
+        components: {
+            TextEditor
+        },
+        created() {
+            this.checkUser();
+        },
+        data() {
+            return {
+                
+            }
+        },
+        methods : {
+            checkUser(){
+                if(!this.$store.getters.auth_get_token){
+                    location.href='#/idea'
+                }
+            },
+        }
+    }
+</script>
+

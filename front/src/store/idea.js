@@ -123,8 +123,8 @@ const ideaModule = {
                         'Authorization' : token
                     }
                 });
-                if(res.data.message){
-                    alert('접근할 수 없는 게시물입니다.');
+                if(res.data.message === 'unvalid token'){
+                    alert('회원가입 후 확인해주세요');
                     location.href='#/idea'
                     return;
                 }
