@@ -23,3 +23,4 @@ ORM : Sequelize
 DB : Postgresql
 
 Sequelize-cli를 이용한 DB migration 및 seeder 작업 
+dotenv를 통해 local 환경과 dev환경 구분(local : nodemon, dev : pm2)
