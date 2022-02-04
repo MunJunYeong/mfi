@@ -139,6 +139,7 @@ const ideaModule = {
         async add_idea({commit}, data){
             let token = localStorage.getItem('accessToken');
             let res;
+            console.log(data)
             try {
                 res = await axios.post('http://localhost:8080/idea',{
                     subject : data.subject,
