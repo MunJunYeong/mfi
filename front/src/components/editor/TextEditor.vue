@@ -9,8 +9,22 @@
                 </v-text-field>
             </v-col>
         </v-row>
-        <Editor :initialValue="editorText" ref="toastEditor" initialEditType="wysiwyg"  height="500px"  class="pc"/>
 
+        <!-- mobile version -->
+        <v-row  class="mobile">
+            <v-col cols='1' />
+            <v-col cols='8'>
+                <v-text-field
+                label='  제목 입력'
+                v-model="subject">
+                </v-text-field>
+            </v-col>
+        </v-row>
+
+        <Editor :initialValue="editorText" ref="toastEditor" initialEditType="wysiwyg"  height="500px" />
+
+
+        <!-- pc version -->
         <v-row justify='center'  class="pc">
             <v-col cols='4'>
                 <v-btn  block elvation="2" v-on:click="save">
@@ -23,22 +37,8 @@
                 </v-btn>
             </v-col>
         </v-row>
-
-
         <!-- mobile version -->
-        <v-row  class="mobile">
-            <v-col cols='1' />
-            <v-col cols='8'>
-                <v-text-field
-                label='  제목 입력'
-                v-model="subject">
-                </v-text-field>
-            </v-col>
-        </v-row>
-        <Editor :initialValue="editorText" ref="toastEditor" initialEditType="wysiwyg"  height="500px" class="mobile" />
-
         <v-row justify='center'  class="mobile">
-            
             <v-col cols='5'>
                 <v-btn  block elvation="2" v-on:click="save">
                     아이디어 추가하기

@@ -69,6 +69,7 @@ const authModule = {
         //메인페이지 정보 
         async get_user_count({commit}){
             let res;
+            console.log(process.env);
             try{
                 res = await axios.get('http://localhost:8080/userCount', {
                 })

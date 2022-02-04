@@ -6,7 +6,6 @@ module.exports = {
     
     await queryInterface.bulkInsert('user', [
       {
-        userIdx : 1,
         id : 'a',
         pw : 'a',
         nickName : '관리자계정',
@@ -15,7 +14,6 @@ module.exports = {
         role : 'admin'
       },
       {
-        userIdx : 2,
         id : 'b',
         pw : 'b',
         nickName : '위너계정',
@@ -24,7 +22,6 @@ module.exports = {
         role : 'winner'
       },
       {
-        userIdx : 3,
         id : 'c',
         pw : 'c',
         nickName : '노말계정',
