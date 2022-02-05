@@ -1,6 +1,6 @@
 import axios from "axios";
 import jwt_decode from 'jwt-decode'
-
+const { VUE_APP_BACKEND_HOST } = process.env;
 const authModule = {
     state : {
         userCount : {},
@@ -69,9 +69,8 @@ const authModule = {
         //메인페이지 정보 
         async get_user_count({commit}){
             let res;
-            console.log(process.env);
             try{
-                res = await axios.get('http://localhost:8080/userCount', {
+                res = await axios.get( VUE_APP_BACKEND_HOST + '/userCount', {
                 })
             }catch(err){
                 console.log(err);
@@ -81,7 +80,7 @@ const authModule = {
         async get_Idea_count({commit}){
             let res;
             try{
-                res = await axios.get('http://localhost:8080/ideaCount', {
+                res = await axios.get( VUE_APP_BACKEND_HOST + '/ideaCount', {
 
                 })
             }catch(err){
@@ -93,7 +92,7 @@ const authModule = {
         async auth_login ({ commit }, loginData) {
             let res;
             try {
-                res = await axios.post('http://localhost:8080/signIn', {
+                res = await axios.post( VUE_APP_BACKEND_HOST + '/signIn', {
                     id : loginData.id,
                     pw : loginData.pw
                 });
@@ -127,7 +126,7 @@ const authModule = {
                 where += `&nickName=${data.nickName}`
             }
             try{
-                res = await axios.get(`http://localhost:8080/user?${where}`,{
+                res = await axios.get( VUE_APP_BACKEND_HOST + `/user?${where}`,{
                     headers : {
                         'Authorization' : token
                     }
@@ -142,7 +141,7 @@ const authModule = {
             let res;
             let token = localStorage.getItem('accessToken');
             try{
-                res = await axios.put('http://localhost:8080/user',{
+                res = await axios.put( VUE_APP_BACKEND_HOST + '/user',{
                     role : data.role,
                     userIdx : data.userIdx
                 },
