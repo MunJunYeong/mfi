@@ -1,5 +1,5 @@
 import axios from "axios";
-
+const { VUE_APP_BACKEND_HOST } = process.env;
 const ideaModule = {
     state: {
         clickIdeaData : {},
@@ -50,7 +50,7 @@ const ideaModule = {
         //전체 아이디어 보여줄 때
         async show_idea({commit}, data){
             let res;
-            let baseUrl = 'http://localhost:8080/idea?page='+data.page;
+            let baseUrl = VUE_APP_BACKEND_HOST +'/idea?page='+data.page;
             if(data.subject) {
                 baseUrl += `&subject=${data.subject}`
             }
@@ -80,7 +80,7 @@ const ideaModule = {
                 where += `&subject=${data.subject}`
             }
             try{
-                res = await axios.get(`http://localhost:8080/info/idea?${where}`,{
+                res = await axios.get(VUE_APP_BACKEND_HOST +`/info/idea?${where}`,{
                     headers : {
                         'Authorization' : token
                     }
@@ -100,7 +100,7 @@ const ideaModule = {
                 where += `&subject=${data.subject}`
             }
             try{
-                res = await axios.get(`http://localhost:8080/user/${data.userIdx}/idea?${where}`,{
+                res = await axios.get(VUE_APP_BACKEND_HOST +`/user/${data.userIdx}/idea?${where}`,{
                     headers : {
                         'Authorization' : token
                     }
@@ -117,7 +117,7 @@ const ideaModule = {
             let token = localStorage.getItem('accessToken');
             let res;
             try {
-                res = await axios.get(`http://localhost:8080/idea/${data.ideaIdx}`, 
+                res = await axios.get(VUE_APP_BACKEND_HOST +`/idea/${data.ideaIdx}`, 
                 {
                     headers : {
                         'Authorization' : token
@@ -141,7 +141,7 @@ const ideaModule = {
             let res;
             console.log(data)
             try {
-                res = await axios.post('http://localhost:8080/idea',{
+                res = await axios.post(VUE_APP_BACKEND_HOST +'/idea',{
                     subject : data.subject,
                     content : data.content,
                 },
@@ -177,7 +177,7 @@ const ideaModule = {
                 return;
             }
             try{
-                res = await axios.put('http://localhost:8080/idea/:ideaIdx', 
+                res = await axios.put(VUE_APP_BACKEND_HOST +'/idea/:ideaIdx', 
                 {
                     params : {
                         ideaIdx : ideaData.ideaIdx,
@@ -203,7 +203,7 @@ const ideaModule = {
             let token = localStorage.getItem('accessToken');
 
             try {
-                res = await axios.get('http://localhost:8080/comment?ideaIdx='+ ideaIdx.ideaIdx, {
+                res = await axios.get(VUE_APP_BACKEND_HOST +'/comment?ideaIdx='+ ideaIdx.ideaIdx, {
                     headers : {
                         'Authorization' : token
                     }
@@ -221,7 +221,7 @@ const ideaModule = {
             let res;
             let token = localStorage.getItem('accessToken');
             try{
-                res = await axios.delete('http://localhost:8080/idea?ideaIdx='+ ideaData.ideaIdx,
+                res = await axios.delete(VUE_APP_BACKEND_HOST +'/idea?ideaIdx='+ ideaData.ideaIdx,
                 {
                     headers : {
                         'Authorization' : token
@@ -241,7 +241,7 @@ const ideaModule = {
 
             commit
             try {
-                res = await axios.post('http://localhost:8080/comment', 
+                res = await axios.post(VUE_APP_BACKEND_HOST +'/comment', 
                 {
                     comment : commentData.comment,
                     ideaIdx : commentData.ideaIdx

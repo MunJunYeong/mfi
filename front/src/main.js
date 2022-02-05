@@ -11,6 +11,7 @@ import router from './router'
 import vuetify from './plugins/vuetify'
 import axios from 'axios';
 
+
 console.log(process.env)
 
 Vue.config.productionTip = false
