@@ -21,7 +21,7 @@ export default {
   }),
   methods : {
       goHome(){
-        location.href='#/home'
+        location.href='/home'
       }
     }
 };
