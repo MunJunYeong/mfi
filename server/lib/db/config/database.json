@@ -3,7 +3,7 @@
         "username": "mfi",
         "password" : "mfianswnsdud!",
         "database": "mfi",
-        "host": "localhost",
+        "host": "mfi.ctj83k4lukvd.ap-northeast-2.rds.amazonaws.com",
         "dialect": "postgres"
     },
     "development": {
