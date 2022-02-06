@@ -330,7 +330,7 @@ moment.lang('ko', {
                         this.$store.dispatch('delete_idea', {
                             ideaIdx : this.ideaData.ideaIdx
                         })
-                        location.href='#/idea'
+                        history.back();
                     }catch(err){
                         console.log(err);
                     }

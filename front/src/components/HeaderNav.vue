@@ -3,8 +3,10 @@
         <v-app-bar app="app" color="#CFD8DC" >
             <!-- mobile title and icon -->
             <v-toolbar-title class="mobile_icon">
-                <v-col cols='3' v-on:click="goHome">
-                    <h3>MFI</h3>
+                <v-col cols='3'>
+                    <router-link to="/home">
+                        <h3>MFI</h3> 
+                    </router-link>
                     <!-- <v-img  src="@/assets/mfi_logo.png" width="330" height="70">
                     </v-img> -->
                 </v-col>
@@ -12,9 +14,10 @@
 
             <!-- pc version -->
             <v-row justify='center' id="pc_row">
-                <v-col cols='3' v-on:click="goHome">
-                    <v-img  src="@/assets/mfi_logo.png" width="330" height="70">
-                    </v-img>
+                <v-col cols='3'>
+                    <router-link to="/home">
+                        <v-img  src="@/assets/mfi_logo.png" width="330" height="70" />
+                    </router-link>
                 </v-col>
                 <v-col cols='1' class="pc_nav">
                     <router-link to="/about">
@@ -234,9 +237,6 @@
                    return false;
                }
             },
-            goHome(){
-                location.href='/home'
-             },
             logout(){
                 localStorage.removeItem('accessToken');
                 location.href='/home'

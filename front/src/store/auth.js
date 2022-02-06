@@ -103,7 +103,7 @@ const authModule = {
                 localStorage.setItem("accessToken", res.data.token);               
                 commit('auth_set_data',  jwt_decode(res.data.token));
                 commit('auth_set_token', res.data.token);
-                location.href='#/home'
+                location.href='/home'
             }else if(res.data.message === "wrong pw"){
                 throw Error('wrongPw');
             }else if(res.data.message === "not exist id"){
