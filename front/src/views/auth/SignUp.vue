@@ -107,6 +107,7 @@
   }
 </script>
 <script>
+const { VUE_APP_BACKEND_HOST } = process.env;
   import axios from 'axios';
 
   const checkEng = /[a-zA-Z]/;
@@ -151,7 +152,7 @@
       },
       // 중복 아이디 확인 axios
       async checkId(){
-        this.overlapId = await axios.post('http://localhost:8080/checkId', {
+        this.overlapId = await axios.post(VUE_APP_BACKEND_HOST+'/checkId', {
           id : this.id
         }).then(res =>{
           if(res.data.value === "true"){
@@ -170,7 +171,7 @@
       },
       // 중복 닉네임 확인 axios
       async checkNickName(){
-        this.overlapNickName = await axios.post('http://localhost:8080/checkNickName', {
+        this.overlapNickName = await axios.post(VUE_APP_BACKEND_HOST+ '/checkNickName', {
           nickName : this.nickName
         }).then(res=>{
           if(res.data.value === 'true'){
@@ -195,7 +196,7 @@
       async signUp(){
         console.log(this.overlapId);console.log(this.overlapNickName);
         if(this.overlapId && this.overlapNickName){
-          await axios.post('http://localhost:8080/signUp', {
+          await axios.post(VUE_APP_BACKEND_HOST+ '/signUp', {
             id : this.id,
             pw : this.pw,
             nickName : this.nickName,
