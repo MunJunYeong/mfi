@@ -24,7 +24,7 @@ module.exports = {
       },
       created: {
           type: Sequelize.DATE,
-          defaultValue: Sequelize.NOW
+          defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
       status: {
           type: Sequelize.STRING
