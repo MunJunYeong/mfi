@@ -3,7 +3,7 @@
         <v-spacer />
         <v-col cols='10'>
             <div id="otherNickName">
-                <h2 style="display : inline;">{{nickName}}</h2> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <h3 style="display : inline;">{{nickName}}</h3> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <h6 style="display : inline">{{createdAt}}</h6>
             </div>
             <div id="otherComment">

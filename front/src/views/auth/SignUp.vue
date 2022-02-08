@@ -50,6 +50,7 @@
             v-model="nickName" 
             :rules="checknickNameRules"
             hide-details="auto"
+            :readonly="overlapNickName"
           ></v-text-field>
       </v-col>
       <v-col cols='1'>
@@ -70,7 +71,7 @@
       </v-col>
       <v-col cols='1'>
         <v-btn
-            elevation="2" block
+            elevation="2" block v-on:click="checkEmail()"
           >인증하기</v-btn>  
       </v-col>
     </v-row>
@@ -143,12 +144,13 @@ const { VUE_APP_BACKEND_HOST } = process.env;
         ],
         overlapId: false,
         overlapNickName: false,
+        checkEmail: false,
       }
     },
 
     methods : {
       goHome(){
-        location.href='#/home'
+        location.href='/home'
       },
       // 중복 아이디 확인 axios
       async checkId(){
@@ -158,7 +160,6 @@ const { VUE_APP_BACKEND_HOST } = process.env;
           if(res.data.value === "true"){
             let result = confirm("아이디를 사용하시겠습니까?");
             if(result){
-              // 아이디 입력 부분을 고정시키는 ?
               return  true;
             }else {
               return false;
@@ -177,25 +178,28 @@ const { VUE_APP_BACKEND_HOST } = process.env;
           if(res.data.value === 'true'){
             let result = confirm("닉네임을 사용하시겠습니까?");
             if(result){
-              console.log('2');
-              // console.log(this.overlapId);
               return true;
             }else {
               return false;
             }
-            
           }else {
             alert(res.data.message);
             return false;
           }
         })
-
         console.log('1');
       },
+      async checkEmail(){
+        this.checkEmail = await axios.post(VUE_APP_BACKEND_HOST + 'checkEmail', {
+          
+        } )
+      },
+
       // 회원가입 axious
       async signUp(){
-        console.log(this.overlapId);console.log(this.overlapNickName);
-        if(this.overlapId && this.overlapNickName){
+        if(this.pw !== this.checkPw){
+          alert('비밀번호가 일치하지 않습니다.!');
+        }else  if(this.overlapId && this.overlapNickName){
           await axios.post(VUE_APP_BACKEND_HOST+ '/signUp', {
             id : this.id,
             pw : this.pw,
@@ -207,7 +211,7 @@ const { VUE_APP_BACKEND_HOST } = process.env;
               return;
             }
             alert('회원가입이 성공적으로 완료됐습니다!');
-            location.href='#/home'
+            location.href='/home'
             return;
           })
         }else if(!this.overlapId && !this.overlapNickName){

@@ -1,6 +1,5 @@
 <template>
     <v-container v-if="checkValidate()">
-
         <!-- pc/ tablet version -->
         <v-row justify='center' class="pc" >
             <v-col cols='2' />
@@ -9,7 +8,7 @@
                     <h2>{{ideaData.subject}}</h2>
                     </div>
             </v-col>
-            <v-spacer></v-spacer>
+            <v-spacer />
             <v-col cols='1'>
                 <router-link to="/add-idea">
                     <v-btn style="height : 70px"
@@ -20,24 +19,20 @@
             </v-col>
             <v-col cols='2' />
         </v-row>
-
         <v-row justify='center' class="pc">
             <v-col cols='2' />
-            <v-col cols='3'>
-                <div id="profile"></div>
-                <div style="float : left; width: 7%; height: 100%;"></div>
+            <v-col cols='4'>
                 <div style="float : left; width: 73%; height: 100%;">
                     <p id="nickName" v-if="ideaData.user">닉네임 : {{ideaData.user.nickName}}</p>
                     <p id="created">{{createdAt}}</p>
                 </div>
             </v-col>
-            <v-spacer></v-spacer>
+            <v-spacer />
             <v-col cols='1' v-if="authFlag">
                 <v-btn id="modifyBtn" v-on:click="modifyBtn()"
                 block outlined
                 >수정
                 </v-btn>
-                
             </v-col>
             <v-col cols='1'  v-if="authFlag">
                 <v-btn id="deleteBtn" v-on:click="deleteBtn()"
@@ -45,14 +40,13 @@
                 >삭제
                 </v-btn>
             </v-col>
-            <v-col cols='2' />
+            <v-col cols='1' />
         </v-row>
-        
         <!-- 내용 보이는 곳 -->
         <br class="pc"><br class="pc"><br class="pc"><br class="pc">
         <v-row justify='center' class="pc">
             <v-col cols='8' v-if="contentFlag">
-                <Viewer ref="toastViewer" height="500px" />
+                <Viewer ref="toastViewer" height="500px" class="pc" style="font-size:2em;" />
             </v-col>
             <v-col cols='8' v-else>
                <TextEditor :ideaIdx="ideaIdx" :ideaData = "ideaData" :contentFlag = "contentFlag"
@@ -102,7 +96,6 @@
                 >등록
                 </v-btn>    
             </v-col>
-            
             <v-spacer />
         </v-row>
 
@@ -141,11 +134,6 @@
         </v-row>
 
         <br class="mobile"><br class="mobile">
-        <v-row justify='center' class="mobile">
-            <v-col cols='10' v-if="contentFlag">
-                <Viewer ref="toastViewer" height="500px" />
-            </v-col>
-        </v-row>
         <br class="mobile"><br class="mobile">
         <v-row justify='center' class="mobile">
             <v-col cols='1' />
@@ -280,9 +268,6 @@ moment.lang('ko', {
             modifyBtn(){
                 this.contentFlag = false;
             },
-            setContent(content) {
-              this.$refs.toastViewer.invoke('setMarkdown', content)
-            },
             async showIdea(){
                 try{
                     await this.$store.dispatch('click_idea',{
@@ -293,6 +278,9 @@ moment.lang('ko', {
                 }catch(err){
                     console.log(err);
                 }
+            },
+            setContent(content) {
+              this.$refs.toastViewer.invoke('setMarkdown', content)
             },
             //댓글보여주기
             async showComment(){                

@@ -7,10 +7,8 @@
                         <div style="height: 120px; font-size : 2.2em;  padding-top : 35px">아이디어 추가하기</div>
                     </v-col>
                     <v-col cols='2' align="right">
-
                     </v-col>
                 </v-row>
-
                 <v-row justify='center' >
                     <TextEditor id="myEditor" />
                 </v-row>
@@ -39,6 +37,32 @@
     </v-card>
     
 </template>
+<script>
+    import TextEditor from '../../components/editor/TextEditor.vue'
+
+    export default {
+        name: 'AddIdea',
+        props: [],
+        components: {
+            TextEditor
+        },
+        created() {
+            this.checkUser();
+        },
+        data() {
+            return {
+                
+            }
+        },
+        methods : {
+            checkUser(){
+                if(!this.$store.getters.auth_get_token){
+                    location.href='/idea'
+                }
+            },
+        }
+    }
+</script>
 <style lang="scss" scoped>
 @media all and (max-width:767px) {
     .pc{
@@ -71,7 +95,7 @@
     flex-wrap: wrap;
     padding: 0.25rem;
     border-bottom: 3px solid #0D0D0D;
-  }
+  } 
 
   &__content {
     padding: 1.25rem 1rem;
@@ -85,31 +109,4 @@
   }
 }
 </style>
-
-<script>
-    import TextEditor from '../../components/editor/TextEditor.vue'
-
-    export default {
-        name: 'AddIdea',
-        props: [ ],
-        components: {
-            TextEditor
-        },
-        created() {
-            this.checkUser();
-        },
-        data() {
-            return {
-                
-            }
-        },
-        methods : {
-            checkUser(){
-                if(!this.$store.getters.auth_get_token){
-                    location.href='#/idea'
-                }
-            },
-        }
-    }
-</script>
 

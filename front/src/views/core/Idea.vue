@@ -311,7 +311,7 @@
             addIdea(){
                 if(!this.$store.getters.auth_get_token){
                     alert('로그인 후 아이디어를 추가해주세요!');
-                    location.href='#/idea'
+                    location.href='/idea'
                 }
             }
         },       

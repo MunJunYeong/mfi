@@ -33,20 +33,6 @@
             <v-col cols='3' class="model"  >
                 <div class="modelContainer">
                     <div class = "div_article">
-                        <img src="@/assets/visit.svg" alt="방문자" class="article">
-                    </div>
-                    <div class="article_content">
-                        <br> 방문자 수 <br> total : <span style="font-size : 2em"> {{totalVisitor}} </span> <br>
-                        today : {{todayVisitor}}
-                    </div>
-                    <!-- <div>
-                        <router-link to="info" class="link_to" style="color:#5C6BC0">내 정보 바로가기</router-link>
-                    </div> -->
-                </div>
-            </v-col>
-            <v-col cols='3' class="model"  >
-                <div class="modelContainer">
-                    <div class = "div_article">
                         <img src="@/assets/user.svg" alt="주식 분석 글" class="article">
                     </div>
                     <div class="article_content">
@@ -66,6 +52,20 @@
                         <br> 현재 종목 분석 글 <br> <span style="font-size : 2em"> {{ideaCount}} </span> 개
                         <br> <span style="font-size:0.7em">(모든 종목 분석 글이며, 회원 등급에 따라 수가 달라질 수 있습니다.)</span>
                     </div>
+                </div>
+            </v-col>
+            <v-col cols='3' class="model"  >
+                <div class="modelContainer">
+                    <div class = "div_article">
+                        <img src="@/assets/visit.svg" alt="방문자" class="article">
+                    </div>
+                    <div class="article_content">
+                        <br> 방문자 수 <br> total : <span style="font-size : 2em"> {{totalVisitor}} </span> <br>
+                        today : {{todayVisitor}}
+                    </div>
+                    <!-- <div>
+                        <router-link to="info" class="link_to" style="color:#5C6BC0">내 정보 바로가기</router-link>
+                    </div> -->
                 </div>
             </v-col>
             <v-col cols='1' />
@@ -89,6 +89,18 @@
             <v-col class="model"  >
                 <div class="mobile_container">
                     <div class = "mobile_article">
+                        <img src="@/assets/user.svg" alt="방문자" class="mobile_img">
+                    </div>
+                    <div class="mobile_article_content">
+                        <br> 함께하는 투자자 <br> <span style="font-size : 2em"> {{userCount}} </span> 명
+                    </div>
+                </div>
+            </v-col>
+        </v-row>
+        <v-row class="mobile_item">
+            <v-col class="model"  >
+                <div class="mobile_container">
+                    <div class = "mobile_article">
                         <img src="@/assets/visit.svg" alt="방문자" class="mobile_img">
                     </div>
                     <div class="mobile_article_content">
@@ -98,19 +110,6 @@
                 </div>
             </v-col>
         </v-row>
-        <v-row class="mobile_item">
-            <v-col class="model"  >
-                <div class="mobile_container">
-                    <div class = "mobile_article">
-                        <img src="@/assets/user.svg" alt="방문자" class="mobile_img">
-                    </div>
-                    <div class="mobile_article_content">
-                        <br> 함께하는 투자자 <br> <span style="font-size : 2em"> {{userCount}} </span> 명
-                    </div>
-                </div>
-            </v-col>
-        </v-row>
-
     </v-container>
 </template>
 <style scoped>
@@ -254,12 +253,12 @@
                 {
                     image : require('@/assets/home_signup.jpg'),
                     content : `가치있는 투자자인가요? 회원가입 하기`,
-                    link: "/#/auth/signup",
+                    link: "/auth/signup",
                 },
                 {
                     image : require('@/assets/home_idea.jpg'),
                     content : '본인의 투자 분석과 생각에 대해 마음껏 펼쳐보세요',
-                    link: "/#/idea",
+                    link: "/idea",
 
                 }
             ],

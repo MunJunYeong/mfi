@@ -12,7 +12,7 @@ import vuetify from './plugins/vuetify'
 import axios from 'axios';
 
 
-console.log(process.env)
+// console.log(process.env)
 
 Vue.config.productionTip = false
 Vue.prototype.$http = axios;

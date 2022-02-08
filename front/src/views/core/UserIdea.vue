@@ -112,7 +112,7 @@ export default {
                 return true;
             }else {
                 alert("관리자만 접근 가능한 페이지입니다.")
-                location.href='#/home'
+                location.href='/home'
                 return false;
             }
         },
