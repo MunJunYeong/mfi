@@ -13,7 +13,7 @@
                 </v-col>
             </v-row>                 
         </v-row > 
-        <br class="pc_margin"> <br class="pc_margin"><br class="pc_margin">
+        <br class="pc_margin"> <br class="pc_margin"><br class="pc_margin"><br class="pc_margin"><br class="pc_margin">
         <v-row justify="center" class="pc_margin"> 
             <v-col cols='1' />
             <v-col col='10'>
