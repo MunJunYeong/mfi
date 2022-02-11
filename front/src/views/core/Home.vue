@@ -112,6 +112,73 @@
         </v-row>
     </v-container>
 </template>
+
+<script>
+// import { VueperSlides, VueperSlide } from 'vueperslides'
+
+  export default {
+    name: 'Home',
+    components: {
+        // VueperSlides,VueperSlide,
+
+    },
+    created() {
+        this.getUserCount();
+        this.getIdeaCount();
+    },
+    computed : {
+        userCount : function(){
+            return this.$store.getters.get_user_count.data;
+        },
+        ideaCount : function(){
+            return this.$store.getters.get_idea_count.data;
+        },
+        totalVisitor : function(){
+            return '업데이트 중';
+        },
+        todayVisitor : function(){
+            return '업데이트 중';
+        }
+    },
+    data() {
+        return {
+            slides : [
+                {
+                    image : require('@/assets/home_signup.jpg'),
+                    content : `가치있는 투자자인가요? 회원가입 하기`,
+                    link: "/auth/signup",
+                },
+                {
+                    image : require('@/assets/home_idea.jpg'),
+                    content : '본인의 투자 분석과 생각에 대해 마음껏 펼쳐보세요',
+                    link: "/idea",
+
+                }
+            ],
+        }
+    },
+    methods : {
+        async getUserCount(){
+            try{
+                await this.$store.dispatch('get_user_count', {
+                })
+            }catch(err){
+                console.log(err)
+                }
+        },
+        async getIdeaCount(){
+            try{
+                await this.$store.dispatch('get_Idea_count', {
+                })
+            }catch(err){
+                console.log(err)
+                }
+        },
+    }
+
+  }
+</script>
+
 <style scoped>
 
 @media all and (max-width:767px) {
@@ -220,68 +287,3 @@
     font-style: normal;
 }
 </style>
-<script>
-// import { VueperSlides, VueperSlide } from 'vueperslides'
-
-  export default {
-    name: 'Home',
-    components: {
-        // VueperSlides,VueperSlide,
-
-    },
-    created() {
-        this.getUserCount();
-        this.getIdeaCount();
-    },
-    computed : {
-        userCount : function(){
-            return this.$store.getters.get_user_count.data;
-        },
-        ideaCount : function(){
-            return this.$store.getters.get_idea_count.data;
-        },
-        totalVisitor : function(){
-            return 9;
-        },
-        todayVisitor : function(){
-            return 6;
-        }
-    },
-    data() {
-        return {
-            slides : [
-                {
-                    image : require('@/assets/home_signup.jpg'),
-                    content : `가치있는 투자자인가요? 회원가입 하기`,
-                    link: "/auth/signup",
-                },
-                {
-                    image : require('@/assets/home_idea.jpg'),
-                    content : '본인의 투자 분석과 생각에 대해 마음껏 펼쳐보세요',
-                    link: "/idea",
-
-                }
-            ],
-        }
-    },
-    methods : {
-        async getUserCount(){
-            try{
-                await this.$store.dispatch('get_user_count', {
-                })
-            }catch(err){
-                console.log(err)
-                }
-        },
-        async getIdeaCount(){
-            try{
-                await this.$store.dispatch('get_Idea_count', {
-                })
-            }catch(err){
-                console.log(err)
-                }
-        },
-    }
-
-  }
-</script>
