@@ -2,18 +2,16 @@
     <v-card class="mx-auto overflow-hidden">
         <v-app-bar app="app" color="#CFD8DC" >
             <!-- mobile title and icon -->
-            <v-toolbar-title class="mobile_icon">
+            <v-toolbar-title class="mobile">
                 <v-col cols='3'>
                     <router-link to="/home">
                         <h3>MFI</h3> 
                     </router-link>
-                    <!-- <v-img  src="@/assets/mfi_logo.png" width="330" height="70">
-                    </v-img> -->
                 </v-col>
             </v-toolbar-title>
 
             <!-- pc version -->
-            <v-row justify='center' id="pc_row">
+            <v-row justify='center' id="pc">
                 <v-col cols='3'>
                     <router-link to="/home">
                         <v-img  src="@/assets/mfi_logo.png" width="330" height="70" />
@@ -71,7 +69,7 @@
             </v-row>
         
             <!-- mobile version row -->
-            <v-row justify=  'center' id="mobile_row">
+            <v-row justify=  'center' class="mobile">
                 <!-- <v-spacer />
                 <v-col cols='2' v-if="isLogin()">
                     {{nickName}}
@@ -89,11 +87,11 @@
                 </v-col>
                 <v-spacer /> -->
             </v-row>
-            <v-app-bar-nav-icon @click="drawer = true" class="mobile_icon"></v-app-bar-nav-icon>
+            <v-app-bar-nav-icon @click="drawer = true" class="mobile"></v-app-bar-nav-icon>
         </v-app-bar>
 
 
-        <v-navigation-drawer v-model="drawer" absolute temporary  class="mobile_nav">
+        <v-navigation-drawer v-model="drawer" absolute temporary  class="mobile">
             <v-list nav dense>
                 <v-list-item-group v-model="group" active-class="deep-purple--text text--accent-4">
                     <v-list-item>
@@ -125,18 +123,18 @@
 
 <style scoped>
 
-@media all and (max-width:767px) {
-    #pc_row{
+/* @media all and (max-width:767px) {
+    #pc{
         display: none; 
     }
-}
+} */
 @media all and (max-width:1023px) {
-    #pc_row{
+    #pc{
         display: none;
     }
 }
 @media all and (min-width:1024px) {
-    #mobile_row, #mobile_nav, .mobile_icon {
+   .mobile {
         display: none;
     }
 }

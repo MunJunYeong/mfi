@@ -232,7 +232,7 @@ const { VUE_APP_BACKEND_HOST } = process.env;
     },
   }
 </script>
-<style>
+<style scoped>
   v-textarea[readonly="readonly"] {
     background-color: yellowgreen
 }

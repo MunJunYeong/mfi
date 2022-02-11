@@ -182,7 +182,7 @@
     </v-container>
     
 </template>
-<style>
+<style scoped>
 @media all and (max-width:767px) {
     .pc{
         display: none;
