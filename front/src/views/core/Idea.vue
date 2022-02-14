@@ -140,30 +140,6 @@
         </v-pagination>
     </v-container>
 </template>
-<style scoped>
-@media all and (max-width:767px) {
-    .pc{
-        display: none;
-    }
-}
-@media all and (max-width:1023px) and (min-width:767px) {
-    .mobile{
-        display: none;
-    }
-    /* 태블릿은 잘보임 */
-}
-@media all and (min-width:1024px) {
-    .mobile{
-        display: none;
-    }
-}
-    #icon{
-        background-image: url('../../assets/logo.png');background-size: 100% 100%;
-    }
-    .table {
-        border-top: black solid 1px; border-bottom: black solid 1px;text-align: center;
-    }
-</style>
 <script>
     import IdeaItem from '../../components/IdeaItem.vue'
     import IdeaItemMobile from '../../components/IdeaItemMobile.vue'  
@@ -308,12 +284,36 @@
                     console.log(err);
                 }
             },
-            addIdea(){
+            addIdea(){ //add idea 버튼 클릭시 막아줌.
                 if(!this.$store.getters.auth_get_token){
                     alert('로그인 후 아이디어를 추가해주세요!');
-                    location.href='/idea'
                 }
             }
         },       
     }
 </script>
+<style scoped>
+@media all and (max-width:767px) {
+    .pc{
+        display: none;
+    }
+}
+@media all and (max-width:1023px) and (min-width:767px) {
+    .mobile{
+        display: none;
+    }
+    /* 태블릿은 잘보임 */
+}
+@media all and (min-width:1024px) {
+    .mobile{
+        display: none;
+    }
+}
+    #icon{
+        background-image: url('../../assets/logo.png');background-size: 100% 100%;
+    }
+    .table {
+        border-top: black solid 1px; border-bottom: black solid 1px;text-align: center;
+    }
+</style>
+

@@ -55,9 +55,10 @@
             }
         },
         methods : {
-            checkUser(){
+            checkUser(){ // 화면이 만들어질 때 토큰이 존재하지 않는 상대를 돌려보냄.
                 if(!this.$store.getters.auth_get_token){
-                    location.href='/idea'
+                    // alert('잘못된 경로로 접근했습니다.');
+                    history.back();
                 }
             },
         }

@@ -149,9 +149,6 @@ const { VUE_APP_BACKEND_HOST } = process.env;
     },
 
     methods : {
-      goHome(){
-        location.href='/home'
-      },
       // 중복 아이디 확인 axios
       async checkId(){
         this.overlapId = await axios.post(VUE_APP_BACKEND_HOST+'/checkId', {
@@ -211,7 +208,8 @@ const { VUE_APP_BACKEND_HOST } = process.env;
               return;
             }
             alert('회원가입이 성공적으로 완료됐습니다!');
-            location.href='/home'
+            // location.href='/home'
+            history.back();
             return;
           })
         }else if(!this.overlapId && !this.overlapNickName){
