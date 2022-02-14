@@ -1,6 +1,7 @@
 <template>
     <v-container>
-        <v-row justify='center' id="ideaItem" v-on:click = "clickIdea(ideaIdx)">
+        <!-- pc version -->
+        <v-row justify='center' id="ideaItem" v-on:click = "clickIdea(ideaIdx)" class="pc">
             <v-col cols='1' />
             <v-col cols='1' id="ideaIdx">
                 {{number}}
@@ -16,8 +17,21 @@
             </v-col>
             <v-col cols='1'></v-col>
         </v-row>
-        <v-row>
+        <v-row class="pc">
             <v-col cols='1' />
+        </v-row>
+
+        <!-- mobile version -->
+        <v-row justify='center' id="ideaItem" v-on:click = "clickIdea(ideaIdx)" class="mobile">
+            <v-col cols='3' id="ideaIdx" style="overflow : hidden; text-align: center; font-size: 0.8em;">
+                {{number}}
+            </v-col>
+            <v-col cols='5' id="subject" style="overflow : hidden; text-align: center; font-size: 0.8em;" >
+                {{mobileSubject}}
+            </v-col>
+            <v-col cols='4' id="nickName" style="overflow : hidden; text-align: center; font-size: 0.8em;">
+                {{mobileNickName}}
+            </v-col>
         </v-row>
 
     </v-container>
@@ -45,6 +59,12 @@ moment.lang('ko', {
             },
             userData(){
                 return this.$store.getters.auth_get_data;
+            },
+            mobileSubject(){
+                return this.subject.substr(0,6);
+            },
+            mobileNickName(){
+                return this.nickName.substr(0,4);
             }
         },
         methods : {
@@ -60,6 +80,22 @@ moment.lang('ko', {
 </script>
 
 <style scoped>
+@media all and (max-width:767px) {
+    .pc{
+        display: none;
+    }
+}
+@media all and (max-width:1023px) and (min-width:767px) {
+    .mobile{
+        display: none;
+    }
+    /* 태블릿은 잘보임 */
+}
+@media all and (min-width:1024px) {
+    .mobile{
+        display: none;
+    }
+}
     #ideaIdx{
        height: 40px; text-align: center; padding: 0px;
         border-bottom: thin solid rgba(0, 0, 0, .2)

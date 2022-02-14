@@ -112,7 +112,7 @@
         </v-row>
         <v-row justify='center' class="mobile">
             <v-col cols='12'>
-                <IdeaItemMobile style="cursor:pointer"  v-for="(item, index) in ideaItem"  :key="index" 
+                <IdeaItem style="cursor:pointer"  v-for="(item, index) in ideaItem"  :key="index" 
                     :ideaIdx="item.ideaIdx"
                     :number="item.number"
                     :subject="item.subject" 
@@ -142,14 +142,14 @@
 </template>
 <script>
     import IdeaItem from '../../components/IdeaItem.vue'
-    import IdeaItemMobile from '../../components/IdeaItemMobile.vue'  
+    // import IdeaItemMobile from '../../components/IdeaItemMobile.vue'  
     export default {
         name: 'Idea',
         created() {
             this.createPagination();
         },
         components: {
-            IdeaItem,IdeaItemMobile
+            IdeaItem,
         },
         mounted() {
             

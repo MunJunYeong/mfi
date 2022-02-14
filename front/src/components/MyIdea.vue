@@ -1,7 +1,8 @@
 <template>
     <v-container>
-        <br><br>
-        <v-row justify='center'>
+        <!-- pc version -->
+        <br class="pc"><br class="pc">
+        <v-row justify='center' class="pc">
             <v-col cols='1' />
             <v-col cols='1' style="border-top: black solid 1px; border-bottom: black solid 1px;text-align: center;">
                 번호
@@ -17,8 +18,7 @@
             </v-col>
             <v-col cols='1'></v-col>
         </v-row>
-
-        <v-row justify='center'>
+        <v-row justify='center' class="pc">
             <v-col cols='12'>
                 <IdeaItem style="cursor:pointer"  v-for="(item, index) in ideaItem"  :key="index" 
                 :nickName="item.user.nickName" 
@@ -30,8 +30,7 @@
                 />
             </v-col>
         </v-row>
-
-        <v-row justify='center'>
+        <v-row justify='center' class="pc">
             <v-col cols="5">
                 <v-text-field v-model="searchSubject" label="Search by Title"></v-text-field>
             </v-col>
@@ -41,15 +40,74 @@
                 </v-btn>
             </v-col>
         </v-row>
-
-        <v-pagination
+        <v-pagination class="pc"
         v-model="currentPage"
         :length="totalPages"
         @input="handlePageChange"
         >
         </v-pagination>
+
+        <!-- mobile version -->
+        <v-row justify='center' class="mobile">
+            <v-col cols='3' style="border-top: black solid 1px; border-bottom: black solid 1px;text-align: center; font-size: 0.8em;">
+                번호
+            </v-col>
+            <v-col cols='5' style="border-top: black solid 1px; border-bottom: black solid 1px;text-align: center; font-size: 0.8em;">
+                제목
+            </v-col>
+            <v-col cols='4' style="border-top: black solid 1px; border-bottom: black solid 1px; text-align: center; font-size: 0.8em;">
+                작성자
+            </v-col>
+        </v-row>
+        <v-row justify='center' class="mobile">
+            <v-col cols='12'>
+                <IdeaItem style="cursor:pointer"  v-for="(item, index) in ideaItem"  :key="index" 
+                :nickName="item.user.nickName" 
+                :ideaIdx="item.ideaIdx" 
+                :subject="item.subject" 
+                :content="item.content"
+                :created="item.created"
+                :number="item.number"
+                />
+            </v-col>
+        </v-row>
+        <v-row justify='center' class="mobile">
+            <v-col cols="8">
+                <v-text-field v-model="searchSubject" label="Search by Title"></v-text-field>
+            </v-col>
+            <v-col cols="4"> 
+                <v-btn small @click="currentPage = 1; createPagination();">
+                Search
+                </v-btn>
+            </v-col>
+        </v-row>
+        <v-pagination class="mobile"
+        v-model="currentPage"
+        :length="totalPages"
+        @input="handlePageChange"
+        >
+        </v-pagination>
+
     </v-container>
 </template>
+<style scoped>
+@media all and (max-width:767px) {
+    .pc{
+        display: none;
+    }
+}
+@media all and (max-width:1023px) and (min-width:767px) {
+    .mobile{
+        display: none;
+    }
+    /* 태블릿은 잘보임 */
+}
+@media all and (min-width:1024px) {
+    .mobile{
+        display: none;
+    }
+}
+</style>
 <script>
 import IdeaItem from './IdeaItem.vue'
 
