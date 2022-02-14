@@ -87,28 +87,79 @@
                 </v-col>
                 <v-spacer /> -->
             </v-row>
+
             <v-app-bar-nav-icon @click="drawer = true" class="mobile"></v-app-bar-nav-icon>
+
+            <!-- 로그인 -->
+            <v-app-bar-nav-icon @click="userDrawer = true" class="mobile" v-if="isLogin()">
+                <v-icon>mdi-account-circle-outline</v-icon>
+            </v-app-bar-nav-icon>
+            <router-link class="mobile" v-else  to="/auth/signin">
+                <v-icon>mdi-account-circle-outline</v-icon>
+            </router-link>
+            
         </v-app-bar>
 
 
         <v-navigation-drawer v-model="drawer" temporary :app="true" :bottom="true" class="mobile">
             <v-list nav dense>
                 <v-list-item-group v-model="group" active-class="deep-purple--text text--accent-4">
-                    <v-list-item>
-                        <v-list-item-icon>
-                            <v-icon>mdi-home</v-icon>
-                        </v-list-item-icon>
-                        <v-list-item-title>
-                            홈
-                        </v-list-item-title>
-                    </v-list-item>
+                    <router-link to="/about">
+                        <v-list-item>
+                            <v-list-item-icon>
+                                <v-icon>mdi-file-document</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-title>
+                                MFI 소개
+                            </v-list-item-title>
+                        </v-list-item>
+                    </router-link>
+                    
+                    <router-link to="/idea">
+                        <v-list-item>
+                            <v-list-item-icon>
+                                <v-icon>mdi-file-document-edit</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-title>
+                                분석글
+                            </v-list-item-title>
+                        </v-list-item>
+                    </router-link>
 
-                    <v-list-item>
+                    <router-link to="/notice">
+                        <v-list-item>
+                            <v-list-item-icon>
+                                <v-icon>mdi-android-messages</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-title>
+                                공지
+                            </v-list-item-title>
+                        </v-list-item>
+                    </router-link>
+                </v-list-item-group>
+            </v-list>
+        </v-navigation-drawer>
+
+
+        <v-navigation-drawer v-model="userDrawer" temporary :app="true" :right="true"  class="mobile">
+            <v-list nav dense>
+                <v-list-item-group v-model="group" active-class="deep-purple--text text--accent-4">
+                    <router-link to="/info">
+                        <v-list-item>
+                            <v-list-item-icon>
+                                <v-icon>mdi-account</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-title>
+                                내 정보
+                            </v-list-item-title>
+                        </v-list-item>
+                    </router-link>
+                    <v-list-item v-on:click="logout">
                         <v-list-item-icon>
-                            <v-icon>mdi-account</v-icon>
+                            <v-icon>mdi-account-off</v-icon>
                         </v-list-item-icon>
                         <v-list-item-title>
-                            아이디어
+                            로그아웃
                         </v-list-item-title>
                     </v-list-item>
                 </v-list-item-group>
@@ -119,7 +170,65 @@
 
 </template>
 
+<script>
 
+    export default {
+        name: 'HeaderNav',
+        props: {
+            
+        },
+        created(){
+            this.initialize();
+        },
+        data(){
+            return{
+                accessToken : localStorage.getItem('accessToken'),
+                nickName : '',
+                role : '',
+                drawer: false,
+                userDrawer: false,
+                group: null,
+            }
+        },
+        computed: {
+            userData : function(){
+                return this.$store.getters.auth_get_data;
+            }
+        },
+        methods : {
+            initialize(){
+               if(this.accessToken != null){
+                   return true;
+               } else{
+                   return false;
+               }
+            },
+            logout(){
+                localStorage.removeItem('accessToken');
+                location.href='/home'; //새로고침
+            },
+
+            isLogin(){
+                if(this.accessToken != null){
+                    this.nickName = this.userData.nickName;
+                    this.role = this.userData.role;
+                    return true;
+                }else {
+                    return false;
+                }
+            },
+            admin(){
+                if(this.userData.role === 'admin'){
+                    return true;
+                }else {
+                    return false;
+                }
+                
+            }
+            
+        }
+    }
+</script>
 
 <style scoped>
 
@@ -203,62 +312,3 @@
      font-style: normal;
 }
 </style>
-<script>
-
-    export default {
-        name: 'HeaderNav',
-        props: {
-            
-        },
-        created(){
-            this.initialize();
-        },
-        data(){
-            return{
-                accessToken : localStorage.getItem('accessToken'),
-                nickName : '',
-                role : '',
-                drawer: false,
-                group: null,
-            }
-        },
-        computed: {
-            userData : function(){
-                return this.$store.getters.auth_get_data;
-            }
-        },
-        methods : {
-            initialize(){
-               if(this.accessToken != null){
-                   return true;
-               } else{
-                   return false;
-               }
-            },
-            logout(){
-                localStorage.removeItem('accessToken');
-                location.href='/home'
-                //새로고침
-            },
-
-            isLogin(){
-                if(this.accessToken != null){
-                    this.nickName = this.userData.nickName;
-                    this.role = this.userData.role;
-                    return true;
-                }else {
-                    return false;
-                }
-            },
-            admin(){
-                if(this.userData.role === 'admin'){
-                    return true;
-                }else {
-                    return false;
-                }
-                
-            }
-            
-        }
-    }
-</script>
