@@ -91,7 +91,7 @@
         </v-app-bar>
 
 
-        <v-navigation-drawer v-model="drawer" absolute temporary  class="mobile">
+        <v-navigation-drawer v-model="drawer" temporary :app="true" :bottom="true" class="mobile">
             <v-list nav dense>
                 <v-list-item-group v-model="group" active-class="deep-purple--text text--accent-4">
                     <v-list-item>
