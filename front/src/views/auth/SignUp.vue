@@ -1,104 +1,202 @@
 <template>
   <v-container>
-    <v-row justify="center">
-      <v-col cols='3'>
-        <v-text-field
-            label="아이디 입력"
-            v-model="id"
-            :rules="idRules"
-            hide-details="auto"
-            :readonly="overlapId"
-          ></v-text-field>
-      </v-col>
-      <v-col cols='1'>
-        <v-btn
-            elevation="2" block
-            v-on:click="checkId"
-          >중복확인</v-btn>
-      </v-col>
-    </v-row>
-    <br>
+    <v-container class="pc">
+      <v-row justify="center">
+        <v-col cols='3'>
+          <v-text-field
+              label="아이디 입력"
+              v-model="id"
+              :rules="idRules"
+              hide-details="auto"
+              :readonly="overlapId"
+            ></v-text-field>
+        </v-col>
+        <v-col cols='1'>
+          <v-btn
+              elevation="2" block
+              v-on:click="checkId"
+            >중복확인</v-btn>
+        </v-col>
+      </v-row>
+      <br>
 
-    <v-row justify="center">
-      <v-col cols='4'>
-        <div>
+      <v-row justify="center">
+        <v-col cols='4'>
+          <div>
+            <v-text-field
+              label="비밀번호 입력"
+              v-model="pw"
+              :rules="pwRules"
+              hide-details="auto"
+              :type="show1 ? 'text' : 'password'"
+              :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+              @click:append="show1 = !show1"
+            ></v-text-field>
+            <v-text-field
+              label="비밀번호 재확인"
+              v-model="checkPw"
+              :rules="checkPwRules"
+              hide-details="auto"
+              :type="show2 ? 'text' : 'password'"
+              :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
+              @click:append="show2 = !show2"
+            ></v-text-field>
+          </div>
+        </v-col>
+      </v-row>
+      <v-row justify="center">
+        <v-col cols='3'>
           <v-text-field
-            label="비밀번호 입력"
-            v-model="pw"
-            :rules="pwRules"
-            hide-details="auto"
-            :type="show1 ? 'text' : 'password'"
-            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-            @click:append="show1 = !show1"
-          ></v-text-field>
+              label="닉네임 입력"
+              v-model="nickName" 
+              :rules="checknickNameRules"
+              hide-details="auto"
+              :readonly="overlapNickName"
+            ></v-text-field>
+        </v-col>
+        <v-col cols='1'>
+          <v-btn
+              elevation="2" block
+              v-on:click="checkNickName"
+            >중복확인</v-btn>
+        </v-col>
+      </v-row>
+      <br>
+      <v-row justify="center">
+        <v-col cols='3'>
           <v-text-field
-            label="비밀번호 재확인"
-            v-model="checkPw"
-            :rules="checkPwRules"
+            label="이메일 입력"
+            v-model="email"
             hide-details="auto"
-            :type="show2 ? 'text' : 'password'"
-            :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
-            @click:append="show2 = !show2"
           ></v-text-field>
-        </div>
-      </v-col>
-    </v-row>
-    <v-row justify="center">
-      <v-col cols='3'>
-        <v-text-field
-            label="닉네임 입력"
-            v-model="nickName" 
-            :rules="checknickNameRules"
-            hide-details="auto"
-            :readonly="overlapNickName"
-          ></v-text-field>
-      </v-col>
-      <v-col cols='1'>
-        <v-btn
+        </v-col>
+        <v-col cols='1'>
+          <v-btn
+              elevation="2" block v-on:click="checkEmail()"
+            >인증하기</v-btn>  
+        </v-col>
+      </v-row>
+      <v-row justify="center">
+        <v-col cols="4" >
+          <v-btn
             elevation="2" block
-            v-on:click="checkNickName"
-          >중복확인</v-btn>
-      </v-col>
-    </v-row>
-    <br>
-    <v-row justify="center">
-      <v-col cols='3'>
-        <v-text-field
-          label="이메일 입력"
-          v-model="email"
-          hide-details="auto"
-        ></v-text-field>
-      </v-col>
-      <v-col cols='1'>
-        <v-btn
-            elevation="2" block v-on:click="checkEmail()"
-          >인증하기</v-btn>  
-      </v-col>
-    </v-row>
-    <v-row justify="center">
-      <v-col cols="4" >
-        <v-btn
-          elevation="2" block
-           v-on:click="signUp()" >
-          회원가입 하기
-        </v-btn>
-      </v-col>      
-    </v-row>
-    <v-row justify="center">
-      <v-col cols='4'>
-        <div style="text-align: center;">
-          <router-link to="/auth/findId">아이디찾기</router-link> ㅣ
-          <router-link to="/auth/findPw">비밀번호찾기</router-link> ㅣ 
-          <router-link to="/auth/signIn">로그인하기</router-link>
-        </div>
-      </v-col>
-    </v-row>
-    <br>
-    <v-row justify="center">
-      <v-col cols='5'>
-        <div style="text-align: center;">© 2021 MetaphorForInvesting.com. All rights reserved.</div>
-      </v-col>
-    </v-row>
+            v-on:click="signUp()" >
+            회원가입 하기
+          </v-btn>
+        </v-col>      
+      </v-row>
+      <v-row justify="center">
+        <v-col cols='4'>
+          <div style="text-align: center;">
+            <router-link to="/auth/findId">아이디찾기</router-link> ㅣ
+            <router-link to="/auth/findPw">비밀번호찾기</router-link> ㅣ 
+            <router-link to="/auth/signIn">로그인하기</router-link>
+          </div>
+        </v-col>
+      </v-row>
+      <br>
+      <v-row justify="center">
+        <v-col cols='5'>
+          <div style="text-align: center;">© 2021 MetaphorForInvesting.com. All rights reserved.</div>
+        </v-col>
+      </v-row>    
+    </v-container>
+    
+    <v-container class="mobile">
+      <v-row justify="center">
+        <v-col cols='8'>
+          <v-text-field
+              label="아이디 입력"
+              v-model="id"
+              :rules="idRules"
+              hide-details="auto"
+              :readonly="overlapId"
+            ></v-text-field>
+        </v-col>
+        <v-col cols='2'>
+          <v-btn
+              elevation="4" block
+              v-on:click="checkId"
+            >중복</v-btn>
+        </v-col>
+      </v-row>
+      <br>
+
+      <v-row justify="center">
+        <v-col cols='10'>
+          <div>
+            <v-text-field
+              label="비밀번호 입력"
+              v-model="pw"
+              :rules="pwRules"
+              hide-details="auto"
+              :type="show1 ? 'text' : 'password'"
+              :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+              @click:append="show1 = !show1"
+            ></v-text-field>
+            <v-text-field
+              label="비밀번호 재확인"
+              v-model="checkPw"
+              :rules="checkPwRules"
+              hide-details="auto"
+              :type="show2 ? 'text' : 'password'"
+              :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
+              @click:append="show2 = !show2"
+            ></v-text-field>
+          </div>
+        </v-col>
+      </v-row>
+      <v-row justify="center">
+        <v-col cols='8'>
+          <v-text-field
+              label="닉네임 입력"
+              v-model="nickName" 
+              :rules="checknickNameRules"
+              hide-details="auto"
+              :readonly="overlapNickName"
+            ></v-text-field>
+        </v-col>
+        <v-col cols='2'>
+          <v-btn
+              elevation="2" block
+              v-on:click="checkNickName"
+            >중복</v-btn>
+        </v-col>
+      </v-row>
+      <br>
+      <v-row justify="center">
+        <v-col cols='8'>
+          <v-text-field
+            label="이메일 입력"
+            v-model="email"
+            hide-details="auto"
+          ></v-text-field>
+        </v-col>
+        <v-col cols='2'>
+          <v-btn
+              elevation="2" block v-on:click="checkEmail()"
+            >인증</v-btn>  
+        </v-col>
+      </v-row>
+      <v-row justify="center">
+        <v-col cols="6" >
+          <v-btn
+            elevation="2" block
+            v-on:click="signUp()" >
+            회원가입 하기
+          </v-btn>
+        </v-col>      
+      </v-row>
+      <v-row justify="center">
+        <v-col cols='4'>
+          <div style="text-align: center;">
+            <router-link to="/auth/findId">아이디찾기</router-link> <br>
+            <router-link to="/auth/findPw">비밀번호찾기</router-link> <br>
+            <router-link to="/auth/signIn">로그인하기</router-link>
+          </div>
+        </v-col>
+      </v-row>
+    </v-container>
   </v-container>
 </template>
 
@@ -186,11 +284,11 @@ const { VUE_APP_BACKEND_HOST } = process.env;
         })
         console.log('1');
       },
-      async checkEmail(){
-        this.checkEmail = await axios.post(VUE_APP_BACKEND_HOST + 'checkEmail', {
+      // async checkEmail(){
+      //   this.checkEmail = await axios.post(VUE_APP_BACKEND_HOST + 'checkEmail', {
           
-        } )
-      },
+      //   } )
+      // },
 
       // 회원가입 axious
       async signUp(){
@@ -230,8 +328,25 @@ const { VUE_APP_BACKEND_HOST } = process.env;
     },
   }
 </script>
+
 <style scoped>
   v-textarea[readonly="readonly"] {
     background-color: yellowgreen
+}
+@media all and (max-width:767px) {
+    .pc{
+        display: none;
+    }
+}
+@media all and (max-width:1023px) and (min-width:767px) {
+    .mobile{
+        display: none;
+    }
+    /* 태블릿은 잘보임 */
+}
+@media all and (min-width:1024px) {
+    .mobile{
+        display: none;
+    }
 }
 </style>
