@@ -108,7 +108,6 @@ export default {
         goIdeaPage(){
             let result = confirm("취소하시겠습니까 ?");
             if(result){
-                // location.href='#/idea'
                 history.back();
             }
             

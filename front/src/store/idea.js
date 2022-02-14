@@ -124,12 +124,14 @@ const ideaModule = {
                     }
                 });
                 if(res.data.message === 'unvalid token'){
-                    alert('회원가입 후 확인해주세요');
-                    location.href='/idea'
+                    alert('정상적인 경로가 아닙니다.');
+                    history.back();
+                    return;
+                }else {
+                    commit('click_idea_set_data', res.data.data);
                     return;
                 }
-                commit('click_idea_set_data', res.data.data);
-                return;
+                
             }catch(err){
                 console.log(err);
                 return;
@@ -157,7 +159,6 @@ const ideaModule = {
                     alert('내용을 입력해주세요.');
                 } else {
                     alert("아이디어를 무사히 제출했습니다!");
-                    // location.href='/idea'
                     history.back();
                 }
             }catch(err){

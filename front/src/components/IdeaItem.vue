@@ -49,7 +49,11 @@ moment.lang('ko', {
         },
         methods : {
             clickIdea(ideaIdx){
-                this.$router.push({path: `idea/${ideaIdx}`});
+                if(this.userData.created === undefined){
+                    alert('회원가입 후 게시물을 확인해주세요.')
+                }else{
+                    this.$router.push({path: `idea/${ideaIdx}`});
+                }
             },
         },
     }

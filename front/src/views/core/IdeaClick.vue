@@ -1,5 +1,5 @@
 <template>
-    <v-container v-if="checkValidate()">
+    <v-container >
         <!-- pc/ tablet version -->
         <v-row justify='center' class="pc" >
             <v-col cols='2' />
@@ -257,9 +257,6 @@ moment.lang('ko', {
                await this.showIdea();
                await this.showComment();
                this.checkAuth();
-            },
-            async checkValidate(){
-                return true;
             },
             successModify(success){
                 this.contentFlag = success;
