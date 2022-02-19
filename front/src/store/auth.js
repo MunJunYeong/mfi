@@ -5,6 +5,8 @@ const authModule = {
     state : {
         userCount : {},
         ideaCount : {},
+        todayVisitorCount : {},
+        totalVisitorCount : {},
         userData : {},
         userToken : {},
         userListData : [],
@@ -19,6 +21,12 @@ const authModule = {
         },
         idea_count (state, count){
             state.ideaCount = count;
+        },
+        today_visitor_count (state, count){
+            state.todayVisitorCount = count;
+        },
+        total_visitor_count (state, count){
+            state.totalVisitorCount = count;
         },
         auth_set_data (state, authData) { // 로그인 한 유저 데이터 저장
             state.userData = {...authData};
@@ -44,6 +52,12 @@ const authModule = {
         },
         get_idea_count(state){
             return state.ideaCount;
+        },
+        get_today_visitor_count(state){
+            return state.todayVisitorCount;
+        },
+        get_total_visitor_count(state){
+            return state.totalVisitorCount;
         },
         auth_get_data (state) {
             return state.userData;
@@ -77,7 +91,7 @@ const authModule = {
             }
             commit('user_count', res.data);
         },
-        async get_Idea_count({commit}){
+        async get_idea_count({commit}){
             let res;
             try{
                 res = await axios.get( VUE_APP_BACKEND_HOST + '/ideaCount', {
@@ -88,6 +102,29 @@ const authModule = {
             }
             commit('idea_count', res.data);
         },
+        async get_today_visitor_count({commit}){
+            let res;
+            try{
+                res = await axios.get( VUE_APP_BACKEND_HOST + '/todayVisitor', {
+
+                })
+            }catch(err){
+                console.log(err);
+            }
+            commit('today_visitor_count', res.data);
+        },
+        async get_total_visitor_count({commit}){
+            let res;
+            try{
+                res = await axios.get( VUE_APP_BACKEND_HOST + '/totalVisitor', {
+
+                })
+            }catch(err){
+                console.log(err);
+            }
+            commit('total_visitor_count', res.data);
+        },
+
         //로그인
         async auth_login ({ commit }, loginData) {
             let res;

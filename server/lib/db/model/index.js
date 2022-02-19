@@ -2,17 +2,18 @@ const user = require('./user');
 const idea = require('./idea');
 const comment = require('./comment');
 const visitor = require('./visitor');
-
+const totalVisitor = require('./totalVisitor');
 const modelList = [
     'user',
     'idea',
     'comment',
-    'visitor'
+    'visitor',
+    'totalVisitor'
 ];
 
 module.exports = {
     modelDefines : {
-        user,idea, comment, visitor
+        user,idea, comment, visitor, totalVisitor
     },
     modelList
 }

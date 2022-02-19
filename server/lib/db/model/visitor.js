@@ -2,17 +2,15 @@ const {DataTypes, Sequelize} = require('sequelize');
 
 const create = async(sequelize) => {
     const visitorTable = await sequelize.define('visitor', {
-        visitorIdx : {
+        idx: {
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true,
             autoIncrement: true
         },
         ip : {
-            type : DataTypes.STRING,
-        },
-        total : {
-            type : DataTypes.INTEGER,
+            type: DataTypes.STRING,
+            allowNull: false,
         },
         date : {
             type: DataTypes.DATE,

@@ -1,26 +1,20 @@
 'use strict';
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('visitor', {
+    await queryInterface.createTable('totalVisitor', {
       idx: {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
         autoIncrement: true
       },
-      ip : {
-        type : Sequelize.STRING,
+      total: {
+        type: Sequelize.INTEGER,
         allowNull: false,
       },
-      date : {
-        type: DataTypes.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-    }
     });
   },
-
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('visitor');
+    await queryInterface.dropTable('totalVisitor');
   }
 };

@@ -1,7 +1,8 @@
 const {anonymous: anonymousService } = require('../../service');
+const {visitor : visitorService} =require('../../service');
 const {user : userService} = require('../../service');
 const { Op } = require('../../lib/db');
-const method = require('../../function');
+const {pagination} = require('../../lib/common');
 
 let checkEng = /[a-zA-Z]/;
 let checkNum = /[0-9]/; 
@@ -10,6 +11,14 @@ let checkKor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
 
 const getUserCount = async(req, res) => {
     const result = await anonymousService.getUserCount();
+    res.send({data : result});
+}
+const getTodayVisitor = async(req, res) => {
+    const result = await visitorService.getTodayVisitor();
+    res.send({data : result});
+}
+const getTotalVisitor = async(req, res) => {
+    const result = await visitorService.getTotalVisitor();
     res.send({data : result});
 }
 
@@ -108,7 +117,7 @@ const updateUserRole = async (req, res) => {
 const getUser = async (req, res)=> {
     const {page, nickName} = req.query;
             
-    const {limit, offset} = method.getPagination(page);
+    const {limit, offset} = pagination.getPagination(page);
         
     let where = {};
     where.role = {
@@ -120,7 +129,7 @@ const getUser = async (req, res)=> {
         }
     }
     const data = await userService.getUser(where, limit, offset);
-    const result = method.getPagingUserData(data, page, limit);
+    const result = pagination.getPagingUserData(data, page, limit);
     res.send(result);
 }
 
@@ -134,5 +143,7 @@ module.exports = {
     checkNickName,
     updateUserRole,
     getUser,
-    getUserCount
+    getUserCount,
+    getTotalVisitor,
+    getTodayVisitor,
 }

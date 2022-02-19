@@ -60,8 +60,8 @@
                         <img src="@/assets/visit.svg" alt="방문자" class="article">
                     </div>
                     <div class="article_content">
-                        <br> 방문자 수 <br> total : <span style="font-size : 2em"> {{totalVisitor}} </span> <br>
-                        today : {{todayVisitor}}
+                        <br> 방문자 수 <br> today : <span style="font-size : 2em"> {{todayVisitor}} </span> <br>
+                        total : {{totalVisitor}}
                     </div>
                     <!-- <div>
                         <router-link to="info" class="link_to" style="color:#5C6BC0">내 정보 바로가기</router-link>
@@ -104,8 +104,9 @@
                         <img src="@/assets/visit.svg" alt="방문자" class="mobile_img">
                     </div>
                     <div class="mobile_article_content">
-                        <br> 방문자 수 <br> total : <span style="font-size : 2em"> {{totalVisitor}} </span> <br>
-                        today : {{todayVisitor}}
+                        <br> 방문자 수 
+                        <br> today : <span style="font-size : 2em"> {{todayVisitor}} </span>
+                        <br> today : {{totalVisitor}}
                     </div>
                 </div>
             </v-col>
@@ -125,6 +126,8 @@
     created() {
         this.getUserCount();
         this.getIdeaCount();
+        this.getTodayVisitorCount();
+        this.getTotalVisitorCount();
     },
     computed : {
         userCount : function(){
@@ -133,11 +136,11 @@
         ideaCount : function(){
             return this.$store.getters.get_idea_count.data;
         },
-        totalVisitor : function(){
-            return '업데이트 중';
-        },
         todayVisitor : function(){
-            return '업데이트 중';
+            return this.$store.getters.get_today_visitor_count.data;
+        },
+        totalVisitor : function(){
+            return this.$store.getters.get_total_visitor_count.data;
         }
     },
     data() {
@@ -168,7 +171,23 @@
         },
         async getIdeaCount(){
             try{
-                await this.$store.dispatch('get_Idea_count', {
+                await this.$store.dispatch('get_idea_count', {
+                })
+            }catch(err){
+                console.log(err)
+                }
+        },
+        async getTodayVisitorCount(){
+            try{
+                await this.$store.dispatch('get_today_visitor_count', {
+                })
+            }catch(err){
+                console.log(err)
+                }
+        },
+        async getTotalVisitorCount(){
+            try{
+                await this.$store.dispatch('get_total_visitor_count', {
                 })
             }catch(err){
                 console.log(err)
