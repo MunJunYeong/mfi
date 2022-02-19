@@ -65,6 +65,7 @@ app.use(async(req, res, next) =>{
     next();
   } else{
     const ip = req.clientIp;
+    console.log(ip);
     visitorService.createIp(ip);
     next();
     let now = new Date(); 
