@@ -1,3 +1,6 @@
 const middleware = require('./middleware');
-
-module.exports = {middleware};
+const pagination = require('./pagination');
+module.exports = {
+    middleware,
+    pagination
+};

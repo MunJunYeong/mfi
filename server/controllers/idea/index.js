@@ -2,8 +2,7 @@
 const {Op} = require('../../lib/db');
 
 const {idea : ideaService} = require ('../../service');
-const method = require('../../function');
-
+const {pagination} = require('../../lib/common');
 
 
 const getIdeaCount = async(req, res) => {
@@ -71,31 +70,31 @@ const getClickIdea = async (req, res) =>{
 
 const showIdea = async (req, res) => {
     const {page, subject, order, role, userIdx, userRole} = req.query;
-    const {limit, offset} = method.getPagination(page);
+    const {limit, offset} = pagination.getPagination(page);
     const data = await ideaService.getAllIdea(limit, offset, subject, userIdx, userRole, order, role);
 
-    const result = method.getPagingIdeaData(data, page, limit);
+    const result = pagination.getPagingIdeaData(data, page, limit);
     res.send(result);
     return;
 }
 const showMyIdea = async (req, res) => {
     const {page, subject, userIdx} = req.query;
-    const {limit, offset} = method.getPagination(page);
+    const {limit, offset} = pagination.getPagination(page);
 
     const data = await ideaService.getMyIdea(limit, offset, subject, userIdx);
     
-    const result = await method.getPagingIdeaData(data, page, limit);
+    const result = await pagination.getPagingIdeaData(data, page, limit);
     res.send(result);
     return;
 }
 const showAdminUserIdea = async (req, res) => {
     const userIdx = req.params.userIdx;
     const {page, subject} = req.query;
-    const {limit, offset} = method.getPagination(page);
+    const {limit, offset} = pagination.getPagination(page);
     
     const data = await ideaService.getAdminUserIdea(limit, offset, subject, userIdx);
     
-    const result = await method.getPagingIdeaData(data, page, limit);
+    const result = await pagination.getPagingIdeaData(data, page, limit);
     res.send(result);
     return;
 }

@@ -5,9 +5,11 @@ const { auth: authController} = require('../../controllers');
 const {idea : ideaController} = require('../../controllers');
 
 
-
+//메인 페이지 정보
 anonymousRouter.get('/userCount', authController.getUserCount);
 anonymousRouter.get('/ideaCount', ideaController.getIdeaCount);
+anonymousRouter.get('/todayVisitor', authController.getTodayVisitor);
+anonymousRouter.get('/totalVisitor', authController.getTotalVisitor);
 
 //회원가입하기
 anonymousRouter.post('/signUp', authController.signUP);

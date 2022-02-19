@@ -1,4 +1,3 @@
-
 const  getPagination = (page)=> {
     let currentPage = page-1;
     const limit = 6;

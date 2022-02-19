@@ -14,8 +14,7 @@ const cookParser = require('cookie-parser');
 const db = require('./lib/db');
 
 const app = express();
-const port = 8080
-const schedule = require('node-schedule');
+const port = 8080;
 
 const router = require('./router/index');
 
@@ -34,43 +33,37 @@ var corsOptions = {
 app.use(cors(corsOptions));
 app.use(cookParser());
 app.use(bodyParser.json({limit : 5000000}));
-app.use(requestIp.mw())
+app.use(requestIp.mw());
 
 
-
-// const rule = new schedule.RecurrenceRule();
-// rule.second = 0; rule.minute = 0; rule.hour = 0; 
-// const job = schedule.scheduleJob(rule, function(){
+// app.use(async (req, res, next) => {
+//     const headers = {
+//       'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+//       'Accept': '*/*',
+//       'Origin': 'http://localhost:8081',
+//       'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWR4Ijo2LCJpZCI6InRlc3QiLCJuaWNrTmFtZSI6InRlc3QiLCJlbWFpbCI6ImRmYXNmc0BudmVhZmFldy5jb20iLCJjcmVhdGVkIjoiMjAyMi0wMi0xNFQwODoxNTowMi4zOTdaIiwic3RhdHVzIjpudWxsLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2NDQ4MjcxNzV9.FwIKsZGi_G7JDs-IFJ3y0by_bDGZfR8dbs_xWFWr830'
   
-// })
+//     }
+//     const httpRes = await axios({
+//       method: 'get',
+//       url: 'http://backend.mfinvest.kr/idea/2',
+//       responseType: 'json',
+//       headers,
+//     });
+  
+//     console.log(httpRes.data);
+// });
 
 
+const schedule = require('./schedule');
+schedule.addTotal
 
-
-// const {visitor : visitorController} = require('./controllers');
 const {visitor : visitorService} = require('./service');
-// 방문자 수 count해줄 cookie 설정
-app.use(async (req, res, next) => {
-  const headers = {
-    'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-    'Accept': '*/*',
-    'Origin': 'http://localhost:8081',
-    'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWR4Ijo2LCJpZCI6InRlc3QiLCJuaWNrTmFtZSI6InRlc3QiLCJlbWFpbCI6ImRmYXNmc0BudmVhZmFldy5jb20iLCJjcmVhdGVkIjoiMjAyMi0wMi0xNFQwODoxNTowMi4zOTdaIiwic3RhdHVzIjpudWxsLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2NDQ4MjcxNzV9.FwIKsZGi_G7JDs-IFJ3y0by_bDGZfR8dbs_xWFWr830'
-
-  }
-  const httpRes = await axios({
-    method: 'get',
-    url: 'http://backend.mfinvest.kr/idea/2',
-    responseType: 'json',
-    headers,
-  });
-
-  console.log(httpRes.data);
-
-
+app.use(async(req, res, next) =>{
+  
   if(req.cookies.visitor){
     next();
-  }else{
+  } else{
     const ip = req.clientIp;
     visitorService.createIp(ip);
     next();
@@ -101,4 +94,4 @@ app.listen(port, '0.0.0.0', async () => {
     await db.initialize();
     console.log(`Example app listening at http://localhost:${port}`)
 
-  })
+})
