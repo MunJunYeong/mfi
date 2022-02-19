@@ -5,12 +5,13 @@ const anonymousRouter = require('./anonymous');
 const userRouter = require('./user');
 const ideaRouter = require('./idea');
 const commentRouter = require('./comment');
+const visitorRouter = require('./visitor');
 
 basicRouter.use('/', anonymousRouter);
 basicRouter.use('/user', middleware.validateToken, userRouter)
 basicRouter.use('/idea', middleware.validateToken, ideaRouter);
 basicRouter.use('/comment', middleware.validateToken, commentRouter);
-
+basicRouter.use('/', visitorRouter);
 module.exports = {
     basicRouter
 }

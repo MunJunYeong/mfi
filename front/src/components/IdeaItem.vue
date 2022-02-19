@@ -7,7 +7,7 @@
                 {{number}}
             </v-col>
             <v-col cols='3' id="subject" style="overflow : hidden;" >
-                {{subject}}
+                {{pcSubject}}
             </v-col>
             <v-col cols='3' id="nickName" style="overflow : hidden;">
                 {{nickName}}
@@ -59,6 +59,9 @@ moment.lang('ko', {
             },
             userData(){
                 return this.$store.getters.auth_get_data;
+            },
+            pcSubject(){
+                return this.subject.substr(0,17);
             },
             mobileSubject(){
                 return this.subject.substr(0,6);
