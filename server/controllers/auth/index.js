@@ -2,7 +2,7 @@ const {anonymous: anonymousService } = require('../../service');
 const {visitor : visitorService} =require('../../service');
 const {user : userService} = require('../../service');
 const { Op } = require('../../lib/db');
-const {pagination} = require('../../lib/common');
+const {pagination, utils} = require('../../lib/common');
 
 let checkEng = /[a-zA-Z]/;
 let checkNum = /[0-9]/; 
@@ -41,20 +41,47 @@ const signUP = async (req, res) => {
     res.send({data : result});
     return;
 }
+
 const sendEmail = async (req, res) => {
     const data = req.body;
     if(!data.email){
         res.send({message : 'no email'});
         return;
     }
+    if(!utils.validationEmail(data.email)){
+        res.send({message : 'not validate email'});
+    }
     const result = await anonymousService.sendEmail(data.email);
-    console.log(result);
-    if(result.dataValues.idx){
+    if(result.message === 'exist email'){
+        res.send({message : 'exist email'});
+        return;
+    }else if(result.dataValues.idx){
         res.send({data : result.dataValues.idx});
         return;
     }else {
         res.send({message : 'fail to send email'});
         return;
+    }
+}
+const checkEmail = async (req, res) => {
+    const data = req.body;
+    
+    if(!data.email && !data.no){
+        res.send({message : 'no data'});
+        return;
+    }else if(!data.no){
+        res.send({message : 'no no'});
+        return;
+    }else if(!data.email){
+        res.send({message : 'no email'});
+        return;
+    }
+    const result = await anonymousService.checkEmail(data.email, data.no);
+    console.log(result.data);
+    if(result.data === 1){
+        res.send({data : 1});
+    }else {
+        res.send({message : 'wrong no'});
     }
 }
 
@@ -156,6 +183,7 @@ const getUser = async (req, res)=> {
 module.exports = {
     signUP,
     sendEmail,
+    checkEmail,
     signIn,
     checkId,
     checkNickName,

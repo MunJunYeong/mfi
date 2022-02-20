@@ -14,6 +14,7 @@ anonymousRouter.get('/totalVisitor', authController.getTotalVisitor);
 //회원가입하기
 anonymousRouter.post('/signUp', authController.signUP);
 anonymousRouter.post('/sendEmail', authController.sendEmail);
+anonymousRouter.post('/checkEmail', authController.checkEmail);
 
 //로그인하기
 anonymousRouter.post('/signIn', authController.signIn);
