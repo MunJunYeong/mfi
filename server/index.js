@@ -1,11 +1,8 @@
 const dotenv = require('dotenv')
 dotenv.config();
 
-
 const axios = require('axios');
-
 // console.log(`NODE_ENV= ${process.env.NODE_ENV}`);
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');

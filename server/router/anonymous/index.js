@@ -13,6 +13,7 @@ anonymousRouter.get('/totalVisitor', authController.getTotalVisitor);
 
 //회원가입하기
 anonymousRouter.post('/signUp', authController.signUP);
+anonymousRouter.post('/sendEmail', authController.sendEmail);
 
 //로그인하기
 anonymousRouter.post('/signIn', authController.signIn);

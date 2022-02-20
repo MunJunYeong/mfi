@@ -1,4 +1,5 @@
 const {models, Op} = require('../../lib/db');
+const {utils} = require('../../lib/common')
 
 const  getUserCount = async ()=>{
     const result  = await models['user'].count();
@@ -16,6 +17,16 @@ const signUp = async (id, pw, nickName, email, role) => {
     });
     return result;
 }
+const sendEmail = async (email) => {
+    const emailNo = utils.makeEmailNo(6); // 6자리 인증번호
+    const result =  await models['authentication'].create({
+        email : email,
+        no : emailNo
+    })
+    // send mail ~
+    return result;
+}
+
 const signIn = async (id, pw) => {
     let accessToken;
     const jwt = require('jsonwebtoken');
@@ -61,5 +72,6 @@ module.exports = {
     signIn,
     duplicateId,
     duplicateNickName,
-    getUserCount
+    getUserCount,
+    sendEmail,
 }
