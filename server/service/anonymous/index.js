@@ -18,13 +18,47 @@ const signUp = async (id, pw, nickName, email, role) => {
     return result;
 }
 const sendEmail = async (email) => {
-    const emailNo = utils.makeEmailNo(6); // 6자리 인증번호
-    const result =  await models['authentication'].create({
-        email : email,
-        no : emailNo
+    const findUser = await models['user'].findOne({
+        where : {
+            email : email
+        }
+    });
+    if(findUser === null){
+        const emailNo = utils.makeEmailNo(6); // 6자리 인증번호
+        const result =  await models['authentication'].create({
+            email : email,
+            no : emailNo
+        });
+        // send email method
+        utils.sendEmail(email, emailNo);
+        return result;        
+    }else { // 이미 회원가입된 이메일 정보가 존재할 경우
+        return {message : 'exist email'};
+    }
+}
+const checkEmail = async(email, no) => {
+    //예의치 못하게 2개가 생기는 경우를 방지하고자 findOne이 아닌 findAll 사용-> 가장 최근 인증번호
+    const findAuthNo = await models['authentication'].findAll({
+        where : {
+            email : email
+        },
+        order: [
+            ['idx', 'DESC'],
+        ],
     })
-    // send mail ~
-    return result;
+    if(findAuthNo[0] === undefined){
+        return {message : 'wrong no'};
+    }
+    if(findAuthNo[0].dataValues.no === no){
+        await models['authentication'].destroy({
+            where : {
+                email : email
+            }
+        })
+        return {data : 1};
+    }else {
+        return {message : 'wrong no'};
+    }
 }
 
 const signIn = async (id, pw) => {
@@ -74,4 +108,5 @@ module.exports = {
     duplicateNickName,
     getUserCount,
     sendEmail,
+    checkEmail,
 }

@@ -62,7 +62,6 @@
         </v-col>
       </v-row>
       <br>
-
       <!-- 이메일 -->
       <v-row justify="center">
         <v-col cols='3'>
@@ -114,13 +113,9 @@
         </v-col>
       </v-row>
       <br>
-      <v-row justify="center">
-        <v-col cols='5'>
-          <div style="text-align: center;">© 2021 MetaphorForInvesting.com. All rights reserved.</div>
-        </v-col>
-      </v-row>    
     </v-container>
     
+    <!-- mobile version -->
     <v-container class="mobile">
       <v-row justify="center">
         <v-col cols='8'>
@@ -183,6 +178,7 @@
         </v-col>
       </v-row>
       <br>
+            <!-- 이메일 -->
       <v-row justify="center">
         <v-col cols='8'>
           <v-text-field
@@ -194,8 +190,24 @@
         </v-col>
         <v-col cols='2'>
           <v-btn
-              elevation="2" block v-on:click="checkEmail"
-            >인증</v-btn>  
+              elevation="2" block v-on:click="sendEmail()"
+            >인증번호</v-btn>  
+        </v-col>
+      </v-row>
+      <!-- 이메일 인증번호 -->
+      <v-row justify="center" v-if="authEmailIf">
+        <v-col cols='8'>
+          <v-text-field
+            label="인증번호 입력"
+            v-model="authEmail"
+            hide-details="auto"
+            :readonly="overlapAuthentication"
+          ></v-text-field>
+        </v-col>
+        <v-col cols='2'>
+          <v-btn
+              elevation="2" block v-on:click="checkAuthEmail()"
+            >확인</v-btn>  
         </v-col>
       </v-row>
       <v-row justify="center">
@@ -315,13 +327,31 @@ const { VUE_APP_BACKEND_HOST } = process.env;
       
       //이메일 인증하기 버튼
       async sendEmail(){
+        if(this.overlapEmail){
+          alert('인증 번호가 이미 발송되었습니다.'); return;
+        }
+        //이메일 형식 확인
+        if(!this.validationEmail(this.email)){
+          alert('이메일 형식에 맞추어 작성해주세요.'); return;
+        }
+
         this.overlapEmail = await axios.post(VUE_APP_BACKEND_HOST + '/sendEmail', {
           email : this.email
         }).then(res =>{
-          if(res.data.message === 'no email'){
+          if(res.data.message === 'exist email'){
+            alert('이미 존재하는 이메일입니다.');
+            return false;
+          }else if(res.data.message === 'fail to send mail'){
+            alert('잠시 후 다시 시도해주세요.(error : 1)');
+            return false;
+          }else if(res.data.message === 'no email'){
             alert('이메일을 입력해주세요 !');
             return false;
-          }else {
+          }else if(res.data.message === 'not validate email'){
+            alert('올바른 이메일 형식을 입력해주세요 !');
+            return false;
+          }
+          else {
             this.authEmailIf = true;
             alert('이메일을 보냈습니다.');
             return true;
@@ -334,7 +364,25 @@ const { VUE_APP_BACKEND_HOST } = process.env;
           email : this.email,
           no : this.authEmail
         }).then(res => {
-          
+          if(res.data.message === 'no data'){
+            alert('올바르지 않는 입력입니다.');
+            return;
+          }else if(res.data.message === 'no no'){
+            alert('인증 번호를 입력해주세요.');
+            return;
+          }else if(res.data.message === 'no email'){
+            alert('이메일 입력에 오류가 생겼습니다.(새로고침 후 다시 등록해주세요)');
+            return;
+          }
+          console.log(res);
+          if(res.data.data === 1){
+            alert('인증이 완료되었습니다.');
+            this.authEmailIf = false;
+            return true;
+          }else {
+            alert('인증에 실패했습니다.');
+            return false;
+          }
         })
       },
       // 회원가입 axious
@@ -373,6 +421,10 @@ const { VUE_APP_BACKEND_HOST } = process.env;
           console.log(res);
           return;
         }
+      },
+      validationEmail(str){
+        const reg = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
+        return reg.test(str);
       }
     },
   }
