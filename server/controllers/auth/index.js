@@ -41,6 +41,23 @@ const signUP = async (req, res) => {
     res.send({data : result});
     return;
 }
+const sendEmail = async (req, res) => {
+    const data = req.body;
+    if(!data.email){
+        res.send({message : 'no email'});
+        return;
+    }
+    const result = await anonymousService.sendEmail(data.email);
+    console.log(result);
+    if(result.dataValues.idx){
+        res.send({data : result.dataValues.idx});
+        return;
+    }else {
+        res.send({message : 'fail to send email'});
+        return;
+    }
+}
+
 //로그인
 const signIn = async (req, res) => {
     const data = req.body;
@@ -138,6 +155,7 @@ const getUser = async (req, res)=> {
 
 module.exports = {
     signUP,
+    sendEmail,
     signIn,
     checkId,
     checkNickName,

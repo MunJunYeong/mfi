@@ -8,7 +8,7 @@
                 <v-col cols='12' class="imageWrapper"  style="text-align: center;">
                     <div id="imageText">
                         <h1 id="mfi_mean">Metaphor For Investing</h1> <br><br>
-                        <p class="subtitle">MFI는 가치있는 투자자와 함께 성공적인 투자 분석 아이디어를 공유합니다.</p>
+                        <p class="subtitle">MFI는 금융시장의 메타포를 찾기 위한 아이디어를 공유하는 장소입니다.</p>
                     </div>
                 </v-col>
             </v-row>                 
