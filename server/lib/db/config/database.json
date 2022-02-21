@@ -1,16 +1,16 @@
 {
     "local": {
         "username": "mfi",
-        "password" : "postgres",
+        "password": "mfianswnsdud!",
         "database": "mfi",
-        "host": "localhost",
+        "host": "mfi.ctj83k4lukvd.ap-northeast-2.rds.amazonaws.com",
         "dialect": "postgres"
     },
     "development": {
         "username": "mfi",
-        "password": "mfianswnsdud!",
+        "password" : "postgres",
         "database": "mfi",
-        "host": "mfi.ctj83k4lukvd.ap-northeast-2.rds.amazonaws.com",
+        "host": "localhost",
         "dialect": "postgres"
     },
     "production": {
@@ -21,3 +21,4 @@
         "dialect": "postgres"
     }
 }
+
