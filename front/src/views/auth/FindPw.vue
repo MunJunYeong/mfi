@@ -95,67 +95,101 @@
         </v-row>
       </v-container>
       
+
       <v-container class="mobile">
-        <v-row justify="center">
-          <v-col cols='10'>
-            <v-text-field
-                label="이름 입력"
-                
-                hide-details="auto"
-              ></v-text-field>
-          </v-col>
-        </v-row>
-        <v-row justify="center">
+        <v-row justify="center" v-if="beforeCheck">
           <v-col cols='10'>
             <v-text-field
               label="아이디 입력"
-              
+              v-model="id"
               hide-details="auto"
+              :readonly="overlapId"
             ></v-text-field>
           </v-col>
         </v-row>
-        <v-row justify="center">
+        <v-row justify="center" v-if="beforeCheck">
           <v-col cols='8'>
             <v-text-field
               label="이메일 입력"
-              
+              v-model="email"
               hide-details="auto"
+              :readonly="overlapEmail"
             ></v-text-field>
           </v-col>
           <v-col cols='2'>
             <v-btn
-                elevation="2" block
-              >인증</v-btn>  
+                elevation="2" block v-on:click="sendEmail"
+              >인증번호</v-btn>  
           </v-col>
-        </v-row>
-        <v-row justify="center">
+        </v-row >
+        <v-row justify="center" v-if="authEmailIf">
           <v-col cols='10'>
             <v-text-field
                 label="인증번호 입력"
-                
                 hide-details="auto"
+                v-model="authEmail"
+                :readonly="overlapAuthentication"
               ></v-text-field>
           </v-col>
         </v-row>    
-        <v-row justify="center">
+        <v-row justify="center" v-if="beforeCheck">
           <v-col cols="4" >
             <v-btn
-              elevation="2" block>
+              elevation="2" block v-on:click="checkAuthEmail()"
+              >
               다음
             </v-btn>
           </v-col>      
         </v-row>
+        
+        <v-row justify="center" v-if="after">
+          <v-col cols='10' >
+            <h3>변경할 비밀번호 입력</h3>
+          </v-col>
+        </v-row>
+        <v-row justify="center"  v-if="after">
+          <v-col cols='10'>
+            <div>
+              <v-text-field
+                label="비밀번호 입력"
+                v-model="pw"
+                :rules="pwRules"
+                hide-details="auto"
+                :type="show1 ? 'text' : 'password'"
+                :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                @click:append="show1 = !show1"
+              ></v-text-field>
+              <v-text-field
+                label="비밀번호 재확인"
+                v-model="checkPw"
+                :rules="checkPwRules"
+                hide-details="auto"
+                :type="show2 ? 'text' : 'password'"
+                :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
+                @click:append="show2 = !show2"
+              ></v-text-field>
+            </div>
+          </v-col>
+        </v-row>
+        <v-row justify="center"  v-if="after">
+          <v-col cols="8" >
+            <v-btn
+              elevation="2" block v-on:click="updatePw"
+              >
+              완료
+            </v-btn>
+          </v-col>      
+        </v-row>
         <v-row justify="center">
-          <v-col cols='8'>
+          <v-col cols='4'>
             <div style="text-align: center;">
               <router-link to="/auth/findId">아이디찾기</router-link> <br>
               <router-link to="/auth/signIn">로그인하기</router-link> <br>
               <router-link to="/auth/signUp">회원가입하기</router-link>
-
             </div>
           </v-col>
         </v-row>
-      </v-container>
+      </v-container>      
 
     </v-container>
 </template>
