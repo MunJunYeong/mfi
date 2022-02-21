@@ -145,6 +145,7 @@ const checkId = async (req, res) =>{
         return;
     }
     const result = await anonymousService.duplicateId(data.id);
+    console.log(result);
     if(result){
         res.send({
             value : 'false',
@@ -196,6 +197,7 @@ const getUser = async (req, res)=> {
     const {limit, offset} = pagination.getPagination(page);
         
     let where = {};
+    
     where.role = {
         [Op.ne] : 'admin'
     }

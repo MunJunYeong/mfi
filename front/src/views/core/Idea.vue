@@ -4,7 +4,6 @@
         <br class="pc">
         <!-- pc tablet version -->
         <v-row justify='center' class="pc">
-            <!-- <v-col cols='1' /> -->
             <v-col cols='3'  >
                 <div style=" height: 75px; " >
                     <p style="font-size: 1.5em;">모든아이디어</p> 
@@ -45,7 +44,7 @@
             <v-col cols='1' class="table">
                 번호
             </v-col>
-            <v-col cols='3' class="table">
+            <v-col cols='4' class="table">
                 제목
             </v-col>
             <v-col cols='3' class="table">

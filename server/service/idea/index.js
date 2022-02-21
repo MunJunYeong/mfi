@@ -23,7 +23,6 @@ const getAllIdea = async (limit, offset, subject, userIdx, userRole, orderData, 
     const where = {
         [Op.and] : [],
     };
-    console.log(userRole)
     let date= new Date();
     const whereDate = date.setDate(-45);
     let order = [['ideaIdx', 'DESC']];
@@ -100,11 +99,17 @@ const getAllIdea = async (limit, offset, subject, userIdx, userRole, orderData, 
             {
                 model : models['user'],
                 where : userWhere,
+                attributes : {
+                    exclude : ['id', 'pw', 'email']
+                },
                 required: true,
             }
         ],
         order,
         limit,
+        attributes : {
+            exclude : ['content']
+        },
         offset
     });
     return data;
@@ -125,10 +130,16 @@ const getMyIdea = async (limit, offset, subject, userIdx)=>{
             {
                 model : models['user'],
                 where : userWhere,
+                attributes : {
+                    exclude : ['id', 'pw', 'email']
+                },
                 required: true,
             }
         ],
         order : [['ideaIdx', 'DESC']],
+        attributes : {
+            exclude : ['content']
+        },
         limit,
         offset
     });
@@ -149,6 +160,9 @@ const getAdminUserIdea = async (limit, offset, subject, userIdx)=>{
             {
                 model : models['user'],
                 where : userWhere,
+                attributes : {
+                    exclude : ['id', 'pw', 'email']
+                },
                 required: true,
             }
         ],
@@ -169,6 +183,9 @@ const getIdea = async (ideaIdx) => {
         include : [
             {
                 model : models['user'],
+                attributes : {
+                    exclude : ['id', 'pw', 'email']
+                },
             }
         ]
     })

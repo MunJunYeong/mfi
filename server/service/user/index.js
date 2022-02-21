@@ -22,6 +22,9 @@ const updateRole = async (role, userIdx) => {
 const getUser =  async (where, limit, offset) => {
   const data = await models['user'].findAndCountAll({
     where,
+    attributes : {
+      exclude : ['id', 'pw', 'email']
+    },
     order : [['userIdx', 'DESC']],
     order : [['role', 'DESC']],
     limit,

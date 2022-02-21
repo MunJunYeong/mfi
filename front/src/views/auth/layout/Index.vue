@@ -32,7 +32,7 @@
 
       <v-row justify="center">
         <v-col cols='12'>
-          <div style="text-align: center;">© 2021 MetaphorForInvesting.com. All rights reserved.</div>
+          <div style="text-align: center;">© 2021 MetaphorForInvesting.com. <br> All rights reserved.</div>
         </v-col>
       </v-row>
     </v-container>
