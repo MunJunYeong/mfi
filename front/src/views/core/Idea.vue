@@ -89,9 +89,7 @@
                     <p style="font-size: 0.8em;">검색결과 : {{totalItems && totalItems > 0? totalItems: 0}}개</p></div>
             </v-col>
             <v-col cols='3'>
-                <router-link to="/add-idea">
-                        <v-btn small>아이디어 내기</v-btn>
-                </router-link>
+                
             </v-col>
             <v-spacer />
         </v-row>
