@@ -21,7 +21,10 @@ const sendEmail = async (email) => {
     const findUser = await models['user'].findOne({
         where : {
             email : email
-        }
+        },
+        attributes : {
+            exclude : ['id', 'pw', 'nickName', 'role']
+        },
     });
     if(findUser === null){
         const emailNo = utils.makeEmailNo(6); // 6자리 인증번호
@@ -65,7 +68,10 @@ const findIdSendMail = async(email) => {
     const findUser = await models['user'].findOne({
         where : {
             email : email
-        }
+        },
+        attributes : {
+            exclude : ['pw', 'nickName', 'role']
+        },
     })
     if(findUser === null){
         return {message : 'no data'};
@@ -85,7 +91,10 @@ const findPwSendMail = async(id, email) => {
         where : {
             id : id,
             email : email,
-        }
+        },
+        attributes : {
+            exclude : ['id', 'pw', 'nickName', 'role']
+        },
     })
     if(findUser === null){
         return {message : 'no user'};
@@ -95,7 +104,7 @@ const findPwSendMail = async(id, email) => {
             email : email,
             no : emailNo
         });
-        utils.sendPw(email, emailNo)
+        utils.sendPw(email, emailNo);
         return {data : 1};
     }
 }
@@ -119,7 +128,10 @@ const signIn = async (id, pw) => {
     const findId = await models['user'].findOne({
         where : {
             id : id
-        }
+        },
+        attributes : {
+            exclude : ['id']
+        },
     });
     if(findId){
         const tokenData = {
@@ -127,6 +139,7 @@ const signIn = async (id, pw) => {
         }
         if(pw === tokenData.pw){
             delete tokenData.pw;
+            console.log(tokenData)
             accessToken = jwt.sign(tokenData, 'shhhhh');
             return {token : accessToken};
         }else {
@@ -140,7 +153,10 @@ const duplicateId = async (id) => {
     const result = await models['user'].findOne({
         where : {
             id : id
-        }
+        },
+        attributes : {
+            exclude : ['id', 'pw', 'email', 'nickName', 'role']
+        },
     });
     return result;
 } 
@@ -148,7 +164,10 @@ const duplicateNickName = async (nickName) => {
     const result = await models['user'].findOne({
         where : {
             nickName : nickName
-        }
+        },
+        attributes : {
+            exclude : ['id', 'pw', 'email', 'nickName', 'role']
+        },
     });
     return result;
 } 

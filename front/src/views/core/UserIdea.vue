@@ -3,19 +3,19 @@
         <br>
         <v-row justify='center'>
             <v-col cols='1' />
-            <v-col cols='1' class="table">
+            <v-col cols='1' style="text-align : center; " class="table">
                 번호
             </v-col>
-            <v-col cols='3' class="table">
+            <v-col cols='3' style="text-align : center;" class="table">
                 제목
             </v-col>
-            <v-col cols='3' class="table">
+            <v-col cols='3' style="text-align : center;" class="table">
                 작성자
             </v-col>
-            <v-col cols='2' class="table">
+            <v-col cols='2' style="text-align : center;" class="table">
                 게시일
             </v-col>
-            <v-col cols='1' class="table"></v-col>
+            <v-col cols='1' style="text-align : center;" class="table"></v-col>
         </v-row>
 
         <v-row justify='center'>

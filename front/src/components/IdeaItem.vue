@@ -3,16 +3,16 @@
         <!-- pc version -->
         <v-row justify='center' id="ideaItem" v-on:click = "clickIdea(ideaIdx)" class="pc">
             <v-col cols='1' />
-            <v-col cols='1' id="ideaIdx">
+            <v-col cols='1' class="table">
                 {{number}}
             </v-col>
-            <v-col cols='3' id="subject" style="overflow : hidden;" >
+            <v-col cols='4' class="table" style="overflow : hidden;" >
                 {{pcSubject}}
             </v-col>
-            <v-col cols='3' id="nickName" style="overflow : hidden;">
+            <v-col cols='3' class="table" style="overflow : hidden;">
                 {{nickName}}
             </v-col>
-            <v-col cols='2' id="created" style="overflow : hidden;">
+            <v-col cols='2' class="table" style="overflow : hidden;">
                 {{createdAt}}
             </v-col>
             <v-col cols='1'></v-col>
@@ -99,21 +99,8 @@ moment.lang('ko', {
         display: none;
     }
 }
-    #ideaIdx{
+    .table{
        height: 40px; text-align: center; padding: 0px;
-        border-bottom: thin solid rgba(0, 0, 0, .2)
-    }
-    #subject{
-        height: 40px; text-align: center; padding: 0px;
-        border-bottom: 1px solid rgba(0, 0, 0, .2)
-
-    }
-    #nickName{
-        height: 40px; text-align: center; padding: 0px;
-        border-bottom: 1px solid rgba(0, 0, 0, .2)
-    }
-    #created{
-        height: 40px;text-align: center;
-        padding: 0px;border-bottom: 1px solid rgba(0, 0, 0, .2)
+        
     }
 </style>
