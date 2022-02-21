@@ -77,12 +77,44 @@ const checkEmail = async (req, res) => {
         return;
     }
     const result = await anonymousService.checkEmail(data.email, data.no);
-    console.log(result.data);
     if(result.data === 1){
         res.send({data : 1});
     }else {
         res.send({message : 'wrong no'});
     }
+}
+//find Id, Pw
+const findIdSendMail = async(req, res) => {
+    const data = req.body;
+    // front에서 막아놨기에 비정상적인 접근으로 이메일을 쏜거임
+    if(!data.email){
+        res.send({message : 'wrong access'});
+    }
+    const result = await anonymousService.findIdSendMail(data.email);
+    // console.log(result);
+    res.send(result);
+    // if(result === undefined || result.message === 'no data' ){
+    //     res.send(result);
+}
+const findPwSendMail = async(req, res) => {
+    const data = req.body;
+    // front에서 막아놨기에 비정상적인 접근으로 이메일을 쏜거임
+    if( data.id === '' || data.email === '' || data.id === null || data.email === null ){
+        res.send({message : 'wrong access'}); return;
+    }
+    const result = await anonymousService.findPwSendMail(data.id, data.email);
+    res.send(result);
+    
+}
+const updatePw = async(req, res) => {
+    const data = req.body; // data -> email, pw, id
+    // front에서 막아놨기에 비정상적인 접근으로 이메일을 쏜거임
+    if(data.email === '' || data.pw === '' || data.id === ''){
+        res.send({message : 'wrong access'}); return;
+    }
+    const result = await anonymousService.updatePw(data.email, data.pw, data.id);
+    console.log(result[0]);
+    res.send({data : result[0]});
 }
 
 //로그인
@@ -192,4 +224,7 @@ module.exports = {
     getUserCount,
     getTotalVisitor,
     getTodayVisitor,
+    findIdSendMail,
+    findPwSendMail,
+    updatePw
 }

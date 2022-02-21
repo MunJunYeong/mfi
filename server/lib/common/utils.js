@@ -46,8 +46,67 @@ const sendEmail = async (email, no) => {
     `,
   });
 };
-  
 
+//아이디 찾기 이메일
+const sendId = async (id, email) => {
+  let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false,
+    auth: {
+      user: process.env.EMAIL_ID,
+      pass: process.env.EMAIL_PW,
+    },
+  });
+
+  // send mail with defined transport object
+  let info = await transporter.sendMail({
+    from: ` "MFI" <${process.env.EMAIL_ID}>`,
+    to: email,
+    subject: 'MFI 아이디 찾기 결과',
+    text: 'text 입력',
+    html: `
+      <p> 
+        안녕하세요, 사용자님  <br> 
+        요청하신 MFI 사이트 아이디를 안내 드립니다.
+        아래 아이디를 확인해주세요. <br>
+        ID : <h2>${id} </h2> <br>
+        MFI 드림.
+      </p>
+    `,
+  });
+};
+const sendPw = async (email, no) => {
+  let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false,
+    auth: {
+      user: process.env.EMAIL_ID,
+      pass: process.env.EMAIL_PW,
+    },
+  });
+  
+  // send mail with defined transport object
+  let info = await transporter.sendMail({
+    from: ` "MFI" <${process.env.EMAIL_ID}>`,
+    to: email,
+    subject: 'MFI 계정 비밀번호 찾기 인증번호',
+    text: 'text 입력',
+    html: `
+      <p> 
+        안녕하세요, 사용자님  <br> 
+        요청하신 MFI 사이트 비밀번호 찾기 인증번호를 안내 드립니다.
+        아래 번호를 입력하여 MFI 사이트 인증 절차를 완료해 주세요. <br>
+        인증번호 : <h2>${no} </h2> <br>
+        MFI 드림.
+      </p>
+    `,
+  });
+};
 module.exports = {
-    makeEmailNo, sendEmail,validationEmail
+    makeEmailNo, sendEmail,validationEmail, sendId,sendPw
+
 }

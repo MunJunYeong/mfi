@@ -16,6 +16,11 @@ anonymousRouter.post('/signUp', authController.signUP);
 anonymousRouter.post('/sendEmail', authController.sendEmail);
 anonymousRouter.post('/checkEmail', authController.checkEmail);
 
+//ID, PW 찾기
+anonymousRouter.post('/findId', authController.findIdSendMail);
+anonymousRouter.post('/findPw', authController.findPwSendMail);
+anonymousRouter.put('/updatePw', authController.updatePw);
+
 //로그인하기
 anonymousRouter.post('/signIn', authController.signIn);
 

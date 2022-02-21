@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 
 import auth from './auth';
 import idea from './idea';
-
+import anonymous from './anonymous'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -16,6 +16,6 @@ export default new Vuex.Store({
   // actions: {
   // },
   modules: {
-    auth, idea
+    auth, idea, anonymous
   }
 })

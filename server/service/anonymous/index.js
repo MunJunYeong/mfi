@@ -47,7 +47,7 @@ const checkEmail = async(email, no) => {
         ],
     })
     if(findAuthNo[0] === undefined){
-        return {message : 'wrong no'};
+        return {message : 'fail to send'};
     }
     if(findAuthNo[0].dataValues.no === no){
         await models['authentication'].destroy({
@@ -60,7 +60,59 @@ const checkEmail = async(email, no) => {
         return {message : 'wrong no'};
     }
 }
+//find id , pw
+const findIdSendMail = async(email) => {
+    const findUser = await models['user'].findOne({
+        where : {
+            email : email
+        }
+    })
+    if(findUser === null){
+        return {message : 'no data'};
+    }else {
+        let userInfo = {
+            id : findUser.dataValues.id,
+            email : findUser.dataValues.email
+        };
+        let id = userInfo.id.substring(0, userInfo.id.length-3);
+        utils.sendId( id+'***' , userInfo.email);
+        return {data : 1};
+    }
+}
 
+const findPwSendMail = async(id, email) => {
+    const findUser = await models['user'].findOne({
+        where : {
+            id : id,
+            email : email,
+        }
+    })
+    if(findUser === null){
+        return {message : 'no user'};
+    }else {
+        const emailNo = utils.makeEmailNo(6); // 6자리 인증번호
+        await models['authentication'].create({
+            email : email,
+            no : emailNo
+        });
+        utils.sendPw(email, emailNo)
+        return {data : 1};
+    }
+}
+const updatePw = async (email, pw, id) => {
+    const result = await models['user'].update(
+        {
+            pw : pw
+        },
+        {
+            where :{
+                email : email,
+                id : id
+            }
+        }
+    )
+    return result;
+}
 const signIn = async (id, pw) => {
     let accessToken;
     const jwt = require('jsonwebtoken');
@@ -109,4 +161,7 @@ module.exports = {
     getUserCount,
     sendEmail,
     checkEmail,
+    findIdSendMail,
+    findPwSendMail,
+    updatePw
 }

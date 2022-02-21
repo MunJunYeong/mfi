@@ -2,45 +2,20 @@
     <v-container>
       <v-container class="pc">
         <v-row justify="center">
-          <v-col cols='4'>
-            <v-text-field
-                label="이름 입력"
-  
-                hide-details="auto"
-              ></v-text-field>
-          </v-col>
-        </v-row>
-        <v-row justify="center">
           <v-col cols='3'>
             <v-text-field
               label="이메일 입력"
-
+              v-model="email"
               hide-details="auto"
             ></v-text-field>
           </v-col>
           <v-col cols='1'>
             <v-btn
-                elevation="2" block
-              >인증번호 받기</v-btn>  
+                elevation="2" block v-on:click="sendEmail()"
+              >이메일 받기</v-btn>  
           </v-col>
         </v-row>
-        <v-row justify="center">
-          <v-col cols='4'>
-            <v-text-field
-                label="인증번호 입력"
   
-                hide-details="auto"
-              ></v-text-field>
-          </v-col>
-        </v-row>      
-        <v-row justify="center">
-          <v-col cols="4" >
-            <v-btn
-              elevation="2" block>
-              다음
-            </v-btn>
-          </v-col>      
-        </v-row>
         <v-row justify="center">
           <v-col cols='4'>
             <div style="text-align: center;">
@@ -54,44 +29,20 @@
 
       <v-container class="mobile">
         <v-row justify="center">
-          <v-col cols='10'>
-            <v-text-field
-                label="이름 입력"
-                hide-details="auto"
-              ></v-text-field>
-          </v-col>
-        </v-row>
-        <v-row justify="center">
           <v-col cols='8'>
             <v-text-field
               label="이메일 입력"
-
+              v-model="email"
               hide-details="auto"
             ></v-text-field>
           </v-col>
           <v-col cols='2'>
             <v-btn
-                elevation="2" block
-              >인증</v-btn>  
+                elevation="2" block v-on:click="sendEmail()"
+              >이메일 받기</v-btn>  
           </v-col>
         </v-row>
-        <v-row justify="center">
-          <v-col cols='10'>
-            <v-text-field
-                label="인증번호 입력"
   
-                hide-details="auto"
-              ></v-text-field>
-          </v-col>
-        </v-row>      
-        <v-row justify="center">
-          <v-col cols="4" >
-            <v-btn
-              elevation="2" block>
-              다음
-            </v-btn>
-          </v-col>      
-        </v-row>
         <v-row justify="center">
           <v-col cols='8'>
             <div style="text-align: center;">
@@ -100,7 +51,7 @@
               <router-link to="/auth/signUp">회원가입하기</router-link>
             </div>
           </v-col>
-        </v-row>      
+        </v-row>     
       </v-container>
     </v-container>
 </template>
@@ -125,6 +76,29 @@
 <script>
 export default {
     name : 'findId',
+    data (){
+      return {
+        email : '',
+      }
+    },
+    methods : {
+      async sendEmail(){
+        if(!this.validationEmail(this.email)){
+          alert('이메일 형식에 맞추어 작성해주세요.'); return;
+        }
+        try{
+          await this.$store.dispatch('find_id_send_email', {
+            email : this.email
+          })
+        }catch(err){
+          console.log(err);
+        }
+      },
+      validationEmail(str){
+        const reg = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+        return reg.test(str);
+      },
+    },
     
 }
 </script>

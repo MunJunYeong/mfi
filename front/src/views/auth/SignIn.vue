@@ -42,11 +42,6 @@
         </v-col>
       </v-row>
       <br><br>
-      <v-row justify="center">
-        <v-col cols='4'>
-          <div style="text-align: center;">© 2021 MetaphorForInvesting.com. All rights reserved.</div>
-        </v-col>
-      </v-row>
     </v-container>
 
     <v-container class="mobile">
