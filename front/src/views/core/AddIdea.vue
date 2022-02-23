@@ -83,7 +83,7 @@
 .editor {
   display: flex;
   flex-direction: column;
-  max-height: 400px;
+  max-height: 1200px;
   color: #0D0D0D;
   background-color: white;
   border: 3px solid #0D0D0D;
