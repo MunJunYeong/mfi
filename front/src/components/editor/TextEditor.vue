@@ -21,7 +21,7 @@
             </v-col>
         </v-row>
 
-        <Editor :initialValue="editorText" ref="toastEditor" initialEditType="wysiwyg"  height="500px" />
+        <Editor :initialValue="editorText" ref="toastEditor" initialEditType="wysiwyg"  height="600px" />
 
 
         <!-- pc version -->

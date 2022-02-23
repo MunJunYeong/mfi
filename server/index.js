@@ -30,7 +30,7 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(cookParser());
-app.use(bodyParser.json({limit : 5000000}));
+app.use(bodyParser.json({limit : 50000000}));
 app.use(requestIp.mw());
 
 
