@@ -11,6 +11,7 @@ const create = async(sequelize) => {
         ip : {
             type: DataTypes.STRING,
             allowNull: false,
+            unique: true
         },
         date : {
             type: DataTypes.DATE,

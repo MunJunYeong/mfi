@@ -12,6 +12,7 @@ module.exports = {
       ip : {
         type : Sequelize.STRING,
         allowNull: false,
+        unique: true,
       },
       date : {
         type: Sequelize.DATE,
