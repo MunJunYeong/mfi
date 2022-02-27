@@ -1,9 +1,9 @@
 const dotenv = require('dotenv')
 dotenv.config();
 
-
+const { parse } = require('node-html-parser');
+const iconv = require('iconv-lite')
 const axios = require('axios');
-// console.log(`NODE_ENV= ${process.env.NODE_ENV}`);
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -34,31 +34,12 @@ app.use(bodyParser.json({limit : 50000000}));
 app.use(requestIp.mw());
 
 
-// app.use(async (req, res, next) => {
-//     const headers = {
-//       'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-//       'Accept': '*/*',
-//       'Origin': 'http://localhost:8081',
-//       'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWR4Ijo2LCJpZCI6InRlc3QiLCJuaWNrTmFtZSI6InRlc3QiLCJlbWFpbCI6ImRmYXNmc0BudmVhZmFldy5jb20iLCJjcmVhdGVkIjoiMjAyMi0wMi0xNFQwODoxNTowMi4zOTdaIiwic3RhdHVzIjpudWxsLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2NDQ4MjcxNzV9.FwIKsZGi_G7JDs-IFJ3y0by_bDGZfR8dbs_xWFWr830'
-  
-//     }
-//     const httpRes = await axios({
-//       method: 'get',
-//       url: 'http://backend.mfinvest.kr/idea/2',
-//       responseType: 'json',
-//       headers,
-//     });
-  
-//     console.log(httpRes.data);
-// });
-
-
 const schedule = require('./schedule');
 schedule.addTotal
 
 const {visitor : visitorService} = require('./service');
 app.use(async(req, res, next) =>{
-  
+    console.log(req.cookies.visitor);
   if(req.cookies.visitor){
     next();
   } else{
@@ -92,5 +73,29 @@ app.get('/ping', async(req, res) => {
 app.listen(port, '0.0.0.0', async () => {
     await db.initialize();
     console.log(`Example app listening at http://localhost:${port}`)
+    // await apiTest();
 
 })
+
+
+// const apiTest = async () => {
+//   const headers = {
+//     // 'Content-type': 'application/json; charset=UTF-8',
+//     'Accept': '*/*',
+//     'Origin': 'http://localhost:8081',
+//     // 'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWR4Ijo2LCJpZCI6InRlc3QiLCJuaWNrTmFtZSI6InRlc3QiLCJlbWFpbCI6ImRmYXNmc0BudmVhZmFldy5jb20iLCJjcmVhdGVkIjoiMjAyMi0wMi0xNFQwODoxNTowMi4zOTdaIiwic3RhdHVzIjpudWxsLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2NDQ4MjcxNzV9.FwIKsZGi_G7JDs-IFJ3y0by_bDGZfR8dbs_xWFWr830'
+
+//   }
+//   const httpRes = await axios({
+//     method: 'get',
+//     url: 'https://finance.naver.com/news/news_list.naver?mode=LSS3D&section_id=101&section_id2=258&section_id3=401',
+//     // responseType: 'json',
+//     headers,
+//   });
+
+//   const responseData = httpRes.data;
+//   const root = parse(responseData);
+//   console.log(root.querySelectorAll('.articleSubject'))
+
+  
+// };

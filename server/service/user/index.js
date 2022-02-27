@@ -25,8 +25,11 @@ const getUser =  async (where, limit, offset) => {
     attributes : {
       exclude : ['id', 'pw', 'email']
     },
-    order : [['userIdx', 'DESC']],
-    order : [['role', 'DESC']],
+    order : [
+      ['role', 'ASC'],
+      ['userIdx', 'ASC'],
+      
+    ],
     limit,
     offset
   })

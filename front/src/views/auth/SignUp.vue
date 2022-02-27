@@ -289,7 +289,7 @@ const { VUE_APP_BACKEND_HOST } = process.env;
           id : this.id
         }).then(res =>{
           if(res.data.value === "true"){
-            let result = confirm("아이디를 사용하시겠습니까?");
+            let result = confirm("사용가능한 아이디입니다. 아이디를 사용하시겠습니까?");
             if(result){
               return  true;
             }else {
@@ -311,7 +311,7 @@ const { VUE_APP_BACKEND_HOST } = process.env;
           nickName : this.nickName
         }).then(res=>{
           if(res.data.value === 'true'){
-            let result = confirm("닉네임을 사용하시겠습니까?");
+            let result = confirm("사용가능한 닉네임입니다. 닉네임을 사용하시겠습니까?");
             if(result){
               console.log('rere')
               return true;
