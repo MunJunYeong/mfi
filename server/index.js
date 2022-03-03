@@ -2,7 +2,7 @@ const dotenv = require('dotenv')
 dotenv.config();
 
 const { parse } = require('node-html-parser');
-const iconv = require('iconv-lite')
+const Iconv = require('iconv-lite');
 const axios = require('axios');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -73,29 +73,75 @@ app.get('/ping', async(req, res) => {
 app.listen(port, '0.0.0.0', async () => {
     await db.initialize();
     console.log(`Example app listening at http://localhost:${port}`)
-    // await apiTest();
+    await apiTest();
 
 })
 
 
+const apiTest = async () => {
+  const headers = {
+    'Content-type': 'application/json; charset=UTF-8',
+    // 'Content-type': 'text/html;charset=EUC-KR',
+    'Accept': '*/*',
+    'Origin': 'http://localhost:8081',
+  }
+
+  const httpRes = await axios({
+    method: 'get',
+    url: 'https://m.stock.naver.com/api/news/list?category=mainnews&page=1&pageSize=10',
+    // responseType: 'json',
+    encoding: null,
+    headers,
+    
+  });
+
+  const root = parse(httpRes.data);
+  // const bodyDecoded = iconv.decode(root.querySelectorAll('.block1'), "euc-kr");
+  console.log(root.childNodes[0]._rawText[0])
+  let title = [];
+  let content = [];
+
+
+  
+
+ // for(let i = 0; i < root.querySelectorAll('.block1').length; i++){
+
+  // }
+};
 // const apiTest = async () => {
 //   const headers = {
 //     // 'Content-type': 'application/json; charset=UTF-8',
+//     // 'Content-type': 'text/html;charset=EUC-KR',
 //     'Accept': '*/*',
 //     'Origin': 'http://localhost:8081',
-//     // 'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWR4Ijo2LCJpZCI6InRlc3QiLCJuaWNrTmFtZSI6InRlc3QiLCJlbWFpbCI6ImRmYXNmc0BudmVhZmFldy5jb20iLCJjcmVhdGVkIjoiMjAyMi0wMi0xNFQwODoxNTowMi4zOTdaIiwic3RhdHVzIjpudWxsLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2NDQ4MjcxNzV9.FwIKsZGi_G7JDs-IFJ3y0by_bDGZfR8dbs_xWFWr830'
-
 //   }
+
 //   const httpRes = await axios({
 //     method: 'get',
-//     url: 'https://finance.naver.com/news/news_list.naver?mode=LSS3D&section_id=101&section_id2=258&section_id3=401',
+//     url: 'https://finance.naver.com/news/mainnews.naver',
 //     // responseType: 'json',
-//     headers,
+//     encoding: null,
+//     // headers,
+    
 //   });
 
-//   const responseData = httpRes.data;
-//   const root = parse(responseData);
-//   console.log(root.querySelectorAll('.articleSubject'))
+//   const root = parse(httpRes.data);
+//   // const bodyDecoded = iconv.decode(root.querySelectorAll('.block1'), "euc-kr");
+
+//   let title = [];
+//   let content = [];
+//   const temp = root.querySelectorAll('.block1')[0].querySelector('.articleSubject').getElementsByTagName('a')[0].childNodes[0]._rawText;
+  
+//   const bodyDecoded = Iconv.decode(temp, "EUC-KR").toString();
+
+//   console.log(temp)
+//   console.log(bodyDecoded)
+
 
   
+
+//  // for(let i = 0; i < root.querySelectorAll('.block1').length; i++){
+
+//   // }
 // };
+
