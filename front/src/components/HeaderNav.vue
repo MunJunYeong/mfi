@@ -38,6 +38,13 @@
                         </v-btn>
                     </router-link>          
                 </v-col>
+                <v-col cols='1' class="pc_nav">
+                    <router-link to="/news">
+                        <v-btn text="text" rounded="rounded" color="#455A64" style="margin-top:15px;">
+                            증권 뉴스
+                        </v-btn>
+                    </router-link>          
+                </v-col>
                 <!-- 5 cols -->
                 <v-spacer />
                 
@@ -70,22 +77,7 @@
         
             <!-- mobile version row -->
             <v-row justify=  'center' class="mobile">
-                <!-- <v-spacer />
-                <v-col cols='2' v-if="isLogin()">
-                    {{nickName}}
-                </v-col>
-                <v-col cols='2' v-if="isLogin()">
-                    {{role}}
-                </v-col>
-                <v-col cols='4' v-if="isLogin()">
-                    <p v-on:click="logout">로그아웃</p>
-                </v-col>
-                <v-col cols='4' v-else style="padding-bottom: 30px;">
-                    <router-link to="/auth/signin"  >
-                        로그인
-                    </router-link>
-                </v-col>
-                <v-spacer /> -->
+                
             </v-row>
 
             <v-app-bar-nav-icon @click="drawer = true" class="mobile"></v-app-bar-nav-icon>
@@ -136,6 +128,18 @@
                             </v-list-item-title>
                         </v-list-item>
                     </router-link>
+
+                    <router-link to="/news">
+                        <v-list-item>
+                            <v-list-item-icon>
+                                <v-icon>mdi-android-messages</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-title>
+                                증권 뉴스
+                            </v-list-item-title>
+                        </v-list-item>
+                    </router-link>
+
                 </v-list-item-group>
             </v-list>
         </v-navigation-drawer>

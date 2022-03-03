@@ -10,6 +10,7 @@ import IdeaClick from '../views/core/IdeaClick.vue'
 import Info from '../views/core/Info.vue'
 import Admin from '../views/core/Admin.vue'
 import UserIdea from '../views/core/UserIdea.vue'
+import News from '../views/core/News.vue'
 
 import coreLayoutIndexVue from '../views/core/layout/Index.vue'
 import authLayoutIndexVue from '../views/auth/layout/Index.vue'
@@ -96,6 +97,10 @@ const routes = [
       {
         path : 'admin',
         component : Admin
+      },
+      {
+        path : 'news',
+        component : News
       },
       {
         path : 'user/:userIdx/idea',
