@@ -19,9 +19,7 @@
               @click:append="show1 = !show1"
             >
             </v-text-field>
-            <v-checkbox
-            :label="`로그인상태유지`">
-            </v-checkbox> 
+            <br>
             <!-- 로그인버튼 -->
             <v-btn
               elevation="2" block
