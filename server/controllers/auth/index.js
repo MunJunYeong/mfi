@@ -1,3 +1,5 @@
+const axios = require('axios');
+
 const {anonymous: anonymousService } = require('../../service');
 const {visitor : visitorService} =require('../../service');
 const {user : userService} = require('../../service');
@@ -22,6 +24,23 @@ const getTotalVisitor = async(req, res) => {
     res.send({data : result});
 }
 
+const getNewsItem = async(req, res) => {
+    const headers = {
+      'Content-type': 'application/json; charset=UTF-8',
+      'Accept': '*/*',
+      'Origin': 'http://localhost:8081',
+    }
+    const httpRes = await axios({
+      method: 'get',
+      url: 'https://m.stock.naver.com/api/news/list?category=mainnews&page=1&pageSize=10',
+      // responseType: 'json',
+      encoding: null,
+      headers,
+      
+    });
+    // console.log(httpRes.data);
+    res.send(httpRes.data);
+}
 //회원가입
 const signUP = async (req, res) => {
     const data = req.body;
@@ -228,5 +247,6 @@ module.exports = {
     getTodayVisitor,
     findIdSendMail,
     findPwSendMail,
-    updatePw
+    updatePw,
+    getNewsItem
 }
