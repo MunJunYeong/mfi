@@ -39,8 +39,6 @@ schedule.addTotal
 
 const {visitor : visitorService} = require('./service');
 app.use(async(req, res, next) =>{
-    console.log(req.cookies.visitor);
-    asdfsadf
   if(req.cookies.visitor){
     next();
   } else{
@@ -65,10 +63,12 @@ app.use(router.basicRouter);
 
 app.use(async (err, req,res, next) => {
   if(err) {
+    // if(err.message === 'undefined') message = 'interval serverError. sorry for error. contact please develop team'
+    // if(err.message === 'not found') message = 'not found resource'
+    // if(err.message === 'not found') message = 'not found resource'
     console.error(err);
     res.send({message: err.message})
   }
-
   next();
 })
 
@@ -85,14 +85,12 @@ app.listen(port, '0.0.0.0', async () => {
     await db.initialize();
     console.log(`Example app listening at http://localhost:${port}`)
     // await apiTest();
-
 })
 
 
 const apiTest = async () => {
   const headers = {
     'Content-type': 'application/json; charset=UTF-8',
-    // 'Content-type': 'text/html;charset=EUC-KR',
     'Accept': '*/*',
     'Origin': 'http://localhost:8081',
   }
@@ -105,55 +103,8 @@ const apiTest = async () => {
     headers,
     
   });
-
-  console.log(httpRes.data[0]);
-  // const root = JSON.parse(httpRes.data);
-  // const bodyDecoded = iconv.decode(root.querySelectorAll('.block1'), "euc-kr");
-  // console.log(root.childNodes[0])
-  let title = [];
-  let content = [];
-
-
+  console.log(httpRes.data)
+  // res.send({data : httpRes.data});
   
-
- // for(let i = 0; i < root.querySelectorAll('.block1').length; i++){
-
-  // }
 };
-// const apiTest = async () => {
-//   const headers = {
-//     // 'Content-type': 'application/json; charset=UTF-8',
-//     // 'Content-type': 'text/html;charset=EUC-KR',
-//     'Accept': '*/*',
-//     'Origin': 'http://localhost:8081',
-//   }
-
-//   const httpRes = await axios({
-//     method: 'get',
-//     url: 'https://finance.naver.com/news/mainnews.naver',
-//     // responseType: 'json',
-//     encoding: null,
-//     // headers,
-    
-//   });
-
-//   const root = parse(httpRes.data);
-//   // const bodyDecoded = iconv.decode(root.querySelectorAll('.block1'), "euc-kr");
-
-//   let title = [];
-//   let content = [];
-//   const temp = root.querySelectorAll('.block1')[0].querySelector('.articleSubject').getElementsByTagName('a')[0].childNodes[0]._rawText;
-  
-//   const bodyDecoded = Iconv.decode(temp, "EUC-KR").toString();
-
-//   console.log(temp)
-//   console.log(bodyDecoded)
-
-
-  
-
-//  // for(let i = 0; i < root.querySelectorAll('.block1').length; i++){
-
-//   // }
-// };
 

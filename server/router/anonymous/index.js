@@ -11,6 +11,9 @@ anonymousRouter.get('/ideaCount', ideaController.getIdeaCount);
 anonymousRouter.get('/todayVisitor', authController.getTodayVisitor);
 anonymousRouter.get('/totalVisitor', authController.getTotalVisitor);
 
+//뉴스 페이지 정보
+anonymousRouter.get('/news', authController.getNewsItem);
+
 //회원가입하기
 anonymousRouter.post('/signUp', authController.signUP);
 anonymousRouter.post('/sendEmail', authController.sendEmail);

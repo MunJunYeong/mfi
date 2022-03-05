@@ -2,11 +2,11 @@
     <v-container>
         <v-container class="pc">
             <v-row justify='center'>
-                <v-col cols='12' id="title">
-                    <span id="title">{{title}}</span>  <br>
-                    <span id="content">{{content}}</span> 
+                <v-col cols='12'>
+                    <a id="title" :href="this.url"  target="_blank">{{tit}}</a>  <br>
+                    <span id="content">{{subcontent}}</span> 
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <span id="date">{{date}}</span>
+                    <span id="publish">{{ohnm}} &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;</span>  <span id="date">{{dt}}</span>
                 </v-col>
             </v-row>
         </v-container>
@@ -19,18 +19,35 @@
 export default {
     name: 'newsList',
     props: [
-        "title",
-        "content",
-        "date"
+        "tit",
+        "subcontent",
+        "dt",
+        "ohnm",
+        "oid", "aid"
     ],
-}
-</script>
-<style scoped>
-    @media all and (max-width:767px) {
-    .pc{
-        display: none;
+    computed : {
+        url (){
+            return `https://finance.naver.com/news/news_read.naver?article_id=${this.aid}&office_id=${this.oid}`;
+        },
+        
+    },
+    data(){
+        return{
+            
+        }
+    },
+    method :{
+
     }
 }
+</script>
+
+<style scoped>
+    @media all and (max-width:767px) {
+        .pc{
+            display: none;
+        }
+    }
     @media all and (max-width:1023px) and (min-width:767px) {
         .mobile{
             display: none;
@@ -42,12 +59,15 @@ export default {
         }
     }
     #title{
-        font-size: 1.2em; font-weight: 600;
+        font-size: 1.3em; font-weight: 600; cursor: pointer; color: midnightblue;
     }
     #content{
-        font-size: 0.9em; font-weight: 400;
+        font-size: 0.9em; font-weight: 420;
     }
     #date{
+        font-size: 0.7em; font-weight: 350;
+    }
+    #publish{
         font-size: 0.7em; font-weight: 350;
     }
 </style>

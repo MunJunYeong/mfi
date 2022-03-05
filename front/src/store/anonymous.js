@@ -4,6 +4,7 @@ import jwt_decode from 'jwt-decode'
 
 const anonymousModule = {
     state: {
+        news : [],
         userCount : {},
         ideaCount : {},
         todayVisitorCount : {},
@@ -12,6 +13,9 @@ const anonymousModule = {
         userToken : {},
     },
     mutations: {
+        set_news(state, data){
+            state.news = data;
+        },
         user_count (state, count){
             state.userCount = count;
         },
@@ -32,6 +36,9 @@ const anonymousModule = {
         },
     },
     getters: {
+        get_news_item(state){
+            return state.news;
+        },
         get_user_count(state){
             return state.userCount;
         },
@@ -53,6 +60,16 @@ const anonymousModule = {
         },
     },
     actions: {
+        async get_news({commit}){
+            let res;
+            try{
+                res = await axios.get( VUE_APP_BACKEND_HOST + '/news', {
+                })
+            }catch(err){
+                console.log(err);
+            }
+            commit('set_news', res.data);
+        },
         //메인페이지 정보 
         async get_user_count({commit}){
             let res;
