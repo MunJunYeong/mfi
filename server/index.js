@@ -17,7 +17,7 @@ const port = 8080;
 
 const router = require('./router/index');
 
-var whitelist = ['http://localhost:8081','http://localhost:8080', 'http://mfinvest.kr', 'http://backend.mfinvest.kr']
+var whitelist = ['http://localhost:8081','http://localhost:8080', 'http://mfinvest.kr', 'http://backend.mfinvest.kr', 'https://m.stock.naver.com/api/news/list?category=mainnews&page=1&pageSize=10']
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
@@ -84,27 +84,7 @@ app.get('/ping', async(req, res) => {
 app.listen(port, '0.0.0.0', async () => {
     await db.initialize();
     console.log(`Example app listening at http://localhost:${port}`)
-    // await apiTest();
 })
 
 
-const apiTest = async () => {
-  const headers = {
-    'Content-type': 'application/json; charset=UTF-8',
-    'Accept': '*/*',
-    'Origin': 'http://localhost:8081',
-  }
-
-  const httpRes = await axios({
-    method: 'get',
-    url: 'https://m.stock.naver.com/api/news/list?category=mainnews&page=1&pageSize=10',
-    // responseType: 'json',
-    encoding: null,
-    headers,
-    
-  });
-  console.log(httpRes.data)
-  // res.send({data : httpRes.data});
-  
-};
 
