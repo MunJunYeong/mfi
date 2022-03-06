@@ -11,12 +11,12 @@ const addTotal = schedule.scheduleJob('0 0 0 * * *', async ()=>{
     }
 })
 
-const getNews = schedule.scheduleJob('0 10 13 * * *', async ()=>{
+const getNews = schedule.scheduleJob('0 16 13 * * *', async ()=>{
     await newsService.deleteNews();
     const headers = {
         'Content-type': 'application/json; charset=UTF-8',
         'Accept': '*/*',
-        'Origin': 'http://localhost:8081',
+        'Origin': 'http://mfinvest.kr',
     }
     const httpRes = await axios({
       method: 'get',
