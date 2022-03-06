@@ -7,7 +7,7 @@
         "dialect": "postgres"
     },
     "development": {
-        "username": "mfi",
+        "username": "postgres",
         "password" : "postgres",
         "database": "mfi",
         "host": "localhost",

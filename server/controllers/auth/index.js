@@ -23,24 +23,15 @@ const getTotalVisitor = async(req, res) => {
     const result = await visitorService.getTotalVisitor();
     res.send({data : result});
 }
-
 const getNewsItem = async(req, res) => {
-    const headers = {
-      'Content-type': 'application/json; charset=UTF-8',
-      'Accept': '*/*',
-      'Origin': 'http://localhost:8081',
-    }
-    const httpRes = await axios({
-      method: 'get',
-      url: 'https://m.stock.naver.com/api/news/list?category=mainnews&page=1&pageSize=10',
-      // responseType: 'json',
-      encoding: null,
-      headers,
-      
-    });
-    // console.log(httpRes.data);
-    res.send(httpRes.data);
+    const result = await anonymousService.getNewsItem();
+    res.send({data : result});
 }
+
+// const getNewsItem = async(req, res) => {
+//     const result = await anonymousService.getnews
+//     res.send(httpRes.data);
+// }
 //회원가입
 const signUP = async (req, res) => {
     const data = req.body;

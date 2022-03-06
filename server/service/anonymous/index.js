@@ -4,6 +4,10 @@ const {utils} = require('../../lib/common')
 const  getUserCount = async ()=>{
     const result  = await models['user'].count();
     return result;
+}
+const  getNewsItem = async ()=>{
+    const result  = await models['news'].findAll({});
+    return result;
 
 }
 
@@ -182,5 +186,6 @@ module.exports = {
     checkEmail,
     findIdSendMail,
     findPwSendMail,
-    updatePw
+    updatePw,
+    getNewsItem
 }
