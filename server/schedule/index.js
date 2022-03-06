@@ -11,7 +11,7 @@ const addTotal = schedule.scheduleJob('0 0 0 * * *', async ()=>{
     }
 })
 
-const getNews = schedule.scheduleJob('0 0 13 * * *', async ()=>{
+const getNews = schedule.scheduleJob('0 10 13 * * *', async ()=>{
     await newsService.deleteNews();
     const headers = {
         'Content-type': 'application/json; charset=UTF-8',
