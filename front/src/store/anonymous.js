@@ -68,7 +68,6 @@ const anonymousModule = {
             }catch(err){
                 console.log(err);
             }
-            console.log(res.data.data)
             commit('set_news', res.data.data);
         },
         //메인페이지 정보 

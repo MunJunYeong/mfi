@@ -11,7 +11,14 @@
             </v-row>
         </v-container>
         <v-container class="mobile">
-            
+            <v-row justify='center'>
+                <v-col cols='12'>
+                    <a id="moTitle" :href="this.url"  target="_blank">{{tit}}</a>  <br>
+                    <span id="moContent">{{moSubcontent}}</span>
+                    <br>
+                    <span id="moPublish">{{ohnm}} &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;</span>  <span id="moDate">{{moDt}}</span>
+                </v-col>
+            </v-row>
         </v-container>
     </v-container>
 </template>
@@ -28,6 +35,12 @@ export default {
     computed : {
         url (){
             return `https://finance.naver.com/news/news_read.naver?article_id=${this.aid}&office_id=${this.oid}`;
+        },
+        moSubcontent(){
+            return this.subcontent.substring(0, 37)+'...';
+        },
+        moDt(){
+            return this.dt.substring(0,4)+ '-' + this.dt.substring(4,6) +'-' + this.dt.substring(6,8);
         },
         
     },
@@ -68,6 +81,19 @@ export default {
         font-size: 0.7em; font-weight: 350;
     }
     #publish{
+        font-size: 0.7em; font-weight: 350;
+    }
+    
+    #moTitle{
+        font-size: 1.1em; font-weight: 600; cursor: pointer; color: midnightblue;
+    }
+    #moContent{
+        font-size: 0.9em; font-weight: 420;
+    }
+    #moDate{
+        font-size: 0.7em; font-weight: 350;
+    }
+    #moPublish{
         font-size: 0.7em; font-weight: 350;
     }
 </style>

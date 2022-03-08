@@ -25,7 +25,28 @@
             </v-row>
         </v-container>
         <v-container class="mobile">
-            dfasfsafasfsa
+            <br>
+            <v-row justify='center'>
+                <v-spacer />
+                <v-col cols='12' >
+                    <v-row>
+                        <v-col cols='12'>
+                            주요 뉴스
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <NewsItem  v-for="(item, index) in newsItem"  :key="index"
+                        :tit="item.tit"
+                        :subcontent="item.subcontent"
+                        :dt="item.dt"
+                        :ohnm="item.ohnm"
+                        :oid="item.oid"
+                        :aid="item.aid"
+                        />
+                    </v-row>
+                </v-col>
+                <v-spacer />
+            </v-row>
         </v-container>
     </v-container>
 </template>
