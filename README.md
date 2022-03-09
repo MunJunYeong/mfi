@@ -1,3 +1,5 @@
+www.mfinvest.kr
+<사이트 주소>
 Metaphor for Investing
 
 본인의 주식 분석 자료를 올린다. role : Winner or Normal
