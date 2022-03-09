@@ -230,7 +230,7 @@ const ideaModule = {
                     }
                 });
                 commit
-                console.log(res);
+                res
                 return;
             }catch(err){
                 console.log(err);
@@ -240,7 +240,9 @@ const ideaModule = {
         async add_comment({commit}, commentData){
             let res;
             let token = localStorage.getItem('accessToken');
-
+            if(!commentData.comment){
+                alert('댓글을 입력해주세요.'); return;
+            }
             commit
             try {
                 res = await axios.post(VUE_APP_BACKEND_HOST +'/comment', 

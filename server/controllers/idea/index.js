@@ -15,11 +15,9 @@ const postIdea = async (req, res) => {
     const data = req.body;
 
     if(!data.subject){
-        res.send({message : 'no subject'});
-        return;
+        throw new Error('no subject');
     }else if(!data.content){
-        res.send({message : 'no content'});
-        return;
+        throw new Error('no content');
     }
 
     const result = await ideaService.createIdea(data.subject, data.content, req.userData.userIdx);
@@ -29,7 +27,7 @@ const postIdea = async (req, res) => {
 const deleteIdea = async (req, res) => {
     const ideaIdx = req.query.ideaIdx;
     if(!ideaIdx){
-        res.send({message : 'required ideaIdx'})
+        throw new Error('required ideaIdx');
     }
     const result = await ideaService.deleteIdea(ideaIdx);
 
@@ -43,16 +41,13 @@ const updateIdea =  async (req, res) => {
     const subject = req.body.params.subject;
     const content = req.body.params.content;
     if(!ideaIdx){
-        res.send({message : 'required ideaIdx'})
-        return;
+        throw new Error('required ideaIdx');
     }
     if(!subject){
-        res.send({message : 'required subject'})
-        return;
+        throw new Error('required subject');
     }
     if(!content){
-        res.send({message : 'required content'})
-        return;
+        throw new Error('required content');
     }
     const result = await ideaService.updateIdea(ideaIdx, subject, content);
 

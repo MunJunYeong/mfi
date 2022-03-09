@@ -43,7 +43,6 @@ app.use(async(req, res, next) =>{
     next();
   } else{
     const ip = req.clientIp;
-    console.log(ip);
     visitorService.createIp(ip);
     next();
     let now = new Date(); 
@@ -57,16 +56,15 @@ app.use(async(req, res, next) =>{
 });
 
 
-
-
 app.use(router.basicRouter);
 
-app.use(async (err, req,res, next) => {
+app.use(async (err, req, res, next) => {
+  console.log(err)
   if(err) {
     // if(err.message === 'undefined') message = 'interval serverError. sorry for error. contact please develop team'
     // if(err.message === 'not found') message = 'not found resource'
     // if(err.message === 'not found') message = 'not found resource'
-    console.error(err);
+    // console.error(err);
     res.send({message: err.message})
   }
   next();
