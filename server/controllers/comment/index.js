@@ -3,9 +3,8 @@ const {comment : commentService } = require ('../../service');
 const postComment = async (req, res) => {
     const data = req.body;
 
-    if(!data){
-        res.send({message : 'no data'});
-        return;
+    if(!data.comment){
+        throw new Error('no data');
     }
     const result = await commentService.postComment(data.comment, req.userData.userIdx, data.ideaIdx);
     res.send({message : 'success'});
