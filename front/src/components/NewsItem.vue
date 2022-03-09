@@ -37,7 +37,7 @@ export default {
             return `https://finance.naver.com/news/news_read.naver?article_id=${this.aid}&office_id=${this.oid}`;
         },
         moSubcontent(){
-            return this.subcontent.substring(0, 37)+'...';
+            return this.subcontent.substring(0, 45)+'...';
         },
         moDt(){
             return this.dt.substring(0,4)+ '-' + this.dt.substring(4,6) +'-' + this.dt.substring(6,8);
