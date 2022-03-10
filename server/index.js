@@ -17,7 +17,7 @@ const port = 8080;
 
 const router = require('./router/index');
 
-var whitelist = ['http://localhost:8081','http://localhost:8080', 'http://mfinvest.kr', 'http://backend.mfinvest.kr', 'https://m.stock.naver.com/api/news/list?category=mainnews&page=1&pageSize=10']
+var whitelist = ['http://localhost:8081','http://localhost:8080', 'http://mfinvest.kr', 'http://backend.mfinvest.kr']
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
