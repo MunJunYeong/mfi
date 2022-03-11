@@ -1,6 +1,9 @@
 const {models, Op} = require('../../lib/db');
 const {utils} = require('../../lib/common')
 
+
+
+
 const  getUserCount = async ()=>{
     const result  = await models['user'].count();
     return result;
@@ -143,8 +146,16 @@ const signIn = async (id, pw) => {
         }
         if(pw === tokenData.pw){
             delete tokenData.pw;
-            console.log(tokenData)
-            accessToken = jwt.sign(tokenData, 'shhhhh');
+            // 토큰 유효기간은 2days
+            const options = {
+                option : {
+                    expiresIn : "48h"
+                }
+            }
+           
+            accessToken = jwt.sign(tokenData, 'shhhhh', options.option);
+            
+            
             return {token : accessToken};
         }else {
             return {message : 'wrong pw'};

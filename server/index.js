@@ -73,10 +73,6 @@ app.use(async (err, req, res, next) => {
 app.get('/ping', async(req, res) => {
   res.send('pong');
 })
-
-
-
-
 // scp  -i ~/Desktop/first-ec2.pem ./.env  ubuntu@3.34.226.52:~/mfi_new/server 
 
 app.listen(port, '0.0.0.0', async () => {

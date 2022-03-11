@@ -117,7 +117,6 @@ const anonymousModule = {
 
         //로그인
         async auth_login ({ commit }, data) {
-            console.log(data)
             let res;
             try {
                 res = await axios.post( VUE_APP_BACKEND_HOST + '/signIn', {
@@ -151,7 +150,6 @@ const anonymousModule = {
             }catch(err) {
                 console.log(err);
             }
-            console.log(res.data)
             if(res.data.message === 'wrong access'){
                 alert('이메일이 정상적으로 입력되지 않았습니다.'); return;
             }else if ( res.data.message === 'no data'){

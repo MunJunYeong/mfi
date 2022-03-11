@@ -82,8 +82,24 @@ const authModule = {
         
         //토근 유효성 확인
         async auth_vertify_token ({ commit }, token) {
-            if(!token) return;
-            // 검증은 알아서..
+            const nowToken = localStorage.getItem('accessToken');
+            let res;
+            if(!token) {
+                return;
+            }
+            try{
+
+                res = await axios.get(VUE_APP_BACKEND_HOST + '/token', {
+                    token : nowToken,
+                })
+            }catch(err){
+                console.log(err)
+            }
+            if(res.data.message){
+                localStorage.removeItem('accessToken');
+                location.href='/home'; //새로고침
+                return;
+            }
             commit('auth_set_data',  jwt_decode(token));
         }
     }
