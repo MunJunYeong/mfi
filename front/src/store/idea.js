@@ -125,7 +125,7 @@ const ideaModule = {
                 });
                 if(res.data.message === 'unvalid token'){
                     alert('정상적인 경로가 아닙니다.');
-                    history.back();
+                    location.href='/home'; //새로고침
                     return;
                 }else {
                     commit('click_idea_set_data', res.data.data);

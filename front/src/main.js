@@ -26,8 +26,9 @@ axios.interceptors.request.use(
   }
 );
 
+//토큰 유효성 검사
 store.dispatch('auth_vertify_token', localStorage.getItem('accessToken'));
-// localStorage.removeItem('accessToken')
+
 
 new Vue({
   store,
