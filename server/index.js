@@ -76,6 +76,7 @@ app.get('/ping', async(req, res) => {
 // scp  -i ~/Desktop/first-ec2.pem ./.env  ubuntu@3.34.226.52:~/mfi_new/server 
 
 app.listen(port, '0.0.0.0', async () => {
+    console.log(process.env.NODE_ENV)
     await db.initialize();
     console.log(`Example app listening at http://localhost:${port}`)
 })
