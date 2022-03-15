@@ -6,9 +6,13 @@ const {pagination} = require('../../lib/common');
 
 
 const getIdeaCount = async(req, res) => {
-    const result = await ideaService.getIdeaCount();
-
-    res.send({data : result});
+    try{
+        const result = await ideaService.getIdeaCount();
+        res.send({data : result});
+    }catch(err){
+        throw new Error(err);
+    }
+    
 }
 
 const postIdea = async (req, res) => {
@@ -20,8 +24,13 @@ const postIdea = async (req, res) => {
         throw new Error('no content');
     }
 
-    const result = await ideaService.createIdea(data.subject, data.content, req.userData.userIdx);
-    res.send({data : result});
+    try{
+        const result = await ideaService.createIdea(data.subject, data.content, req.userData.userIdx);
+        res.send({data : result});
+    }catch(err){
+        throw new Error(err);
+    }
+    
 }
 
 const deleteIdea = async (req, res) => {
@@ -29,11 +38,12 @@ const deleteIdea = async (req, res) => {
     if(!ideaIdx){
         throw new Error('required ideaIdx');
     }
-    const result = await ideaService.deleteIdea(ideaIdx);
 
-    if(result === 1){
+    try{
+        const result = await ideaService.deleteIdea(ideaIdx);
         res.send({success : '1'});
-        return;
+    }catch(err){
+        throw new Error(err);
     }
 }
 const updateIdea =  async (req, res) => {
@@ -49,49 +59,66 @@ const updateIdea =  async (req, res) => {
     if(!content){
         throw new Error('required content');
     }
-    const result = await ideaService.updateIdea(ideaIdx, subject, content);
 
-    res.send({data : result});
+    try{
+        const result = await ideaService.updateIdea(ideaIdx, subject, content);
+        res.send({data : result});
+    }catch(err){
+        throw new Error(err);
+    }
+
+    
 
 }
 //click한 아이디어 가져오기
 const getClickIdea = async (req, res) =>{
     const ideaIdx = req.params.ideaIdx;
     //아이디어 가져오는 절
-    const result = await ideaService.getIdea(ideaIdx);
-    
-    res.send({data : result});
+    try{
+        const result = await ideaService.getIdea(ideaIdx);
+        res.send({data : result});
+    }catch(err){
+        throw new Error(err);
+    }
 }
 
 const showIdea = async (req, res) => {
     const {page, subject, order, role, userIdx, userRole} = req.query;
     const {limit, offset} = pagination.getPagination(page);
-    const data = await ideaService.getAllIdea(limit, offset, subject, userIdx, userRole, order, role);
-
-    const result = pagination.getPagingIdeaData(data, page, limit);
-    res.send(result);
-    return;
+    
+    try{
+        const data = await ideaService.getAllIdea(limit, offset, subject, userIdx, userRole, order, role);
+        const result = pagination.getPagingIdeaData(data, page, limit);
+        res.send(result);
+    }catch(err){
+        throw new Error(err);
+    }
 }
 const showMyIdea = async (req, res) => {
     const {page, subject, userIdx} = req.query;
     const {limit, offset} = pagination.getPagination(page);
 
-    const data = await ideaService.getMyIdea(limit, offset, subject, userIdx);
-    
-    const result = await pagination.getPagingIdeaData(data, page, limit);
-    res.send(result);
-    return;
+    try{
+        const data = await ideaService.getMyIdea(limit, offset, subject, userIdx);
+        const result = pagination.getPagingIdeaData(data, page, limit);
+        res.send(result);
+    }catch(err){
+        throw new Error(err);
+    }
 }
 const showAdminUserIdea = async (req, res) => {
     const userIdx = req.params.userIdx;
     const {page, subject} = req.query;
     const {limit, offset} = pagination.getPagination(page);
     
-    const data = await ideaService.getAdminUserIdea(limit, offset, subject, userIdx);
-    
-    const result = await pagination.getPagingIdeaData(data, page, limit);
-    res.send(result);
-    return;
+    try{
+        const data = await ideaService.getAdminUserIdea(limit, offset, subject, userIdx);
+        const result = await pagination.getPagingIdeaData(data, page, limit);
+        res.send(result);
+    }catch(err){
+        throw new Error(err);
+    }
+
 }
 module.exports = {
     getIdeaCount,

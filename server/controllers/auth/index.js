@@ -40,9 +40,13 @@ const signUP = async (req, res) => {
         throw new Error('영어, 숫자, 특수기호를 모두 사용해주세요.');
     }
 
-    const result = await anonymousService.signUp(data.id, data.pw, data.nickName, data.email, 'normal');
-    res.send({data : result});
-    return;
+    try{
+        const result = await anonymousService.signUp(data.id, data.pw, data.nickName, data.email, 'normal');
+        res.send({data : result});
+    }catch(err){
+        throw new Error('fail signup');
+    }
+    
 }
 
 const sendEmail = async (req, res) => {
@@ -53,16 +57,15 @@ const sendEmail = async (req, res) => {
     if(!utils.validationEmail(data.email)){
         throw new Error('not validate email');
     }
-    const result = await anonymousService.sendEmail(data.email);
-    if(result.message === 'exist email'){
-        res.send({message : 'exist email'});
-        return;
-    }else if(result.dataValues.idx){
+    try{
+        const result = await anonymousService.sendEmail(data.email);
         res.send({data : result.dataValues.idx});
-        return;
-    }else {
-        res.send({message : 'fail to send email'});
-        return;
+    }catch(err){
+        if(err.message == 'exist email'){
+            throw new Error(err.message);
+        }else {
+            throw new Error('fail sendEmail')
+        }
     }
 }
 const checkEmail = async (req, res) => {
@@ -75,11 +78,15 @@ const checkEmail = async (req, res) => {
     }else if(!data.email){
         throw new Error('no email');
     }
-    const result = await anonymousService.checkEmail(data.email, data.no);
-    if(result.data === 1){
+    try{
+        await anonymousService.checkEmail(data.email, data.no);
         res.send({data : 1});
-    }else {
-        res.send({message : 'wrong no'});
+    }catch(err){
+        if(err.message === 'wrong no'){
+            throw new error('wrong no');
+        }else {
+            throw new Error('fail to send');
+        }
     }
 }
 //find Id, Pw
@@ -89,8 +96,13 @@ const findIdSendMail = async(req, res) => {
     if(!data.email){
         throw new Error('wrong access');
     }
-    const result = await anonymousService.findIdSendMail(data.email);
-    res.send(result);
+    try{
+        const result = await anonymousService.findIdSendMail(data.email);
+        res.send(result);
+    }catch(err){
+        throw new Error(err);
+    }
+    
 }
 const findPwSendMail = async(req, res) => {
     const data = req.body;
@@ -98,8 +110,13 @@ const findPwSendMail = async(req, res) => {
     if( data.id === '' || data.email === '' || data.id === null || data.email === null ){
         throw new Error('wrong access');
     }
-    const result = await anonymousService.findPwSendMail(data.id, data.email);
-    res.send(result);
+    try{
+        const result = await anonymousService.findPwSendMail(data.id, data.email);
+        res.send(result);
+    }catch(err){
+        throw new Error(err);
+    }
+    
     
 }
 const updatePw = async(req, res) => {
@@ -108,9 +125,12 @@ const updatePw = async(req, res) => {
     if(data.email === '' || data.pw === '' || data.id === ''){
         throw new Error('wrong access');
     }
-    const result = await anonymousService.updatePw(data.email, data.pw, data.id);
-    console.log(result[0]);
-    res.send({data : result[0]});
+    try{
+        const result = await anonymousService.updatePw(data.email, data.pw, data.id);
+        res.send({data : result[0]});
+    }catch(err){
+        throw new Error(err);
+    }
 }
 
 //로그인
@@ -120,9 +140,13 @@ const signIn = async (req, res) => {
     if(!data.id || !data.pw){
         throw new Error('no data');
     }
-    const result = await anonymousService.signIn(data.id, data.pw);
-
-    res.send(result);
+    try{
+        const result = await anonymousService.signIn(data.id, data.pw);
+        res.send(result);
+    }catch(err){
+        throw new Error(err);
+    }
+    
 }
 
 //아이디 중복확인
@@ -173,9 +197,11 @@ const checkNickName = async (req, res) => {
 const updateUserRole = async (req, res) => {
     const data = req.body;
   
-    const result = await userService.updateRole(data.role, data.userIdx);
-    if(result){
-      res.send(result)
+    try{
+        const result = await userService.updateRole(data.role, data.userIdx);
+        res.send(result)
+    }catch(err){
+        throw new Error(err);
     }
 }
 
@@ -194,9 +220,15 @@ const getUser = async (req, res)=> {
             [Op.like] : `%${nickName}%`
         }
     }
-    const data = await userService.getUser(where, limit, offset);
-    const result = pagination.getPagingUserData(data, page, limit);
-    res.send(result);
+
+    try{
+        const data = await userService.getUser(where, limit, offset);
+        const result = pagination.getPagingUserData(data, page, limit);
+        res.send(result);
+    }catch(err){
+        throw new Error(err);
+    }
+
 }
 
 

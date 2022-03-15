@@ -43,7 +43,8 @@ const sendEmail = async (email) => {
         utils.sendEmail(email, emailNo);
         return result;        
     }else { // 이미 회원가입된 이메일 정보가 존재할 경우
-        return {message : 'exist email'};
+        throw new Error('exist email')
+        // return {message : 'exist email'};
     }
 }
 const checkEmail = async(email, no) => {
@@ -57,7 +58,7 @@ const checkEmail = async(email, no) => {
         ],
     })
     if(findAuthNo[0] === undefined){
-        return {message : 'fail to send'};
+        throw new Error('fail to send');
     }
     if(findAuthNo[0].dataValues.no === no){
         await models['authentication'].destroy({
@@ -66,8 +67,6 @@ const checkEmail = async(email, no) => {
             }
         })
         return {data : 1};
-    }else {
-        return {message : 'wrong no'};
     }
 }
 //find id , pw

@@ -338,11 +338,12 @@ const { VUE_APP_BACKEND_HOST } = process.env;
         this.overlapEmail = await axios.post(VUE_APP_BACKEND_HOST + '/sendEmail', {
           email : this.email
         }).then(res =>{
+          console.log(res)
           if(res.data.message === 'exist email'){
             alert('이미 존재하는 이메일입니다.');
             return false;
-          }else if(res.data.message === 'fail to send mail'){
-            alert('잠시 후 다시 시도해주세요.(error : 1)');
+          }else if(res.data.message === 'fail sendEmail'){
+            alert('잠시 후 다시 시도해주세요.');
             return false;
           }else if(res.data.message === 'no email'){
             alert('이메일을 입력해주세요 !');
