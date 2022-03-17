@@ -11,6 +11,8 @@ const cors = require('cors');
 const requestIp = require('request-ip');
 const cookParser = require('cookie-parser');
 const db = require('./lib/db');
+//logging
+const winston = require('./config/winston');
 
 const app = express();
 const port = 8080;
@@ -61,10 +63,6 @@ app.use(router.basicRouter);
 app.use(async (err, req, res, next) => {
   console.log(err)
   if(err) {
-    // if(err.message === 'undefined') message = 'interval serverError. sorry for error. contact please develop team'
-    // if(err.message === 'not found') message = 'not found resource'
-    // if(err.message === 'not found') message = 'not found resource'
-    // console.error(err);
     res.send({message: err.message})
   }
   next();
@@ -73,12 +71,13 @@ app.use(async (err, req, res, next) => {
 app.get('/ping', async(req, res) => {
   res.send('pong');
 })
-// scp  -i ~/Desktop/first-ec2.pem ./.env  ubuntu@3.34.226.52:~/mfi_new/server 
+
 
 app.listen(port, '0.0.0.0', async () => {
     console.log(process.env.NODE_ENV)
     await db.initialize();
-    console.log(`Example app listening at http://localhost:${port}`)
+    winston.info(`Listening on port ${port}`);
+    // { emerg: 0, alert: 1, crit: 2, error: 3, warning: 4, notice: 5, info: 6, debug: 7 }
 })
 
 
