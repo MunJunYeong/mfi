@@ -10,8 +10,8 @@ const getIdeaCount = async(req, res) => {
         const result = await ideaService.getIdeaCount();
         res.send({data : result});
     }catch(err){
-
-        throw new Error(err);
+        winston.warn(`Unable to getIdeaCout :`, err);
+        throw new Error('fail to getIdeaCount');
     }
     
 }
@@ -29,7 +29,8 @@ const postIdea = async (req, res) => {
         const result = await ideaService.createIdea(data.subject, data.content, req.userData.userIdx);
         res.send({data : result});
     }catch(err){
-        throw new Error(err);
+        winston.error(`Unable to postIdea :`, err);
+        throw new Error('fail to postIdea');
     }
     
 }
@@ -44,7 +45,8 @@ const deleteIdea = async (req, res) => {
         const result = await ideaService.deleteIdea(ideaIdx);
         res.send({success : '1'});
     }catch(err){
-        throw new Error(err);
+        winston.error(`Unable to deleteIdea :`, err);
+        throw new Error('fail to deleteIdea');
     }
 }
 const updateIdea =  async (req, res) => {
@@ -64,8 +66,9 @@ const updateIdea =  async (req, res) => {
     try{
         const result = await ideaService.updateIdea(ideaIdx, subject, content);
         res.send({data : result});
-    }catch(err){ㅌㅈ
-        throw new Error(err);
+    }catch(err){
+        winston.error(`Unable to updateIdea :`, err);
+        throw new Error('fail to updateIdea');
     }
 
     
@@ -79,7 +82,8 @@ const getClickIdea = async (req, res) =>{
         const result = await ideaService.getIdea(ideaIdx);
         res.send({data : result});
     }catch(err){
-        throw new Error(err);
+        winston.error(`Unable to getClickIdea :`, err);
+        throw new Error('fail to getClickIdea');
     }
 }
 
@@ -92,7 +96,8 @@ const showIdea = async (req, res) => {
         const result = pagination.getPagingIdeaData(data, page, limit);
         res.send(result);
     }catch(err){
-        throw new Error(err);
+        winston.error(`Unable to showIdea :`, err);
+        throw new Error('fail to showIdea');
     }
 }
 const showMyIdea = async (req, res) => {
@@ -104,7 +109,8 @@ const showMyIdea = async (req, res) => {
         const result = pagination.getPagingIdeaData(data, page, limit);
         res.send(result);
     }catch(err){
-        throw new Error(err);
+        winston.error(`Unable to showMyIdea :`, err);
+        throw new Error('fail to showMyIdea');
     }
 }
 const showAdminUserIdea = async (req, res) => {
@@ -117,7 +123,8 @@ const showAdminUserIdea = async (req, res) => {
         const result = await pagination.getPagingIdeaData(data, page, limit);
         res.send(result);
     }catch(err){
-        throw new Error(err);
+        winston.error(`Unable to showAdminUserIdea :`, err);
+        throw new Error('fail to showAdminUserIdea');
     }
 
 }
