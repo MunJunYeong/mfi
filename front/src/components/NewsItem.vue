@@ -40,7 +40,7 @@ export default {
             return this.subcontent.substring(0, 45)+'...';
         },
         pcDt(){
-            return this.dt.substring(0,4)+ '-' + this.dt.substring(4,6) +'-' + this.dt.substring(6,8)+ this.dt.substring(8,10) + " : " + this.dt.substring(10,12);
+            return this.dt.substring(0,4)+ '-' + this.dt.substring(4,6) +'-' + this.dt.substring(6,8)+ "  " +this.dt.substring(8,10) + " : " + this.dt.substring(10,12);
         },
         moDt(){
             return this.dt.substring(0,4)+ '-' + this.dt.substring(4,6) +'-' + this.dt.substring(6,8);
