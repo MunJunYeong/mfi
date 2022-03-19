@@ -11,7 +11,8 @@ const postComment = async (req, res) => {
         const result = await commentService.postComment(data.comment, req.userData.userIdx, data.ideaIdx);
         res.send({message : 'success'});
     }catch(err){
-        throw new Error(err);
+        winston.warn(`Unable to postComment :`, err);
+        throw new Error('fail to postComment');
     }
 }
 
@@ -21,7 +22,8 @@ const getComment = async (req, res) => {
         const result = await commentService.getComment(ideaIdx);
         res.send({data : result});
     }catch(err){
-        throw new Error(err);
+        winston.warn(`Unable to getComment :`, err);
+        throw new Error('fail to getComment');
     }
 }
 

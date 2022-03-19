@@ -1,0 +1,12 @@
+2022-03-19 21:08:42 debug: Executing (default): SELECT 1+1 AS result
+2022-03-19 21:08:42 info: sequelize connect successfully.
+2022-03-19 21:08:42 info: db init finish
+2022-03-19 21:08:42 info: Listening on port 8080
+2022-03-19 21:13:17 debug: Executing (default): SELECT 1+1 AS result
+2022-03-19 21:13:17 info: sequelize connect successfully.
+2022-03-19 21:13:17 info: db init finish
+2022-03-19 21:13:17 info: Listening on port 8080
+2022-03-19 21:14:18 debug: Executing (default): SELECT 1+1 AS result
+2022-03-19 21:14:18 info: sequelize connect successfully.
+2022-03-19 21:14:18 info: db init finish
+2022-03-19 21:14:18 info: Listening on port 8080
