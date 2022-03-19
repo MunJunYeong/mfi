@@ -10,6 +10,7 @@ const getIdeaCount = async(req, res) => {
         const result = await ideaService.getIdeaCount();
         res.send({data : result});
     }catch(err){
+
         throw new Error(err);
     }
     
@@ -63,7 +64,7 @@ const updateIdea =  async (req, res) => {
     try{
         const result = await ideaService.updateIdea(ideaIdx, subject, content);
         res.send({data : result});
-    }catch(err){
+    }catch(err){ㅌㅈ
         throw new Error(err);
     }
 

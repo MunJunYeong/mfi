@@ -1,7 +1,4 @@
-
-const appRoot = require('app-root-path');    // app root 경로를 가져오는 lib
 const winston = require('winston');            // winston lib
-const process = require('process');
 const winstonDaily = require('winston-daily-rotate-file');
 
 const { combine, timestamp, label, printf } = winston.format;
@@ -9,7 +6,7 @@ const logDir = 'logs';
 
 // error: 0, warn: 1, info: 2, http: 3, verbose: 4, debug: 5, silly: 6
 const myFormat = printf( (info) => {
-    return `${info.timestamp} ${info.level}: ${info.message}`;
+    return `${info.timestamp} ${info.level}: ${info.message}  data: ${JSON.stringify(info)}`;
 });
 
 
