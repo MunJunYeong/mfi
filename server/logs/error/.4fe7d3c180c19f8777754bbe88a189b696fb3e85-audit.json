@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 30
+    },
+    "auditLog": "/Users/moon/Desktop/mfi_new/server/logs/error/.4fe7d3c180c19f8777754bbe88a189b696fb3e85-audit.json",
+    "files": [
+        {
+            "date": 1647690745957,
+            "name": "/Users/moon/Desktop/mfi_new/server/logs/error/2022-03-19.warn.log",
+            "hash": "178b48ca4717ece1890b0697eb5ee28d"
+        }
+    ],
+    "hashType": "md5"
+}

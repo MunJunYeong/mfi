@@ -12,20 +12,44 @@ let checkSpe = /[~!@#$%^&*()_+|<>?:{}]/;
 let checkKor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
 
 const getUserCount = async(req, res) => {
-    const result = await anonymousService.getUserCount();
-    res.send({data : result});
+    try{
+        const result = await anonymousService.getUserCount();
+        res.send({data : result});
+    }catch(err){
+        winston.warn(`Unable to get user cout :`, err);
+        throw new Error('fail to get userCount');
+    }
+    
 }
 const getTodayVisitor = async(req, res) => {
-    const result = await visitorService.getTodayVisitor();
-    res.send({data : result});
+    try{
+        const result = await visitorService.getTodayVisitor();
+        res.send({data : result});
+    }catch(err){
+        winston.warn(`Unable to get today visitor :`, err);
+        throw new Error('fail to get todayVisitor');
+    }
+    
 }
 const getTotalVisitor = async(req, res) => {
-    const result = await visitorService.getTotalVisitor();
-    res.send({data : result});
+    try{
+        const result = await visitorService.getTotalVisitor();
+        res.send({data : result});
+    }catch(err){
+        winston.warn(`Unable to get total visitor :`, err);
+        throw new Error('fail to get totalVisitor');
+    }
+
 }
 const getNewsItem = async(req, res) => {
-    const result = await anonymousService.getNewsItem();
-    res.send({data : result});
+    try{
+        const result = await anonymousService.getNewsItem();
+        res.send({data : result});
+    }catch(err){
+        winston.warn(`Unable to get newsItem :`, err);
+        throw new Error('fail to get newsItem');
+    }
+
 }
 
 //회원가입
@@ -44,6 +68,7 @@ const signUP = async (req, res) => {
         const result = await anonymousService.signUp(data.id, data.pw, data.nickName, data.email, 'normal');
         res.send({data : result});
     }catch(err){
+        winston.error(`Unable to signup :`, err);
         throw new Error('fail signup');
     }
     
@@ -64,6 +89,7 @@ const sendEmail = async (req, res) => {
         if(err.message == 'exist email'){
             throw new Error(err.message);
         }else {
+            winston.error(`Unable to sendEmail :`, err);
             throw new Error('fail sendEmail')
         }
     }
@@ -85,7 +111,8 @@ const checkEmail = async (req, res) => {
         if(err.message === 'wrong no'){
             throw new error('wrong no');
         }else {
-            throw new Error('fail to send');
+            winston.error(`Unable to checkEmail :`, err);
+            throw new Error('fail to checkEmail');
         }
     }
 }
@@ -100,7 +127,8 @@ const findIdSendMail = async(req, res) => {
         const result = await anonymousService.findIdSendMail(data.email);
         res.send(result);
     }catch(err){
-        throw new Error(err);
+        winston.error(`Unable to sendMail for findId :`, err);
+        throw new Error('fail to findIdSendMail');
     }
     
 }
@@ -114,7 +142,8 @@ const findPwSendMail = async(req, res) => {
         const result = await anonymousService.findPwSendMail(data.id, data.email);
         res.send(result);
     }catch(err){
-        throw new Error(err);
+        winston.error(`Unable to sendMail for findPw :`, err);
+        throw new Error('fail to findPwSendMail');
     }
     
     
@@ -129,7 +158,8 @@ const updatePw = async(req, res) => {
         const result = await anonymousService.updatePw(data.email, data.pw, data.id);
         res.send({data : result[0]});
     }catch(err){
-        throw new Error(err);
+        winston.error(`Unable to updatePw :`, err);
+        throw new Error('fail to updatePw');
     }
 }
 
@@ -144,7 +174,8 @@ const signIn = async (req, res) => {
         const result = await anonymousService.signIn(data.id, data.pw);
         res.send(result);
     }catch(err){
-        throw new Error(err);
+        winston.error(`Unable to signIn :`, err);
+        throw new Error('fail to signIn');
     }
     
 }
@@ -160,18 +191,24 @@ const checkId = async (req, res) =>{
     }else if(data.id.length <6){
         throw new Error('6글자 이상 입력해주세요.');
     }
-    const result = await anonymousService.duplicateId(data.id);
-    if(result){
-        res.send({
-            value : 'false',
-            message : '존재하는 ID입니다.'})
-        return;
-    }else {
-        res.send({
-            value : 'true',
-            message : '사용가능한 ID입니다!'})
-        return;
+    try{
+        const result = await anonymousService.duplicateId(data.id);
+        if(result){
+            res.send({
+                value : 'false',
+                message : '존재하는 ID입니다.'})
+            return;
+        }else {
+            res.send({
+                value : 'true',
+                message : '사용가능한 ID입니다!'})
+            return;
+        }
+    }catch(err){
+        winston.error(`Unable to checkId(duplicate) :`, err);
+        throw new Error('fail to checkId');
     }
+    
 }
 const checkNickName = async (req, res) => {
     const data = req.body;
@@ -179,19 +216,25 @@ const checkNickName = async (req, res) => {
     if(data.nickName <3){
         throw new Error('3글자 이상 입력해주세요');
     }
-    const result = await anonymousService.duplicateNickName(data.nickName);
-    
-    if(result){
-        res.send({
-            value : 'false',
-            message : '존재하는 닉네임입니다.'})
-        return;
-    }else {
-        res.send({
-            value : 'true',
-            message : '사용가능한 닉네임입니다!'})
-        return;
+
+    try{
+        const result = await anonymousService.duplicateNickName(data.nickName);
+        if(result){
+            res.send({
+                value : 'false',
+                message : '존재하는 닉네임입니다.'})
+            return;
+        }else {
+            res.send({
+                value : 'true',
+                message : '사용가능한 닉네임입니다!'})
+            return;
+        }
+    }catch(err){
+        winston.error(`Unable to checkNickName(duplicate) :`, err);
+        throw new Error('fail to checkNickName');
     }
+
 }
 
 const updateUserRole = async (req, res) => {
@@ -201,7 +244,8 @@ const updateUserRole = async (req, res) => {
         const result = await userService.updateRole(data.role, data.userIdx);
         res.send(result)
     }catch(err){
-        throw new Error(err);
+        winston.error(`Unable to updateUserRole :`, err);
+        throw new Error('fail to updateUserRole');
     }
 }
 
@@ -226,7 +270,8 @@ const getUser = async (req, res)=> {
         const result = pagination.getPagingUserData(data, page, limit);
         res.send(result);
     }catch(err){
-        throw new Error(err);
+        winston.error(`Unable to getUser(role:admin) :`, err);
+        throw new Error('fail to getUser(role:admin)');
     }
 
 }
