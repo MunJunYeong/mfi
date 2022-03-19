@@ -1,5 +1,6 @@
 const { Sequelize, Op, Model}= require('sequelize');
 const { modelDefines, modelList } = require('./model');
+const winston = require('../common/winston');
 
 const models = {};
 
@@ -13,6 +14,8 @@ const initialize = async () => {
         {
             host: process.env[`${env.toUpperCase()}_HOST`],
             dialect: 'postgres',
+            // logging: logger.debug.bind(logger)  
+            logging: winston.info.bind(winston)
         }
     )
 
