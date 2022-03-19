@@ -77,7 +77,7 @@ app.listen(port, '0.0.0.0', async () => {
     console.log(process.env.NODE_ENV)
     await db.initialize();
     winston.info(`Listening on port ${port}`);
-    winston.error('ㅁㄴㅇㄹㄴㅁㄹㅇㅇㅁㄹ', { a:1, b:2    });
+    // winston.error('ㅁㄴㅇㄹㄴㅁㄹㅇㅇㅁㄹ', { a:1, b:2    });
     // { emerg: 0, alert: 1, crit: 2, error: 3, warning: 4, notice: 5, info: 6, debug: 7 }
 })
 

@@ -14,8 +14,7 @@ const initialize = async () => {
         {
             host: process.env[`${env.toUpperCase()}_HOST`],
             dialect: 'postgres',
-            // logging: logger.debug.bind(logger)  
-            logging: winston.info.bind(winston)
+            logging: winston.debug.bind(winston)
         }
     )
 
@@ -23,7 +22,6 @@ const initialize = async () => {
         for(let i =0; i <modelList.length; i++){
             models[modelList[i]] = await modelDefines[modelList[i]](sequelize);
         }
-        // console.log(models[user]);
     }
     const relationInit = async () => {
         for (let i = 0; i < modelList.length; i++) {
@@ -33,16 +31,14 @@ const initialize = async () => {
 
     try {
         await sequelize.authenticate();
-        console.log('sequelize connect successfully.');
+        winston.info(`sequelize connect successfully.`);
     } catch (error) {
-        console.error('Unable to connect to the database:', error);
+        winston.error(`Unable to connect to the database:`, error); //error : connect ECONNREFUSED 127.0.0.1:5432
         throw new Error('Unable to connect to the database');
     }
-
     await modelInit();
     await relationInit();
-    console.log('db init finish');
-
+    winston.info(`db init finish`);
 }
 
 module.exports = {
