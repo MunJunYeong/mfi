@@ -11,6 +11,7 @@ module.exports = {
       },
       ip : {
         type : Sequelize.STRING,
+        type: DataTypes.UUID,
         allowNull: false,
         unique: true,
       },

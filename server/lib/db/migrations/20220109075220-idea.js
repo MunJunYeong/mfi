@@ -18,10 +18,10 @@ module.exports = {
           },
       },
       subject: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(255)
       },
       content: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(10485760)
       },
       created: { 
         type: Sequelize.DATE,
