@@ -4,7 +4,6 @@ const {models, Op} = require('../db')
 const validateToken = async (req, res, next) => {
     let token = req.headers.authorization;
     let userData;
-    console.log(token)
     if(!token){
         res.send({message : 'need token'});
         return;
