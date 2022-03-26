@@ -219,7 +219,6 @@ const ideaModule = {
         async idea_comment({commit}, ideaIdx){
             let res;
             let token = localStorage.getItem('accessToken');
-
             try {
                 res = await axios.get(VUE_APP_BACKEND_HOST +'/comment?ideaIdx='+ ideaIdx.ideaIdx, {
                     headers : {
@@ -271,14 +270,14 @@ const ideaModule = {
                         'Authorization' : token
                     }
                 });
-                if(res.data.message){
-                    alert(res.data.message);
-                }
-                return;
             }catch(err){
                 console.log(err);
                 return;
-            }   
+            }
+            if(res.data.message){
+                alert(res.data.message);
+            }
+            return;
         },
         
     }
