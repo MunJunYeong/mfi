@@ -258,7 +258,6 @@ const { VUE_APP_BACKEND_HOST } = process.env;
         idRules: [
           value => !!value || '영어, 숫자 합쳐서 6글자 이상 만들어주세요.',
           value => (checkEng.test(value) && checkNum.test(value) && value.length >= 6) || '영어,숫자 6글자 이상',
-          // value =>this.checkIdDuplicate(value)
         ],
         pwRules : [
           value => !!value || '영어, 숫자, 특수기호를 합쳐서 6글자 이상 만들어주세요.',
@@ -285,6 +284,18 @@ const { VUE_APP_BACKEND_HOST } = process.env;
     methods : {
       // 중복 아이디 확인 axios
       async checkId(){
+        let checkEng = /[a-zA-Z]/;
+        let checkNum = /[0-9]/; 
+        let checkKor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+        if(!this.id){
+          alert('ID를 입력해주세요.'); return;
+        }
+        if(checkKor.test(this.id) || !checkEng.test(this.id) || !checkNum.test(this.id)){
+          alert('영어와 숫자를 사용해주세요.'); return;
+        }
+        if(this.id.length <6){
+          alert('최소 6글자 이상 만들어주세요.'); return;
+        }
         this.overlapId = await axios.post(VUE_APP_BACKEND_HOST+'/checkId', {
           id : this.id
         }).then(res =>{
@@ -313,7 +324,6 @@ const { VUE_APP_BACKEND_HOST } = process.env;
           if(res.data.value === 'true'){
             let result = confirm("사용가능한 닉네임입니다. 닉네임을 사용하시겠습니까?");
             if(result){
-              console.log('rere')
               return true;
             }else {
               return false;
@@ -334,25 +344,13 @@ const { VUE_APP_BACKEND_HOST } = process.env;
         if(!this.validationEmail(this.email)){
           alert('이메일 형식에 맞추어 작성해주세요.'); return;
         }
-
         this.overlapEmail = await axios.post(VUE_APP_BACKEND_HOST + '/sendEmail', {
           email : this.email
         }).then(res =>{
           console.log(res)
-          if(res.data.message === 'exist email'){
-            alert('이미 존재하는 이메일입니다.');
-            return false;
-          }else if(res.data.message === 'fail sendEmail'){
-            alert('잠시 후 다시 시도해주세요.');
-            return false;
-          }else if(res.data.message === 'no email'){
-            alert('이메일을 입력해주세요 !');
-            return false;
-          }else if(res.data.message === 'not validate email'){
-            alert('올바른 이메일 형식을 입력해주세요 !');
-            return false;
-          }
-          else {
+          if(res.data.message){
+            alert(res.data.message); return;
+          }else {
             this.authEmailIf = true;
             alert('이메일을 보냈습니다.');
             return true;
@@ -365,17 +363,9 @@ const { VUE_APP_BACKEND_HOST } = process.env;
           email : this.email,
           no : this.authEmail
         }).then(res => {
-          if(res.data.message === 'no data'){
-            alert('올바르지 않는 입력입니다.');
-            return;
-          }else if(res.data.message === 'no no'){
-            alert('인증 번호를 입력해주세요.');
-            return;
-          }else if(res.data.message === 'no email'){
-            alert('이메일 입력에 오류가 생겼습니다.(새로고침 후 다시 등록해주세요)');
-            return;
-          }
-          console.log(res);
+          if(res.data.message){
+            alert(res.data.message); return;
+           }
           if(res.data.data === 1){
             alert('인증이 완료되었습니다.');
             this.authEmailIf = false;
@@ -419,7 +409,6 @@ const { VUE_APP_BACKEND_HOST } = process.env;
           alert('이메일 인증을 다시 해주세요');
         }else {
           alert('통신 오류');
-          console.log(res);
           return;
         }
       },

@@ -118,22 +118,17 @@
     },
     methods: {
       async login(){
+        let res;
         try {
-          await this.$store.dispatch('auth_login', {
+          res = await this.$store.dispatch('auth_login', {
             id : this.id,
             pw : this.pw
           })
         } catch (err) {
-          console.log(err)
-          if(err.message === 'wrongPw'){
-            alert('비밀번호가 틀렸습니다.')
-          }else if(err.message === 'wrongId'){
-            alert('아이디가 존재하지 않습니다.')
-          }else if(err.message === 'wrongData'){
-            alert('아이디와 비밀번호를 둘다 입력해주세요..')
-          }else{
-            alert('통신 오류')
-          }
+          alert('통신 오류');
+        }
+        if(res.message){
+          alert(res.message);
         }
       }
     },

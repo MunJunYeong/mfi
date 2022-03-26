@@ -63,12 +63,15 @@ const ideaModule = {
                         userRole : data.userData.role,
                     }
                 });
-                commit('idea_set_data', res.data);
-                return;
             }catch(err){
                 console.log(err);
                 return;
             }
+            if(res.data.message){
+                alert('시스템 오류가 발생했습니다. 잠시 후 시도해주세요.'); return;
+            }
+            commit('idea_set_data', res.data);
+            return;
         },
         //내가 쓴 아이디어 보여주기
         async show_my_idea({commit}, data){
@@ -85,12 +88,15 @@ const ideaModule = {
                         'Authorization' : token
                     }
                 });
-                commit('idea_set_data', res.data);
-                return;
             }catch(err){
                 console.log(err);
                 return;
             }
+            if(res.data.message){
+                alert('시스템 오류가 발생했습니다. 잠시 후 시도해주세요.'); return;
+            }
+            commit('idea_set_data', res.data);
+            return;
         },
         async show_admin_user_idea({commit}, data){
             let token = localStorage.getItem('accessToken');
@@ -105,12 +111,15 @@ const ideaModule = {
                         'Authorization' : token
                     }
                 });
-                commit('idea_set_data', res.data);
-                return;
             }catch(err){
                 console.log(err);
                 return;
             }
+            if(res.data.message){
+                alert('시스템 오류가 발생했습니다. 잠시 후 시도해주세요.'); return;
+            }
+            commit('idea_set_data', res.data);
+            return;
         },
         //아이디어 클릭했을 때
         async click_idea({commit}, data) {
@@ -123,17 +132,18 @@ const ideaModule = {
                         'Authorization' : token
                     }
                 });
-                if(res.data.message === 'unvalid token'){
-                    alert('정상적인 경로가 아닙니다.');
-                    location.href='/home'; //새로고침
-                    return;
-                }else {
-                    commit('click_idea_set_data', res.data.data);
-                    return;
-                }
-                
             }catch(err){
                 console.log(err);
+                return;
+            }
+            if(res.data.message === 'unvalid token'){
+                alert('정상적인 경로가 아닙니다.');
+                location.href='/home'; //새로고침
+                return;
+            }else if(res.data.message){
+                alert('시스템 오류가 발생했습니다. 잠시 후 시도해주세요.'); return;
+            }else {
+                commit('click_idea_set_data', res.data.data);
                 return;
             }
         },        
@@ -141,7 +151,12 @@ const ideaModule = {
         async add_idea({commit}, data){
             let token = localStorage.getItem('accessToken');
             let res;
-            console.log(data)
+            if(!data.subject) {
+                alert('제목을 입력해주세요.'); return;
+            }
+            if(!data.content){
+                alert('내용을 입력해주세요.'); return;
+            }
             try {
                 res = await axios.post(VUE_APP_BACKEND_HOST +'/idea',{
                     subject : data.subject,
@@ -152,17 +167,15 @@ const ideaModule = {
                         'Authorization' : token
                     }
                 });
-                commit
-                if(res.data.message === 'no subject'){
-                    alert('제목을 입력해주세요.');
-                } else if(res.data.message === 'no content'){
-                    alert('내용을 입력해주세요.');
-                } else {
-                    alert("아이디어를 무사히 제출했습니다!");
-                    history.back();
-                }
             }catch(err){
                 console.log(err)
+            }
+            commit
+            if(res.data.message){
+                alert(res.data.message); return;
+            }else {
+                alert("아이디어를 무사히 제출했습니다!");
+                history.back();
             }
         },
 
@@ -192,12 +205,15 @@ const ideaModule = {
                         'Authorization' : token
                     }
                 })
-                if(res.data.data[0] === 1){
-                    commit('change_modify_flag', true);
-                }
             }catch(err){
-                console.log(err);
+                alert('통신오류');
                 return;
+            }
+            if(res.data.message){
+                alert('시스템 오류가 발생했습니다. 잠시 후 시도해주세요.'); return;
+            }
+            if(res.data.data[0] === 1){
+                commit('change_modify_flag', true);
             }
         },
         async idea_comment({commit}, ideaIdx){
@@ -255,7 +271,9 @@ const ideaModule = {
                         'Authorization' : token
                     }
                 });
-                res
+                if(res.data.message){
+                    alert(res.data.message);
+                }
                 return;
             }catch(err){
                 console.log(err);

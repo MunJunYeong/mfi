@@ -18,9 +18,9 @@ const postIdea = async (req, res) => {
     const data = req.body;
 
     if(!data.subject){
-        throw new Error('no subject');
+        throw new Error(114);
     }else if(!data.content){
-        throw new Error('no content');
+        throw new Error(115);
     }
 
     try{
@@ -36,7 +36,7 @@ const postIdea = async (req, res) => {
 const deleteIdea = async (req, res) => {
     const ideaIdx = req.query.ideaIdx;
     if(!ideaIdx){
-        throw new Error('required ideaIdx');
+        throw new Error(116);
     }
 
     try{
@@ -52,13 +52,13 @@ const updateIdea =  async (req, res) => {
     const subject = req.body.params.subject;
     const content = req.body.params.content;
     if(!ideaIdx){
-        throw new Error('required ideaIdx');
+        throw new Error(116);
     }
     if(!subject){
-        throw new Error('required subject');
+        throw new Error(114);
     }
     if(!content){
-        throw new Error('required content');
+        throw new Error(115);
     }
 
     try{
