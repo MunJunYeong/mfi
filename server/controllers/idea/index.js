@@ -1,6 +1,4 @@
 
-const {Op} = require('../../lib/db');
-
 const {idea : ideaService} = require ('../../service');
 const {pagination} = require('../../lib/common');
 
@@ -11,7 +9,7 @@ const getIdeaCount = async(req, res) => {
         res.send({data : result});
     }catch(err){
         winston.warn(`Unable to getIdeaCout :`, err);
-        throw new Error('fail to getIdeaCount');
+        throw new Error(17);
     }
     
 }
@@ -30,7 +28,7 @@ const postIdea = async (req, res) => {
         res.send({data : result});
     }catch(err){
         winston.error(`Unable to postIdea :`, err);
-        throw new Error('fail to postIdea');
+        throw new Error(18);
     }
     
 }
@@ -46,7 +44,7 @@ const deleteIdea = async (req, res) => {
         res.send({success : '1'});
     }catch(err){
         winston.error(`Unable to deleteIdea :`, err);
-        throw new Error('fail to deleteIdea');
+        throw new Error(19);
     }
 }
 const updateIdea =  async (req, res) => {
@@ -68,7 +66,7 @@ const updateIdea =  async (req, res) => {
         res.send({data : result});
     }catch(err){
         winston.error(`Unable to updateIdea :`, err);
-        throw new Error('fail to updateIdea');
+        throw new Error(20);
     }
 
     
@@ -97,7 +95,7 @@ const showIdea = async (req, res) => {
         res.send(result);
     }catch(err){
         winston.error(`Unable to showIdea :`, err);
-        throw new Error('fail to showIdea');
+        throw new Error(21);
     }
 }
 const showMyIdea = async (req, res) => {
@@ -110,7 +108,7 @@ const showMyIdea = async (req, res) => {
         res.send(result);
     }catch(err){
         winston.error(`Unable to showMyIdea :`, err);
-        throw new Error('fail to showMyIdea');
+        throw new Error(22);
     }
 }
 const showAdminUserIdea = async (req, res) => {
@@ -124,7 +122,7 @@ const showAdminUserIdea = async (req, res) => {
         res.send(result);
     }catch(err){
         winston.error(`Unable to showAdminUserIdea :`, err);
-        throw new Error('fail to showAdminUserIdea');
+        throw new Error(23);
     }
 
 }
