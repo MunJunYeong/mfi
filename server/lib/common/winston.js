@@ -3,6 +3,9 @@ const winstonDaily = require('winston-daily-rotate-file');
 const appRoot = require('app-root-path');
 const { combine, timestamp, label, printf } = winston.format;
 
+const env = process.env.NODE_ENV || 'local';
+
+
 // error: 0, warn: 1, info: 2, http: 3, verbose: 4, debug: 5, silly: 6
 const myFormat = printf( (info) => {
     return `${info.timestamp} ${info.level}: ${info.message}`;
@@ -10,6 +13,7 @@ const myFormat = printf( (info) => {
 
 
 let logger = new winston.createLogger({
+    level: process.env[`${env.toUpperCase()}_LOG_LEVEL`],
     format : combine (
         timestamp ({
             format : "YYYY-MM-DD HH:mm:ss",
