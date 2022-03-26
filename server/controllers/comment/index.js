@@ -12,7 +12,7 @@ const postComment = async (req, res) => {
         res.send({message : 'success'});
     }catch(err){
         winston.warn(`Unable to postComment :`, err);
-        throw new Error('fail to postComment');
+        throw new Error(16);
     }
 }
 
@@ -23,7 +23,7 @@ const getComment = async (req, res) => {
         res.send({data : result});
     }catch(err){
         winston.warn(`Unable to getComment :`, err);
-        throw new Error('fail to getComment');
+        throw new Error(17);
     }
 }
 

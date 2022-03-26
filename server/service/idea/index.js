@@ -2,18 +2,30 @@ const {models, Op} = require('../../lib/db');
 
 
 const  getIdeaCount = async ()=>{
-    const result  = await models['idea'].count();
-    return result;
+    try{
+        const result  = await models['idea'].count();
+        return result;
+    }catch(err){
+        winston.warn(`Unable to getIdeaCount[service] :`, err);
+        throw new Error(68);
+    }
+    
 
 }
 
 const createIdea = async (subject, content, userIdx)=>{
-    const result = await models['idea'].create({
-        subject : subject,
-        content : content,
-        userIdx : userIdx
-    });
-    return result;
+    try{
+        const result = await models['idea'].create({
+            subject : subject,
+            content : content,
+            userIdx : userIdx
+        });
+        return result;
+    }catch(err){
+        winston.error(`Unable to createIdea[service] :`, err);
+        throw new Error(69);
+    }
+    
 }
 
 
@@ -27,7 +39,6 @@ const getAllIdea = async (limit, offset, subject, userIdx, userRole, orderData, 
     const whereDate = date.setDate(-45);
     let order = [['ideaIdx', 'DESC']];
 
-    
     if(subject){
         const subjectWhere = {
             subject : {
@@ -92,27 +103,32 @@ const getAllIdea = async (limit, offset, subject, userIdx, userRole, orderData, 
         where[Op.and].push(orWhere);
     }
     
-
-    const data = await models['idea'].findAndCountAll({
-        where,
-        include : [
-            {
-                model : models['user'],
-                where : userWhere,
-                attributes : {
-                    exclude : ['id', 'pw', 'email']
-                },
-                required: true,
-            }
-        ],
-        order,
-        limit,
-        attributes : {
-            exclude : ['content']
-        },
-        offset
-    });
-    return data;
+    try{
+        const data = await models['idea'].findAndCountAll({
+            where,
+            include : [
+                {
+                    model : models['user'],
+                    where : userWhere,
+                    attributes : {
+                        exclude : ['id', 'pw', 'email']
+                    },
+                    required: true,
+                }
+            ],
+            order,
+            limit,
+            attributes : {
+                exclude : ['content']
+            },
+            offset
+        });
+        return data;
+    }catch(err){
+        winston.error(`Unable to getAllIdea[service] :`, err);
+        throw new Error(70);
+    }
+    
 }
 const getMyIdea = async (limit, offset, subject, userIdx)=>{
     const where = {};
@@ -124,26 +140,32 @@ const getMyIdea = async (limit, offset, subject, userIdx)=>{
     const userWhere = {};
     userWhere.userIdx = userIdx;
 
-    const data = await models['idea'].findAndCountAll({
-        where,
-        include : [
-            {
-                model : models['user'],
-                where : userWhere,
-                attributes : {
-                    exclude : ['id', 'pw', 'email']
-                },
-                required: true,
-            }
-        ],
-        order : [['ideaIdx', 'DESC']],
-        attributes : {
-            exclude : ['content']
-        },
-        limit,
-        offset
-    });
-    return data;
+    try{
+        const data = await models['idea'].findAndCountAll({
+            where,
+            include : [
+                {
+                    model : models['user'],
+                    where : userWhere,
+                    attributes : {
+                        exclude : ['id', 'pw', 'email']
+                    },
+                    required: true,
+                }
+            ],
+            order : [['ideaIdx', 'DESC']],
+            attributes : {
+                exclude : ['content']
+            },
+            limit,
+            offset
+        });
+        return data;
+    }catch(err){
+        winston.error(`Unable to getMyIdea[service] :`, err);
+        throw new Error(71);
+    }
+    
 }
 const getAdminUserIdea = async (limit, offset, subject, userIdx)=>{
     const where = {};
@@ -154,23 +176,29 @@ const getAdminUserIdea = async (limit, offset, subject, userIdx)=>{
     }
     const userWhere = {};
     userWhere.userIdx = userIdx;
-    const data = await models['idea'].findAndCountAll({
-        where,
-        include : [
-            {
-                model : models['user'],
-                where : userWhere,
-                attributes : {
-                    exclude : ['id', 'pw', 'email']
-                },
-                required: true,
-            }
-        ],
-        order : [['ideaIdx', 'DESC']],
-        limit,
-        offset
-    });
-    return data;
+    try{
+        const data = await models['idea'].findAndCountAll({
+            where,
+            include : [
+                {
+                    model : models['user'],
+                    where : userWhere,
+                    attributes : {
+                        exclude : ['id', 'pw', 'email']
+                    },
+                    required: true,
+                }
+            ],
+            order : [['ideaIdx', 'DESC']],
+            limit,
+            offset
+        });
+        return data;
+    }catch(err){
+        winston.error(`Unable to getAdminUserIdea[service] :`, err);
+        throw new Error(72);
+    }
+    
 }
 //클릭시 아이디어 가져오기
 const getIdea = async (ideaIdx) => {
@@ -178,41 +206,59 @@ const getIdea = async (ideaIdx) => {
     
     where.ideaIdx = ideaIdx;
     //where을 토대로 idea 가져오기.
-    const result = await models['idea'].findAll({
-        where,
-        include : [
-            {
-                model : models['user'],
-                attributes : {
-                    exclude : ['id', 'pw', 'email']
-                },
-            }
-        ]
-    })
-    return result;
+    try{
+        const result = await models['idea'].findAll({
+            where,
+            include : [
+                {
+                    model : models['user'],
+                    attributes : {
+                        exclude : ['id', 'pw', 'email']
+                    },
+                }
+            ]
+        })
+        return result;
+    }catch(err){
+        winston.error(`Unable to getIdea[service] :`, err);
+        throw new Error(73);
+    }
+    
 }
 
 const updateIdea = async(ideaIdx, subject, content) =>{
-    const result = await models['idea'].update(
-        {
-            subject : subject,
-            content : content
-        },
-        {
-            where : {
-                ideaIdx : ideaIdx,
+    try{
+        const result = await models['idea'].update(
+            {
+                subject : subject,
+                content : content
             },
-        }
-    )
-    return result;
+            {
+                where : {
+                    ideaIdx : ideaIdx,
+                },
+            }
+        )
+        return result;
+    }catch(err){
+        winston.error(`Unable to updateIdea[service] :`, err);
+        throw new Error(74);
+    }
+    
 }
 const deleteIdea = async(ideaIdx) => {
-    const result = await models['idea'].destroy({
-        where : {
-            ideaIdx : ideaIdx
-        },
-    })
-    return result; 
+    try{
+        const result = await models['idea'].destroy({
+            where : {
+                ideaIdx : ideaIdx
+            },
+        })
+        return result; 
+    }catch(err){
+        winston.error(`Unable to deleteIdea[service] :`, err);
+        throw new Error(75);
+    }
+    
 }
 
 

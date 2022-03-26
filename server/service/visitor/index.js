@@ -1,49 +1,68 @@
 const { models, Op } = require('../../lib/db');
 
 const createIp = async (ip)=>{
-    let result 
-    try { 
-        result = await models['visitor'].create({
+    let res;
+    try{
+        res = await models['visitor'].create({
             ip : ip
         })
-    } catch (err) {
-        result = {}
+        return res;
+    }catch(err){
+        winston.warn(`Unable to createIp[service] :`, err);
+        throw new Error(78);
     }
-    
-    return result;
 }
 
 const getTodayVisitor = async ()=>{
-    const result = await models['visitor'].count();
-    return result;
+    try{
+        const result = await models['visitor'].count();
+        return result;
+    }catch(err){
+        winston.warn(`Unable to getTodayVisitor[service] :`, err);
+        throw new Error(79);
+    }
+    
 }
 const getTotalVisitor = async ()=>{
-    let today = await models['visitor'].count();
-    let totalData = await models['totalVisitor'].findOne({
-        idx : 1
-    });
-    let sum = parseInt(totalData.total) + today ;
-    return sum;
+    try{
+        let today = await models['visitor'].count();
+        let totalData = await models['totalVisitor'].findOne({
+            idx : 1
+        });
+        let sum = parseInt(totalData.total) + today ;
+        return sum;
+    }catch(err){
+        winston.warn(`Unable to getTotalVisitor[service] :`, err);
+        throw new Error(80);
+    }
+
+    
 }
 
 const updateTotalVisitor = async (totalCnt)=>{
-    const result = await models['totalVisitor'].update(
-        {
-            total : totalCnt
-        },
-        {
-            where : {
-                idx : 1
+    try{
+        const result = await models['totalVisitor'].update(
+            {
+                total : totalCnt
+            },
+            {
+                where : {
+                    idx : 1
+                }
             }
+        )
+        if(parseInt(result) === 1){
+            await models['visitor'].destroy({
+                where : {},
+                truncate : true
+            });
         }
-    )
-    if(parseInt(result) === 1){
-        await models['visitor'].destroy({
-            where : {},
-            truncate : true
-        });
+        return result;
+    }catch(err){
+        winston.warn(`Unable to updateTotalVisitor[service] :`, err);
+        throw new Error(81);
     }
-    return result;
+    
 }
 
 module.exports = {

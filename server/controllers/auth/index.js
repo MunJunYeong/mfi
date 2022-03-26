@@ -17,9 +17,8 @@ const getUserCount = async(req, res) => {
         res.send({data : result});
     }catch(err){
         winston.warn(`Unable to get user cout :`, err);
-        throw new Error('fail to get userCount');
+        throw new Error(1);
     }
-    
 }
 const getTodayVisitor = async(req, res) => {
     try{
@@ -27,7 +26,7 @@ const getTodayVisitor = async(req, res) => {
         res.send({data : result});
     }catch(err){
         winston.warn(`Unable to get today visitor :`, err);
-        throw new Error('fail to get todayVisitor');
+        throw new Error(2);
     }
     
 }
@@ -37,7 +36,7 @@ const getTotalVisitor = async(req, res) => {
         res.send({data : result});
     }catch(err){
         winston.warn(`Unable to get total visitor :`, err);
-        throw new Error('fail to get totalVisitor');
+        throw new Error(3);
     }
 
 }
@@ -47,7 +46,7 @@ const getNewsItem = async(req, res) => {
         res.send({data : result});
     }catch(err){
         winston.warn(`Unable to get newsItem :`, err);
-        throw new Error('fail to get newsItem');
+        throw new Error(4);
     }
 
 }
@@ -69,7 +68,7 @@ const signUP = async (req, res) => {
         res.send({data : result});
     }catch(err){
         winston.error(`Unable to signup :`, err);
-        throw new Error('fail signup');
+        throw new Error(5);
     }
     
 }
@@ -90,7 +89,7 @@ const sendEmail = async (req, res) => {
             throw new Error(err.message);
         }else {
             winston.error(`Unable to sendEmail :`, err);
-            throw new Error('fail sendEmail')
+            throw new Error(6)
         }
     }
 }
@@ -112,7 +111,7 @@ const checkEmail = async (req, res) => {
             throw new error('wrong no');
         }else {
             winston.error(`Unable to checkEmail :`, err);
-            throw new Error('fail to checkEmail');
+            throw new Error(7);
         }
     }
 }
@@ -128,7 +127,7 @@ const findIdSendMail = async(req, res) => {
         res.send(result);
     }catch(err){
         winston.error(`Unable to sendMail for findId :`, err);
-        throw new Error('fail to findIdSendMail');
+        throw new Error(8);
     }
     
 }
@@ -143,7 +142,7 @@ const findPwSendMail = async(req, res) => {
         res.send(result);
     }catch(err){
         winston.error(`Unable to sendMail for findPw :`, err);
-        throw new Error('fail to findPwSendMail');
+        throw new Error(9);
     }
     
     
@@ -159,7 +158,7 @@ const updatePw = async(req, res) => {
         res.send({data : result[0]});
     }catch(err){
         winston.error(`Unable to updatePw :`, err);
-        throw new Error('fail to updatePw');
+        throw new Error('');
     }
 }
 
@@ -175,7 +174,7 @@ const signIn = async (req, res) => {
         res.send(result);
     }catch(err){
         winston.error(`Unable to signIn :`, err);
-        throw new Error('fail to signIn');
+        throw new Error(11);
     }
     
 }
@@ -206,7 +205,7 @@ const checkId = async (req, res) =>{
         }
     }catch(err){
         winston.error(`Unable to checkId(duplicate) :`, err);
-        throw new Error('fail to checkId');
+        throw new Error(12);
     }
     
 }
@@ -232,7 +231,7 @@ const checkNickName = async (req, res) => {
         }
     }catch(err){
         winston.error(`Unable to checkNickName(duplicate) :`, err);
-        throw new Error('fail to checkNickName');
+        throw new Error(13);
     }
 
 }
@@ -245,7 +244,7 @@ const updateUserRole = async (req, res) => {
         res.send(result)
     }catch(err){
         winston.error(`Unable to updateUserRole :`, err);
-        throw new Error('fail to updateUserRole');
+        throw new Error(14);
     }
 }
 
@@ -271,7 +270,7 @@ const getUser = async (req, res)=> {
         res.send(result);
     }catch(err){
         winston.error(`Unable to getUser(role:admin) :`, err);
-        throw new Error('fail to getUser(role:admin)');
+        throw new Error('16');
     }
 
 }
