@@ -28,8 +28,6 @@ const createIdea = async (subject, content, userIdx)=>{
     
 }
 
-
-
 //repositry where절을 여기서 
 const getAllIdea = async (limit, offset, subject, userIdx, userRole, orderData, role) => {
     const where = {

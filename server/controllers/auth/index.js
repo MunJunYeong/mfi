@@ -5,11 +5,14 @@ const {visitor : visitorService} =require('../../service');
 const {user : userService} = require('../../service');
 const { Op } = require('../../lib/db');
 const {pagination, utils} = require('../../lib/common');
+const winston = require('../../lib/common/winston');
 
 let checkEng = /[a-zA-Z]/;
 let checkNum = /[0-9]/; 
 let checkSpe = /[~!@#$%^&*()_+|<>?:{}]/;
 let checkKor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+
+
 
 const getUserCount = async(req, res) => {
     try{
@@ -56,11 +59,11 @@ const signUP = async (req, res) => {
     const data = req.body;
 
     if(!data.id || !data.pw || !data.nickName || !data.email){
-        throw new Error('no data');
+        throw new Error(101);
     }else if(data.pw.length <=5){
-        throw new Error('최소 6글자 이상 만들어주세요.');
+        throw new Error(102);
     }else if(!checkEng.test(data.pw) || !checkNum.test(data.pw) || !checkSpe.test(data.pw)){
-        throw new Error('영어, 숫자, 특수기호를 모두 사용해주세요.');
+        throw new Error(103);
     }
 
     try{
@@ -76,16 +79,16 @@ const signUP = async (req, res) => {
 const sendEmail = async (req, res) => {
     const data = req.body;
     if(!data.email){
-        throw new Error('no email');
+        throw new Error(104);
     }
     if(!utils.validationEmail(data.email)){
-        throw new Error('not validate email');
+        throw new Error(105);
     }
     try{
         const result = await anonymousService.sendEmail(data.email);
         res.send({data : result.dataValues.idx});
     }catch(err){
-        if(err.message == 'exist email'){
+        if(err.message){
             throw new Error(err.message);
         }else {
             winston.error(`Unable to sendEmail :`, err);
@@ -97,18 +100,19 @@ const checkEmail = async (req, res) => {
     const data = req.body;
     
     if(!data.email && !data.no){
-        throw new Error('no data');
+        throw new Error(106);
     }else if(!data.no){
-        throw new Error('no no');
+        throw new Error(107);
     }else if(!data.email){
-        throw new Error('no email');
+        throw new Error(108);
     }
     try{
         await anonymousService.checkEmail(data.email, data.no);
         res.send({data : 1});
     }catch(err){
-        if(err.message === 'wrong no'){
-            throw new error('wrong no');
+        console.log(err.message)
+        if(err.message){
+            throw new Error(err.message);
         }else {
             winston.error(`Unable to checkEmail :`, err);
             throw new Error(7);
@@ -120,12 +124,15 @@ const findIdSendMail = async(req, res) => {
     const data = req.body;
     // front에서 막아놨기에 비정상적인 접근으로 이메일을 쏜거임
     if(!data.email){
-        throw new Error('wrong access');
+        throw new Error(109);
     }
     try{
         const result = await anonymousService.findIdSendMail(data.email);
         res.send(result);
     }catch(err){
+        if(err.message){
+            throw new Error(err.message);
+        }
         winston.error(`Unable to sendMail for findId :`, err);
         throw new Error(8);
     }
@@ -135,12 +142,15 @@ const findPwSendMail = async(req, res) => {
     const data = req.body;
     // front에서 막아놨기에 비정상적인 접근으로 이메일을 쏜거임
     if( data.id === '' || data.email === '' || data.id === null || data.email === null ){
-        throw new Error('wrong access');
+        throw new Error(109);
     }
     try{
         const result = await anonymousService.findPwSendMail(data.id, data.email);
         res.send(result);
     }catch(err){
+        if(err.message){
+            throw new Error(err.message);
+        }
         winston.error(`Unable to sendMail for findPw :`, err);
         throw new Error(9);
     }
@@ -151,14 +161,14 @@ const updatePw = async(req, res) => {
     const data = req.body; // data -> email, pw, id
     // front에서 막아놨기에 비정상적인 접근으로 이메일을 쏜거임
     if(data.email === '' || data.pw === '' || data.id === ''){
-        throw new Error('wrong access');
+        throw new Error(109);
     }
     try{
         const result = await anonymousService.updatePw(data.email, data.pw, data.id);
         res.send({data : result[0]});
     }catch(err){
         winston.error(`Unable to updatePw :`, err);
-        throw new Error('');
+        throw new Error(10);
     }
 }
 
@@ -167,16 +177,19 @@ const signIn = async (req, res) => {
     const data = req.body;
 
     if(!data.id || !data.pw){
-        throw new Error('no data');
+        throw new Error(106);
     }
     try{
         const result = await anonymousService.signIn(data.id, data.pw);
         res.send(result);
     }catch(err){
+        console.log(err)
+        if(err.message){
+            throw new Error(err.message);
+        }
         winston.error(`Unable to signIn :`, err);
         throw new Error(11);
     }
-    
 }
 
 //아이디 중복확인
@@ -184,11 +197,11 @@ const checkId = async (req, res) =>{
     const data = req.body;
 
     if(!data.id){
-        throw new Error('ID를 입력해주세요.');
+        throw new Error(110);
     }else if(checkKor.test(data.id) || !checkEng.test(data.id) || !checkNum.test(data.id)){
-        throw new Error('영어와 숫자를 사용해주세요.');
+        throw new Error(111);
     }else if(data.id.length <6){
-        throw new Error('6글자 이상 입력해주세요.');
+        throw new Error(102);
     }
     try{
         const result = await anonymousService.duplicateId(data.id);
@@ -213,7 +226,7 @@ const checkNickName = async (req, res) => {
     const data = req.body;
     
     if(data.nickName <3){
-        throw new Error('3글자 이상 입력해주세요');
+        throw new Error(113);
     }
 
     try{

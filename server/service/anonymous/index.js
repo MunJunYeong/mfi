@@ -57,9 +57,8 @@ const sendEmail = async (email) => {
         winston.error(`Unable to findUser for sendEmail[servcie] :`, err);
         throw new Error(53);
     }
-    
-    try{
-        if(findUser === null){
+    if(findUser === null){
+        try{
             const emailNo = utils.makeEmailNo(6); // 6자리 인증번호
             const result =  await models['authentication'].create({
                 email : email,
@@ -68,13 +67,12 @@ const sendEmail = async (email) => {
             // send email method
             utils.sendEmail(email, emailNo);
             return result;        
-        }else { // 이미 회원가입된 이메일 정보가 존재할 경우
-            throw new Error('exist email')
-            // return {message : 'exist email'};
-        }
-    }catch(err){
-        winston.error(`Unable to sendEmail[servcie] :`, err);
-        throw new Error(54);
+        }catch(err){
+            winston.error(`Unable to sendEmail[servcie] :`, err);
+            throw new Error(54);
+        }   
+    }else {
+        throw new Error(119);
     }
    
     
@@ -95,9 +93,8 @@ const checkEmail = async(email, no) => {
         winston.error(`Unable to findAuthNo for checkEmail[servcie] :`, err);
         throw new Error(55);
     }
-    
     if(findAuthNo[0] === undefined){
-        throw new Error('fail to send');
+        throw new Error(120);
     }
     if(findAuthNo[0].dataValues.no === no){
         try{
@@ -111,7 +108,8 @@ const checkEmail = async(email, no) => {
             winston.error(`Unable to checkEmail :`, err);
             throw new Error(56);
         }
-        
+    }else {
+        throw new Error(121);
     }
 }
 //find id , pw
@@ -132,7 +130,7 @@ const findIdSendMail = async(email) => {
     }
     
     if(findUser === null){
-        return {message : 'no data'};
+        throw new Error(101);
     }else {
         try{
             let userInfo = {
@@ -168,7 +166,7 @@ const findPwSendMail = async(id, email) => {
     }
     
     if(findUser === null){
-        return {message : 'no user'};
+        throw new Error(101);
     }else {
         try{
             const emailNo = utils.makeEmailNo(6); // 6자리 인증번호
@@ -223,11 +221,11 @@ const signIn = async (id, pw) => {
         throw new Error(62);
     }
     if(findId){
-        try{
-            const tokenData = {
-                ...findId.toJSON()
-            }
-            if(pw === tokenData.pw){
+        const tokenData = {
+            ...findId.toJSON()
+        }
+        if(pw === tokenData.pw){
+            try{
                 delete tokenData.pw;
                 // 토큰 유효기간은 2days
                 const options = {
@@ -237,16 +235,15 @@ const signIn = async (id, pw) => {
                 }
                 accessToken = jwt.sign(tokenData, 'shhhhh', options.option);
                 return {token : accessToken};
-            }else {
-                return {message : 'wrong pw'};
-            } 
-        }catch(err){
-            winston.error(`Unable to signIn[service] :`, err);
-            throw new Error(63);
+            }catch(err){
+                winston.error(`Unable to signIn[service] :`, err);
+                throw new Error(63);
+            }
+        }else {
+            throw new Error(122);
         }
-               
     }else {
-        return {message : 'not exist id'};
+        throw new Error(123);
     }
 } 
 const duplicateId = async (id) => {

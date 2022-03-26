@@ -260,6 +260,8 @@ export default {
         if(res.data.data === 1){
           alert('비밀번호 변경이 완료되었습니다.');
           history.back();
+        }else{
+          alert(res.data.message);
         }
       },
 
@@ -282,10 +284,8 @@ export default {
         }catch(err){
           console.log(err);
         }
-        if(res.data.message === 'no user'){
-          alert('존재하지 않는 회원 정보 입니다.');
-        }else if(res.data.message === 'wrong access'){
-          alert('잘못된 접근입니다.');
+        if(res.data.message){
+          alert(res.data.message); return;
         }else {
           this.authEmailIf = true;
           this.overlapEmail = true;

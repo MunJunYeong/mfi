@@ -131,14 +131,9 @@ const anonymousModule = {
                 commit('auth_set_data',  jwt_decode(res.data.token));
                 commit('auth_set_token', res.data.token);
                 history.back();
-            }else if(res.data.message === "wrong pw"){
-                throw Error('wrongPw');
-            }else if(res.data.message === "not exist id"){
-                throw Error('wrongId');
-            }else if(res.data.message === 'no data') {
-                throw Error('wrongData');
-            }else{
-                throw Error('somethingIsWrong');
+                return {data : 1};
+            }else if(res.data.message){
+                return res.data;
             }
         },
         async find_id_send_email({commit}, data){
@@ -150,14 +145,14 @@ const anonymousModule = {
             }catch(err) {
                 console.log(err);
             }
-            if(res.data.message === 'wrong access'){
-                alert('이메일이 정상적으로 입력되지 않았습니다.'); return;
-            }else if ( res.data.message === 'no data'){
-                alert('존재하지 않는 이메일입니다.'); return;
-            }else if(res.data.data === 1){
-                alert('사용자님의 이메일로 아이디를 발송했습니다.'); return;
-            }
             commit
+            return res.data;
+            // if(res.data.message){
+            //     alert(res.data.message); return;
+            // }else if(res.data.data === 1){
+            //     alert('사용자님의 이메일로 아이디를 발송했습니다.'); return;
+            // }
+            // commit
         },
         async find_pw_send_email({commit}, data){
             let res;

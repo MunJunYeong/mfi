@@ -83,15 +83,22 @@ export default {
     },
     methods : {
       async sendEmail(){
+        let res;
         if(!this.validationEmail(this.email)){
           alert('이메일 형식에 맞추어 작성해주세요.'); return;
         }
         try{
-          await this.$store.dispatch('find_id_send_email', {
+          res = await this.$store.dispatch('find_id_send_email', {
             email : this.email
           })
         }catch(err){
           console.log(err);
+        }
+        if(res.message){
+          alert(res.message);
+        }else {
+          alert('사용자님의 이메일로 아이디를 발송했습니다.');
+          history.back();
         }
       },
       validationEmail(str){
