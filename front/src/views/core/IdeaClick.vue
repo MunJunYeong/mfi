@@ -1,6 +1,6 @@
 <template>
     <v-container >
-        <v-contatiner class="pc">
+        <v-container class="pc">
             <!-- <v-progress-circular v-if="completeLoading"
             indeterminate
             color="green"
@@ -106,7 +106,7 @@
                 </v-col>
                 <v-spacer />
             </v-row>
-        </v-contatiner>
+        </v-container>
 
 
 
