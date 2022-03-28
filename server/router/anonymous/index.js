@@ -6,31 +6,31 @@ const {idea : ideaController} = require('../../controllers');
 
 
 //메인 페이지 정보
-anonymousRouter.get('/userCount', authController.getUserCount);
-anonymousRouter.get('/ideaCount', ideaController.getIdeaCount);
-anonymousRouter.get('/todayVisitor', authController.getTodayVisitor);
-anonymousRouter.get('/totalVisitor', authController.getTotalVisitor);
+anonymousRouter.get('/usercount', authController.getUserCount);
+anonymousRouter.get('/ideacount', ideaController.getIdeaCount);
+anonymousRouter.get('/todayvisitor', authController.getTodayVisitor);
+anonymousRouter.get('/totalvisitor', authController.getTotalVisitor);
 
 //뉴스 페이지 정보
 anonymousRouter.get('/news', authController.getNewsItem);
 
 //회원가입하기
-anonymousRouter.post('/signUp', authController.signUP);
-anonymousRouter.post('/sendEmail', authController.sendEmail);
-anonymousRouter.post('/checkEmail', authController.checkEmail);
+anonymousRouter.post('/signup', authController.signUP);
+anonymousRouter.post('/sendemail', authController.sendEmail);
+anonymousRouter.post('/checkemail', authController.checkEmail);
 
 //ID, PW 찾기
-anonymousRouter.post('/findId', authController.findIdSendMail);
-anonymousRouter.post('/findPw', authController.findPwSendMail);
-anonymousRouter.put('/updatePw', authController.updatePw);
+anonymousRouter.post('/findid', authController.findIdSendMail);
+anonymousRouter.post('/findpw', authController.findPwSendMail);
+anonymousRouter.put('/updatepw', authController.updatePw);
 
 //로그인하기
-anonymousRouter.post('/signIn', authController.signIn);
+anonymousRouter.post('/signin', authController.signIn);
 
 //아이디 중복확인
-anonymousRouter.post('/checkId', authController.checkId);
+anonymousRouter.post('/checkid', authController.checkId);
 //닉네임 중복확인
-anonymousRouter.post('/checkNickName', authController.checkNickName)
+anonymousRouter.post('/checknickname', authController.checkNickName)
 
 //아이디어 보기
 anonymousRouter.get('/idea', ideaController.showIdea);
