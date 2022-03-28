@@ -296,7 +296,7 @@ const { VUE_APP_BACKEND_HOST } = process.env;
         if(this.id.length <6){
           alert('최소 6글자 이상 만들어주세요.'); return;
         }
-        this.overlapId = await axios.post(VUE_APP_BACKEND_HOST+'/checkId', {
+        this.overlapId = await axios.post(VUE_APP_BACKEND_HOST+'/checkid', {
           id : this.id
         }).then(res =>{
           if(res.data.value === "true"){
@@ -318,7 +318,7 @@ const { VUE_APP_BACKEND_HOST } = process.env;
           alert('3글자 이상 입력해주세요.')
           return false;
         }
-        this.overlapNickName = await axios.post(VUE_APP_BACKEND_HOST+ '/checkNickName', {
+        this.overlapNickName = await axios.post(VUE_APP_BACKEND_HOST+ '/checknickname', {
           nickName : this.nickName
         }).then(res=>{
           if(res.data.value === 'true'){
@@ -344,7 +344,7 @@ const { VUE_APP_BACKEND_HOST } = process.env;
         if(!this.validationEmail(this.email)){
           alert('이메일 형식에 맞추어 작성해주세요.'); return;
         }
-        this.overlapEmail = await axios.post(VUE_APP_BACKEND_HOST + '/sendEmail', {
+        this.overlapEmail = await axios.post(VUE_APP_BACKEND_HOST + '/sendemail', {
           email : this.email
         }).then(res =>{
           console.log(res)
@@ -359,7 +359,7 @@ const { VUE_APP_BACKEND_HOST } = process.env;
       },
       //이메일 인증하기 
       async checkAuthEmail(){
-        this.overlapAuthentication = await axios.post(VUE_APP_BACKEND_HOST + '/checkEmail', {
+        this.overlapAuthentication = await axios.post(VUE_APP_BACKEND_HOST + '/checkemail', {
           email : this.email,
           no : this.authEmail
         }).then(res => {
@@ -381,7 +381,7 @@ const { VUE_APP_BACKEND_HOST } = process.env;
         if(this.pw !== this.checkPw){
           alert('비밀번호가 일치하지 않습니다.!');
         }else  if(this.overlapId && this.overlapNickName && this.overlapAuthentication){
-          await axios.post(VUE_APP_BACKEND_HOST+ '/signUp', {
+          await axios.post(VUE_APP_BACKEND_HOST+ '/signup', {
             id : this.id,
             pw : this.pw,
             nickName : this.nickName,

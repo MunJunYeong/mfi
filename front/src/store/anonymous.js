@@ -74,7 +74,7 @@ const anonymousModule = {
         async get_user_count({commit}){
             let res;
             try{
-                res = await axios.get( VUE_APP_BACKEND_HOST + '/userCount', {
+                res = await axios.get( VUE_APP_BACKEND_HOST + '/usercount', {
                 })
             }catch(err){
                 console.log(err);
@@ -84,7 +84,7 @@ const anonymousModule = {
         async get_idea_count({commit}){
             let res;
             try{
-                res = await axios.get( VUE_APP_BACKEND_HOST + '/ideaCount', {
+                res = await axios.get( VUE_APP_BACKEND_HOST + '/ideacount', {
 
                 })
             }catch(err){
@@ -95,7 +95,7 @@ const anonymousModule = {
         async get_today_visitor_count({commit}){
             let res;
             try{
-                res = await axios.get( VUE_APP_BACKEND_HOST + '/todayVisitor', {
+                res = await axios.get( VUE_APP_BACKEND_HOST + '/todayvisitor', {
 
                 })
             }catch(err){
@@ -106,7 +106,7 @@ const anonymousModule = {
         async get_total_visitor_count({commit}){
             let res;
             try{
-                res = await axios.get( VUE_APP_BACKEND_HOST + '/totalVisitor', {
+                res = await axios.get( VUE_APP_BACKEND_HOST + '/totalvisitor', {
 
                 })
             }catch(err){
@@ -119,7 +119,7 @@ const anonymousModule = {
         async auth_login ({ commit }, data) {
             let res;
             try {
-                res = await axios.post( VUE_APP_BACKEND_HOST + '/signIn', {
+                res = await axios.post( VUE_APP_BACKEND_HOST + '/signin', {
                     id : data.id,
                     pw : data.pw
                 });
@@ -139,7 +139,7 @@ const anonymousModule = {
         async find_id_send_email({commit}, data){
             let res;
             try {
-                res = await axios.post(VUE_APP_BACKEND_HOST + '/findId', {
+                res = await axios.post(VUE_APP_BACKEND_HOST + '/findid', {
                     email : data.email,
                 })
             }catch(err) {
@@ -157,7 +157,7 @@ const anonymousModule = {
         async find_pw_send_email({commit}, data){
             let res;
             try {
-                res = await axios.post(VUE_APP_BACKEND_HOST + '/findPw', {
+                res = await axios.post(VUE_APP_BACKEND_HOST + '/findpw', {
                     id : data.id,
                     email : data.email,
                 })
@@ -170,7 +170,7 @@ const anonymousModule = {
         async find_pw_check_email({commit}, data){
             let res;
             try {
-                res = await axios.post(VUE_APP_BACKEND_HOST + '/checkEmail', {
+                res = await axios.post(VUE_APP_BACKEND_HOST + '/checkemail', {
                     email : data.email,
                     no : data.no,
                 })
@@ -183,7 +183,7 @@ const anonymousModule = {
         async update_pw({commit}, data){
             let res;
             try {
-                res = await axios.put(VUE_APP_BACKEND_HOST + '/updatePw', {
+                res = await axios.put(VUE_APP_BACKEND_HOST + '/updatepw', {
                     email : data.email,
                     pw : data.pw,
                     id : data.id
