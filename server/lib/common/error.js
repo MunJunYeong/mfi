@@ -19,6 +19,7 @@ const preProcessing = {
     121 : '인증번호가 일치하지 않습니다!',
     122 : '잘못된 비밀번호 입니다.',
     123 : '잘못된 아이디 입니다.',
+    124 : '‘트래픽 문제로 잠시 후 다시 시도해주세요(이미 존재하는 회원)’',
 }
 
 const postProcessing = {
@@ -68,6 +69,7 @@ const dbError = {
 63 : 'Unable to signIn[service]',
 64 : 'Unable to duplicatedId[service]',
 65 : 'Unable to duplicatedNickName[service]',
+84 : "Unable to makeUserToken[service]",
 //comment
 66 : 'Unable to postComment[service]',
 67 : 'Unable to getComment[service]',

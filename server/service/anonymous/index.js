@@ -26,23 +26,8 @@ const  getNewsItem = async ()=>{
 
 }
 
-const signUp = async (id, pw, nickName, email, role) => {
-    try{
-        const result = await models['user'].create({
-            id : id,
-            pw : pw,
-            nickName : nickName,
-            email : email,
-            role : role
-        });
-        return result;
-    }catch(err){
-        winston.error(`Unable to signUp[servcie] :`, err);
-        throw new Error(52);
-    }
-    
-}
-const sendEmail = async (email) => {
+//중복되는 메소드
+const findUser = async (email) => {
     let findUser;
     try{
         findUser = await models['user'].findOne({
@@ -53,11 +38,51 @@ const sendEmail = async (email) => {
                 exclude : ['id', 'pw', 'nickName', 'role']
             },
         });
+        return findUser;
     }catch(err){
         winston.error(`Unable to findUser for sendEmail[servcie] :`, err);
         throw new Error(53);
     }
-    if(findUser === null){
+}
+
+
+const signUp = async (id, pw, nickName, email, role) => {
+    //혹시나 회원가입이 이미 되었는데도 또 2번 이상의 요청이 가서 생기는 경우 예외처리
+    let result;
+    if(await findUser(email) === null){
+        try{
+            result = await models['user'].create({
+                id : id,
+                pw : pw,
+                nickName : nickName,
+                email : email,
+                role : role
+            });
+            await makeUserToken(result.userIdx);
+            return result;
+        }catch(err){
+            winston.error(`Unable to signUp[servcie] :`, err);
+            throw new Error(52);
+        }
+
+    }else {
+        throw new Error(124);
+    }
+    
+}
+const makeUserToken= async (idx)=> {
+    console.log(idx)
+    try{
+        await models['userToken'].create({
+            userIdx : idx
+        })
+    }catch(err){
+        winston.error(`Unable to makeUserToken[servcie] :`, err);
+        throw new Error(84);
+    }
+}
+const sendEmail = async (email) => {
+    if(await findUser(email) === null){
         try{
             const emailNo = utils.makeEmailNo(6); // 6자리 인증번호
             const result =  await models['authentication'].create({
@@ -74,8 +99,6 @@ const sendEmail = async (email) => {
     }else {
         throw new Error(119);
     }
-   
-    
 }
 const checkEmail = async(email, no) => {
     //예의치 못하게 2개가 생기는 경우를 방지하고자 findOne이 아닌 findAll 사용-> 가장 최근 인증번호
@@ -112,8 +135,10 @@ const checkEmail = async(email, no) => {
         throw new Error(121);
     }
 }
+
 //find id , pw
 const findIdSendMail = async(email) => {
+    //exclude 차이로 독자적인 findUser 필요
     let findUser;
     try{
         findUser = await models['user'].findOne({
@@ -149,23 +174,7 @@ const findIdSendMail = async(email) => {
 }
 
 const findPwSendMail = async(id, email) => {
-    let findUser;
-    try{
-        findUser = await models['user'].findOne({
-            where : {
-                id : id,
-                email : email,
-            },
-            attributes : {
-                exclude : ['id', 'pw', 'nickName', 'role']
-            },
-        })
-    }catch(err){
-        winston.error(`Unable to findUser for findPwSendMail[servcie] :`, err);
-        throw new Error(59);
-    }
-    
-    if(findUser === null){
+    if(await findUser(email) === null){
         throw new Error(101);
     }else {
         try{
@@ -283,6 +292,7 @@ const duplicateNickName = async (nickName) => {
 
 module.exports = {
     signUp,
+    makeUserToken,
     signIn,
     duplicateId,
     duplicateNickName,
