@@ -147,12 +147,6 @@ const anonymousModule = {
             }
             commit
             return res.data;
-            // if(res.data.message){
-            //     alert(res.data.message); return;
-            // }else if(res.data.data === 1){
-            //     alert('사용자님의 이메일로 아이디를 발송했습니다.'); return;
-            // }
-            // commit
         },
         async find_pw_send_email({commit}, data){
             let res;

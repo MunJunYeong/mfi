@@ -68,10 +68,17 @@ const signUP = async (req, res) => {
 
     try{
         const result = await anonymousService.signUp(data.id, data.pw, data.nickName, data.email, 'normal');
+        //userToken 만드는 트랜잭션은 service레이어에서 동시에 실행
+        // await anonymousService.makeUserToken(result.userIdx);
         res.send({data : result});
     }catch(err){
-        winston.error(`Unable to signup :`, err);
-        throw new Error(5);
+        if(err.message){
+            throw new Error(err.message);
+        }else {
+            winston.error(`Unable to signup :`, err);
+            throw new Error(5);
+        }
+
     }
     
 }
