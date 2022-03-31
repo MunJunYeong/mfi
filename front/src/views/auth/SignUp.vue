@@ -347,7 +347,6 @@ const { VUE_APP_BACKEND_HOST } = process.env;
         this.overlapEmail = await axios.post(VUE_APP_BACKEND_HOST + '/sendemail', {
           email : this.email
         }).then(res =>{
-          console.log(res)
           if(res.data.message){
             alert(res.data.message); return;
           }else {

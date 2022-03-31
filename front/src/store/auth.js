@@ -1,6 +1,7 @@
 import axios from "axios";
-import jwt_decode from 'jwt-decode'
+// import jwt_decode from 'jwt-decode'
 const { VUE_APP_BACKEND_HOST } = process.env;
+
 const authModule = {
     state : {
         userListData : [],
@@ -37,7 +38,6 @@ const authModule = {
         }
     },
     actions: {
-
         //admin이 유저 리스트 가져오기
         async get_user_list_admin({commit}, data){
             let res;
@@ -55,10 +55,17 @@ const authModule = {
                         'Authorization' : token
                     }
                 })
-                commit('user_set_data_admin', res.data);
             }catch(err){
                 console.log(err);
             }
+            if(res.data.message){
+                alert(res.data.message === 'unvalid token' ? '토큰의 유효기간이 지났습니다. 재 로그인 해주세요.' : '시스템 오류가 발생했습니다. 잠시 후 시도해주세요.')
+                localStorage.removeItem('accessToken');
+                location.href='/home';
+                return;
+            }
+            commit('user_set_data_admin', res.data);
+            console.log(res)
             
         },
         async change_user_role({commit}, data){
@@ -88,19 +95,22 @@ const authModule = {
             }
             try{
                 res = await axios.get(VUE_APP_BACKEND_HOST + '/token', {
-                    accessToken : token,
+                    headers : {
+                        Authorization : token
+                    }
                 })
             }catch(err){
                 console.log(err)
             }
-            console.log(res.data)
             //왜 지워지는지
             if(res.data.message){
-                // localStorage.removeItem('accessToken');
-                // location.href='/home'; //새로고침
+                alert(res.data.message === 'unvalid token' ? '토큰의 유효기간이 지났습니다. 재 로그인 해주세요.' : '로그인을 해주세요.')
+                localStorage.removeItem('accessToken');
+                localStorage.removeItem('vuex');
+                location.href='/home'; //새로고침
                 return;
             }
-            commit('auth_set_data',  jwt_decode(token));
+            commit
         }
     }
   }

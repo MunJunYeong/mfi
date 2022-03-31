@@ -93,7 +93,10 @@ const ideaModule = {
                 return;
             }
             if(res.data.message){
-                alert('시스템 오류가 발생했습니다. 잠시 후 시도해주세요.'); return;
+                alert(res.data.message === 'unvalid token' ? '토큰의 유효기간이 지났습니다. 재 로그인 해주세요.' : '시스템 오류가 발생했습니다. 잠시 후 시도해주세요.')
+                localStorage.removeItem('accessToken');
+                location.href='/home';
+                return;
             }
             commit('idea_set_data', res.data);
             return;

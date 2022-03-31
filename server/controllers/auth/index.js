@@ -117,7 +117,7 @@ const checkEmail = async (req, res) => {
         await anonymousService.checkEmail(data.email, data.no);
         res.send({data : 1});
     }catch(err){
-        console.log(err.message)
+        (err.message)
         if(err.message){
             throw new Error(err.message);
         }else {
