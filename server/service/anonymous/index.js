@@ -1,7 +1,7 @@
 const {models, Op} = require('../../lib/db');
 const {utils} = require('../../lib/common')
 const winston = require('../../lib/common/winston');
-
+const jwt = require('jsonwebtoken');
 
 
 const  getUserCount = async ()=>{
@@ -135,7 +135,6 @@ const checkEmail = async(email, no) => {
         throw new Error(121);
     }
 }
-
 //find id , pw
 const findIdSendMail = async(email) => {
     //exclude 차이로 독자적인 findUser 필요
@@ -172,7 +171,6 @@ const findIdSendMail = async(email) => {
         
     }
 }
-
 const findPwSendMail = async(id, email) => {
     if(await findUser(email) === null){
         throw new Error(101);
@@ -214,8 +212,8 @@ const updatePw = async (email, pw, id) => {
 }
 const signIn = async (id, pw) => {
     let accessToken;
-    const jwt = require('jsonwebtoken');
     let findId;
+    // 1. 아이디가 존재하는지 확인한다.
     try{
         findId = await models['user'].findOne({
             where : {
@@ -230,31 +228,76 @@ const signIn = async (id, pw) => {
         throw new Error(62);
     }
     if(findId){
-        const tokenData = {
+        const idData = {
             ...findId.toJSON()
         }
-        if(pw === tokenData.pw){
-            try{
-                delete tokenData.pw;
-                // 토큰 유효기간은 2days
-                const options = {
-                    option : {
+        // 2. 비밀번호가 일치하는지 확인한다.
+        if(pw === idData.pw){
+            // 3. userToken Table에 token이 저장되어져 있는지 확인한다 (true : 이미 로그인되어져 있음.)
+            if(await haveUserToken(idData.userIdx)){
+                
+            }else {
+                // 로그인되어져 있지 않을 경우
+                try{
+                    delete idData.pw;
+                    // 토큰 유효기간은 2days
+                    const options = {
                         expiresIn : "48h"
                     }
+                    accessToken = jwt.sign(idData, 'shhhhh', options);
+                    // await saveUserToken(idData.userIdx, accessToken);
+                    return {token : accessToken};
+                }catch(err){
+                    winston.error(`Unable to signIn[service] :`, err);
+                    throw new Error(63);
                 }
-                accessToken = jwt.sign(tokenData, 'shhhhh', options.option);
-                return {token : accessToken};
-            }catch(err){
-                winston.error(`Unable to signIn[service] :`, err);
-                throw new Error(63);
             }
+            
         }else {
             throw new Error(122);
         }
     }else {
         throw new Error(123);
     }
-} 
+}
+
+// userToken table token attribute save
+const saveUserToken = async (idx ,token) => {
+    try {
+        await models['userToken'].update(
+            {
+            token : token,
+            },
+            {
+                where : {
+                    userIdx : idx,
+                },
+            }
+        )
+    }catch(err){
+        winston.error(`Unable to saveUserToken[service] :`, err);
+        throw new Error(86);
+    }
+}
+//userToken table에 해당 idx가 로그인되어져 있는지 확인
+const haveUserToken = async (userIdx)=> {
+    try{
+        const result = await models['userToken'].findOne({
+            where : {
+                userIdx : userIdx
+            }
+        })
+        if(result.token === null || result.token.length === 0){
+            return false;
+        }else {
+            return true;
+        }
+    }catch(err){
+        winston.error(`Unable to haveUserToken[service] :`, err);
+        throw new Error(85);
+    }
+}
+
 const duplicateId = async (id) => {
     try{
         const result = await models['user'].findOne({
