@@ -82,22 +82,22 @@ const authModule = {
         
         //토근 유효성 확인
         async auth_vertify_token ({ commit }, token) {
-            const nowToken = localStorage.getItem('accessToken');
             let res;
             if(!token) {
                 return;
             }
             try{
-
                 res = await axios.get(VUE_APP_BACKEND_HOST + '/token', {
-                    token : nowToken,
+                    accessToken : token,
                 })
             }catch(err){
                 console.log(err)
             }
+            console.log(res.data)
+            //왜 지워지는지
             if(res.data.message){
-                localStorage.removeItem('accessToken');
-                location.href='/home'; //새로고침
+                // localStorage.removeItem('accessToken');
+                // location.href='/home'; //새로고침
                 return;
             }
             commit('auth_set_data',  jwt_decode(token));

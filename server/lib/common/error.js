@@ -70,6 +70,8 @@ const dbError = {
 64 : 'Unable to duplicatedId[service]',
 65 : 'Unable to duplicatedNickName[service]',
 84 : "Unable to makeUserToken[service]",
+85 : "Unable to haveUserToken[service]",
+86 : "Unable to saveUserToken[service]",
 //comment
 66 : 'Unable to postComment[service]',
 67 : 'Unable to getComment[service]',

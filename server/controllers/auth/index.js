@@ -190,7 +190,6 @@ const signIn = async (req, res) => {
         const result = await anonymousService.signIn(data.id, data.pw);
         res.send(result);
     }catch(err){
-        console.log(err)
         if(err.message){
             throw new Error(err.message);
         }
