@@ -3,7 +3,7 @@ const anonymousRouter = express.Router();
 // const ideaPagination = require('../../controllers/idea');
 const { auth: authController} = require('../../controllers');
 const {idea : ideaController} = require('../../controllers');
-
+const {middleware} = require('../../lib/common/index')
 
 //메인 페이지 정보
 anonymousRouter.get('/usercount', authController.getUserCount);
@@ -34,7 +34,7 @@ anonymousRouter.post('/checknickname', authController.checkNickName)
 
 //아이디어 보기
 anonymousRouter.get('/idea', ideaController.showIdea);
-anonymousRouter.get('/info/idea', ideaController.showMyIdea);
+anonymousRouter.get('/info/idea', middleware.validateToken ,ideaController.showMyIdea);
 anonymousRouter.get('/user/:userIdx/idea', ideaController.showAdminUserIdea);
 
 module.exports = anonymousRouter;

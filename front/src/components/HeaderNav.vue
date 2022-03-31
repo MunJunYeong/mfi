@@ -197,7 +197,10 @@
         computed: {
             userData : function(){
                 return this.$store.getters.auth_get_data;
-            }
+            },
+            // accessToken : function (){
+            //     return this.$store.getters.auth_get_token
+            // }
         },
         methods : {
             initialize(){

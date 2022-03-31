@@ -10,7 +10,6 @@ const anonymousModule = {
         todayVisitorCount : {},
         totalVisitorCount : {},
         userData : {},
-        userToken : {},
     },
     mutations: {
         set_news(state, data){
@@ -31,9 +30,6 @@ const anonymousModule = {
         auth_set_data (state, authData) { // 로그인 한 유저 데이터 저장
             state.userData = {...authData};
         },
-        auth_set_token(state, token){
-            state.userToken = token;
-        },
     },
     getters: {
         get_news_item(state){
@@ -51,6 +47,7 @@ const anonymousModule = {
         get_total_visitor_count(state){
             return state.totalVisitorCount;
         },
+        //로그인 한 유저 데이터 gettter
         auth_get_data (state) {
             return state.userData;
         },
@@ -129,7 +126,6 @@ const anonymousModule = {
             if(res.data.token){
                 localStorage.setItem("accessToken", res.data.token);               
                 commit('auth_set_data',  jwt_decode(res.data.token));
-                commit('auth_set_token', res.data.token);
                 history.back();
                 return {data : 1};
             }else if(res.data.message){

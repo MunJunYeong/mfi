@@ -7,7 +7,7 @@ const ideaRouter = require('./idea');
 const commentRouter = require('./comment');
 
 basicRouter.use('/', anonymousRouter);
-basicRouter.use('/token', middleware.validateToken);
+basicRouter.use('/token', middleware.verifyToken);
 basicRouter.use('/user', middleware.validateToken, userRouter)
 basicRouter.use('/idea', middleware.validateToken, ideaRouter);
 basicRouter.use('/comment', middleware.validateToken, commentRouter);
