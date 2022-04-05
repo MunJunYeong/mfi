@@ -198,6 +198,40 @@ const signIn = async (req, res) => {
     }
 }
 
+
+const forcesignIn= async(req, res) => {
+    const data = req.body;
+
+    if(!data.id || !data.pw){
+        throw new Error(106);
+    }
+    let userIdx;
+    //해당 id pw의 userIdx를 가지고 온다.
+    try{
+        userIdx = await anonymousService.findIdUser(data.id, data.pw);
+    }catch(err){
+        if(err.message){
+            throw new Error(err.message);
+        }
+        winston.error(`Unable to findIdUser :`, err);
+        throw new Error(26);
+    }
+
+    try{
+        //userIdx에 해당하는 토큰을 로그아웃 시킨다.
+        await userService.logout(userIdx);
+        const result = await anonymousService.signIn(data.id, data.pw);
+        res.send(result);
+    }catch(err){
+        if(err.message){
+            throw new Error(err.message);
+        }
+        winston.error(`Unable to forcesignIn :`, err);
+        throw new Error(25);
+    }
+
+}
+
 //아이디 중복확인
 const checkId = async (req, res) =>{
     const data = req.body;
@@ -271,7 +305,6 @@ const logout = async(req, res) => {
     //기간이 지난 토큰이라면 unvalid token으로 넘어감.
     try{
         const result = await userService.logout(req.userData.userIdx);
-        // console.log(result);
         res.send(result)
     }catch(err){
         if(err.message){
@@ -317,6 +350,7 @@ module.exports = {
     sendEmail,
     checkEmail,
     signIn,
+    forcesignIn,
     checkId,
     checkNickName,
     updateUserRole,

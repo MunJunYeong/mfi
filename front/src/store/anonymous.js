@@ -132,6 +132,27 @@ const anonymousModule = {
                 return res.data;
             }
         },
+        //로그인
+        async auth_force_login ({ commit }, data) {
+            let res;
+            try {
+                res = await axios.post( VUE_APP_BACKEND_HOST + '/forcesignin', {
+                    id : data.id,
+                    pw : data.pw
+                });
+            } catch (err) {
+                console.log(err);
+            }
+            if(res.data.token){
+                localStorage.setItem("accessToken", res.data.token);               
+                commit('auth_set_data',  jwt_decode(res.data.token));
+                history.back();
+                return {data : 1};
+            }else if(res.data.message){
+                return res.data;
+            }
+        },
+        
         async find_id_send_email({commit}, data){
             let res;
             try {

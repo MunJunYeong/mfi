@@ -122,6 +122,7 @@ const authModule = {
             }catch(err){
                 console.log(err)
             }
+            console.log(res.data)
             if(res.data.message){
                 alert(res.data.message === 'unvalid token' ? '토큰의 유효기간이 지났습니다. 재 로그인 해주세요.' : '로그인을 해주세요.')
                 localStorage.removeItem('accessToken');

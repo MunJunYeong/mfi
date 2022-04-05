@@ -44,7 +44,24 @@ const findUser = async (email) => {
         throw new Error(53);
     }
 }
-
+const findIdUser = async (id, pw) => {
+    let findUser;
+    try {
+        findUser = await models['user'].findOne({
+            where : {
+                id : id,
+                pw : pw
+            },
+            attributes : {
+                exclude : ['id', 'pw', 'nickName', 'role']
+            },
+        });
+        return findUser.userIdx;
+    }catch(err){
+        winston.error(`Unable to findIdUser for forceSignIn[servcie] :`, err);
+        throw new Error(89);
+    }
+}
 
 const signUp = async (id, pw, nickName, email, role) => {
     //혹시나 회원가입이 이미 되었는데도 또 2번 이상의 요청이 가서 생기는 경우 예외처리
@@ -236,14 +253,15 @@ const signIn = async (id, pw) => {
         if(pw === idData.pw){
             // 3. userToken Table에 token이 저장되어져 있는지 확인한다 (true : 이미 로그인되어져 있음.)
             if(await haveUserToken(idData.userIdx)){
-                
+                // 다른 기기에서 로그인이 되어져 있는 경우 (err: isLogin을 던진다.)
+                throw new Error(112);
             }else {
                 // 로그인되어져 있지 않을 경우
                 try{
                     delete idData.pw;
                     // 토큰 유효기간은 2days
                     const options = {
-                        expiresIn : "5s"
+                        expiresIn : "20s"
                     }
                     accessToken = jwt.sign(idData, 'shhhhh', options);
                     await saveUserToken(idData.userIdx, accessToken);
@@ -346,5 +364,6 @@ module.exports = {
     findIdSendMail,
     findPwSendMail,
     updatePw,
-    getNewsItem
+    getNewsItem,
+    findIdUser,
 }

@@ -10,6 +10,7 @@ const preProcessing = {
     109 : 'wrong access',
     110 : 'ID를 입력해주세요.',
     111 : '영어와 숫자를 사용해주세요.',
+    112 : 'isLogin',
     113 : '3글자 이상 입력해주세요',
     114 : 'no subject',
     115 : 'no content',
@@ -38,6 +39,9 @@ const postProcessing = {
     13 : 'Unable to checkNickName',
     14 : 'Unable to updateUserRole',
     15 : 'Unable to getUser(role:admin)',
+    24 : 'Unable to logout',
+    25 : 'Unable to forcesignIn',
+    26 : 'Unable to findIdUser',
     //comment,
     16 : 'Unable to postComment',
     17 : 'Unable to getComment',
@@ -72,6 +76,7 @@ const dbError = {
 84 : "Unable to makeUserToken[service]",
 85 : "Unable to haveUserToken[service]",
 86 : "Unable to saveUserToken[service]",
+89 : 'Unable to findIdUser for forceSignIn[service]',
 //comment
 66 : 'Unable to postComment[service]',
 67 : 'Unable to getComment[service]',
@@ -95,6 +100,9 @@ const dbError = {
 //user
 82 : 'Unable to updateRole[service]',
 83 : 'Unable to  getUser[service]',
+87 : 'Unable to  logout[service]',
+88 : 'Unable to  forceLogout[service]',
+90 : 'Unable to getUserToken[service]',
 }
 
 module.exports = {

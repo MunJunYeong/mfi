@@ -2,6 +2,12 @@ const jwt = require('jsonwebtoken');
 
 const userService = require('../../service/user');
 
+//검증할 때 토큰이 유효한지 + 저장된 토큰과 일치한지도 확인
+
+// 저장된 토큰 확인
+
+
+
 const validateToken = async (req, res, next) => {
     let token = req.headers.authorization;
     let userData;
@@ -10,6 +16,7 @@ const validateToken = async (req, res, next) => {
         return;
     }
     token = token.replace("Bearer ",  "");
+    
     try{
         userData = jwt.verify(token, 'shhhhh');
     }catch(err){
@@ -18,8 +25,19 @@ const validateToken = async (req, res, next) => {
         res.send({message : 'unvalid token'});
         return;
     }
-    req.userData = userData;
-    next();
+    
+    let dataToken = await userService.getUserToken(userData.userIdx);
+    if(token !== dataToken){
+        userService.forceLogout(token);
+        res.send({message : 'unvalid token'});
+        return;
+    }else {
+        req.userData = userData;
+        next();
+    }
+
+
+    
 }
 
 
@@ -37,13 +55,24 @@ const verifyToken = async (req, res) => {
     token = token.replace("Bearer ",  "");
     try{
         userData = jwt.verify(token, 'shhhhh');
-        res.send({data : 1});
     }catch(err){
         console.log('verify 비정상적인 토큰')
         userService.forceLogout(token);
         res.send({message : 'unvalid token'});
         return;
     }
+    
+    let dataToken = await userService.getUserToken(userData.userIdx);
+    
+    if(token !== dataToken){
+        console.log('dfasfdsafsafdsafdsafdafsafda')
+        await res.send({message : 'unvalid token'});
+        return;
+    }else {
+        res.send({data : 1});
+    }
+
+
 }
 
 module.exports = {
