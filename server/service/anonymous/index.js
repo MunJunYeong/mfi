@@ -227,7 +227,7 @@ const signIn = async (id, pw) => {
                     delete idData.pw;
                     // 토큰 유효기간은 2days
                     const options = {
-                        expiresIn : "20s"
+                        expiresIn : "2h"
                     }
                     accessToken = jwt.sign(idData, 'shhhhh', options);
                     await saveUserToken(idData.userIdx, accessToken);
