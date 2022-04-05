@@ -13,8 +13,8 @@ const validateToken = async (req, res, next) => {
     try{
         userData = jwt.verify(token, 'shhhhh');
     }catch(err){
-        userService.logout(token);
-
+        console.log('validate 비정상적인 토큰')
+        userService.forceLogout(token);
         res.send({message : 'unvalid token'});
         return;
     }
@@ -39,6 +39,7 @@ const verifyToken = async (req, res) => {
         userData = jwt.verify(token, 'shhhhh');
         res.send({data : 1});
     }catch(err){
+        console.log('verify 비정상적인 토큰')
         userService.forceLogout(token);
         res.send({message : 'unvalid token'});
         return;

@@ -217,10 +217,9 @@
                 }catch(err){
                     console.log(err);
                 }
-                if(res[0] == 1){
-                    localStorage.removeItem('accessToken');
-                    location.href='/home'; //새로고침
-                }
+                console.log(res)
+                localStorage.removeItem('accessToken');
+                location.href='/home'; //새로고침
                 
             },
 

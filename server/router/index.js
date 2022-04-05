@@ -15,3 +15,8 @@ basicRouter.use('/comment', middleware.validateToken, commentRouter);
 module.exports = {
     basicRouter
 }
+
+// 토큰이 정상 -> 로그아웃을 누르면 validateToken -> 
+// 토큰이 비정상 -> 새로고침 시 verifyToken -> 
+//
+//

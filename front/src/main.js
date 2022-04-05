@@ -26,7 +26,10 @@ axios.interceptors.request.use(
 );
 
 //토큰 유효성 검사
-store.dispatch('auth_vertify_token', localStorage.getItem('accessToken'));
+let token = localStorage.getItem('accessToken');
+if(token !== null){
+  store.dispatch('auth_vertify_token', token);
+}
 
 
 new Vue({
