@@ -210,9 +210,18 @@
                    return false;
                }
             },
-            logout(){
-                localStorage.removeItem('accessToken');
-                location.href='/home'; //새로고침
+            async logout(){
+                let res;
+                try{
+                    res =await this.$store.dispatch('logout', this.accessToken);
+                }catch(err){
+                    console.log(err);
+                }
+                if(res[0] == 1){
+                    localStorage.removeItem('accessToken');
+                    location.href='/home'; //새로고침
+                }
+                
             },
 
             isLogin(){

@@ -86,7 +86,26 @@ const authModule = {
                 console.log(err);
             }
         },
-        
+        async logout({commit}, token){
+            let res;
+            if(!token){
+                return;
+            }
+            console.log(token)
+            try{
+                res = await axios.put(VUE_APP_BACKEND_HOST + '/user/logout', {
+                },
+                {
+                    headers : {
+                        Authorization : token
+                    }
+                })
+            }catch(err){
+                console.log(err)
+            }
+            commit
+            return res.data;
+        },
         //토근 유효성 확인
         async auth_vertify_token ({ commit }, token) {
             let res;
@@ -99,10 +118,10 @@ const authModule = {
                         Authorization : token
                     }
                 })
+                console.log(res.data)
             }catch(err){
                 console.log(err)
             }
-            //왜 지워지는지
             if(res.data.message){
                 alert(res.data.message === 'unvalid token' ? '토큰의 유효기간이 지났습니다. 재 로그인 해주세요.' : '로그인을 해주세요.')
                 localStorage.removeItem('accessToken');

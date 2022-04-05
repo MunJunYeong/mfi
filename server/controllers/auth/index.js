@@ -266,7 +266,22 @@ const updateUserRole = async (req, res) => {
         throw new Error(14);
     }
 }
-
+const logout = async(req, res) => {
+    //1차적으로 미들웨어에서 로컬스토리지에 저장된 토큰이 실제 존재하는 토큰인지 확인한다.
+    //기간이 지난 토큰이라면 unvalid token으로 넘어감.
+    try{
+        const result = await userService.logout(req.userData.userIdx);
+        // console.log(result);
+        res.send(result)
+    }catch(err){
+        if(err.message){
+            throw new Error(err.message);
+        }
+        winston.error(`Unable to logout :`, err);
+        throw new Error(24);
+    }
+    
+}
 const getUser = async (req, res)=> {
     const {page, nickName} = req.query;
             
@@ -312,5 +327,6 @@ module.exports = {
     findIdSendMail,
     findPwSendMail,
     updatePw,
-    getNewsItem
+    getNewsItem,
+    logout
 }

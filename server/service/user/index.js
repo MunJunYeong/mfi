@@ -22,8 +22,46 @@ const updateRole = async (role, userIdx) => {
       winston.error(`Unable to updateRole[service] :`, err);
       throw new Error(82);
   }
- 
-    
+}
+
+const logout = async (userIdx) => {
+  let res;
+  try{
+    res = await models['userToken'].update(
+      {
+        token : ''
+      },
+      {
+        where : {
+          userIdx : userIdx
+        }
+      }
+    )
+    return res;
+  }catch(err){
+    winston.error(`Unable to logout[service] :`, err);
+    throw new Error(86);
+  }
+}
+// 토큰 유효성 검사에서
+const forceLogout = async (token) => {
+  let res;
+  try{
+    res = await models['userToken'].update(
+      {
+        token : ''
+      },
+      {
+        where : {
+          token : token
+        }
+      }
+    )
+    return res;
+  }catch(err){
+    winston.error(`Unable to forceLogout[service] :`, err);
+    throw new Error(87);
+  }
 }
 
 const getUser =  async (where, limit, offset) => {
@@ -51,5 +89,7 @@ const getUser =  async (where, limit, offset) => {
 
 module.exports = {
     updateRole,
-    getUser
+    getUser,
+    logout,
+    forceLogout
 }
