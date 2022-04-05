@@ -26,42 +26,6 @@ const  getNewsItem = async ()=>{
 
 }
 
-//중복되는 메소드
-const findUser = async (email) => {
-    let findUser;
-    try{
-        findUser = await models['user'].findOne({
-            where : {
-                email : email
-            },
-            attributes : {
-                exclude : ['id', 'pw', 'nickName', 'role']
-            },
-        });
-        return findUser;
-    }catch(err){
-        winston.error(`Unable to findUser for sendEmail[servcie] :`, err);
-        throw new Error(53);
-    }
-}
-const findIdUser = async (id, pw) => {
-    let findUser;
-    try {
-        findUser = await models['user'].findOne({
-            where : {
-                id : id,
-                pw : pw
-            },
-            attributes : {
-                exclude : ['id', 'pw', 'nickName', 'role']
-            },
-        });
-        return findUser.userIdx;
-    }catch(err){
-        winston.error(`Unable to findIdUser for forceSignIn[servcie] :`, err);
-        throw new Error(89);
-    }
-}
 
 const signUp = async (id, pw, nickName, email, role) => {
     //혹시나 회원가입이 이미 되었는데도 또 2번 이상의 요청이 가서 생기는 경우 예외처리
@@ -189,8 +153,10 @@ const findIdSendMail = async(email) => {
         
     }
 }
+
+
 const findPwSendMail = async(id, email) => {
-    if(await findUser(email) === null){
+    if(await findUserId(id) === null || await findUser(email) === null){
         throw new Error(101);
     }else {
         try{
@@ -351,6 +317,59 @@ const duplicateNickName = async (nickName) => {
     }
     
 } 
+
+const findUserId = async (id) => {
+    let findUser;
+    try{
+        findUser = await models['user'].findOne({
+            where : {
+                id : id
+            },
+            attributes : {
+                exclude : ['id', 'pw', 'nickName', 'role']
+            },
+        });
+        return findUser;
+    }catch(err){
+        winston.error(`Unable to findUser for sendEmail[servcie] :`, err);
+        throw new Error(53);
+    }
+}
+const findUser = async (email) => {
+    let findUser;
+    try{
+        findUser = await models['user'].findOne({
+            where : {
+                email : email
+            },
+            attributes : {
+                exclude : ['id', 'pw', 'nickName', 'role']
+            },
+        });
+        return findUser;
+    }catch(err){
+        winston.error(`Unable to findUser for sendEmail[servcie] :`, err);
+        throw new Error(53);
+    }
+}
+const findIdUser = async (id, pw) => {
+    let findUser;
+    try {
+        findUser = await models['user'].findOne({
+            where : {
+                id : id,
+                pw : pw
+            },
+            attributes : {
+                exclude : ['id', 'pw', 'nickName', 'role']
+            },
+        });
+        return findUser.userIdx;
+    }catch(err){
+        winston.error(`Unable to findIdUser for forceSignIn[servcie] :`, err);
+        throw new Error(89);
+    }
+}
 
 module.exports = {
     signUp,
