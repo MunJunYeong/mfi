@@ -24,8 +24,9 @@ anonymousRouter.post('/findid', authController.findIdSendMail);
 anonymousRouter.post('/findpw', authController.findPwSendMail);
 anonymousRouter.put('/updatepw', authController.updatePw);
 
-//로그인하기
+//로그인하기 - 이중로그인에서 1개만 로그인
 anonymousRouter.post('/signin', authController.signIn);
+anonymousRouter.post('/forcesignin', authController.forcesignIn);
 
 //아이디 중복확인
 anonymousRouter.post('/checkid', authController.checkId);

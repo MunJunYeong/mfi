@@ -127,8 +127,22 @@
         } catch (err) {
           alert('통신 오류');
         }
+        if(res.message === 'isLogin'){
+          let flag = confirm('다른 기기에서 로그인 중입니다.' + '\n' + '강제 로그아웃 하고 현재 기기에서 로그인 하시겠습니까?');
+          if(flag){
+            try{
+              await this.$store.dispatch('auth_force_login', {
+                id : this.id,
+                pw : this.pw
+              })
+            }catch(err){
+              alert('통신 오류');
+            }
+          }
+          return;
+        }
         if(res.message){
-          alert(res.message);
+          alert(res.message); return;
         }
       }
     },

@@ -24,6 +24,23 @@ const updateRole = async (role, userIdx) => {
   }
 }
 
+const getUserToken = async (userIdx) => {
+  let res;
+  try{
+    res = await models['userToken'].findOne(
+      {
+        where : {
+          userIdx : userIdx
+        }
+      }
+    )
+    return res.token;
+  }catch(err){
+    winston.error(`Unable to getUserToken[service] :`, err);
+    throw new Error(90);
+  }
+}
+
 const logout = async (userIdx) => {
   let res;
   try{
@@ -40,7 +57,7 @@ const logout = async (userIdx) => {
     return res;
   }catch(err){
     winston.error(`Unable to logout[service] :`, err);
-    throw new Error(86);
+    throw new Error(87);
   }
 }
 // 토큰 유효성 검사에서
@@ -60,7 +77,7 @@ const forceLogout = async (token) => {
     return res;
   }catch(err){
     winston.error(`Unable to forceLogout[service] :`, err);
-    throw new Error(87);
+    throw new Error(88);
   }
 }
 
@@ -91,5 +108,6 @@ module.exports = {
     updateRole,
     getUser,
     logout,
-    forceLogout
+    forceLogout,
+    getUserToken,
 }
