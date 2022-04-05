@@ -74,7 +74,8 @@ const makeUserToken= async (idx)=> {
     console.log(idx)
     try{
         await models['userToken'].create({
-            userIdx : idx
+            userIdx : idx,
+            token : ''
         })
     }catch(err){
         winston.error(`Unable to makeUserToken[servcie] :`, err);
@@ -242,10 +243,10 @@ const signIn = async (id, pw) => {
                     delete idData.pw;
                     // 토큰 유효기간은 2days
                     const options = {
-                        expiresIn : "48h"
+                        expiresIn : "5s"
                     }
                     accessToken = jwt.sign(idData, 'shhhhh', options);
-                    // await saveUserToken(idData.userIdx, accessToken);
+                    await saveUserToken(idData.userIdx, accessToken);
                     return {token : accessToken};
                 }catch(err){
                     winston.error(`Unable to signIn[service] :`, err);

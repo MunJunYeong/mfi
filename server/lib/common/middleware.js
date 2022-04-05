@@ -1,9 +1,10 @@
 const jwt = require('jsonwebtoken');
 
+const userService = require('../../service/user');
+
 const validateToken = async (req, res, next) => {
     let token = req.headers.authorization;
     let userData;
-
     if(!token){
         res.send({message : 'need token'});
         return;
@@ -11,8 +12,9 @@ const validateToken = async (req, res, next) => {
     token = token.replace("Bearer ",  "");
     try{
         userData = jwt.verify(token, 'shhhhh');
-        // res.send({data : 1});
     }catch(err){
+        userService.logout(token);
+
         res.send({message : 'unvalid token'});
         return;
     }
@@ -20,7 +22,10 @@ const validateToken = async (req, res, next) => {
     next();
 }
 
+
+
 // front index에서 토큰이 유효한지에 대한 검사
+// logout 일때는 유효한 토큰이고, 유효한 토큰이 아닐 시에는
 const verifyToken = async (req, res) => {
     let token = req.headers.authorization;
     let userData;
@@ -34,6 +39,7 @@ const verifyToken = async (req, res) => {
         userData = jwt.verify(token, 'shhhhh');
         res.send({data : 1});
     }catch(err){
+        userService.forceLogout(token);
         res.send({message : 'unvalid token'});
         return;
     }
