@@ -29,7 +29,7 @@ const validateToken = async (req, res, next) => {
     let dataToken = await userService.getUserToken(userData.userIdx);
     if(token !== dataToken){
         userService.forceLogout(token);
-        res.send({message : 'unvalid token'});
+        res.send({message : 'force logout'});
         return;
     }else {
         req.userData = userData;
@@ -65,8 +65,7 @@ const verifyToken = async (req, res) => {
     let dataToken = await userService.getUserToken(userData.userIdx);
     
     if(token !== dataToken){
-        console.log('dfasfdsafsafdsafdsafdafsafda')
-        await res.send({message : 'unvalid token'});
+        await res.send({message : 'force logout'});
         return;
     }else {
         res.send({data : 1});

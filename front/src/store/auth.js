@@ -124,7 +124,13 @@ const authModule = {
             }
             console.log(res.data)
             if(res.data.message){
-                alert(res.data.message === 'unvalid token' ? '토큰의 유효기간이 지났습니다. 재 로그인 해주세요.' : '로그인을 해주세요.')
+                if(res.data.message=== 'unvalid token'){
+                    alert('토큰의 유효기간이 지났습니다. 재 로그인 해주세요.');
+                }else if(res.data.message ==='force logout'){
+                    alert('로그아웃 되었습니다.' + '\n' + '다른 기기에서 로그인해 로그아웃 되었습니다.');
+                }else {
+                    alert('다시 로그인을 해주세요.');
+                }
                 localStorage.removeItem('accessToken');
                 localStorage.removeItem('vuex');
                 location.href='/home'; //새로고침
