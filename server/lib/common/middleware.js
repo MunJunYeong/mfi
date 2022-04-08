@@ -4,7 +4,6 @@ const userService = require('../../service/user');
 
 //검증할 때 토큰이 유효한지 + 저장된 토큰과 일치한지도 확인
 
-// 저장된 토큰 확인
 
 
 

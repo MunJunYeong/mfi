@@ -3,15 +3,30 @@ const winston = require('../../lib/common/winston');
 
 const createIp = async (ip)=>{
     let res;
+    let findIp;
+
+    //error code : 78에서 에러가 떠서 ip가 없을 경우로 이중 해봤지만 해결 안됨
     try{
-        res = await models['visitor'].create({
+        findIp = await models['visitor'].findOne({
             ip : ip
         })
-        return res;
     }catch(err){
-        winston.warn(`Unable to createIp[service] :`, err);
-        throw new Error(78);
+        //이 부분 에러 번호 집가서 수정
+        // winston.warn(`Unable to findIp[service] :`, err);
+        // throw new Error();
     }
+    if(findIp === null){
+        try{
+            res = await models['visitor'].create({
+                ip : ip
+            })
+            return res;
+        }catch(err){
+            winston.warn(`Unable to createIp[service] :`, err);
+            throw new Error(78);
+        }
+    }
+    
 }
 
 const getTodayVisitor = async ()=>{
