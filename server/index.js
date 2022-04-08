@@ -42,6 +42,8 @@ const schedule = require('./schedule');
 schedule.addTotal
 
 const {visitor : visitorService} = require('./service');
+
+//front init 할 때 하나의 기능으로써 api 하나 따기
 app.use(async(req, res, next) =>{
   if(req.cookies.visitor){
     next();
@@ -84,7 +86,6 @@ app.use(async (err, req, res, next) => {
     next();   return;
   }
 })
-
 app.get('/ping', async(req, res) => {
   res.send('pong');
 })
