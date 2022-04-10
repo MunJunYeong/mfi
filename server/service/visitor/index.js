@@ -23,7 +23,7 @@ const createIp = async (ip)=>{
             return res;
         }catch(err){
             winston.warn(`Unable to createIp[service] :`, err);
-            throw new Error(78);
+            throw new Error('DB_CREATE_IP');
         }
     }
     
@@ -35,7 +35,7 @@ const getTodayVisitor = async ()=>{
         return result;
     }catch(err){
         winston.warn(`Unable to getTodayVisitor[service] :`, err);
-        throw new Error(79);
+        throw new Error('DB_GET_TODAY_VISITOR');
     }
     
 }
@@ -49,7 +49,7 @@ const getTotalVisitor = async ()=>{
         return sum;
     }catch(err){
         winston.warn(`Unable to getTotalVisitor[service] :`, err);
-        throw new Error(80);
+        throw new Error('DB_GET_TOTAL_VISITOR');
     }
 
     
@@ -76,7 +76,7 @@ const updateTotalVisitor = async (totalCnt)=>{
         return result;
     }catch(err){
         winston.warn(`Unable to updateTotalVisitor[service] :`, err);
-        throw new Error(81);
+        throw new Error('DB_UPDATE_TOTAL_VISITOR');
     }
     
 }

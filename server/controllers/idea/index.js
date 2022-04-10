@@ -8,8 +8,11 @@ const getIdeaCount = async(req, res) => {
         const result = await ideaService.getIdeaCount();
         res.send({data : result});
     }catch(err){
+        if(err.message){
+            throw new Error(err.message);
+        }
         winston.warn(`Unable to getIdeaCout :`, err);
-        throw new Error(17);
+        throw new Error('UNABLE_IDEA_COUNT');
     }
     
 }
@@ -18,17 +21,20 @@ const postIdea = async (req, res) => {
     const data = req.body;
 
     if(!data.subject){
-        throw new Error(114);
+        throw new Error('NO_SUBJECT');
     }else if(!data.content){
-        throw new Error(115);
+        throw new Error('NO_CONTENT');
     }
 
     try{
         const result = await ideaService.createIdea(data.subject, data.content, req.userData.userIdx);
         res.send({data : result});
     }catch(err){
+        if(err.message){
+            throw new Error(err.message);
+        }
         winston.error(`Unable to postIdea :`, err);
-        throw new Error(18);
+        throw new Error('UNABLE_POST_IDEA');
     }
     
 }
@@ -36,15 +42,18 @@ const postIdea = async (req, res) => {
 const deleteIdea = async (req, res) => {
     const ideaIdx = req.query.ideaIdx;
     if(!ideaIdx){
-        throw new Error(116);
+        throw new Error('NO_IDEAIDX');
     }
 
     try{
         const result = await ideaService.deleteIdea(ideaIdx);
         res.send({success : '1'});
     }catch(err){
+        if(err.message){
+            throw new Error(err.message);
+        }
         winston.error(`Unable to deleteIdea :`, err);
-        throw new Error(19);
+        throw new Error('UNABLE_DELETE_IDEA');
     }
 }
 const updateIdea =  async (req, res) => {
@@ -52,21 +61,24 @@ const updateIdea =  async (req, res) => {
     const subject = req.body.params.subject;
     const content = req.body.params.content;
     if(!ideaIdx){
-        throw new Error(116);
+        throw new Error('NO_IDEAIDX');
     }
     if(!subject){
-        throw new Error(114);
+        throw new Error('NO_SUBJECT');
     }
     if(!content){
-        throw new Error(115);
+        throw new Error('NO_CONTENT');
     }
 
     try{
         const result = await ideaService.updateIdea(ideaIdx, subject, content);
         res.send({data : result});
     }catch(err){
+        if(err.message){
+            throw new Error(err.message);
+        }
         winston.error(`Unable to updateIdea :`, err);
-        throw new Error(20);
+        throw new Error('UNABLE_UPDATE_IDEA');
     }
 
     
@@ -80,8 +92,11 @@ const getClickIdea = async (req, res) =>{
         const result = await ideaService.getIdea(ideaIdx);
         res.send({data : result});
     }catch(err){
+        if(err.message){
+            throw new Error(err.message);
+        }
         winston.error(`Unable to getClickIdea :`, err);
-        throw new Error('fail to getClickIdea');
+        throw new Error('UNABLE_CLICK_IDEA');
     }
 }
 
@@ -94,8 +109,11 @@ const showIdea = async (req, res) => {
         const result = pagination.getPagingIdeaData(data, page, limit);
         res.send(result);
     }catch(err){
+        if(err.message){
+            throw new Error(err.message);
+        }
         winston.error(`Unable to showIdea :`, err);
-        throw new Error(21);
+        throw new Error('UNABLE_SHOW_IDEA');
     }
 }
 const showMyIdea = async (req, res) => {
@@ -107,8 +125,11 @@ const showMyIdea = async (req, res) => {
         const result = pagination.getPagingIdeaData(data, page, limit);
         res.send(result);
     }catch(err){
+        if(err.message){
+            throw new Error(err.message);
+        }
         winston.error(`Unable to showMyIdea :`, err);
-        throw new Error(22);
+        throw new Error('UNABLE_SHOW_MY_IDEA');
     }
 }
 const showAdminUserIdea = async (req, res) => {
@@ -121,8 +142,11 @@ const showAdminUserIdea = async (req, res) => {
         const result = await pagination.getPagingIdeaData(data, page, limit);
         res.send(result);
     }catch(err){
+        if(err.message){
+            throw new Error(err.message);
+        }
         winston.error(`Unable to showAdminUserIdea :`, err);
-        throw new Error(23);
+        throw new Error('UNABLE_SHOW_ADMIN_IDEA');
     }
 
 }
