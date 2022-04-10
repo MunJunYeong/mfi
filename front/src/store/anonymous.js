@@ -65,7 +65,13 @@ const anonymousModule = {
             }catch(err){
                 console.log(err);
             }
-            commit('set_news', res.data.data);
+
+            if(res.data.message){
+                return;
+            }else {
+                commit('set_news', res.data.data);
+            }
+            
         },
         //메인페이지 정보 
         async get_user_count({commit}){
@@ -76,7 +82,14 @@ const anonymousModule = {
             }catch(err){
                 console.log(err);
             }
-            commit('user_count', res.data);
+            if(res.data.message){
+                
+                return;
+            }
+            console.log(res.data)
+            let test = '업데이트 예정'
+            commit('user_count', test);
+            // commit('user_count', res.data);
         },
         async get_idea_count({commit}){
             let res;
