@@ -11,7 +11,7 @@ const postComment = async (comment, userIdx, ideaIdx)=> {
         return result;
     }catch(err){
         winston.error(`Unable to postComment[service] :`, err);
-        throw new Error(66);
+        throw new Error('DB_POST_COMMENT');
     }
     
 }
@@ -30,7 +30,7 @@ const getComment = async(ideaIdx) => {
         return result;
     }catch(err){
         winston.error(`Unable to getComment[service] :`, err);
-        throw new Error(67);
+        throw new Error('DB_GET_COMMENT');
     }
     
 }

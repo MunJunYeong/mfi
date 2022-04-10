@@ -20,7 +20,7 @@ const updateRole = async (role, userIdx) => {
     }
   }catch(err){
       winston.error(`Unable to updateRole[service] :`, err);
-      throw new Error(82);
+      throw new Error('DB_UPDATE_ROLE');
   }
 }
 
@@ -37,7 +37,7 @@ const getUserToken = async (userIdx) => {
     return res.token;
   }catch(err){
     winston.error(`Unable to getUserToken[service] :`, err);
-    throw new Error(90);
+    throw new Error('DB_GET_USER_TOKEN');
   }
 }
 
@@ -57,7 +57,7 @@ const logout = async (userIdx) => {
     return res;
   }catch(err){
     winston.error(`Unable to logout[service] :`, err);
-    throw new Error(87);
+    throw new Error('DB_LOGOUT');
   }
 }
 // 토큰 유효성 검사에서
@@ -77,7 +77,7 @@ const forceLogout = async (token) => {
     return res;
   }catch(err){
     winston.error(`Unable to forceLogout[service] :`, err);
-    throw new Error(88);
+    throw new Error('DB_FORCE_LOGOUT');
   }
 }
 
@@ -99,7 +99,7 @@ const getUser =  async (where, limit, offset) => {
     return data;
   }catch(err){
     winston.error(`Unable to getUser[service] :`, err);
-    throw new Error(83);
+    throw new Error('DB_GET_USER');
   }
 
 }

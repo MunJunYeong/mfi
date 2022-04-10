@@ -7,7 +7,7 @@ const  getIdeaCount = async ()=>{
         return result;
     }catch(err){
         winston.warn(`Unable to getIdeaCount[service] :`, err);
-        throw new Error(68);
+        throw new Error('DB_GET_IDEA_COUNT');
     }
     
 
@@ -23,7 +23,7 @@ const createIdea = async (subject, content, userIdx)=>{
         return result;
     }catch(err){
         winston.error(`Unable to createIdea[service] :`, err);
-        throw new Error(69);
+        throw new Error('DB_CREATE_IDEA');
     }
     
 }
@@ -124,7 +124,7 @@ const getAllIdea = async (limit, offset, subject, userIdx, userRole, orderData, 
         return data;
     }catch(err){
         winston.error(`Unable to getAllIdea[service] :`, err);
-        throw new Error(70);
+        throw new Error('DB_GET_ALL_IDEA');
     }
     
 }
@@ -161,7 +161,7 @@ const getMyIdea = async (limit, offset, subject, userIdx)=>{
         return data;
     }catch(err){
         winston.error(`Unable to getMyIdea[service] :`, err);
-        throw new Error(71);
+        throw new Error('DB_GET_MY_IDEA');
     }
     
 }
@@ -194,7 +194,7 @@ const getAdminUserIdea = async (limit, offset, subject, userIdx)=>{
         return data;
     }catch(err){
         winston.error(`Unable to getAdminUserIdea[service] :`, err);
-        throw new Error(72);
+        throw new Error('DB_GET_ADMIN_USER_IDEA');
     }
     
 }
@@ -219,7 +219,7 @@ const getIdea = async (ideaIdx) => {
         return result;
     }catch(err){
         winston.error(`Unable to getIdea[service] :`, err);
-        throw new Error(73);
+        throw new Error('DB_GET_IDEA');
     }
     
 }
@@ -240,7 +240,7 @@ const updateIdea = async(ideaIdx, subject, content) =>{
         return result;
     }catch(err){
         winston.error(`Unable to updateIdea[service] :`, err);
-        throw new Error(74);
+        throw new Error('DB_UPDATE_IDEA');
     }
     
 }
@@ -254,7 +254,7 @@ const deleteIdea = async(ideaIdx) => {
         return result; 
     }catch(err){
         winston.error(`Unable to deleteIdea[service] :`, err);
-        throw new Error(75);
+        throw new Error('DB_DELETE_IDEA');
     }
     
 }

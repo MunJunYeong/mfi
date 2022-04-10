@@ -20,7 +20,7 @@ const getUserCount = async(req, res) => {
         res.send({data : result});
     }catch(err){
         winston.warn(`Unable to get user cout :`, err);
-        throw new Error(1);
+        throw new Error('UNABLE_USERCOUNT');
     }
 }
 const getTodayVisitor = async(req, res) => {
@@ -29,7 +29,7 @@ const getTodayVisitor = async(req, res) => {
         res.send({data : result});
     }catch(err){
         winston.warn(`Unable to get today visitor :`, err);
-        throw new Error(2);
+        throw new Error('UNABLE_TODAY_VISITOR');
     }
     
 }
@@ -39,7 +39,7 @@ const getTotalVisitor = async(req, res) => {
         res.send({data : result});
     }catch(err){
         winston.warn(`Unable to get total visitor :`, err);
-        throw new Error(3);
+        throw new Error('UNABLE_TOTAL_VISITOR');
     }
 
 }
@@ -49,7 +49,7 @@ const getNewsItem = async(req, res) => {
         res.send({data : result});
     }catch(err){
         winston.warn(`Unable to get newsItem :`, err);
-        throw new Error(4);
+        throw new Error('UNABLE_NEWITEMS');
     }
 
 }
@@ -59,11 +59,11 @@ const signUP = async (req, res) => {
     const data = req.body;
 
     if(!data.id || !data.pw || !data.nickName || !data.email){
-        throw new Error(101);
+        throw new Error('NOT_FOUND');
     }else if(data.pw.length <=5){
-        throw new Error(102);
+        throw new Error('MINIMUM6');
     }else if(!checkEng.test(data.pw) || !checkNum.test(data.pw) || !checkSpe.test(data.pw)){
-        throw new Error(103);
+        throw new Error('NOT_CORRECT_FORM');
     }
 
     try{
@@ -76,7 +76,7 @@ const signUP = async (req, res) => {
             throw new Error(err.message);
         }else {
             winston.error(`Unable to signup :`, err);
-            throw new Error(5);
+            throw new Error('UNABLE_SIGNUP');
         }
 
     }
@@ -86,10 +86,10 @@ const signUP = async (req, res) => {
 const sendEmail = async (req, res) => {
     const data = req.body;
     if(!data.email){
-        throw new Error(104);
+        throw new Error('ENTER_EMAIL');
     }
     if(!utils.validationEmail(data.email)){
-        throw new Error(105);
+        throw new Error('NOT_CORRECT_EMAIL');
     }
     try{
         const result = await anonymousService.sendEmail(data.email);
@@ -99,7 +99,7 @@ const sendEmail = async (req, res) => {
             throw new Error(err.message);
         }else {
             winston.error(`Unable to sendEmail :`, err);
-            throw new Error(6)
+            throw new Error('UNABLE_SEND_MAIL')
         }
     }
 }
@@ -107,11 +107,11 @@ const checkEmail = async (req, res) => {
     const data = req.body;
     
     if(!data.email && !data.no){
-        throw new Error(106);
+        throw new Error('ENTER_VALUE');
     }else if(!data.no){
-        throw new Error(107);
+        throw new Error('REQUIRED_AUTH_NUBER');
     }else if(!data.email){
-        throw new Error(108);
+        throw new Error('ENTER_EMAIL');
     }
     try{
         await anonymousService.checkEmail(data.email, data.no);
@@ -122,7 +122,7 @@ const checkEmail = async (req, res) => {
             throw new Error(err.message);
         }else {
             winston.error(`Unable to checkEmail :`, err);
-            throw new Error(7);
+            throw new Error('UNABLE_CHECK_MAIL');
         }
     }
 }
@@ -131,7 +131,7 @@ const findIdSendMail = async(req, res) => {
     const data = req.body;
     // front에서 막아놨기에 비정상적인 접근으로 이메일을 쏜거임
     if(!data.email){
-        throw new Error(109);
+        throw new Error('WRONG_ACCESS');
     }
     try{
         const result = await anonymousService.findIdSendMail(data.email);
@@ -141,7 +141,7 @@ const findIdSendMail = async(req, res) => {
             throw new Error(err.message);
         }
         winston.error(`Unable to sendMail for findId :`, err);
-        throw new Error(8);
+        throw new Error('UNABLE_FIND_ID_SEND_MAIL');
     }
     
 }
@@ -149,7 +149,7 @@ const findPwSendMail = async(req, res) => {
     const data = req.body;
     // front에서 막아놨기에 비정상적인 접근으로 이메일을 쏜거임
     if( data.id === '' || data.email === '' || data.id === null || data.email === null ){
-        throw new Error(109);
+        throw new Error('WRONG_ACCESS');
     }
     try{
         const result = await anonymousService.findPwSendMail(data.id, data.email);
@@ -159,7 +159,7 @@ const findPwSendMail = async(req, res) => {
             throw new Error(err.message);
         }
         winston.error(`Unable to sendMail for findPw :`, err);
-        throw new Error(9);
+        throw new Error('UNABLE_FIND_PW_SEND_MAIL');
     }
     
     
@@ -168,14 +168,14 @@ const updatePw = async(req, res) => {
     const data = req.body; // data -> email, pw, id
     // front에서 막아놨기에 비정상적인 접근으로 이메일을 쏜거임
     if(data.email === '' || data.pw === '' || data.id === ''){
-        throw new Error(109);
+        throw new Error('WRONG_ACCESS');
     }
     try{
         const result = await anonymousService.updatePw(data.email, data.pw, data.id);
         res.send({data : result[0]});
     }catch(err){
         winston.error(`Unable to updatePw :`, err);
-        throw new Error(10);
+        throw new Error('UNABLE_UPDATE_PW');
     }
 }
 
@@ -184,7 +184,7 @@ const signIn = async (req, res) => {
     const data = req.body;
 
     if(!data.id || !data.pw){
-        throw new Error(106);
+        throw new Error('ENTER_VALUE');
     }
     try{
         const result = await anonymousService.signIn(data.id, data.pw);
@@ -194,7 +194,7 @@ const signIn = async (req, res) => {
             throw new Error(err.message);
         }
         winston.error(`Unable to signIn :`, err);
-        throw new Error(11);
+        throw new Error('UNABLE_SIGNIN');
     }
 }
 
@@ -203,7 +203,7 @@ const forcesignIn= async(req, res) => {
     const data = req.body;
 
     if(!data.id || !data.pw){
-        throw new Error(106);
+        throw new Error('ENTER_VALUE');
     }
     let userIdx;
     //해당 id pw의 userIdx를 가지고 온다.
@@ -214,7 +214,7 @@ const forcesignIn= async(req, res) => {
             throw new Error(err.message);
         }
         winston.error(`Unable to findIdUser :`, err);
-        throw new Error(26);
+        throw new Error('UNABLE_FIND_ID_USER');
     }
 
     try{
@@ -227,7 +227,7 @@ const forcesignIn= async(req, res) => {
             throw new Error(err.message);
         }
         winston.error(`Unable to forcesignIn :`, err);
-        throw new Error(25);
+        throw new Error('UNABLE_FORCE_SIGNIN');
     }
 
 }
@@ -237,11 +237,11 @@ const checkId = async (req, res) =>{
     const data = req.body;
 
     if(!data.id){
-        throw new Error(110);
+        throw new Error('ENTER_ID');
     }else if(checkKor.test(data.id) || !checkEng.test(data.id) || !checkNum.test(data.id)){
-        throw new Error(111);
+        throw new Error('USE_ENGNO');
     }else if(data.id.length <6){
-        throw new Error(102);
+        throw new Error('MINIMUM6');
     }
     try{
         const result = await anonymousService.duplicateId(data.id);
@@ -258,7 +258,7 @@ const checkId = async (req, res) =>{
         }
     }catch(err){
         winston.error(`Unable to checkId(duplicate) :`, err);
-        throw new Error(12);
+        throw new Error('UNABLE_CHECKID');
     }
     
 }
@@ -266,7 +266,7 @@ const checkNickName = async (req, res) => {
     const data = req.body;
     
     if(data.nickName <3){
-        throw new Error(113);
+        throw new Error('AT_LEAST3');
     }
 
     try{
@@ -284,7 +284,7 @@ const checkNickName = async (req, res) => {
         }
     }catch(err){
         winston.error(`Unable to checkNickName(duplicate) :`, err);
-        throw new Error(13);
+        throw new Error('UNABLE_CHECKNICKNAME');
     }
 
 }
@@ -297,7 +297,7 @@ const updateUserRole = async (req, res) => {
         res.send(result)
     }catch(err){
         winston.error(`Unable to updateUserRole :`, err);
-        throw new Error(14);
+        throw new Error('UNABLE_USERROLE');
     }
 }
 const logout = async(req, res) => {
@@ -311,7 +311,7 @@ const logout = async(req, res) => {
             throw new Error(err.message);
         }
         winston.error(`Unable to logout :`, err);
-        throw new Error(24);
+        throw new Error('UNABLE_LOGOUT');
     }
     
 }
@@ -337,7 +337,7 @@ const getUser = async (req, res)=> {
         res.send(result);
     }catch(err){
         winston.error(`Unable to getUser(role:admin) :`, err);
-        throw new Error('16');
+        throw new Error('UNABLE_GET_USER');
     }
 
 }

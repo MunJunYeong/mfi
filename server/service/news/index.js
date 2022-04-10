@@ -15,7 +15,7 @@ const createNews = async (data)=>{
         })
     }catch(err){
         winston.warn(`Unable to createNews[service] :`, err);
-        throw new Error(76);
+        throw new Error('DB_CREATE_NEWS');
     }
 }
 const deleteNews = async ()=>{
@@ -26,7 +26,7 @@ const deleteNews = async ()=>{
         })
     }catch(err){
         winston.warn(`Unable to deleteNews[service] :`, err);
-        throw new Error(77);
+        throw new Error('DB_DELETE_NEWS');
     }
     
 }

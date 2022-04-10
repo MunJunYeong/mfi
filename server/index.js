@@ -66,7 +66,7 @@ app.use(router.basicRouter);
 
 //next를 써서 유보시키는 것이 맞는가 ?
 app.use(async (err, req, res, next) => {
-  console.log(err)
+  console.log(err.message)
   //전처리 > 후처리 > dao부분 > 예상치 못한 에러
   if(err.message in preProcessing ){
     res.send({message : preProcessing[err.message]});
