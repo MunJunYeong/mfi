@@ -27,6 +27,7 @@
     "tui-font-size-picker": "^1.0.1",
     "vue": "^2.6.11",
     "vue-cli-plugin-vuetify": "~2.4.1",
+    "vue-cookies": "^1.8.0",
     "vue-router": "^3.2.0",
     "vueperslides": "^2.15.2",
     "vuetify": "^2.4.0",

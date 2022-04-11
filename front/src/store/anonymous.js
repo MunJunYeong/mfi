@@ -1,6 +1,7 @@
 import axios from "axios";
 const { VUE_APP_BACKEND_HOST } = process.env;
 import jwt_decode from 'jwt-decode'
+import VueCookies from "vue-cookies";
 
 const anonymousModule = {
     state: {
@@ -86,10 +87,9 @@ const anonymousModule = {
                 
                 return;
             }
-            console.log(res.data)
-            let test = '업데이트 예정'
-            commit('user_count', test);
-            // commit('user_count', res.data);
+            // let test = '업데이트 예정'
+            // commit('user_count', test);
+            commit('user_count', res.data);
         },
         async get_idea_count({commit}){
             let res;
@@ -214,9 +214,28 @@ const anonymousModule = {
                 })
             }catch(err) {
                 console.log(err);
+
+
             }
             commit
             return res;            
+        },
+        async create_visitor({commit}){
+            let res;
+            try{
+                res = await axios.post(VUE_APP_BACKEND_HOST + '/ip', {
+
+                })
+            }catch(err){
+                console.log(err);
+            }
+            commit
+            let now = new Date(); 
+            let nextDay = new Date();
+            nextDay.setDate(nextDay.getDate()+1);
+            nextDay.setHours(0, 0, 0); 
+            const second = (nextDay-now)/ 1000;
+            VueCookies.set("visitor", res.data.data, second+'s');
         }
     }
 }

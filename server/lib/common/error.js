@@ -42,6 +42,7 @@ const postProcessing = {
     UNABLE_LOGOUT : 'Unable to logout',
     UNABLE_FORCE_SIGNIN : 'Unable to forcesignIn',
     UNABLE_FIND_ID_USER : 'Unable to findIdUser',
+    UNABLE_CREATEIP : 'Unable to create Ip',
     //comment,
     UNABLE_POST_COMMENT : 'Unable to postComment',
     UNABLE_GET_COMMENT : 'Unable to getComment',
@@ -95,6 +96,7 @@ const dbError = {
     DB_CREATE_NEWS : 'Unable to createNews[service]',
     DB_DELETE_NEWS : 'Unable to  deleteNews[service]',
     //visitor
+    DB_FIND_IP : 'Unable to findIp for createIp[service]',
     DB_CREATE_IP : 'Unable to createIp[service]',
     DB_GET_TODAY_VISITOR : 'Unable to getTodayVisitor[service]',
     DB_GET_TOTAL_VISITOR : 'Unable to getTotalVisitor[service]',
