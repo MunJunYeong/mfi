@@ -41,25 +41,8 @@ app.use(requestIp.mw());
 const schedule = require('./schedule');
 schedule.addTotal
 
-const {visitor : visitorService} = require('./service');
 
-//front init 할 때 하나의 기능으로써 api 하나 따기
-app.use(async(req, res, next) =>{
-  if(req.cookies.visitor){
-    next();
-  } else{
-    const ip = req.clientIp;
-    visitorService.createIp(ip);
-    next();
-    let now = new Date(); 
-    let nextDay = new Date();
-    nextDay.setDate(nextDay.getDate()+1);
-    nextDay.setHours(0, 0, 0); 
-    res.cookie('visitor', ip, {
-      maxAge: nextDay-now
-    });
-  }
-});
+
 
 
 app.use(router.basicRouter);

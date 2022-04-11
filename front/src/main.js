@@ -1,17 +1,17 @@
-// import path from 'path'
-// const dotenv = require('dotenv')
-// dotenv.config({ path: path.join(__dirname, '../.env') });
-
 import Vue from 'vue'
 import App from './App.vue'
 import store from './store'
 import router from './router'
 import vuetify from './plugins/vuetify'
 import axios from 'axios';
-
+import VueCookies from "vue-cookies";
 
 Vue.config.productionTip = false
 Vue.prototype.$http = axios;
+
+//이걸로 this.$cookie 안되는 ?
+Vue.prototype.$cookie = VueCookies;
+Vue.use(VueCookies);
 
 axios.interceptors.request.use(
   function(config) {
@@ -31,6 +31,10 @@ if(token !== null){
   store.dispatch('auth_vertify_token', token);
 }
 
+// cookie가 없을 경우에 쿠키 생성
+if (!VueCookies.isKey("visitor")){
+  store.dispatch('create_visitor');
+}
 
 new Vue({
   store,

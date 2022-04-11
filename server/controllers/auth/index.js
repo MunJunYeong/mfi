@@ -13,6 +13,25 @@ let checkSpe = /[~!@#$%^&*()_+|<>?:{}]/;
 let checkKor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
 
 
+const createIp = async (req, res) => {
+    const ip = req.clientIp;
+    try{
+        await visitorService.createIp(ip);
+    }catch(err){
+        if(err.message){
+            throw new Error(err.message);
+        }else {
+            winston.warn(`Unable to create Ip :`, err);
+            throw new Error('UNABLE_CREATEIP');
+        }
+    }
+    res.send({data : ip})
+    
+    // res.cookie('visitor', ip, {
+    //   maxAge: nextDay-now
+    // });
+}
+
 
 const getUserCount = async(req, res) => {
     try{
@@ -362,5 +381,6 @@ module.exports = {
     findPwSendMail,
     updatePw,
     getNewsItem,
-    logout
+    logout,
+    createIp
 }

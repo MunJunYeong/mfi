@@ -14,6 +14,9 @@ anonymousRouter.get('/totalvisitor', authController.getTotalVisitor);
 //뉴스 페이지 정보
 anonymousRouter.get('/news', authController.getNewsItem);
 
+//ip 등록
+anonymousRouter.post('/ip', authController.createIp);
+
 //회원가입하기
 anonymousRouter.post('/signup', authController.signUP);
 anonymousRouter.post('/sendemail', authController.sendEmail);
