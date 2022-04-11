@@ -201,6 +201,12 @@
         display: none;
     }
 }
+@media all and (max-width:1023px) and (min-width:767px) {
+    .mobile{
+        display: none;
+    }
+    /* 태블릿은 잘보임 */
+}
 @media all and (min-width:1024px) {
     .mobile{
         display: none;

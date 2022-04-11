@@ -68,7 +68,9 @@ const ideaModule = {
                 return;
             }
             if(res.data.message){
-                alert('시스템 오류가 발생했습니다. 잠시 후 시도해주세요.'); return;
+                alert('시스템 오류가 발생했습니다. 잠시 후 시도해주세요.'); 
+                location.href='/home'; //새로고침
+                return;
             }
             commit('idea_set_data', res.data);
             return;
@@ -119,7 +121,9 @@ const ideaModule = {
                 return;
             }
             if(res.data.message){
-                alert('시스템 오류가 발생했습니다. 잠시 후 시도해주세요.'); return;
+                alert('시스템 오류가 발생했습니다. 잠시 후 시도해주세요.'); 
+                location.href='/home'; //새로고침
+                return;
             }
             commit('idea_set_data', res.data);
             return;
@@ -139,12 +143,16 @@ const ideaModule = {
                 console.log(err);
                 return;
             }
+            console.log(res.data)
             if(res.data.message === 'unvalid token'){
                 alert('정상적인 경로가 아닙니다.');
                 location.href='/home'; //새로고침
                 return;
             }else if(res.data.message){
-                alert('시스템 오류가 발생했습니다. 잠시 후 시도해주세요.'); return;
+                alert('시스템 오류가 발생했습니다. 잠시 후 시도해주세요.');
+                this.$router.push({ path: '/home' })
+
+                return;
             }else {
                 commit('click_idea_set_data', res.data.data);
                 return;
@@ -213,7 +221,9 @@ const ideaModule = {
                 return;
             }
             if(res.data.message){
-                alert('시스템 오류가 발생했습니다. 잠시 후 시도해주세요.'); return;
+                alert('시스템 오류가 발생했습니다. 잠시 후 시도해주세요.');
+                location.href='/home'; //새로고침
+                 return;
             }
             if(res.data.data[0] === 1){
                 commit('change_modify_flag', true);
