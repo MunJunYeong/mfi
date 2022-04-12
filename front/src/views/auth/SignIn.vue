@@ -24,8 +24,13 @@
             <v-btn
               elevation="2" block
               v-on:click="login"
-              @keyup.enter="login"
-            >로그인</v-btn>              
+              v-on:keyup.enter="login"
+            >로그인
+            </v-btn>            
+            <v-checkbox
+              v-model="saveId"
+              :label="`아이디 저장하기`"
+            ></v-checkbox>
           </div>
         </v-col>
       </v-row>
@@ -65,7 +70,7 @@
             <v-btn
               elevation="2" block
               v-on:click="login"
-              @keyup.enter="login"
+              v-on:keyup.enter="login"
             >로그인</v-btn>              
           </div>
         </v-col>
@@ -102,7 +107,7 @@
 }
 </style>
 <script>
-
+import VueCookies from "vue-cookies";
   export default {
     name: 'SignIn',
     
@@ -111,9 +116,10 @@
     },
     data() {
       return{
-        id : '',
+        id : VueCookies.isKey('id')?VueCookies.get('id'):'',
         pw : '',
         show1: false, show2 : false,
+        saveId : VueCookies.isKey('saveId')?VueCookies.get('saveId'):false,
       }
     },
     methods: {
@@ -127,6 +133,17 @@
         } catch (err) {
           alert('통신 오류');
         }
+        //아이디 저장하기 + 쿠키에 id 값이 없다면 
+        if(this.saveId && !VueCookies.isKey('id') ){
+          VueCookies.set('id', this.id);
+          VueCookies.set('saveId', true);
+        }
+        //아이디 저장하기를 안하는데 쿠키가 있을 경우엔 전부 초기화
+        if(!this.saveId && VueCookies.isKey('id')){
+          VueCookies.remove('id');
+          VueCookies.remove('saveId');
+        }
+
         if(res.message === 'isLogin'){
           let flag = confirm('다른 기기에서 로그인 중입니다.' + '\n' + '강제 로그아웃 하고 현재 기기에서 로그인 하시겠습니까?');
           if(flag){

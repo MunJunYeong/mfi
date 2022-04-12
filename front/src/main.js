@@ -35,6 +35,7 @@ if(token !== null){
 if (!VueCookies.isKey("visitor")){
   store.dispatch('create_visitor');
 }
+console.log(VueCookies.isKey('visitor'));
 
 new Vue({
   store,
