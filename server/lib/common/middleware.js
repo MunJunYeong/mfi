@@ -21,15 +21,19 @@ const validateToken = async (req, res, next) => {
         res.send({message : 'unvalid token'});
         return;
     }
-    
     let dataToken = await userService.getUserToken(userData.userIdx);
     if(token !== dataToken){
         userService.forceLogout(token);
         res.send({message : 'force logout'});
         return;
     }else {
-        req.userData = userData;
-        next();
+        if(req.headers.verify ==='verify'){
+            res.send({data:1})
+        }else {
+            req.userData = userData;
+            next();
+        }
+        
     }
 
 

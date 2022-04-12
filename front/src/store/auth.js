@@ -1,5 +1,5 @@
 import axios from "axios";
-// import jwt_decode from 'jwt-decode'
+import jwt_decode from 'jwt-decode'
 const { VUE_APP_BACKEND_HOST } = process.env;
 
 const authModule = {
@@ -115,14 +115,14 @@ const authModule = {
             try{
                 res = await axios.get(VUE_APP_BACKEND_HOST + '/token', {
                     headers : {
-                        Authorization : token
+                        Authorization : token,
+                        verify : 'verify'
                     }
                 })
-                console.log(res.data)
             }catch(err){
                 console.log(err)
             }
-            console.log(res.data)
+            //middleware에서 토큰을 확인하기에 만약 토큰이 정상이라면 메세지의 유무로 판별하기
             if(res.data.message){
                 if(res.data.message=== 'unvalid token'){
                     alert('토큰의 유효기간이 지났습니다. 재 로그인 해주세요.');
@@ -135,6 +135,9 @@ const authModule = {
                 localStorage.removeItem('vuex');
                 location.href='/home'; //새로고침
                 return;
+            }else {
+                //정상적인 토큰이기에 토큰에 맞춰서 유저 정보 settting
+                commit('auth_set_data',  jwt_decode(token));
             }
             commit
         }
