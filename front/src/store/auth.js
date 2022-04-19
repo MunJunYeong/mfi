@@ -124,6 +124,7 @@ const authModule = {
             }
             //middleware에서 토큰을 확인하기에 만약 토큰이 정상이라면 메세지의 유무로 판별하기
             if(res.data.message){
+                console.log(res.data.message)
                 if(res.data.message=== 'unvalid token'){
                     alert('토큰의 유효기간이 지났습니다. 재 로그인 해주세요.');
                 }else if(res.data.message ==='force logout'){

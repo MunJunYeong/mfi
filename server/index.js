@@ -2,8 +2,6 @@ const dotenv = require('dotenv')
 dotenv.config();
 
 const { parse } = require('node-html-parser');
-const Iconv = require('iconv-lite');
-const axios = require('axios');
 const express = require('express');
 require('express-async-errors');
 const bodyParser = require('body-parser');
@@ -40,9 +38,6 @@ app.use(requestIp.mw());
 
 const schedule = require('./schedule');
 schedule.addTotal
-
-
-
 
 
 app.use(router.basicRouter);
