@@ -27,15 +27,19 @@ axios.interceptors.request.use(
 
 //토큰 유효성 검사
 let token = localStorage.getItem('accessToken');
+let reToken = localStorage.getItem('refreshToken');
+const data = {
+  token : token,
+  reToken  : reToken
+}
 if(token !== null){
-  store.dispatch('auth_vertify_token', token);
+  store.dispatch('auth_vertify_token', data);
 }
 
 // cookie가 없을 경우에 쿠키 생성
 if (!VueCookies.isKey("visitor")){
   store.dispatch('create_visitor');
 }
-console.log(VueCookies.isKey('visitor'));
 
 new Vue({
   store,

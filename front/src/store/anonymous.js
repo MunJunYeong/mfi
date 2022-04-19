@@ -137,7 +137,8 @@ const anonymousModule = {
                 console.log(err);
             }
             if(res.data.token){
-                localStorage.setItem("accessToken", res.data.token);               
+                localStorage.setItem("accessToken", res.data.token);
+                localStorage.setItem("refreshToken", res.data.refreshToken);              
                 commit('auth_set_data',  jwt_decode(res.data.token));
                 history.back();
                 return {data : 1};
@@ -157,7 +158,8 @@ const anonymousModule = {
                 console.log(err);
             }
             if(res.data.token){
-                localStorage.setItem("accessToken", res.data.token);               
+                localStorage.setItem("accessToken", res.data.token);
+                localStorage.setItem("refreshToken", res.data.refreshToken);              
                 commit('auth_set_data',  jwt_decode(res.data.token));
                 history.back();
                 return {data : 1};

@@ -211,14 +211,13 @@
                }
             },
             async logout(){
-                let res;
                 try{
-                    res =await this.$store.dispatch('logout', this.accessToken);
+                    await this.$store.dispatch('logout', this.accessToken);
                 }catch(err){
                     console.log(err);
                 }
-                console.log(res)
                 localStorage.removeItem('accessToken');
+                localStorage.removeItem('refreshToken');
                 location.href='/home'; //새로고침
                 
             },

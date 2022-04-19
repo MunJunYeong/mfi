@@ -37,8 +37,9 @@ const signIn = async (id, pw) => {
                 try{
                     delete idData.pw; // data에서 pw제거
                     const accessToken  = jwtUtils.sign(idData);
+                    const refreshToken = jwtUtils.refresh();
                     await saveUserToken(idData.userIdx, accessToken);
-                    return {token : accessToken};
+                    return {token : accessToken, refreshToken : refreshToken};
                 }catch(err){
                     winston.error(`Unable to signIn[service] :`, err);
                     throw new Error('DB_SIGNIN');

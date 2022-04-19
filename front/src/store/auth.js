@@ -115,30 +115,50 @@ const authModule = {
             try{
                 res = await axios.get(VUE_APP_BACKEND_HOST + '/token', {
                     headers : {
-                        Authorization : token,
+                        Authorization : token.token,
                         verify : 'verify'
                     }
                 })
             }catch(err){
                 console.log(err)
             }
+            console.log(res.data)
             //middleware에서 토큰을 확인하기에 만약 토큰이 정상이라면 메세지의 유무로 판별하기
             if(res.data.message){
-                console.log(res.data.message)
-                if(res.data.message=== 'unvalid token'){
-                    alert('토큰의 유효기간이 지났습니다. 재 로그인 해주세요.');
+                
+                if(res.data.message=== 'unvalid accesstoken'){
+                    let renewToken;
+                    renewToken = await axios.get(VUE_APP_BACKEND_HOST + '/refresh', {
+                        headers : {
+                            Authorization : token.token,
+                            refreshToken : token.reToken,
+                            verify : 'refresh'
+                        }
+                    })
+                    console.log(renewToken)
+                    if(renewToken.data.message === 'expired token'){ //refreshToken도 만료
+                        alert('토큰의 유효기간이 지났습니다. 재 로그인 해주세요.');
+                        localStorage.removeItem('accessToken');
+                        localStorage.removeItem('refreshToken');
+                        // location.href='/home'; //새로고침
+                        return;
+                    }
+                    
+                    localStorage.setItem('accessToken', renewToken.data)
+                    commit('auth_set_data',  jwt_decode(renewToken.token));
+                    return;
                 }else if(res.data.message ==='force logout'){
                     alert('로그아웃 되었습니다.' + '\n' + '다른 기기에서 로그인해 로그아웃 되었습니다.');
                 }else {
                     alert('다시 로그인을 해주세요.');
                 }
                 localStorage.removeItem('accessToken');
-                localStorage.removeItem('vuex');
+                localStorage.removeItem('refreshToken');
                 location.href='/home'; //새로고침
                 return;
             }else {
                 //정상적인 토큰이기에 토큰에 맞춰서 유저 정보 settting
-                commit('auth_set_data',  jwt_decode(token));
+                commit('auth_set_data',  jwt_decode(token.token));
             }
             commit
         }
