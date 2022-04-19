@@ -55,6 +55,8 @@ const postProcessing = {
     UNABLE_SHOW_ADMIN_IDEA : 'Unable to showAdminUserIdea',
     UNABLE_CLICK_IDEA : 'Unable to getClickIdea',
     UNABLE_IDEA_COUNT : 'Unable to getIdeaCout',
+    UNABLE_UPDATE_USERTOKEN : 'Middleware refresh : unable to updateUserToken',
+    //middleware
 
 }
 
@@ -107,6 +109,7 @@ const dbError = {
     DB_LOGOUT : 'Unable to  logout[service]',
     DB_FORCE_LOGOUT : 'Unable to  forceLogout[service]',
     DB_GET_USER_TOKEN : 'Unable to getUserToken[service]',
+    DB_UPDATE_USERTOKEN : 'Unable to updateUserToken[service]',
 }
 
 module.exports = {

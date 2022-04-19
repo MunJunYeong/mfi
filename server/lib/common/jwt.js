@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const redisClient = require('./redis');
+const jwt_decode = require('jwt-decode');
 const secret = process.env.SECRET;
 
 const sign = (user) => {
@@ -20,18 +21,38 @@ const verify = async (token) => {
             ...userData
         }
     }catch(err){
-        return err.message
+        return 'accesstoken expired'
     }
 }
 
+
+//이중
 const refresh = ()=> {
-    return jwt.sign({}, secret, { // refresh token은 payload 없이 발급
+    const payload = {
+    };
+    return jwt.sign(payload, secret, { // refresh token은 payload 없이 발급
         algorithm: 'HS256',
-        expiresIn: '14d',
+        expiresIn: '1h',
       });
 }
 
-const refreshVerify = async ()=> {
+const refreshVerify = async (refreshToken, token)=> {
+    let res = null;
+    try {
+        res = jwt.verify(refreshToken, secret);
+    }catch(err){
+        return err.message
+    }
+    //return이 안되었을 경우에는 refresh 토큰이 아직 유효함
+    const userData = jwt_decode(token);
+    delete userData.iat;
+    delete userData.exp;
+    const newToken = sign(userData);
+    
+    return {
+        token : newToken,
+        userIdx : userData.userIdx 
+    };
 
 }
 

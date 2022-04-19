@@ -24,6 +24,24 @@ const updateRole = async (role, userIdx) => {
   }
 }
 
+const updateUserToken = async(token, userIdx) => {
+  try{
+    await models['userToken'].update(
+      {
+        token : token
+      },
+      {
+        where : {
+          userIdx : userIdx
+        }
+      }
+    )
+  }catch(err){
+      winston.error(`Unable to updateUserToken[service] :`, err);
+      throw new Error('DB_UPDATE_USERTOKEN');
+  }
+}
+
 const getUserToken = async (userIdx) => {
   let res;
   try{
@@ -106,6 +124,7 @@ const getUser =  async (where, limit, offset) => {
 
 module.exports = {
     updateRole,
+    updateUserToken,
     getUser,
     logout,
     forceLogout,
