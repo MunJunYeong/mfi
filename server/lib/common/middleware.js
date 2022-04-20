@@ -19,13 +19,13 @@ const validateToken = async (req, res, next) => {
         const result = await jwtUtils.refreshVerify(refreshToken, token);
         console.log(result)
         if(result === 'jwt expired'){
-            userService.forceLogout(token);
+            await userService.forceLogout(token);
             res.send({message : 'expired token'});
             return;
         }
-        
+        //새로운 accessToken을 update
         try {
-            await userService.updateUserToken(result.token, result.userIdx);
+            await userService.updateUserToken(result.accessToken, result.userIdx);
         }catch(err){
             if(err.message){
                 throw new Error(err.message);
@@ -34,7 +34,8 @@ const validateToken = async (req, res, next) => {
                 throw new Error('UNABLE_UPDATE_USERTOKEN');
             }
         }
-        res.send({data : result.token});
+
+        res.send(result.accessToken);
         return;
     }else {
 
@@ -53,7 +54,7 @@ const validateToken = async (req, res, next) => {
 
         let dataToken = await userService.getUserToken(userData.userIdx);
         if(token !== dataToken){
-            userService.forceLogout(token);
+            await userService.forceLogout(token);
             res.send({message : 'force logout'});
             return;
         }else {

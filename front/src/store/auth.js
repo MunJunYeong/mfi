@@ -122,10 +122,8 @@ const authModule = {
             }catch(err){
                 console.log(err)
             }
-            console.log(res.data)
             //middleware에서 토큰을 확인하기에 만약 토큰이 정상이라면 메세지의 유무로 판별하기
-            if(res.data.message){
-                
+            if(res.data.message){ 
                 if(res.data.message=== 'unvalid accesstoken'){
                     let renewToken;
                     renewToken = await axios.get(VUE_APP_BACKEND_HOST + '/refresh', {
@@ -135,17 +133,16 @@ const authModule = {
                             verify : 'refresh'
                         }
                     })
-                    console.log(renewToken)
                     if(renewToken.data.message === 'expired token'){ //refreshToken도 만료
                         alert('토큰의 유효기간이 지났습니다. 재 로그인 해주세요.');
                         localStorage.removeItem('accessToken');
                         localStorage.removeItem('refreshToken');
-                        // location.href='/home'; //새로고침
+                        location.href='/home'; //새로고침
                         return;
                     }
                     
                     localStorage.setItem('accessToken', renewToken.data)
-                    commit('auth_set_data',  jwt_decode(renewToken.token));
+                    commit('auth_set_data',  jwt_decode(renewToken.data));
                     return;
                 }else if(res.data.message ==='force logout'){
                     alert('로그아웃 되었습니다.' + '\n' + '다른 기기에서 로그인해 로그아웃 되었습니다.');
