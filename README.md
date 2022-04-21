@@ -28,3 +28,5 @@ Sequelize-cli를 이용한 DB migration 및 seeder 작업
 dotenv를 통해 local 환경과 dev환경 구분(local : nodemon, dev : pm2)
 
 AWS EC2 Route53을 이용하여 ubuntu에 git, docker .. 설치 후 이용하여 서비스 운용
+
+Winston logging -> dev환경에서는 warn, error log level만 저장
