@@ -17,16 +17,20 @@
               :type="show1 ? 'text' : 'password'"
               :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
               @click:append="show1 = !show1"
+              v-on:keyup.enter  ="login"
             >
             </v-text-field>
             <br>
+
+
+
             <!-- 로그인버튼 -->
             <v-btn
               elevation="2" block
               v-on:click="login"
-              v-on:keyup.enter="login"
             >로그인
-            </v-btn>            
+            </v-btn>
+                       
             <v-checkbox
               v-model="saveId"
               :label="`아이디 저장하기`"
@@ -64,6 +68,7 @@
               :type="show1 ? 'text' : 'password'"
               :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
               @click:append="show1 = !show1"
+              v-on:keyup.enter  ="login"
             >
             </v-text-field>
             <br> <br>

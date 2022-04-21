@@ -65,7 +65,6 @@ const authModule = {
                 return;
             }
             commit('user_set_data_admin', res.data);
-            console.log(res)
             
         },
         async change_user_role({commit}, data){

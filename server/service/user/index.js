@@ -92,7 +92,6 @@ const forceLogout = async (token) => {
         }
       }
     )
-    console.log(res)
     return res;
   }catch(err){
     winston.error(`Unable to forceLogout[service] :`, err);

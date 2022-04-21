@@ -143,7 +143,6 @@ const ideaModule = {
                 console.log(err);
                 return;
             }
-            console.log(res.data)
             if(res.data.message === 'unvalid token'){
                 alert('정상적인 경로가 아닙니다.');
                 location.href='/home'; //새로고침

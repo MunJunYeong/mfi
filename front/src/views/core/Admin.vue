@@ -33,7 +33,9 @@
         <v-row justify='center'>
             <v-col cols='2' />
             <v-col cols="5">
-                <v-text-field v-model="searchNickName" label="유저 검색"></v-text-field>
+                <v-text-field v-model="searchNickName" label="유저 검색" 
+                    v-on:keyup.enter ="currentPage = 1; createPagination();" 
+                />
             </v-col>
             <v-col cols="2"> 
                 <v-btn small @click="currentPage = 1; createPagination();">

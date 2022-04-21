@@ -71,7 +71,9 @@
         <v-row justify='center' class="pc">
             <v-col cols='2' />
             <v-col cols="5">
-                <v-text-field v-model="searchSubject" label="Search by Title"></v-text-field>
+                <v-text-field v-model="searchSubject" label="Search by Title" 
+                    v-on:keyup.enter  ="currentPage = 1; createPagination();" 
+                />
             </v-col>
             <v-col cols="2"> 
                 <v-btn small @click="currentPage = 1; createPagination();">
@@ -120,7 +122,9 @@
         <v-row justify='center' class="mobile">
             <v-spacer />
             <v-col cols="7">
-                <v-text-field v-model="searchSubject" label="Search by Title"></v-text-field>
+                <v-text-field v-model="searchSubject" label="Search by Title"
+                    v-on:keyup.enter  ="currentPage = 1; createPagination();" 
+                />
             </v-col>
             <v-col cols="3"> 
                 <v-btn small @click="currentPage = 1; createPagination();">
