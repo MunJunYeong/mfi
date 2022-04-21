@@ -307,7 +307,6 @@ export default {
         }catch (err){
           console.log(err);
         }
-        console.log(res);
         if(res.data.message){
           alert('잘못된 인증번호 입니다.'); return;
         }else{

@@ -95,8 +95,8 @@
                     outlined
                     label = ''
                     v-model="writeComment"
-                    >
-                    </v-text-field>
+                    v-on:keyup.enter ="enrollComment" 
+                    />
                 </v-col>
                 <v-col cols='1'>
                     <v-btn id="enrollBtn" v-on:click="enrollComment"
@@ -177,8 +177,8 @@
                     outlined
                     label = ''
                     v-model="writeComment"
-                    >
-                    </v-text-field>
+                    v-on:keyup.enter ="enrollComment" 
+                    />
                 </v-col>
                 <v-col cols='2'>
                     <v-btn id="enrollBtn" v-on:click="enrollComment"
