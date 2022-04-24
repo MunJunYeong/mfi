@@ -25,7 +25,9 @@ axios.interceptors.request.use(
   }
 );
 
-//토큰 유효성 검사
+
+const init  = async () => {
+  //토큰 유효성 검사
 const settingVerifyToken = async () => {
   let token = localStorage.getItem('accessToken');
   let reToken = localStorage.getItem('refreshToken');
@@ -37,11 +39,11 @@ const settingVerifyToken = async () => {
     await store.dispatch('auth_vertify_token', data);
   }
 }
-settingVerifyToken();
+await settingVerifyToken();
 
 // 방문자 수 확인 쿠키 : cookie가 없을 경우에 쿠키 생성
 if (!VueCookies.isKey("visitor")){
-  store.dispatch('create_visitor');
+  store.dispatch('create_visitor'); 
 }
 
 new Vue({
@@ -50,3 +52,6 @@ new Vue({
   vuetify,
   render: h => h(App)
 }).$mount('#app')
+}
+
+init();
