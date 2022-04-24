@@ -56,6 +56,26 @@ const refreshVerify = async (refreshToken, token)=> {
 
 }
 
+const refreshToekn = () =>{
+
+}
+
+
+const httpPromiseHandler = async (httpReuest) => {
+    const originRequest = [...httpReuest];
+    const result = await Promise.allSettled(httpReuest);
+    result.map((res) => {
+        if(res.erroCode === 'expired'){
+            await refreshToken();
+            axios(originRequest[i]);
+        }
+    })
+
+    return result;
+
+
+} 
+
 module.exports = {
     sign,
     verify,
