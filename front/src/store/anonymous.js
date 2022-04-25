@@ -78,7 +78,7 @@ const anonymousModule = {
         async get_user_count({commit}){
             let res;
             try{
-                res = await axios.get( VUE_APP_BACKEND_HOST + '/usercount', {
+                res = await axios.get( VUE_APP_BACKEND_HOST + '/data/usercount', {
                 })
             }catch(err){
                 console.log(err);
@@ -94,7 +94,7 @@ const anonymousModule = {
         async get_idea_count({commit}){
             let res;
             try{
-                res = await axios.get( VUE_APP_BACKEND_HOST + '/ideacount', {
+                res = await axios.get( VUE_APP_BACKEND_HOST + '/data/ideacount', {
 
                 })
             }catch(err){
@@ -105,7 +105,7 @@ const anonymousModule = {
         async get_today_visitor_count({commit}){
             let res;
             try{
-                res = await axios.get( VUE_APP_BACKEND_HOST + '/todayvisitor', {
+                res = await axios.get( VUE_APP_BACKEND_HOST + '/data/todayvisitor', {
 
                 })
             }catch(err){
@@ -116,7 +116,7 @@ const anonymousModule = {
         async get_total_visitor_count({commit}){
             let res;
             try{
-                res = await axios.get( VUE_APP_BACKEND_HOST + '/totalvisitor', {
+                res = await axios.get( VUE_APP_BACKEND_HOST + '/data/totalvisitor', {
 
                 })
             }catch(err){
@@ -125,6 +125,20 @@ const anonymousModule = {
             commit('total_visitor_count', res.data);
         },
 
+        //해당 토큰을 가진 userIdx를 찾은 다음 user 정보 가져오기
+        async get_user_data({commit}, userIdx){
+            let userData;
+            try{
+                userData = await axios.get(VUE_APP_BACKEND_HOST + `/data/${userIdx}`, {
+
+                })
+            }catch(err){
+                console.log(err);
+            }
+            commit('auth_set_data', userData.data.data);
+            history.back();
+            return {data : 1};
+        },
         //로그인
         async auth_login ({ commit }, data) {
             let res;
@@ -138,10 +152,9 @@ const anonymousModule = {
             }
             if(res.data.token){
                 localStorage.setItem("accessToken", res.data.token);
-                localStorage.setItem("refreshToken", res.data.refreshToken);              
-                commit('auth_set_data',  jwt_decode(res.data.token));
-                history.back();
-                return {data : 1};
+                localStorage.setItem("refreshToken", res.data.refreshToken);
+                await this.dispatch('get_user_data', jwt_decode(res.data.token).userIdx );
+                commit
             }else if(res.data.message){
                 return res.data;
             }
@@ -160,9 +173,8 @@ const anonymousModule = {
             if(res.data.token){
                 localStorage.setItem("accessToken", res.data.token);
                 localStorage.setItem("refreshToken", res.data.refreshToken);              
-                commit('auth_set_data',  jwt_decode(res.data.token));
-                history.back();
-                return {data : 1};
+                await this.dispatch('get_user_data', jwt_decode(res.data.token).userIdx );
+                commit
             }else if(res.data.message){
                 return res.data;
             }

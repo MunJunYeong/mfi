@@ -1,6 +1,26 @@
 const { models, Op } = require('../../lib/db');
 const winston = require('../../lib/common/winston');
 
+
+const getUserData = async (userIdx) => {
+  try{
+    const data = await models['user'].findOne(
+      {
+        where : {
+          userIdx : userIdx
+        },
+        attributes : {
+          exclude : ['id', 'pw' , 'status']
+      },
+      },
+      
+    )
+    return data;
+  }catch(err){
+
+  }
+}
+
 const updateRole = async (role, userIdx) => {
   try{
     const result = await models['user'].update(
@@ -129,4 +149,5 @@ module.exports = {
     logout,
     forceLogout,
     getUserToken,
+    getUserData,
 }
