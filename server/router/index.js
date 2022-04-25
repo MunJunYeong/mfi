@@ -5,9 +5,13 @@ const anonymousRouter = require('./anonymous');
 const userRouter = require('./user');
 const ideaRouter = require('./idea');
 const commentRouter = require('./comment');
+const dataRouter = require('./data');
 
 basicRouter.use('/', anonymousRouter);
 basicRouter.use('/ip', anonymousRouter);
+
+basicRouter.use('/data', dataRouter);
+
 basicRouter.use('/token', middleware.validateToken);
 basicRouter.use('/refresh', middleware.validateToken);
 basicRouter.use('/user', middleware.validateToken, userRouter)

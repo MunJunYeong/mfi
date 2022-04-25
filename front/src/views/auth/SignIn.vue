@@ -136,6 +136,7 @@ import VueCookies from "vue-cookies";
             pw : this.pw
           })
         } catch (err) {
+          console.log(err)
           alert('통신 오류');
         }
         //아이디 저장하기 + 쿠키에 id 값이 없다면 

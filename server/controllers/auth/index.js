@@ -1,5 +1,3 @@
-
-
 const {anonymous: anonymousService } = require('../../service');
 const {visitor : visitorService} =require('../../service');
 const {user : userService} = require('../../service');
@@ -26,10 +24,6 @@ const createIp = async (req, res) => {
         }
     }
     res.send({data : ip})
-    
-    // res.cookie('visitor', ip, {
-    //   maxAge: nextDay-now
-    // });
 }
 
 
@@ -382,5 +376,5 @@ module.exports = {
     updatePw,
     getNewsItem,
     logout,
-    createIp
+    createIp,
 }

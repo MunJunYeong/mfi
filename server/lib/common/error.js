@@ -110,6 +110,7 @@ const dbError = {
     DB_FORCE_LOGOUT : 'Unable to  forceLogout[service]',
     DB_GET_USER_TOKEN : 'Unable to getUserToken[service]',
     DB_UPDATE_USERTOKEN : 'Unable to updateUserToken[service]',
+    DB_GET_USER_DATA : 'Unable to getUserData[service]',
 }
 
 module.exports = {
