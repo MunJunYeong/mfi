@@ -140,8 +140,9 @@ const authModule = {
                         return;
                     }
                     
-                    localStorage.setItem('accessToken', renewToken.data)
-                    await commit('auth_set_data',  jwt_decode(renewToken.data));
+                    localStorage.setItem('accessToken', renewToken.data);
+                    await this.dispatch('get_user_data', jwt_decode(renewToken.data).userIdx );
+                
                     return;
                 }else if(res.data.message ==='force logout'){
                     alert('로그아웃 되었습니다.' + '\n' + '다른 기기에서 로그인해 로그아웃 되었습니다.');
@@ -154,8 +155,7 @@ const authModule = {
                 return;
             }else {
                 //정상적인 토큰이기에 토큰에 맞춰서 유저 정보 settting
-                await commit('auth_set_data',  jwt_decode(token.token));
-                console.log('dfasdfsaf')
+                await this.dispatch('get_user_data', jwt_decode(token.token).userIdx );
             }
             commit
         }
