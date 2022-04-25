@@ -61,7 +61,7 @@ const anonymousModule = {
         async get_news({commit}){
             let res;
             try{
-                res = await axios.get( VUE_APP_BACKEND_HOST + '/news', {
+                res = await axios.get( VUE_APP_BACKEND_HOST + '/data/news', {
                 })
             }catch(err){
                 console.log(err);
@@ -237,7 +237,7 @@ const anonymousModule = {
         async create_visitor({commit}){
             let res;
             try{
-                res = await axios.post(VUE_APP_BACKEND_HOST + '/ip', {
+                res = await axios.post(VUE_APP_BACKEND_HOST + '/data/ip', {
 
                 })
             }catch(err){
