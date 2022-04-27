@@ -1,6 +1,6 @@
 const express = require('express');
 const dataRouter = express.Router();
-
+const {middleware} = require('../../lib/common/index')
 const { data: dataController} = require('../../controllers');
 const { auth: authController} = require('../../controllers');
 const {idea : ideaController} = require('../../controllers');
@@ -17,6 +17,6 @@ dataRouter.get('/totalvisitor', authController.getTotalVisitor);
 dataRouter.get('/news', authController.getNewsItem);
 
 //user data 정보
-dataRouter.get('/:userIdx', dataController.getuserData);
+dataRouter.get('/:userIdx', middleware.validateToken, dataController.getuserData);
 
 module.exports = dataRouter;

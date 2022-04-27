@@ -1,10 +1,18 @@
+// const Vue = require('vue');
+// const App = require('./App.vue');
+// const store = require('./store');
+// const router = require('./router');
+// const vuetify = require('./plugins/vuetify');
+// const VueCookies = require('vue-cookies');
+
 import Vue from 'vue'
 import App from './App.vue'
 import store from './store'
 import router from './router'
 import vuetify from './plugins/vuetify'
-import axios from 'axios';
 import VueCookies from "vue-cookies";
+
+const axios = require('./lib/axios');
 
 Vue.config.productionTip = false
 Vue.prototype.$http = axios;
@@ -13,45 +21,28 @@ Vue.prototype.$http = axios;
 Vue.prototype.$cookie = VueCookies;
 Vue.use(VueCookies);
 
-axios.interceptors.request.use(
-  function(config) {
-    // Do something before request is sent
-    config.withCredentials = true;
-    return config;
-  },
-  function(error) {
-    // Do something with request error
-    return Promise.reject(error);
-  }
-);
-
-
 const init  = async () => {
   //토큰 유효성 검사
-const settingVerifyToken = async () => {
-  let token = localStorage.getItem('accessToken');
-  let reToken = localStorage.getItem('refreshToken');
-  const data = {
-    token : token,
-    reToken  : reToken
+  const settingVerifyToken = async () => {
+    let token = localStorage.getItem('accessToken');
+    
+    if(token !== null){
+      await store.dispatch('get_user_data', token);
+    }
   }
-  if(token !== null){
-    await store.dispatch('auth_vertify_token', data);
+  await settingVerifyToken();
+
+  // 방문자 수 확인 쿠키 : cookie가 없을 경우에 쿠키 생성
+  if (!VueCookies.isKey("visitor")){
+    store.dispatch('create_visitor'); 
   }
-}
-await settingVerifyToken();
 
-// 방문자 수 확인 쿠키 : cookie가 없을 경우에 쿠키 생성
-if (!VueCookies.isKey("visitor")){
-  store.dispatch('create_visitor'); 
-}
-
-new Vue({
-  store,
-  router,
-  vuetify,
-  render: h => h(App)
-}).$mount('#app')
+  new Vue({
+    store,
+    router,
+    vuetify,
+    render: h => h(App)
+  }).$mount('#app')
 }
 
 init();

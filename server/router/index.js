@@ -13,7 +13,7 @@ basicRouter.use('/ip', anonymousRouter);
 basicRouter.use('/data', dataRouter);
 
 basicRouter.use('/token', middleware.validateToken);
-basicRouter.use('/refresh', middleware.validateToken);
+basicRouter.use('/refresh', middleware.refreshToken);
 basicRouter.use('/user', middleware.validateToken, userRouter)
 basicRouter.use('/idea', middleware.validateToken, ideaRouter);
 basicRouter.use('/comment', middleware.validateToken, commentRouter);
