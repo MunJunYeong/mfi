@@ -201,7 +201,6 @@
         
         methods: {
             async createPagination(){
-                console.log(this.userData)
                 try{
                     await this.$store.dispatch('show_idea', {
                         page : this.currentPage,

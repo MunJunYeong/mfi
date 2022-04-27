@@ -16,6 +16,10 @@ module.exports = {
         type: Sequelize.STRING(500),
         allowNull: true,
       },
+      refresh: {
+        type: Sequelize.STRING(500),
+        allowNull: true,
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {

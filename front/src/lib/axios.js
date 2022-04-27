@@ -25,44 +25,48 @@ axios.interceptors.request.use(
 //     return result;
 // } 
 
+let isTokenRefreshing = false;
+let refreshSubscribers = [];
+
+const onTokenRefreshed = (accessToken) => {
+  refreshSubscribers.map(  (callback) => callback(accessToken))  ;
+};
+
+const addRefreshSubscriber = (callback) => {
+  refreshSubscribers.push(callback);
+};
+
+
 axios.interceptors.response.use(
     async (response) => {
-        
-        if( await response.data.message === 'unvalid accesstoken'){
-            const refreshToken = localStorage.getItem('refreshToken');
-            const accessToken = localStorage.getItem('accessToken');
-            const tokenData = {
-                refreshToken : refreshToken,
-                accessToken : accessToken
-            }
-            const newToken = await  store.dispatch('auth_refresh_token', tokenData);
-            console.log(newToken)
+      const originalRequest = response.config;
+      if(await response.data.message === 'unvalid accesstoken'){
+        if(!isTokenRefreshing){
+          isTokenRefreshing = true;
+          const refreshToken = localStorage.getItem('refreshToken');
+          const accessToken = localStorage.getItem('accessToken');
+          const tokenData = {
+              refreshToken : refreshToken,
+              accessToken : accessToken
+          }
+          const newToken = await store.dispatch('auth_refresh_token', tokenData);
+          isTokenRefreshing = false;
+          onTokenRefreshed(newToken);
+          const retryOriginalRequest = new Promise((resolve) => {
+            addRefreshSubscriber( () => {
+              originalRequest.headers.Authorization = newToken;
+              resolve(axios(originalRequest));
+            });
+          });
+          return retryOriginalRequest;
         }
-        // if(status === 401){
-        //     if(response.data.message === 'unvalid accesstoken'){
-        //         const originalRequest = config;
-        //         const refreshToken = localStorage.getItem('refreshToken');
-        //         const accessToken = localStorage.getItem('accessToken');
-        //         const tokenData = {
-        //             refreshToken : refreshToken,
-        //             accessToken : accessToken
-        //         }
-        //         const newToken = await  this.$store.dispatch('auth_refresh_token', tokenData);
-        //         axios.defaults.headers.common.Authorization = `${newToken}`;
-        //         originalRequest.headers.Authorization = `${newToken}`;
-        //         return axios(originalRequest);
-        //     }
-        // }
-        return response;
+      }
+      return response;
     },
     async (error) => {
         return Promise.reject(error);
     }
 );
-// const refreshToekn = () =>{
 
-// }
 
-// export.default = axios;
-// module.exports = axios;
 export default axios;

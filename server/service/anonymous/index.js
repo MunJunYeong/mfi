@@ -38,7 +38,7 @@ const signIn = async (id, pw) => {
                     delete idData.pw; // data에서 pw제거
                     const accessToken  = jwtUtils.sign(idData);
                     const refreshToken = jwtUtils.refresh();
-                    await saveUserToken(idData.userIdx, accessToken);
+                    await saveUserToken(idData.userIdx, accessToken, refreshToken);
                     return {token : accessToken, refreshToken : refreshToken};
                 }catch(err){
                     winston.error(`Unable to signIn[service] :`, err);
@@ -106,7 +106,8 @@ const makeUserToken= async (idx)=> {
     try{
         await models['userToken'].create({
             userIdx : idx,
-            token : ''
+            token : '',
+            refresh : '',
         })
     }catch(err){
         winston.error(`Unable to makeUserToken[servcie] :`, err);
@@ -246,11 +247,12 @@ const updatePw = async (email, pw, id) => {
 
 
 // userToken table token attribute save
-const saveUserToken = async (idx ,token) => {
+const saveUserToken = async (idx ,token, refreshToken) => {
     try {
         await models['userToken'].update(
             {
-            token : token,
+                token : token,
+                refresh : refreshToken,
             },
             {
                 where : {

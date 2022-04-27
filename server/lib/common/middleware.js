@@ -33,13 +33,12 @@ const validateToken = async (req, res, next) => {
         next();
     }
 }
-//https://maruzzing.github.io/study/rnative/axios-interceptors%EB%A1%9C-%ED%86%A0%ED%81%B0-%EB%A6%AC%ED%94%84%EB%A0%88%EC%8B%9C-%ED%95%98%EA%B8%B0/
-const refreshToken = async () => {
+
+const refreshToken = async (req, res, next) => {
     let refreshToken = req.headers.refreshtoken;
-    let accessToken = req.headers.accessToken;
-    console.log(accessToken)
+    let accessToken = req.headers.accesstoken;
     // refreshToken = refreshToken.replace("Bearer ",  "");
-    const result = await jwtUtils.refreshVerify(refreshToken, token);
+    const result = await jwtUtils.refreshVerify(refreshToken, accessToken);
     console.log(result)
     if(result === 'jwt expired'){
         await userService.forceLogout(token);
