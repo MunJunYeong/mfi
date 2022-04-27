@@ -45,4 +45,8 @@ const init  = async () => {
   }).$mount('#app')
 }
 
-init();
+try{
+  init();
+}catch(err){
+  console.log(err)
+}

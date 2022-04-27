@@ -5,8 +5,53 @@ const winston = require('../../lib/common/winston');
 const jwtUtils = require('../../lib/common/jwt');
 const redisClient = require('../../lib/common/redis');
 
+
+
+const signUp = async (id, pw, nickName, email, role) => {
+    //혹시나 회원가입이 이미 되었는데도 또 2번 이상의 요청이 가서 생기는 경우 예외처리
+    let result;
+    if(await findUser(email) === null){
+        try{
+            result = await models['user'].create({
+                id : id,
+                pw : pw,
+                nickName : nickName,
+                email : email,
+                role : role
+            });
+            await makeUserToken(result.userIdx);
+            return result;
+        }catch(err){
+            winston.error(`Unable to signUp[servcie] :`, err);
+            throw new Error('DB_SIGNUP');
+        }
+
+    }else {
+        throw new Error('TRAFFIC');
+    }
+    
+}
+const  getUserCount = async ()=>{
+    try{
+        const result  = await models['user'].count();
+        return result;
+    }catch(err){
+        winston.warn(`Unable to getUserCount[servcie] :`, err);
+        throw new Error('DB_GET_USER_COUNT');
+    }
+    
+}
+const  getNewsItem = async ()=>{
+    try{
+        const result  = await models['news'].findAll({});
+        return result;
+    }catch(err){
+        winston.warn(`Unable to getNewsItem[servcie] :`, err);
+        throw new Error('DB_GET_NEWS_ITEM');
+    }
+}
+
 const signIn = async (id, pw) => {
-    let accessToken;
     let findId;
     // 1. 아이디가 존재하는지 확인한다.
     try{
@@ -53,55 +98,6 @@ const signIn = async (id, pw) => {
         throw new Error('WRONG_ID');
     }
 }
-
-
-const  getUserCount = async ()=>{
-    try{
-        const result  = await models['user'].count();
-        return result;
-    }catch(err){
-        winston.warn(`Unable to getUserCount[servcie] :`, err);
-        throw new Error('DB_GET_USER_COUNT');
-    }
-    
-}
-const  getNewsItem = async ()=>{
-    try{
-        const result  = await models['news'].findAll({});
-        return result;
-    }catch(err){
-        winston.warn(`Unable to getNewsItem[servcie] :`, err);
-        throw new Error('DB_GET_NEWS_ITEM');
-    }
-    
-
-}
-
-
-const signUp = async (id, pw, nickName, email, role) => {
-    //혹시나 회원가입이 이미 되었는데도 또 2번 이상의 요청이 가서 생기는 경우 예외처리
-    let result;
-    if(await findUser(email) === null){
-        try{
-            result = await models['user'].create({
-                id : id,
-                pw : pw,
-                nickName : nickName,
-                email : email,
-                role : role
-            });
-            await makeUserToken(result.userIdx);
-            return result;
-        }catch(err){
-            winston.error(`Unable to signUp[servcie] :`, err);
-            throw new Error('DB_SIGNUP');
-        }
-
-    }else {
-        throw new Error('TRAFFIC');
-    }
-    
-}
 const makeUserToken= async (idx)=> {
     try{
         await models['userToken'].create({
@@ -112,6 +108,43 @@ const makeUserToken= async (idx)=> {
     }catch(err){
         winston.error(`Unable to makeUserToken[servcie] :`, err);
         throw new Error('DB_MAKE_USER_TOKEN');
+    }
+}
+// userToken table token attribute save
+const saveUserToken = async (idx ,token, refreshToken) => {
+    try {
+        await models['userToken'].update(
+            {
+                token : token,
+                refresh : refreshToken,
+            },
+            {
+                where : {
+                    userIdx : idx,
+                },
+            }
+        )
+    }catch(err){
+        winston.error(`Unable to saveUserToken[service] :`, err);
+        throw new Error('DB_SAVE_USER_TOKEN');
+    }
+}
+//userToken table에 해당 idx가 로그인되어져 있는지 확인
+const haveUserToken = async (userIdx)=> {
+    try{
+        const result = await models['userToken'].findOne({
+            where : {
+                userIdx : userIdx
+            }
+        })
+        if(result.token === null || result.token.length === 0){
+            return false;
+        }else {
+            return true;
+        }
+    }catch(err){
+        winston.error(`Unable to haveUserToken[service] :`, err);
+        throw new Error('DB_HAVE_USER_TOKEN');
     }
 }
 const sendEmail = async (email) => {
@@ -204,8 +237,6 @@ const findIdSendMail = async(email) => {
         
     }
 }
-
-
 const findPwSendMail = async(id, email) => {
     if(await findUserId(id) === null || await findUser(email) === null){
         throw new Error('NOT_FOUND');
@@ -243,45 +274,6 @@ const updatePw = async (email, pw, id) => {
         throw new Error(DB_UPDATE_PW);
     }
     
-}
-
-
-// userToken table token attribute save
-const saveUserToken = async (idx ,token, refreshToken) => {
-    try {
-        await models['userToken'].update(
-            {
-                token : token,
-                refresh : refreshToken,
-            },
-            {
-                where : {
-                    userIdx : idx,
-                },
-            }
-        )
-    }catch(err){
-        winston.error(`Unable to saveUserToken[service] :`, err);
-        throw new Error('DB_SAVE_USER_TOKEN');
-    }
-}
-//userToken table에 해당 idx가 로그인되어져 있는지 확인
-const haveUserToken = async (userIdx)=> {
-    try{
-        const result = await models['userToken'].findOne({
-            where : {
-                userIdx : userIdx
-            }
-        })
-        if(result.token === null || result.token.length === 0){
-            return false;
-        }else {
-            return true;
-        }
-    }catch(err){
-        winston.error(`Unable to haveUserToken[service] :`, err);
-        throw new Error('DB_HAVE_USER_TOKEN');
-    }
 }
 
 const duplicateId = async (id) => {

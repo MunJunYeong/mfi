@@ -212,12 +212,10 @@
             },
             async logout(){
                 try{
-                    await this.$store.dispatch('logout', this.accessToken);
+                    await this.$store.dispatch('logout', this.userData.userIdx);
                 }catch(err){
                     console.log(err);
                 }
-                localStorage.removeItem('accessToken');
-                localStorage.removeItem('refreshToken');
             },
 
             isLogin(){
