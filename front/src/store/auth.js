@@ -1,5 +1,4 @@
 import axios from "axios";
-import jwt_decode from 'jwt-decode'
 const { VUE_APP_BACKEND_HOST } = process.env;
 
 const authModule = {
@@ -105,60 +104,28 @@ const authModule = {
             commit
             return res.data;
         },
-        //토근 유효성 확인
-        async auth_vertify_token ({ commit }, token) {
-            let res;
-            if(!token) {
-                return;
-            }
-            try{
-                res = await axios.get(VUE_APP_BACKEND_HOST + '/token', {
-                    headers : {
-                        Authorization : token.token,
-                        verify : 'verify'
-                    }
-                })
-            }catch(err){
-                console.log(err)
-            }
-            //middleware에서 토큰을 확인하기에 만약 토큰이 정상이라면 메세지의 유무로 판별하기
-            if(res.data.message){ 
-                if(res.data.message=== 'unvalid accesstoken'){
-                    let renewToken;
-                    renewToken = await axios.get(VUE_APP_BACKEND_HOST + '/refresh', {
-                        headers : {
-                            Authorization : token.token,
-                            refreshToken : token.reToken,
-                            verify : 'refresh'
-                        }
-                    })
-                    if(renewToken.data.message === 'expired token'){ //refreshToken도 만료
-                        alert('토큰의 유효기간이 지났습니다. 재 로그인 해주세요.');
-                        localStorage.removeItem('accessToken');
-                        localStorage.removeItem('refreshToken');
-                        location.href='/home'; //새로고침
-                        return;
-                    }
-                    
-                    localStorage.setItem('accessToken', renewToken.data);
-                    await this.dispatch('get_user_data', jwt_decode(renewToken.data).userIdx );
-                
-                    return;
-                }else if(res.data.message ==='force logout'){
-                    alert('로그아웃 되었습니다.' + '\n' + '다른 기기에서 로그인해 로그아웃 되었습니다.');
-                }else {
-                    alert('다시 로그인을 해주세요.');
+        async auth_refresh_token({commit}, token) {
+            let renewToken;
+            console.log(token)
+            renewToken = await axios.get(VUE_APP_BACKEND_HOST + '/refresh', {
+                headers : {
+                    AccessToken : token.accessToken,
+                    RefreshToken : token.refreshToken,
                 }
+            })
+            if(renewToken.data.message === 'expired token'){ //refreshToken도 만료
+                alert('토큰의 유효기간이 지났습니다. 재 로그인 해주세요.');
                 localStorage.removeItem('accessToken');
                 localStorage.removeItem('refreshToken');
                 location.href='/home'; //새로고침
                 return;
-            }else {
-                //정상적인 토큰이기에 토큰에 맞춰서 유저 정보 settting
-                await this.dispatch('get_user_data', jwt_decode(token.token).userIdx );
             }
+            console.log(renewToken)
+            // localStorage.setItem('accessToken', renewToken.data);
+            // await this.dispatch('get_user_data', renewToken.data);
             commit
-        }
+            // return renewToken.data;
+        },
     }
   }
 

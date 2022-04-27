@@ -126,16 +126,19 @@ const anonymousModule = {
         },
 
         //해당 토큰을 가진 userIdx를 찾은 다음 user 정보 가져오기
-        async get_user_data({commit}, userIdx){
+        async get_user_data({commit}, token){
             let userData;
+            const userIdx = jwt_decode(token).userIdx 
             try{
                 userData = await axios.get(VUE_APP_BACKEND_HOST + `/data/${userIdx}`, {
-
+                    headers : {
+                        'Authorization' : token
+                    }
                 })
             }catch(err){
                 console.log(err);
             }
-            commit('auth_set_data', userData.data.data);
+            await commit('auth_set_data', userData.data.data);
             history.back();
             return {data : 1};
         },
@@ -153,7 +156,7 @@ const anonymousModule = {
             if(res.data.token){
                 localStorage.setItem("accessToken", res.data.token);
                 localStorage.setItem("refreshToken", res.data.refreshToken);
-                await this.dispatch('get_user_data', jwt_decode(res.data.token).userIdx );
+                await this.dispatch('get_user_data', res.data.token );
                 commit
             }else if(res.data.message){
                 return res.data;
@@ -172,8 +175,8 @@ const anonymousModule = {
             }
             if(res.data.token){
                 localStorage.setItem("accessToken", res.data.token);
-                localStorage.setItem("refreshToken", res.data.refreshToken);              
-                await this.dispatch('get_user_data', jwt_decode(res.data.token).userIdx );
+                localStorage.setItem("refreshToken", res.data.refreshToken);       
+                await this.dispatch('get_user_data', res.data.token);
                 commit
             }else if(res.data.message){
                 return res.data;
