@@ -15,6 +15,9 @@ const create = async(sequelize) => {
     token: {
       type: DataTypes.STRING(500),
     },
+    refresh: {
+      type: DataTypes.STRING(500),
+    },
   },
   {
       freezeTableName: true,

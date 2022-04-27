@@ -139,7 +139,6 @@ const anonymousModule = {
                 console.log(err);
             }
             await commit('auth_set_data', userData.data.data);
-            history.back();
             return {data : 1};
         },
         //로그인
@@ -157,12 +156,13 @@ const anonymousModule = {
                 localStorage.setItem("accessToken", res.data.token);
                 localStorage.setItem("refreshToken", res.data.refreshToken);
                 await this.dispatch('get_user_data', res.data.token );
+                history.back();
                 commit
             }else if(res.data.message){
                 return res.data;
             }
         },
-        //로그인
+        
         async auth_force_login ({ commit }, data) {
             let res;
             try {

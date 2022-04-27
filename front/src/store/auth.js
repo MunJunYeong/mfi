@@ -89,7 +89,6 @@ const authModule = {
             if(!token){
                 return;
             }
-            console.log(token)
             try{
                 res = await axios.put(VUE_APP_BACKEND_HOST + '/user/logout', {
                 },
@@ -102,11 +101,11 @@ const authModule = {
                 console.log(err)
             }
             commit
-            return res.data;
+            res
+            location.href='/home'
         },
         async auth_refresh_token({commit}, token) {
             let renewToken;
-            console.log(token)
             renewToken = await axios.get(VUE_APP_BACKEND_HOST + '/refresh', {
                 headers : {
                     AccessToken : token.accessToken,
@@ -120,11 +119,12 @@ const authModule = {
                 location.href='/home'; //새로고침
                 return;
             }
-            console.log(renewToken)
-            // localStorage.setItem('accessToken', renewToken.data);
-            // await this.dispatch('get_user_data', renewToken.data);
+            localStorage.setItem('accessToken', renewToken.data);
+            await this.dispatch('get_user_data', renewToken.data);
+            
+            // location.href='/home'; //새로고침 refresh 되는 동안
             commit
-            // return renewToken.data;
+            return renewToken.data;
         },
     }
   }

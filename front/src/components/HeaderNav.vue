@@ -218,8 +218,6 @@
                 }
                 localStorage.removeItem('accessToken');
                 localStorage.removeItem('refreshToken');
-                location.href='/home'; //새로고침
-                
             },
 
             isLogin(){
