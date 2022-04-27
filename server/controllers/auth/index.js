@@ -199,6 +199,7 @@ const signIn = async (req, res) => {
     if(!data.id || !data.pw){
         throw new Error('ENTER_VALUE');
     }
+
     try{
         const result = await anonymousService.signIn(data.id, data.pw);
         res.send(result);
@@ -229,7 +230,6 @@ const forcesignIn= async(req, res) => {
         winston.error(`Unable to findIdUser :`, err);
         throw new Error('UNABLE_FIND_ID_USER');
     }
-
     try{
         //userIdx에 해당하는 토큰을 로그아웃 시킨다.
         await userService.logout(userIdx);
@@ -314,10 +314,9 @@ const updateUserRole = async (req, res) => {
     }
 }
 const logout = async(req, res) => {
-    //1차적으로 미들웨어에서 로컬스토리지에 저장된 토큰이 실제 존재하는 토큰인지 확인한다.
-    //기간이 지난 토큰이라면 unvalid token으로 넘어감.
+    const data = req.body;
     try{
-        const result = await userService.logout(req.userData.userIdx);
+        const result = await userService.logout(data.userIdx);
         res.send(result)
     }catch(err){
         if(err.message){
@@ -326,7 +325,6 @@ const logout = async(req, res) => {
         winston.error(`Unable to logout :`, err);
         throw new Error('UNABLE_LOGOUT');
     }
-    
 }
 const getUser = async (req, res)=> {
     const {page, nickName} = req.query;

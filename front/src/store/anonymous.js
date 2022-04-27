@@ -87,8 +87,6 @@ const anonymousModule = {
                 
                 return;
             }
-            // let test = '업데이트 예정'
-            // commit('user_count', test);
             commit('user_count', res.data);
         },
         async get_idea_count({commit}){
@@ -147,7 +145,9 @@ const anonymousModule = {
             try {
                 res = await axios.post( VUE_APP_BACKEND_HOST + '/signin', {
                     id : data.id,
-                    pw : data.pw
+                    pw : data.pw,
+                    accessToken : data.accessToken,
+                    refreshToken : data.refreshToken,
                 });
             } catch (err) {
                 console.log(err);
@@ -177,6 +177,7 @@ const anonymousModule = {
                 localStorage.setItem("accessToken", res.data.token);
                 localStorage.setItem("refreshToken", res.data.refreshToken);       
                 await this.dispatch('get_user_data', res.data.token);
+                history.back();
                 commit
             }else if(res.data.message){
                 return res.data;

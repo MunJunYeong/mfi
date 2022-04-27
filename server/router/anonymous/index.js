@@ -1,7 +1,7 @@
 const express = require('express')
 const anonymousRouter = express.Router();
 // const ideaPagination = require('../../controllers/idea');
-const { auth: authController} = require('../../controllers');
+const {auth: authController} = require('../../controllers');
 const {idea : ideaController} = require('../../controllers');
 const {middleware} = require('../../lib/common/index')
 
@@ -18,6 +18,9 @@ anonymousRouter.put('/updatepw', authController.updatePw);
 //로그인하기 - 이중로그인에서 1개만 로그인
 anonymousRouter.post('/signin', authController.signIn);
 anonymousRouter.post('/forcesignin', authController.forcesignIn);
+
+//로그아웃
+anonymousRouter.put('/logout',  authController.logout);
 
 //아이디 중복확인
 anonymousRouter.post('/checkid', authController.checkId);

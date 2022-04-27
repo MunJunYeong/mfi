@@ -39,15 +39,22 @@ const addRefreshSubscriber = (callback) => {
 
 axios.interceptors.response.use(
     async (response) => {
-      const originalRequest = response.config;
-      if(await response.data.message === 'unvalid accesstoken'){
+      return response;
+    },
+    async (error) => {
+      const{
+        config,
+        response : {status},
+      } = error;
+      const originalRequest = config;
+      if(status === 401) {
         if(!isTokenRefreshing){
           isTokenRefreshing = true;
           const refreshToken = localStorage.getItem('refreshToken');
           const accessToken = localStorage.getItem('accessToken');
           const tokenData = {
-              refreshToken : refreshToken,
-              accessToken : accessToken
+            refreshToken : refreshToken,
+            accessToken : accessToken
           }
           const newToken = await store.dispatch('auth_refresh_token', tokenData);
           isTokenRefreshing = false;
@@ -61,10 +68,7 @@ axios.interceptors.response.use(
           return retryOriginalRequest;
         }
       }
-      return response;
-    },
-    async (error) => {
-        return Promise.reject(error);
+      return Promise.reject(error);
     }
 );
 

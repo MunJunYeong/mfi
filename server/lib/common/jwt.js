@@ -9,7 +9,7 @@ const sign = (user) => {
     };
     return jwt.sign(payload, secret, {
         algorithm: 'HS256', // 암호화 알고리즘
-        expiresIn: '10s', 	  // 유효기간
+        expiresIn: '2m', 	  // 유효기간
     })
 }
 
@@ -53,7 +53,6 @@ const refreshVerify = async (refreshToken, token)=> {
         accessToken : newToken,
         userIdx : userData.userIdx 
     };
-
 }
 
 

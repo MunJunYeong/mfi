@@ -133,7 +133,7 @@ import VueCookies from "vue-cookies";
         try {
           res = await this.$store.dispatch('auth_login', {
             id : this.id,
-            pw : this.pw
+            pw : this.pw,
           })
         } catch (err) {
           console.log(err)
@@ -163,8 +163,7 @@ import VueCookies from "vue-cookies";
             }
           }
           return;
-        }
-        if(res.message){
+        }else if(res.message){
           alert(res.message); return;
         }
       }

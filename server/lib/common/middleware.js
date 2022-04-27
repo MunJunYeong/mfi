@@ -19,7 +19,7 @@ const validateToken = async (req, res, next) => {
     userData = await jwtUtils.verify(token);
     if(userData === 'accesstoken expired'){
         console.log('accesstoken 비정상적인 토큰');
-        res.send({message : 'unvalid accesstoken'});
+        res.status(401).send({message : 'unvalid accesstoken'});
         return;
     }
 
@@ -39,7 +39,6 @@ const refreshToken = async (req, res, next) => {
     let accessToken = req.headers.accesstoken;
     // refreshToken = refreshToken.replace("Bearer ",  "");
     const result = await jwtUtils.refreshVerify(refreshToken, accessToken);
-    console.log(result)
     if(result === 'jwt expired'){
         await userService.forceLogout(token);
         res.send({message : 'expired token'});
