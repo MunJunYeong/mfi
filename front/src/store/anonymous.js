@@ -125,10 +125,10 @@ const anonymousModule = {
 
         //해당 토큰을 가진 userIdx를 찾은 다음 user 정보 가져오기
         async get_user_data({commit}, token){
-            let userData;
+            let res;
             const userIdx = jwt_decode(token).userIdx 
             try{
-                userData = await axios.get(VUE_APP_BACKEND_HOST + `/data/${userIdx}`, {
+                res = await axios.get(VUE_APP_BACKEND_HOST + `/data/${userIdx}`, {
                     headers : {
                         'Authorization' : token
                     }
@@ -136,7 +136,14 @@ const anonymousModule = {
             }catch(err){
                 console.log(err);
             }
-            await commit('auth_set_data', userData.data.data);
+
+            if(res.data.message === 'force logout'){
+                alert('다른 기기에서 로그인하여 로그아웃 되었습니다. 재 로그인 해주세요.')
+                localStorage.removeItem('accessToken');
+                localStorage.removeItem('refreshToken');
+                return;
+            }
+            await commit('auth_set_data', res.data.data);
             return {data : 1};
         },
         //로그인

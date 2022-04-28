@@ -94,14 +94,23 @@ const ideaModule = {
                 console.log(err);
                 return;
             }
+
             if(res.data.message){
-                alert(res.data.message === 'unvalid token' ? '토큰의 유효기간이 지났습니다. 재 로그인 해주세요.' : '시스템 오류가 발생했습니다. 잠시 후 시도해주세요.')
-                localStorage.removeItem('accessToken');
-                location.href='/home';
+                console.log(res.data.message)
+                let message = res.data.message;
+                if(message === 'force logout'){
+                    alert('다른 기기에서 로그인하여 로그아웃 되었습니다. 재 로그인 해주세요.')
+                    localStorage.removeItem('accessToken');
+                    localStorage.removeItem('refreshToken');
+                    location.href='/home'; //새로고침
+                    return;
+                }else{
+                    alert(message); return;
+                }
+            }else {
+                commit('idea_set_data', res.data);
                 return;
             }
-            commit('idea_set_data', res.data);
-            return;
         },
         async show_admin_user_idea({commit}, data){
             let token = localStorage.getItem('accessToken');
@@ -143,15 +152,16 @@ const ideaModule = {
                 console.log(err);
                 return;
             }
-            if(res.data.message === 'unvalid token'){
-                alert('정상적인 경로가 아닙니다.');
-                location.href='/home'; //새로고침
-                return;
-            }else if(res.data.message){
-                alert('시스템 오류가 발생했습니다. 잠시 후 시도해주세요.');
-                this.$router.push({ path: '/home' })
-
-                return;
+            
+            if(res.data.message){
+                console.log(res.data.message)
+                let message = res.data.message;
+                if(message === 'force logout'){
+                    alert('다른 기기에서 로그인하여 로그아웃 되었습니다. 재 로그인 해주세요.')
+                    localStorage.removeItem('accessToken');
+                    localStorage.removeItem('refreshToken');
+                    location.href='/home'; //새로고침
+                }
             }else {
                 commit('click_idea_set_data', res.data.data);
                 return;

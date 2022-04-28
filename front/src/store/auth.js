@@ -58,10 +58,17 @@ const authModule = {
                 console.log(err);
             }
             if(res.data.message){
-                alert(res.data.message === 'unvalid token' ? '토큰의 유효기간이 지났습니다. 재 로그인 해주세요.' : '시스템 오류가 발생했습니다. 잠시 후 시도해주세요.')
-                localStorage.removeItem('accessToken');
-                location.href='/home';
-                return;
+                console.log(res.data.message)
+                let message = res.data.message;
+                if(message === 'force logout'){
+                    alert('다른 기기에서 로그인하여 로그아웃 되었습니다. 재 로그인 해주세요.')
+                    localStorage.removeItem('accessToken');
+                    localStorage.removeItem('refreshToken');
+                    location.href='/home'; //새로고침
+                    return;
+                }else{
+                    alert(message); return;
+                }
             }
             commit('user_set_data_admin', res.data);
             
@@ -97,7 +104,6 @@ const authModule = {
             localStorage.removeItem('refreshToken');
             commit
             res
-            // location.href='/home'
         },
         async auth_refresh_token({commit}, token) {
             let renewToken;
@@ -107,6 +113,7 @@ const authModule = {
                     RefreshToken : token.refreshToken,
                 }
             })
+            console.log(renewToken.data.message)
             if(renewToken.data.message === 'expired token'){ //refreshToken도 만료
                 alert('토큰의 유효기간이 지났습니다. 재 로그인 해주세요.');
                 localStorage.removeItem('accessToken');
@@ -116,8 +123,7 @@ const authModule = {
             }
             localStorage.setItem('accessToken', renewToken.data);
             await this.dispatch('get_user_data', renewToken.data);
-            // await this.$router.go();
-            // location.href='/home';
+            location.href=''; //이것이 맞는지 ?
             commit
             return renewToken.data;
         },

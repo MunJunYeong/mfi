@@ -9,7 +9,7 @@ const sign = (user) => {
     };
     return jwt.sign(payload, secret, {
         algorithm: 'HS256', // 암호화 알고리즘
-        expiresIn: '2m', 	  // 유효기간
+        expiresIn: '2h', 	  // 유효기간
     })
 }
 
