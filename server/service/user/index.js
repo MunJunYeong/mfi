@@ -85,7 +85,6 @@ const logout = async (userIdx) => {
     res = await models['userToken'].update(
       {
         token : '',
-        refresh : '',
       },
       {
         where : {
@@ -106,7 +105,6 @@ const forceLogout = async (token) => {
     res = await models['userToken'].update(
       {
         token : '',
-        refresh : '',
       },
       {
         where : {
