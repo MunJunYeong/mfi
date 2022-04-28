@@ -216,6 +216,7 @@
                 }catch(err){
                     console.log(err);
                 }
+                this.$router.go();//새로고침
             },
 
             isLogin(){
