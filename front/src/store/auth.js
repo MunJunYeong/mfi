@@ -58,7 +58,6 @@ const authModule = {
                 console.log(err);
             }
             if(res.data.message){
-                console.log(res.data.message)
                 let message = res.data.message;
                 if(message === 'force logout'){
                     alert('다른 기기에서 로그인하여 로그아웃 되었습니다. 재 로그인 해주세요.')
@@ -113,7 +112,6 @@ const authModule = {
                     RefreshToken : token.refreshToken,
                 }
             })
-            console.log(renewToken.data.message)
             if(renewToken.data.message === 'expired token'){ //refreshToken도 만료
                 alert('토큰의 유효기간이 지났습니다. 재 로그인 해주세요.');
                 localStorage.removeItem('accessToken');

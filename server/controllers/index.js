@@ -1,10 +1,13 @@
-const auth = require('./auth');
+const anonymous = require('./anonymous');
 const idea = require('./idea');
 const comment = require('./comment');
-const data = require('./data');
+const statistics = require('./statistics');
+const user = require('./user');
+
 module.exports = {
-    auth,
+    anonymous,
     idea,
     comment,
-    data
+    statistics,
+    user
 }

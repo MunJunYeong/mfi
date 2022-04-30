@@ -3,20 +3,6 @@ const {idea : ideaService} = require ('../../service');
 const {pagination} = require('../../lib/common');
 
 
-const getIdeaCount = async(req, res) => {
-    try{
-        const result = await ideaService.getIdeaCount();
-        res.send({data : result});
-    }catch(err){
-        if(err.message){
-            throw new Error(err.message);
-        }
-        winston.warn(`Unable to getIdeaCout :`, err);
-        throw new Error('UNABLE_IDEA_COUNT');
-    }
-    
-}
-
 const postIdea = async (req, res) => {
     const data = req.body;
 
@@ -151,7 +137,6 @@ const showAdminUserIdea = async (req, res) => {
 
 }
 module.exports = {
-    getIdeaCount,
     showIdea,
     showMyIdea,
     postIdea,

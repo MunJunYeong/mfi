@@ -1,31 +1,32 @@
 const express = require('express')
 const anonymousRouter = express.Router();
 // const ideaPagination = require('../../controllers/idea');
-const {auth: authController} = require('../../controllers');
+const {anonymous: anonymousController} = require('../../controllers');
 const {idea : ideaController} = require('../../controllers');
 const {middleware} = require('../../lib/common/index')
 
+
 //회원가입하기
-anonymousRouter.post('/signup', authController.signUP);
-anonymousRouter.post('/sendemail', authController.sendEmail);
-anonymousRouter.post('/checkemail', authController.checkEmail);
+anonymousRouter.post('/signup', anonymousController.signUP);
+anonymousRouter.post('/sendemail', anonymousController.sendEmail);
+anonymousRouter.post('/checkemail', anonymousController.checkEmail);
 
 //ID, PW 찾기
-anonymousRouter.post('/findid', authController.findIdSendMail);
-anonymousRouter.post('/findpw', authController.findPwSendMail);
-anonymousRouter.put('/updatepw', authController.updatePw);
+anonymousRouter.post('/findid', anonymousController.findIdSendMail);
+anonymousRouter.post('/findpw', anonymousController.findPwSendMail);
+anonymousRouter.put('/updatepw', anonymousController.updatePw);
 
 //로그인하기 - 이중로그인에서 1개만 로그인
-anonymousRouter.post('/signin', authController.signIn);
-anonymousRouter.post('/forcesignin', authController.forcesignIn);
+anonymousRouter.post('/signin', anonymousController.signIn);
+anonymousRouter.post('/forcesignin', anonymousController.forcesignIn);
 
 //로그아웃
-anonymousRouter.put('/logout',  authController.logout);
+anonymousRouter.put('/logout',  anonymousController.logout);
 
 //아이디 중복확인
-anonymousRouter.post('/checkid', authController.checkId);
+anonymousRouter.post('/checkid', anonymousController.checkId);
 //닉네임 중복확인
-anonymousRouter.post('/checknickname', authController.checkNickName)
+anonymousRouter.post('/checknickname', anonymousController.checkNickName)
 
 //아이디어 보기
 anonymousRouter.get('/idea', ideaController.showIdea);

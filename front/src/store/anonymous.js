@@ -58,10 +58,27 @@ const anonymousModule = {
         },
     },
     actions: {
+        async create_visitor({commit}){
+            let res;
+            try{
+                res = await axios.post(VUE_APP_BACKEND_HOST + '/statistics/ip', {
+
+                })
+            }catch(err){
+                console.log(err);
+            }
+            commit
+            let now = new Date(); 
+            let nextDay = new Date();
+            nextDay.setDate(nextDay.getDate()+1);
+            nextDay.setHours(0, 0, 0); 
+            const second = (nextDay-now)/ 1000;
+            VueCookies.set("visitor", res.data.data, second+'s');
+        },
         async get_news({commit}){
             let res;
             try{
-                res = await axios.get( VUE_APP_BACKEND_HOST + '/data/news', {
+                res = await axios.get( VUE_APP_BACKEND_HOST + '/statistics/news', {
                 })
             }catch(err){
                 console.log(err);
@@ -78,7 +95,7 @@ const anonymousModule = {
         async get_user_count({commit}){
             let res;
             try{
-                res = await axios.get( VUE_APP_BACKEND_HOST + '/data/usercount', {
+                res = await axios.get( VUE_APP_BACKEND_HOST + '/statistics/usercount', {
                 })
             }catch(err){
                 console.log(err);
@@ -92,7 +109,7 @@ const anonymousModule = {
         async get_idea_count({commit}){
             let res;
             try{
-                res = await axios.get( VUE_APP_BACKEND_HOST + '/data/ideacount', {
+                res = await axios.get( VUE_APP_BACKEND_HOST + '/statistics/ideacount', {
 
                 })
             }catch(err){
@@ -103,7 +120,7 @@ const anonymousModule = {
         async get_today_visitor_count({commit}){
             let res;
             try{
-                res = await axios.get( VUE_APP_BACKEND_HOST + '/data/todayvisitor', {
+                res = await axios.get( VUE_APP_BACKEND_HOST + '/statistics/todayvisitor', {
 
                 })
             }catch(err){
@@ -114,7 +131,7 @@ const anonymousModule = {
         async get_total_visitor_count({commit}){
             let res;
             try{
-                res = await axios.get( VUE_APP_BACKEND_HOST + '/data/totalvisitor', {
+                res = await axios.get( VUE_APP_BACKEND_HOST + '/statistics/totalvisitor', {
 
                 })
             }catch(err){
@@ -128,7 +145,7 @@ const anonymousModule = {
             let res;
             const userIdx = jwt_decode(token).userIdx 
             try{
-                res = await axios.get(VUE_APP_BACKEND_HOST + `/data/${userIdx}`, {
+                res = await axios.get(VUE_APP_BACKEND_HOST + `/user/${userIdx}`, {
                     headers : {
                         'Authorization' : token
                     }
@@ -246,23 +263,6 @@ const anonymousModule = {
             commit
             return res;            
         },
-        async create_visitor({commit}){
-            let res;
-            try{
-                res = await axios.post(VUE_APP_BACKEND_HOST + '/data/ip', {
-
-                })
-            }catch(err){
-                console.log(err);
-            }
-            commit
-            let now = new Date(); 
-            let nextDay = new Date();
-            nextDay.setDate(nextDay.getDate()+1);
-            nextDay.setHours(0, 0, 0); 
-            const second = (nextDay-now)/ 1000;
-            VueCookies.set("visitor", res.data.data, second+'s');
-        }
     }
 }
 
