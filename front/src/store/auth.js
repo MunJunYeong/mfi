@@ -122,8 +122,8 @@ const authModule = {
                 return;
             }
             localStorage.setItem('accessToken', renewToken.data);
-            await this.dispatch('get_user_data', renewToken.data);
-            location.href=''; //이것이 맞는지 ?
+            // await this.dispatch('get_user_data', renewToken.data);
+            // location.href=''; //이것이 맞는지 ?
             commit
             return renewToken.data;
         },

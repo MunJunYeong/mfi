@@ -137,6 +137,7 @@ const anonymousModule = {
                 console.log(err);
             }
 
+            console.log('tttttttttttttttttttt')
             if(res.data.message === 'force logout'){
                 alert('다른 기기에서 로그인하여 로그아웃 되었습니다. 재 로그인 해주세요.')
                 localStorage.removeItem('accessToken');

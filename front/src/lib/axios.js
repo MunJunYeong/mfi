@@ -13,20 +13,17 @@ axios.interceptors.request.use(
   }
 );
 
-let isTokenRefreshing = false;
-let refreshSubscribers = [];
+let isTokenRefreshing = false
+let test = { 
 
-const onTokenRefreshed = (accessToken) => {
-  refreshSubscribers.map(  (callback) => callback(accessToken))  ;
-};
-
-const addRefreshSubscriber = (callback) => {
-  refreshSubscribers.push(callback);
-};
-
+}
+let test1;
 
 axios.interceptors.response.use(
     async (response) => {
+      const date = new Date();
+      console.log('res',date.toISOString());
+      console.log('res', response);
       return response;
     },
     async (error) => {
@@ -35,26 +32,46 @@ axios.interceptors.response.use(
         response : {status},
       } = error;
       const originalRequest = config;
+      let newToken;
+      const date = new Date();
+      console.log('errr', date.toISOString());
+      console.log(isTokenRefreshing);
       if(status === 401) {
+        console.log('error!!!!!!!!!!!!!!!!!!!!');
         if(!isTokenRefreshing){
           isTokenRefreshing = true;
+          test = () => {
+            return new Promise((resolve,reject) => {
+              test1 = {
+                resolve,
+                reject,
+              }
+            })
+          };
           const refreshToken = localStorage.getItem('refreshToken');
           const accessToken = localStorage.getItem('accessToken');
           const tokenData = {
             refreshToken : refreshToken,
             accessToken : accessToken
           }
-          const newToken = await store.dispatch('auth_refresh_token', tokenData);
+          newToken = await store.dispatch('auth_refresh_token', tokenData);
+          console.log(isTokenRefreshing);
+          if(test1) test1.resolve(newToken);
           isTokenRefreshing = false;
-          onTokenRefreshed(newToken);
-          const retryOriginalRequest = new Promise((resolve) => {
-            addRefreshSubscriber( () => {
-              originalRequest.headers.Authorization = newToken;
-              resolve(axios(originalRequest));
-            });
-          });
-          return retryOriginalRequest;
+        }else{
+          console.log('wait!!!!')
+          newToken = await test();
         }
+
+        console.log(originalRequest);
+        originalRequest.headers.Authorization = newToken;
+        const res = await axios(originalRequest);
+        console.log(res);
+        return res;
+        
+        // console.log(newToken);
+        // console.log(refreshSubscribers);
+        // onTokenRefreshed(newToken);
       }
       return Promise.reject(error);
     }
