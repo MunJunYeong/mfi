@@ -1,5 +1,4 @@
 const {anonymous: anonymousService } = require('../../service');
-const {visitor : visitorService} =require('../../service');
 const {user : userService} = require('../../service');
 const { Op } = require('../../lib/db');
 const {pagination, utils} = require('../../lib/common');
@@ -10,62 +9,6 @@ let checkNum = /[0-9]/;
 let checkSpe = /[~!@#$%^&*()_+|<>?:{}]/;
 let checkKor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
 
-
-const createIp = async (req, res) => {
-    const ip = req.clientIp;
-    try{
-        await visitorService.createIp(ip);
-    }catch(err){
-        if(err.message){
-            throw new Error(err.message);
-        }else {
-            winston.warn(`Unable to create Ip :`, err);
-            throw new Error('UNABLE_CREATEIP');
-        }
-    }
-    res.send({data : ip})
-}
-
-
-const getUserCount = async(req, res) => {
-    try{
-        const result = await anonymousService.getUserCount();
-        res.send({data : result});
-    }catch(err){
-        winston.warn(`Unable to get user cout :`, err);
-        throw new Error('UNABLE_USERCOUNT');
-    }
-}
-const getTodayVisitor = async(req, res) => {
-    try{
-        const result = await visitorService.getTodayVisitor();
-        res.send({data : result});
-    }catch(err){
-        winston.warn(`Unable to get today visitor :`, err);
-        throw new Error('UNABLE_TODAY_VISITOR');
-    }
-    
-}
-const getTotalVisitor = async(req, res) => {
-    try{
-        const result = await visitorService.getTotalVisitor();
-        res.send({data : result});
-    }catch(err){
-        winston.warn(`Unable to get total visitor :`, err);
-        throw new Error('UNABLE_TOTAL_VISITOR');
-    }
-
-}
-const getNewsItem = async(req, res) => {
-    try{
-        const result = await anonymousService.getNewsItem();
-        res.send({data : result});
-    }catch(err){
-        winston.warn(`Unable to get newsItem :`, err);
-        throw new Error('UNABLE_NEWITEMS');
-    }
-
-}
 
 //회원가입
 const signUP = async (req, res) => {
@@ -302,17 +245,7 @@ const checkNickName = async (req, res) => {
 
 }
 
-const updateUserRole = async (req, res) => {
-    const data = req.body;
-  
-    try{
-        const result = await userService.updateRole(data.role, data.userIdx);
-        res.send(result)
-    }catch(err){
-        winston.error(`Unable to updateUserRole :`, err);
-        throw new Error('UNABLE_USERROLE');
-    }
-}
+
 const logout = async(req, res) => {
     const data = req.body;
     try{
@@ -326,32 +259,7 @@ const logout = async(req, res) => {
         throw new Error('UNABLE_LOGOUT');
     }
 }
-const getUser = async (req, res)=> {
-    const {page, nickName} = req.query;
-            
-    const {limit, offset} = pagination.getPagination(page);
-        
-    let where = {};
-    
-    where.role = {
-        [Op.ne] : 'admin'
-    }
-    if(nickName !== undefined){
-        where.nickName = {
-            [Op.like] : `%${nickName}%`
-        }
-    }
 
-    try{
-        const data = await userService.getUser(where, limit, offset);
-        const result = pagination.getPagingUserData(data, page, limit);
-        res.send(result);
-    }catch(err){
-        winston.error(`Unable to getUser(role:admin) :`, err);
-        throw new Error('UNABLE_GET_USER');
-    }
-
-}
 
 
 
@@ -364,15 +272,8 @@ module.exports = {
     forcesignIn,
     checkId,
     checkNickName,
-    updateUserRole,
-    getUser,
-    getUserCount,
-    getTotalVisitor,
-    getTodayVisitor,
     findIdSendMail,
     findPwSendMail,
     updatePw,
-    getNewsItem,
     logout,
-    createIp,
 }
