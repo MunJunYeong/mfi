@@ -1,6 +1,7 @@
 
 const {user : userService} = require('../../service');
-
+const pagination = require('../../lib/common/pagination');
+const {Op} = require('../../lib/db');
 const updateUserRole = async (req, res) => {
     const data = req.body;
   
