@@ -6,10 +6,8 @@ const {pagination} = require('../../lib/common');
 const postIdea = async (req, res) => {
     const data = req.body;
 
-    if(!data.subject){
-        throw new Error('NO_SUBJECT');
-    }else if(!data.content){
-        throw new Error('NO_CONTENT');
+    if(!data.subject || !data.content){
+        throw new Error('WRONG_ACCESS');
     }
 
     try{
@@ -28,7 +26,7 @@ const postIdea = async (req, res) => {
 const deleteIdea = async (req, res) => {
     const ideaIdx = req.query.ideaIdx;
     if(!ideaIdx){
-        throw new Error('NO_IDEAIDX');
+        throw new Error('WRONG_ACCESS');
     }
 
     try{
@@ -46,14 +44,8 @@ const updateIdea =  async (req, res) => {
     const ideaIdx = req.body.params.ideaIdx;
     const subject = req.body.params.subject;
     const content = req.body.params.content;
-    if(!ideaIdx){
-        throw new Error('NO_IDEAIDX');
-    }
-    if(!subject){
-        throw new Error('NO_SUBJECT');
-    }
-    if(!content){
-        throw new Error('NO_CONTENT');
+    if(!ideaIdx || !subject || !content){
+        throw new Error('WRONG_ACCESS');
     }
 
     try{

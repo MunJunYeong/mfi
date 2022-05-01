@@ -1,26 +1,46 @@
+
+
 const preProcessing = {
-    NOT_FOUND : '일치하는 정보가 없습니다.',
-    MINIMUM6 : '최소 6글자 이상 만들어주세요.',
-    NOT_CORRECT_FORM : '영어, 숫자, 특수기호를 모두 사용해주세요.',
-    ENTER_EMAIL : '이메일을 입력해주세요 !',
-    NOT_CORRECT_EMAIL : '올바른 이메일 형식을 입력해주세요 !',
-    ENTER_VALUE : '값을 입력해주세요.',
-    REQUIRED_AUTH_NUBER : '인증 번호를 입력해주세요.',
-    ENTER_EMAIL : '이메일을 입력해주세요 !',
-    WRONG_ACCESS : 'wrong access',
-    ENTER_ID : 'ID를 입력해주세요.',
-    USE_ENGNO : '영어와 숫자를 사용해주세요.',
-    ISLOGIN : 'isLogin',
-    AT_LEAST3 : '3글자 이상 입력해주세요',
-    NO_SUBJECT : 'no subject',
-    NO_CONTENT : 'no content',
-    NO_IDEAIDX : 'no ideaIdx',
-    EXIST_EMAIL : '이미 존재하는 이메일입니다.',
-    FAIL_TO_SEND : 'fail to send',
-    NOT_CORRECT_AUTHNO : '인증번호가 일치하지 않습니다!',
-    WRONG_PW : '잘못된 비밀번호 입니다.',
-    WRONG_ID : '잘못된 아이디 입니다.',
-    TRAFFIC : '트래픽 문제로 잠시 후 다시 시도해주세요(이미 존재하는 회원)',
+    NOT_FOUND : {
+        message : '일치하는 정보가 없습니다.',
+        status : 200
+    },
+    NOT_CORRECT_AUTHNO : {
+        message : '인증번호가 일치하지 않습니다!',
+        status : 200
+    }, 
+    ISLOGIN : {
+        message : 'isLogin',
+        status : 200
+    },
+    EXIST_EMAIL : {
+        message : '이미 존재하는 이메일입니다.',
+        status : 200
+    },
+    FAIL_TO_SEND : {
+        message : 'fail to send',
+        status : 200
+    },
+    WRONG_PW : {
+        message : '잘못된 비밀번호 입니다.',
+        status : 200
+    },
+    WRONG_ID : {
+        message : '잘못된 아이디 입니다.',
+        status : 200
+    },
+    NOT_CORRECT_FORM : { //회웝가입 pw 6글자 -> block front
+        message : '영어, 숫자, 특수기호를 모두 사용해주세요.',
+        status : 406
+    },
+    WRONG_ACCESS : { // front에서 막아둔 부분인데 비정상적인 접근
+        message : 'wrong access',
+        status : 406
+    },
+    TRAFFIC : {
+        message : '트래픽 문제로 잠시 후 다시 시도해주세요',
+        status : 408
+    },
 }
 
 const postProcessing = {
@@ -61,57 +81,193 @@ const postProcessing = {
 }
 
 const dbError = {
-//anonymous
-    DB_GET_USER_COUNT : 'Unable to getUserCount[service]',
-    DB_GET_NEWS_ITEM : 'Unable to getNewsItem[service]',
-    DB_SIGNUP : 'Unable to signUp[service]',
-    DB_FIND_USER_PARA_ID : 'Unable to findUser(id) for sendMail[service]',
-    DB_FIND_USER_PARA_EMAIL : 'Unable to findUser(email) for sendMail[service]',
-    DB_SEND_EMAIL : 'Unable to sendMail[service]',
-    DB_FIND_AUTH_NO : 'Unable to findAuthNo for checkEmail[service]',
-    DB_CHECK_EMAIL : 'Unable to checkEmail[service]',
-    DB_FIND_USER_FOR_FINDID : 'Unable to findUser for findIdSendMail[service]',
-    DB_FIND_ID_SEND_MAIL : 'Unable to send findId [servcie]',
-    DB_FIND_PW_SEND_MAIL : 'Unable to send findPw[service]',
-    DB_UPDATE_PW : 'Unable to updatePw[service]',
-    DB_FIND_ID_SIGNIN : 'Unable to findId for signIn[service]',
-    DB_SIGNIN : 'Unable to signIn[service]',
-    DB_DUPLICATE_ID : 'Unable to duplicatedId[service]',
-    DB_DUPLICATE_NICKNAME : 'Unable to duplicatedNickName[service]',
-    DB_MAKE_USER_TOKEN : "Unable to makeUserToken[service]",
-    DB_HAVE_USER_TOKEN : "Unable to haveUserToken[service]",
-    DB_SAVE_USER_TOKEN : "Unable to saveUserToken[service]",
-    DB_FIND_USER_PARA_IDPW : 'Unable to findIdUser for forceSignIn[service]',
+    //anonymous
+    DB_GET_USER_COUNT : {
+        message : 'Unable to getUserCount[service]',
+        status : 500
+    },
+
+    DB_FIND_ID_SEND_MAIL : {
+        message : 'Unable to send findId [servcie]',
+        status : 500
+    },
+    DB_FIND_USER_FOR_FINDID: {
+        message : 'Unable to findUser for findIdSendMail[service]',
+        status : 500
+    },
+    DB_CHECK_EMAIL: {
+        message : 'Unable to checkEmail[service]',
+        status : 500
+    },
+    DB_FIND_AUTH_NO: {
+        message : 'Unable to findAuthNo for checkEmail[service]',
+        status : 500
+    },
+    DB_SEND_EMAIL: {
+        message : 'Unable to sendMail[service]',
+        status : 500
+    },
+    DB_FIND_USER_PARA_EMAIL: {
+        message : 'Unable to findUser(email) for sendMail[service]',
+        status : 500
+    },
+    DB_FIND_USER_PARA_ID: {
+        message : 'Unable to findUser(id) for sendMail[service]',
+        status : 500
+    },
+    DB_SIGNUP : {
+        message : 'Unable to signUp[service]',
+        status : 500
+    },
+    DB_GET_NEWS_ITEM : {
+        message : 'Unable to getNewsItem[service]',
+        status : 500
+    },
+    DB_FIND_USER_PARA_IDPW : {
+        message : 'Unable to findIdUser for forceSignIn[service]',
+        status : 500
+    },
+    DB_HAVE_USER_TOKEN : {
+        message : "Unable to haveUserToken[service]",
+        status : 500
+    },
+    DB_SAVE_USER_TOKEN: {
+        message : 'Unable to saveUserToken[service]',
+        status : 500
+    },
+    DB_MAKE_USER_TOKEN: {
+        message : 'Unable to makeUserToken[service]',
+        status : 500
+    },
+    DB_DUPLICATE_NICKNAME: {
+        message : 'Unable to duplicatedNickName[service]',
+        status : 500
+    },
+    DB_DUPLICATE_ID: {
+        message : 'Unable to duplicatedId[service]',
+        status : 500
+    },
+    DB_SIGNIN: {
+        message : 'Unable to signIn[service]',
+        status : 500
+    },
+    DB_FIND_ID_SIGNIN: {
+        message : 'Unable to findId for signIn[service]',
+        status : 500
+    },
+    DB_UPDATE_PW : {
+        message : 'Unable to updatePw[service]',
+        status : 500
+    },
     //comment
-    DB_POST_COMMENT : 'Unable to postComment[service]',
-    DB_GET_COMMENT : 'Unable to getComment[service]',
+    DB_POST_COMMENT: {
+        message : 'Unable to postComment[service]',
+        status : 500
+    },
+    DB_GET_COMMENT: {
+        message : 'Unable to getComment[service]',
+        status : 500
+    },
     //idea
-    DB_GET_IDEA_COUNT : 'Unable to getIdeaCount[service]',
-    DB_CREATE_IDEA : 'Unable to createIdea[service]',
-    DB_GET_ALL_IDEA : 'Unable to getAllIdea[service]',
-    DB_GET_MY_IDEA : 'Unable to getMyIdea[service]',
-    DB_GET_ADMIN_USER_IDEA : 'Unable to getAdminUserIdea[service]',
-    DB_GET_IDEA : 'Unable to getIdea[service]',
-    DB_UPDATE_IDEA : 'Unable to updateIdea[service]',
-    DB_DELETE_IDEA : 'Unable to deleteIdea[service]',
+    
+     DB_GET_IDEA_COUNT: {
+        message : 'Unable to getIdeaCount[service]',
+        status : 500
+    },
+     DB_CREATE_IDEA: {
+        message : 'Unable to createIdea[service]',
+        status : 500
+    },
+     DB_GET_ALL_IDEA: {
+        message : 'Unable to getAllIdea[service]',
+        status : 500
+    },
+     DB_GET_MY_IDEA: {
+     
+        message : 'Unable to getMyIdea[service]',
+        status : 500
+    },
+     
+     DB_GET_ADMIN_USER_IDEA: {
+        message : 'Unable to getAdminUserIdea[service]',
+        status : 500
+    },
+     DB_GET_IDEA: {
+        message : 'Unable to getIdea[service]',
+        status : 500
+    },
+     DB_UPDATE_IDEA : {
+        message : 'Unable to updateIdea[service]',
+        status : 500
+    },
+     DB_DELETE_IDEA: {
+        message : 'Unable to deleteIdea[service]',
+        status : 500
+    },
     //news
-    DB_CREATE_NEWS : 'Unable to createNews[service]',
-    DB_DELETE_NEWS : 'Unable to  deleteNews[service]',
+     DB_CREATE_NEWS: {
+        message : 'Unable to createNews[service]',
+        status : 500
+    },
+     DB_DELETE_NEWS: {
+        message : 'Unable to  deleteNews[service]',
+        status : 500
+    },
     //visitor
-    DB_FIND_IP : 'Unable to findIp for createIp[service]',
-    DB_CREATE_IP : 'Unable to createIp[service]',
-    DB_GET_TODAY_VISITOR : 'Unable to getTodayVisitor[service]',
-    DB_GET_TOTAL_VISITOR : 'Unable to getTotalVisitor[service]',
-    DB_UPDATE_TOTAL_VISITOR : 'Unable to updateTotalVisitor[service]',
+     DB_FIND_IP: {
+        message : 'Unable to findIp for createIp[service]',
+        status : 500
+    },
+     DB_CREATE_IP: {
+        message : 'Unable to createIp[service]',
+        status : 500
+    },
+     DB_GET_TODAY_VISITOR: {
+        message : 'Unable to getTodayVisitor[service]',
+        status : 500
+    },
+     DB_GET_TOTAL_VISITOR: {
+        message : 'Unable to getTotalVisitor[service]',
+        status : 500
+    },
+     DB_UPDATE_TOTAL_VISITOR: {
+        message : 'Unable to updateTotalVisitor[service]',
+        status : 500
+    },
     //user
-    DB_UPDATE_ROLE : 'Unable to updateRole[service]',
-    DB_GET_USER : 'Unable to  getUser[service]',
-    DB_LOGOUT : 'Unable to  logout[service]',
-    DB_FORCE_LOGOUT : 'Unable to  forceLogout[service]',
-    DB_GET_USER_TOKEN : 'Unable to getUserToken[service]',
-    DB_UPDATE_USERTOKEN : 'Unable to updateUserToken[service]',
-    DB_GET_USER_DATA : 'Unable to getUserData[service]',
+     DB_UPDATE_ROLE: {
+        message : 'Unable to updateRole[service]',
+        status : 500
+    },
+     DB_GET_USER: {
+        message :  'Unable to  getUser[service]',
+        status : 500
+    },
+     DB_LOGOUT: {
+        message : 'Unable to  logout[service]',
+        status : 500
+    },
+     DB_FORCE_LOGOUT: {
+        message : 'Unable to  forceLogout[service]',
+        status : 500
+    },
+     DB_GET_USER_TOKEN: {
+        message :  'Unable to getUserToken[service]',
+        status : 500
+    },
+    DB_UPDATE_USERTOKEN: {
+        message : 'Unable to updateUserToken[service]',
+        status : 500
+    },
+      
+    DB_GET_USER_DATA: {
+        message : 'Unable to getUserData[service]',
+        status : 500
+    },
 }
+
+
+
 
 module.exports = {
     ...preProcessing,

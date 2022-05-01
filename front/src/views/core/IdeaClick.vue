@@ -313,6 +313,9 @@ moment.lang('ko', {
             },
             //등록버튼
             async enrollComment(){
+                if(!this.writeComment){
+                    alert('댓글을 입력해주세요.'); return;
+                }
                 let confirmComment = confirm('댓글을 추가하겠습니까?');
                 if (confirmComment){
                     try{
@@ -328,11 +331,11 @@ moment.lang('ko', {
                 }
             },
             //게시물 삭제 버튼
-            deleteBtn(){
+            async deleteBtn(){
                 let confirmDeleteIdea = confirm('게시물을 삭제하겠습니까?(삭제를 한 후에는 돌릴 수 없습니다.)');
                 if(confirmDeleteIdea){
                     try{
-                        this.$store.dispatch('delete_idea', {
+                        await this.$store.dispatch('delete_idea', {
                             ideaIdx : this.ideaData.ideaIdx
                         })
                         history.back();

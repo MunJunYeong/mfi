@@ -2,9 +2,14 @@
 const {user : userService} = require('../../service');
 const pagination = require('../../lib/common/pagination');
 const {Op} = require('../../lib/db');
+
 const updateUserRole = async (req, res) => {
     const data = req.body;
-  
+    
+    if(!data.role || !data.userIdx){
+        throw new Error('WRONG_ACCESS');
+    }
+
     try{
         const result = await userService.updateRole(data.role, data.userIdx);
         res.send(result)

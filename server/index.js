@@ -46,8 +46,9 @@ app.use(router.basicRouter);
 app.use(async (err, req, res, next) => {
   console.log(err.message)
   if(err.message in errorCode){
-    res.send({message : errorCode[err.message]});
-    next();  return;
+    res.status(errorCode[err.message].status).send({message : errorCode[err.message].message});
+    next();  
+    return;
   }else {
     //예상치 못한 에러 핸들링 부분
     winston.error(err);
@@ -66,6 +67,3 @@ app.listen(port, '0.0.0.0', async () => {
     winston.info(`Listening on port ${port}`);
     // { emerg: 0, alert: 1, crit: 2, error: 3, warning: 4, notice: 5, info: 6, debug: 7 }
 })
-
-
-

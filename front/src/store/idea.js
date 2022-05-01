@@ -203,11 +203,11 @@ const ideaModule = {
         async modify_idea({commit}, ideaData){
             let res;
             let token = localStorage.getItem('accessToken');
-            if(!ideaData.subject){
+            if(ideaData.subject === ''){
                 alert('제목을 입력해주세요.');
                 return;
             }
-            if(!ideaData.content){
+            if(ideaData.content === ''){
                 alert('내용을 입력해주세요.');
                 return;
             }
@@ -277,9 +277,7 @@ const ideaModule = {
         async add_comment({commit}, commentData){
             let res;
             let token = localStorage.getItem('accessToken');
-            if(!commentData.comment){
-                alert('댓글을 입력해주세요.'); return;
-            }
+            
             commit
             try {
                 res = await axios.post(VUE_APP_BACKEND_HOST +'/comment', 
