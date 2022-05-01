@@ -22,8 +22,6 @@
             </v-text-field>
             <br>
 
-
-
             <!-- 로그인버튼 -->
             <v-btn
               elevation="2" block
@@ -130,6 +128,12 @@ import VueCookies from "vue-cookies";
     methods: {
       async login(){
         let res;
+        if(this.id === ''){
+          alert('ID를 입력하세요'); return;
+        }
+        if(this.pw === ''){
+          alert('비밀번호를 입력하세요'); return;
+        }
         try {
           res = await this.$store.dispatch('auth_login', {
             id : this.id,
@@ -139,6 +143,7 @@ import VueCookies from "vue-cookies";
           console.log(err)
           alert('통신 오류');
         }
+        console.log(res)
         //아이디 저장하기 + 쿠키에 id 값이 없다면 
         if(this.saveId && !VueCookies.isKey('id') ){
           VueCookies.set('id', this.id);
@@ -164,6 +169,7 @@ import VueCookies from "vue-cookies";
           }
           return;
         }else if(res.message){
+          
           alert(res.message); return;
         }
       }

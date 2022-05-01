@@ -294,7 +294,7 @@ const { VUE_APP_BACKEND_HOST } = process.env;
           alert('영어와 숫자를 사용해주세요.'); return;
         }
         if(this.id.length <6){
-          alert('최소 6글자 이상 만들어주세요.'); return;
+          alert('최소 6글자 이상 입력해주세요.'); return;
         }
         this.overlapId = await axios.post(VUE_APP_BACKEND_HOST+'/checkid', {
           id : this.id
@@ -358,28 +358,43 @@ const { VUE_APP_BACKEND_HOST } = process.env;
       },
       //이메일 인증하기 
       async checkAuthEmail(){
-        this.overlapAuthentication = await axios.post(VUE_APP_BACKEND_HOST + '/checkemail', {
-          email : this.email,
-          no : this.authEmail
-        }).then(res => {
-          if(res.data.message){
-            alert(res.data.message); return;
-           }
-          if(res.data.data === 1){
-            alert('인증이 완료되었습니다.');
-            this.authEmailIf = false;
-            return true;
-          }else {
-            alert('인증에 실패했습니다.');
-            return false;
-          }
-        })
+        if(this.authEmail === ''){ 
+          alert('인증번호를 입력해주세요.'); 
+          return;
+        }else{
+          this.overlapAuthentication = await axios.post(VUE_APP_BACKEND_HOST + '/checkemail', {
+            email : this.email,
+            no : this.authEmail
+          }).then(res => {
+            if(res.data.message){
+              alert(res.data.message); return;
+            }
+            if(res.data.data === 1){
+              alert('인증이 완료되었습니다.');
+              this.authEmailIf = false;
+              return true;
+            }else {
+              alert('인증에 실패했습니다.');
+              return false;
+            }
+          })
+        }
       },
       // 회원가입 axious
       async signUp(){
+        let checkEng = /[a-zA-Z]/;
+        let checkNum = /[0-9]/; 
+        let checkSpe = /[~!@#$%^&*()_+|<>?:{}]/;
         if(this.pw !== this.checkPw){
-          alert('비밀번호가 일치하지 않습니다.!');
-        }else  if(this.overlapId && this.overlapNickName && this.overlapAuthentication){
+          alert('비밀번호가 일치하지 않습니다.!'); return;
+        }
+        if(this.pw === ''){
+          alert('비밀번호를 입력하세요.'); return;
+        }
+        if(!checkEng.test(this.pw) || !checkNum.test(this.pw) || !checkSpe.test(this.pw)){
+          alert('영어, 숫자, 특수기호를 모두 사용하세요.'); return;
+        }
+        if(this.overlapId && this.overlapNickName && this.overlapAuthentication){
           await axios.post(VUE_APP_BACKEND_HOST+ '/signup', {
             id : this.id,
             pw : this.pw,

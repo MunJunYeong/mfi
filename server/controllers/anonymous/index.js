@@ -14,10 +14,8 @@ let checkKor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
 const signUP = async (req, res) => {
     const data = req.body;
 
-    if(!data.id || !data.pw || !data.nickName || !data.email){
-        throw new Error('NOT_FOUND');
-    }else if(data.pw.length <=5){
-        throw new Error('MINIMUM6');
+    if(!data.id || !data.pw || !data.nickName || !data.email || data.pw.length <=5){
+        throw new Error('WRONG_ACCESS');
     }else if(!checkEng.test(data.pw) || !checkNum.test(data.pw) || !checkSpe.test(data.pw)){
         throw new Error('NOT_CORRECT_FORM');
     }
@@ -41,11 +39,8 @@ const signUP = async (req, res) => {
 
 const sendEmail = async (req, res) => {
     const data = req.body;
-    if(!data.email){
-        throw new Error('ENTER_EMAIL');
-    }
-    if(!utils.validationEmail(data.email)){
-        throw new Error('NOT_CORRECT_EMAIL');
+    if(!data.email || !utils.validationEmail(data.email)){
+        throw new Error('WRONG_ACCESS');
     }
     try{
         const result = await anonymousService.sendEmail(data.email);
@@ -62,13 +57,10 @@ const sendEmail = async (req, res) => {
 const checkEmail = async (req, res) => {
     const data = req.body;
     
-    if(!data.email && !data.no){
-        throw new Error('ENTER_VALUE');
-    }else if(!data.no){
-        throw new Error('REQUIRED_AUTH_NUBER');
-    }else if(!data.email){
-        throw new Error('ENTER_EMAIL');
+    if(!data.email || !data.no){
+        throw new Error('WRONG_ACCESS');
     }
+    
     try{
         await anonymousService.checkEmail(data.email, data.no);
         res.send({data : 1});
@@ -140,7 +132,7 @@ const signIn = async (req, res) => {
     const data = req.body;
 
     if(!data.id || !data.pw){
-        throw new Error('ENTER_VALUE');
+        throw new Error('WRONG_ACCESS');
     }
 
     try{
@@ -160,7 +152,7 @@ const forcesignIn= async(req, res) => {
     const data = req.body;
 
     if(!data.id || !data.pw){
-        throw new Error('ENTER_VALUE');
+        throw new Error('WRONG_ACCESS');
     }
     let userIdx;
     //해당 id pw의 userIdx를 가지고 온다.
@@ -193,11 +185,11 @@ const checkId = async (req, res) =>{
     const data = req.body;
 
     if(!data.id){
-        throw new Error('ENTER_ID');
+        throw new Error('WRONG_ACCESS');
     }else if(checkKor.test(data.id) || !checkEng.test(data.id) || !checkNum.test(data.id)){
-        throw new Error('USE_ENGNO');
+        throw new Error('WRONG_ACCESS');
     }else if(data.id.length <6){
-        throw new Error('MINIMUM6');
+        throw new Error('WRONG_ACCESS');
     }
     try{
         const result = await anonymousService.duplicateId(data.id);
@@ -222,7 +214,7 @@ const checkNickName = async (req, res) => {
     const data = req.body;
     
     if(data.nickName <3){
-        throw new Error('AT_LEAST3');
+        throw new Error('WRONG_ACCESS');
     }
 
     try{

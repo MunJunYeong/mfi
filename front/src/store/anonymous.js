@@ -177,6 +177,8 @@ const anonymousModule = {
             } catch (err) {
                 console.log(err);
             }
+
+            console.log(res)
             if(res.data.token){
                 localStorage.setItem("accessToken", res.data.token);
                 localStorage.setItem("refreshToken", res.data.refreshToken);

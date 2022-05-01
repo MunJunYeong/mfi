@@ -4,7 +4,7 @@ const postComment = async (req, res) => {
     const data = req.body;
 
     if(!data.comment){
-        throw new Error('ENTER_VALUE');
+        throw new Error('WRONG_ACCESS');
     }
     try{
         const result = await commentService.postComment(data.comment, req.userData.userIdx, data.ideaIdx);
