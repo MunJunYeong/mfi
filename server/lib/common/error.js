@@ -44,38 +44,128 @@ const preProcessing = {
 }
 
 const postProcessing = {
-    UNABLE_USERCOUNT : 'Unable to get userCount',
-    UNABLE_TODAY_VISITOR : 'Unable to get todayVisitor',
-    UNABLE_TOTAL_VISITOR : 'Unable to get totalVisitor',
-    UNABLE_NEWITEMS : 'Unable to get newsItem',
-    UNABLE_SIGNUP :' Unable signup',
-    UNABLE_SEND_MAIL : 'Unable sendEmail',
-    UNABLE_CHECK_MAIL : 'Unable to checkEmail',
-    UNABLE_FIND_ID_SEND_MAIL : 'Unable to findIdSendMail',
-    UNABLE_FIND_PW_SEND_MAIL :' Unable to findPwSendMail',
-    UNABLE_UPDATE_PW  : 'Unable to updatePw',
-    UNABLE_SIGNIN : 'Unable to signIn',
-    UNABLE_CHECKID : 'Unable to checkId',
-    UNABLE_CHECKNICKNAME : 'Unable to checkNickName',
-    UNABLE_USERROLE : 'Unable to updateUserRole',
-    UNABLE_GET_USER : 'Unable to getUser(role:admin)',
-    UNABLE_LOGOUT : 'Unable to logout',
-    UNABLE_FORCE_SIGNIN : 'Unable to forcesignIn',
-    UNABLE_FIND_ID_USER : 'Unable to findIdUser',
-    UNABLE_CREATEIP : 'Unable to create Ip',
+     UNABLE_USERCOUNT : {
+        message : 'Unable to get userCount',
+        status : 1
+    },
+     UNABLE_TODAY_VISITOR : {
+        message : 'Unable to get todayVisitor',
+        status : 1
+    },
+     UNABLE_TOTAL_VISITOR : {
+        message : 'Unable to get totalVisitor',
+        status : 1
+    },
+     UNABLE_NEWITEMS: {
+        message : 'Unable to get newsItem',
+        status : 1
+    },
+     UNABLE_SIGNUP: {
+        message : 'Unable signup',
+        status : 1
+    },
+     UNABLE_SEND_MAIL: {
+        message : 'Unable sendEmail',
+        status : 1
+    },
+     UNABLE_CHECK_MAIL: {
+        message : 'Unable to checkEmail',
+        status : 1
+    },
+     UNABLE_FIND_ID_SEND_MAIL: {
+        message : 'Unable to findIdSendMail',
+        status : 1
+    },
+     UNABLE_FIND_PW_SEND_MAIL: {
+        message : 'Unable to findPwSendMail',
+        status : 1
+    },
+      UNABLE_UPDATE_PW: {
+        message : 'Unable to updatePw',
+        status : 1
+    },
+     UNABLE_SIGNIN: {
+        message : 'Unable to signIn',
+        status : 1
+    },
+     UNABLE_CHECKID: {
+        message : 'Unable to checkId',
+        status : 1
+    },
+     UNABLE_CHECKNICKNAME: {
+        message : 'Unable to checkNickName',
+        status : 1
+    },
+     UNABLE_USERROLE: {
+        message : 'Unable to updateUserRole',
+        status : 1
+    },
+     UNABLE_GET_USER: {
+        message : 'Unable to getUser(role:admin)',
+        status : 1
+    },
+     UNABLE_LOGOUT: {
+        message : 'Unable to logout',
+        status : 1
+    },
+     UNABLE_FORCE_SIGNIN: {
+        message : 'Unable to forcesignIn',
+        status : 1
+    },
+     UNABLE_FIND_ID_USER: {
+        message : 'Unable to findIdUser',
+        status : 1
+    },
+     UNABLE_CREATEIP: {
+        message : 'Unable to create Ip',
+        status : 1
+    },
     //comment,
-    UNABLE_POST_COMMENT : 'Unable to postComment',
-    UNABLE_GET_COMMENT : 'Unable to getComment',
+     UNABLE_POST_COMMENT: {
+        message : 'Unable to postComment',
+        status : 1
+    },
+     UNABLE_GET_COMMENT: {
+        message : 'Unable to getComment',
+        status : 1
+    },
     //idea
-    UNABLE_POST_IDEA : 'Unable to postIdea',
-    UNABLE_DELETE_IDEA : 'Unable to deleteIdea',
-    UNABLE_UPDATE_IDEA : 'Unable to updateIdea',
-    UNABLE_SHOW_IDEA : 'Unable to showIdea',
-    UNABLE_SHOW_MY_IDEA : 'Unable to showMyIdea',
-    UNABLE_SHOW_ADMIN_IDEA : 'Unable to showAdminUserIdea',
-    UNABLE_CLICK_IDEA : 'Unable to getClickIdea',
-    UNABLE_IDEA_COUNT : 'Unable to getIdeaCout',
-    UNABLE_UPDATE_USERTOKEN : 'Middleware refresh : unable to updateUserToken',
+     UNABLE_POST_IDEA: {
+        message : 'Unable to postIdea',
+        status : 1
+    },
+     UNABLE_DELETE_IDEA: {
+        message : 'Unable to deleteIdea',
+        status : 1
+    },
+     UNABLE_UPDATE_IDEA: {
+        message : 'Unable to updateIdea',
+        status : 1
+    },
+     UNABLE_SHOW_IDEA: {
+        message : 'Unable to showIdea',
+        status : 1
+    },
+     UNABLE_SHOW_MY_IDEA: {
+        message : 'Unable to showMyIdea',
+        status : 1
+    },
+     UNABLE_SHOW_ADMIN_IDEA: {
+        message : 'Unable to showAdminUserIdea',
+        status : 1
+    },
+     UNABLE_CLICK_IDEA: {
+        message : 'Unable to getClickIdea',
+        status : 1
+    },
+     UNABLE_IDEA_COUNT: {
+        message : 'Unable to getIdeaCout',
+        status : 1
+    },
+     UNABLE_UPDATE_USERTOKEN: {
+        message : 'Middleware refresh : unable to updateUserToken',
+        status : 1
+    },
     //middleware
 
 }
