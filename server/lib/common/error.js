@@ -46,125 +46,125 @@ const preProcessing = {
 const postProcessing = {
      UNABLE_USERCOUNT : {
         message : 'Unable to get userCount',
-        status : 1
+        status : 424
     },
      UNABLE_TODAY_VISITOR : {
         message : 'Unable to get todayVisitor',
-        status : 1
+        status : 424
     },
      UNABLE_TOTAL_VISITOR : {
         message : 'Unable to get totalVisitor',
-        status : 1
+        status : 424
     },
      UNABLE_NEWITEMS: {
         message : 'Unable to get newsItem',
-        status : 1
+        status : 424
     },
      UNABLE_SIGNUP: {
         message : 'Unable signup',
-        status : 1
+        status : 424
     },
      UNABLE_SEND_MAIL: {
         message : 'Unable sendEmail',
-        status : 1
+        status : 424
     },
      UNABLE_CHECK_MAIL: {
         message : 'Unable to checkEmail',
-        status : 1
+        status : 424
     },
      UNABLE_FIND_ID_SEND_MAIL: {
         message : 'Unable to findIdSendMail',
-        status : 1
+        status : 424
     },
      UNABLE_FIND_PW_SEND_MAIL: {
         message : 'Unable to findPwSendMail',
-        status : 1
+        status : 424
     },
       UNABLE_UPDATE_PW: {
         message : 'Unable to updatePw',
-        status : 1
+        status : 424
     },
      UNABLE_SIGNIN: {
         message : 'Unable to signIn',
-        status : 1
+        status : 424
     },
      UNABLE_CHECKID: {
         message : 'Unable to checkId',
-        status : 1
+        status : 424
     },
      UNABLE_CHECKNICKNAME: {
         message : 'Unable to checkNickName',
-        status : 1
+        status : 424
     },
      UNABLE_USERROLE: {
         message : 'Unable to updateUserRole',
-        status : 1
+        status : 424
     },
      UNABLE_GET_USER: {
         message : 'Unable to getUser(role:admin)',
-        status : 1
+        status : 424
     },
      UNABLE_LOGOUT: {
         message : 'Unable to logout',
-        status : 1
+        status : 424
     },
      UNABLE_FORCE_SIGNIN: {
         message : 'Unable to forcesignIn',
-        status : 1
+        status : 424
     },
      UNABLE_FIND_ID_USER: {
         message : 'Unable to findIdUser',
-        status : 1
+        status : 424
     },
      UNABLE_CREATEIP: {
         message : 'Unable to create Ip',
-        status : 1
+        status : 424
     },
     //comment,
      UNABLE_POST_COMMENT: {
         message : 'Unable to postComment',
-        status : 1
+        status : 424
     },
      UNABLE_GET_COMMENT: {
         message : 'Unable to getComment',
-        status : 1
+        status : 424
     },
     //idea
      UNABLE_POST_IDEA: {
         message : 'Unable to postIdea',
-        status : 1
+        status : 424
     },
      UNABLE_DELETE_IDEA: {
         message : 'Unable to deleteIdea',
-        status : 1
+        status : 424
     },
      UNABLE_UPDATE_IDEA: {
         message : 'Unable to updateIdea',
-        status : 1
+        status : 424
     },
      UNABLE_SHOW_IDEA: {
         message : 'Unable to showIdea',
-        status : 1
+        status : 424
     },
      UNABLE_SHOW_MY_IDEA: {
         message : 'Unable to showMyIdea',
-        status : 1
+        status : 424
     },
      UNABLE_SHOW_ADMIN_IDEA: {
         message : 'Unable to showAdminUserIdea',
-        status : 1
+        status : 424
     },
      UNABLE_CLICK_IDEA: {
         message : 'Unable to getClickIdea',
-        status : 1
+        status : 424
     },
      UNABLE_IDEA_COUNT: {
         message : 'Unable to getIdeaCout',
-        status : 1
+        status : 424
     },
      UNABLE_UPDATE_USERTOKEN: {
         message : 'Middleware refresh : unable to updateUserToken',
-        status : 1
+        status : 424
     },
     //middleware
 
