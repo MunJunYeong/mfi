@@ -140,6 +140,7 @@ const anonymousModule = {
             commit('total_visitor_count', res.data);
         },
 
+        
         //해당 토큰을 가진 userIdx를 찾은 다음 user 정보 가져오기
         async get_user_data({commit}, token){
             let res;
@@ -153,8 +154,6 @@ const anonymousModule = {
             }catch(err){
                 console.log(err);
             }
-
-            console.log('tttttttttttttttttttt')
             if(res.data.message === 'force logout'){
                 alert('다른 기기에서 로그인하여 로그아웃 되었습니다. 재 로그인 해주세요.')
                 localStorage.removeItem('accessToken');
@@ -264,6 +263,37 @@ const anonymousModule = {
             }
             commit
             return res;            
+        },
+        async test_api({commit}, token){
+            console.log(token)
+            const headers = {
+                'Authorization' : token
+            }
+            let res1 =await axios.get(VUE_APP_BACKEND_HOST + '/test1', {
+                headers
+            })
+            let res2 =await axios.get(VUE_APP_BACKEND_HOST + '/user/test2', {
+                headers
+            })
+            let res3 =await axios.get(VUE_APP_BACKEND_HOST + '/user/test3', {
+                headers
+            })
+            let res4 =await axios.get(VUE_APP_BACKEND_HOST + '/user/test4', {
+                headers
+            })
+            let res5 =await axios.get(VUE_APP_BACKEND_HOST + '/user/test5', {
+                headers
+            })
+            let res6 =await axios.get(VUE_APP_BACKEND_HOST + '/user/test6', {
+                headers
+            })
+            console.log(res1)
+            console.log(res2)
+            console.log(res3)
+            console.log(res4)
+            console.log(res5)
+            console.log(res6)
+            commit
         },
     }
 }

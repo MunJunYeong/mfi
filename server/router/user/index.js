@@ -10,4 +10,6 @@ userRouter.put('/',  userController.updateUserRole);
 userRouter.get('/:userIdx', userController.getuserData);
 
 
+
+
 module.exports = userRouter;

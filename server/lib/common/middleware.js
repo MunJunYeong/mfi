@@ -5,8 +5,6 @@ const userService = require('../../service/user');
 
 //검증할 때 토큰이 유효한지 + 저장된 토큰과 일치한지도 확인
 
-//1차로 unvalid -> 2차로는 expired
-//이중 로그인시 force login 던져주기
 const validateToken = async (req, res, next) => {
     let token = req.headers.authorization;
     // token = token.replace("Bearer ",  "");

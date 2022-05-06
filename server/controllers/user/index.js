@@ -3,6 +3,18 @@ const {user : userService} = require('../../service');
 const pagination = require('../../lib/common/pagination');
 const {Op} = require('../../lib/db');
 
+
+const testStart = async(req, res) => {
+    try{
+        console.log('dfasdfsafsaf')
+        res.send({data: 1});
+
+    }catch(err){
+        console.log(err)
+    }
+}
+
+
 const updateUserRole = async (req, res) => {
     const data = req.body;
     
@@ -62,5 +74,6 @@ const getUser = async (req, res)=> {
 module.exports = {
     getuserData,
     updateUserRole,
-    getUser
+    getUser,
+    testStart
 }

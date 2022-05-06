@@ -253,10 +253,13 @@ const logout = async(req, res) => {
 }
 
 
-
-
+const testStart = async(req, res) => {
+    console.log('dfafasf')
+    res.send({data : 1})
+}
 
 module.exports = {
+    testStart,
     signUP,
     sendEmail,
     checkEmail,

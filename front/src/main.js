@@ -22,12 +22,13 @@ Vue.prototype.$cookie = VueCookies;
 Vue.use(VueCookies);
 
 const init  = async () => {
+  
   //토큰 유효성 검사
   const settingVerifyToken = async () => {
     let token = localStorage.getItem('accessToken');
-    
     if(token !== null){
       await store.dispatch('get_user_data', token);
+      // await store.dispatch('test_api', token);
     }
   }
   await settingVerifyToken();
