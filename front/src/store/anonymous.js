@@ -57,10 +57,10 @@ const anonymousModule = {
         },
     },
     actions: {
-        async create_visitor({commit}){
+        async create_visitor(){
             const res =await anonymous.createVisitor();
 
-            commit
+            
             let now = new Date(); 
             let nextDay = new Date();
             nextDay.setDate(nextDay.getDate()+1);
