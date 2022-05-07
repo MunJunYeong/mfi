@@ -24,6 +24,7 @@
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.33",
     "remixicon": "^2.5.0",
+    "socket.io-client": "^4.5.0",
     "tui-font-size-picker": "^1.0.1",
     "vue": "^2.6.11",
     "vue-cli-plugin-vuetify": "~2.4.1",

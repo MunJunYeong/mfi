@@ -1,3 +1,8 @@
+const HTTP_CODE = {
+    success: 200,
+    
+}
+
 
 
 const preProcessing = {

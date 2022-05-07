@@ -3,6 +3,7 @@ const {user : userService} = require('../../service');
 const { Op } = require('../../lib/db');
 const {pagination, utils} = require('../../lib/common');
 const winston = require('../../lib/common/winston');
+const { DB_CHECK_EMAIL } = require('../../lib/common/error');
 
 let checkEng = /[a-zA-Z]/;
 let checkNum = /[0-9]/; 
@@ -27,6 +28,7 @@ const signUP = async (req, res) => {
         res.send({data : result});
     }catch(err){
         if(err.message){
+            if(err.message === DB_CHECK_EMAIL) { throw new Error(WRONG_ACCESS)}  
             throw new Error(err.message);
         }else {
             winston.error(`Unable to signup :`, err);
