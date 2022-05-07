@@ -1,7 +1,6 @@
-import axios from "axios";
-const { VUE_APP_BACKEND_HOST } = process.env;
 import jwt_decode from 'jwt-decode'
 import VueCookies from "vue-cookies";
+import anonymous from '../services/anonymous';
 
 const anonymousModule = {
     state: {
@@ -59,14 +58,8 @@ const anonymousModule = {
     },
     actions: {
         async create_visitor({commit}){
-            let res;
-            try{
-                res = await axios.post(VUE_APP_BACKEND_HOST + '/statistics/ip', {
+            const res =await anonymous.createVisitor();
 
-                })
-            }catch(err){
-                console.log(err);
-            }
             commit
             let now = new Date(); 
             let nextDay = new Date();
@@ -76,13 +69,7 @@ const anonymousModule = {
             VueCookies.set("visitor", res.data.data, second+'s');
         },
         async get_news({commit}){
-            let res;
-            try{
-                res = await axios.get( VUE_APP_BACKEND_HOST + '/statistics/news', {
-                })
-            }catch(err){
-                console.log(err);
-            }
+            const res = await anonymous.getNews();
 
             if(res.data.message){
                 return;
@@ -93,13 +80,8 @@ const anonymousModule = {
         },
         //메인페이지 정보 
         async get_user_count({commit}){
-            let res;
-            try{
-                res = await axios.get( VUE_APP_BACKEND_HOST + '/statistics/usercount', {
-                })
-            }catch(err){
-                console.log(err);
-            }
+            const res = await anonymous.getUserCount();
+
             if(res.data.message){
                 
                 return;
@@ -107,53 +89,25 @@ const anonymousModule = {
             commit('user_count', res.data);
         },
         async get_idea_count({commit}){
-            let res;
-            try{
-                res = await axios.get( VUE_APP_BACKEND_HOST + '/statistics/ideacount', {
+            const res = await anonymous.getIdeaCount();
 
-                })
-            }catch(err){
-                console.log(err);
-            }
             commit('idea_count', res.data);
         },
         async get_today_visitor_count({commit}){
-            let res;
-            try{
-                res = await axios.get( VUE_APP_BACKEND_HOST + '/statistics/todayvisitor', {
+            const res = await anonymous.getTodayVisitor();
 
-                })
-            }catch(err){
-                console.log(err);
-            }
             commit('today_visitor_count', res.data);
         },
         async get_total_visitor_count({commit}){
-            let res;
-            try{
-                res = await axios.get( VUE_APP_BACKEND_HOST + '/statistics/totalvisitor', {
-
-                })
-            }catch(err){
-                console.log(err);
-            }
+            const res = await anonymous.getTotalVisitor();
             commit('total_visitor_count', res.data);
         },
 
-        
         //해당 토큰을 가진 userIdx를 찾은 다음 user 정보 가져오기
         async get_user_data({commit}, token){
-            let res;
             const userIdx = jwt_decode(token).userIdx 
-            try{
-                res = await axios.get(VUE_APP_BACKEND_HOST + `/user/${userIdx}`, {
-                    headers : {
-                        'Authorization' : token
-                    }
-                })
-            }catch(err){
-                console.log(err);
-            }
+            const res = await anonymous.getUserData(userIdx, token);
+            
             if(res.data.message === 'force logout'){
                 alert('다른 기기에서 로그인하여 로그아웃 되었습니다. 재 로그인 해주세요.')
                 localStorage.removeItem('accessToken');
@@ -165,19 +119,8 @@ const anonymousModule = {
         },
         //로그인
         async auth_login ({ commit }, data) {
-            let res;
-            try {
-                res = await axios.post( VUE_APP_BACKEND_HOST + '/signin', {
-                    id : data.id,
-                    pw : data.pw,
-                    accessToken : data.accessToken,
-                    refreshToken : data.refreshToken,
-                });
-            } catch (err) {
-                console.log(err);
-            }
+            const res = await anonymous.login(data);
 
-            console.log(res)
             if(res.data.token){
                 localStorage.setItem("accessToken", res.data.token);
                 localStorage.setItem("refreshToken", res.data.refreshToken);
@@ -190,15 +133,8 @@ const anonymousModule = {
         },
         
         async auth_force_login ({ commit }, data) {
-            let res;
-            try {
-                res = await axios.post( VUE_APP_BACKEND_HOST + '/forcesignin', {
-                    id : data.id,
-                    pw : data.pw
-                });
-            } catch (err) {
-                console.log(err);
-            }
+            const res = await anonymous.forceLogin(data);
+
             if(res.data.token){
                 localStorage.setItem("accessToken", res.data.token);
                 localStorage.setItem("refreshToken", res.data.refreshToken);       
@@ -211,89 +147,27 @@ const anonymousModule = {
         },
         
         async find_id_send_email({commit}, data){
-            let res;
-            try {
-                res = await axios.post(VUE_APP_BACKEND_HOST + '/findid', {
-                    email : data.email,
-                })
-            }catch(err) {
-                console.log(err);
-            }
+            const res = await anonymous.findIdSendEmail(data);
             commit
             return res.data;
         },
         async find_pw_send_email({commit}, data){
-            let res;
-            try {
-                res = await axios.post(VUE_APP_BACKEND_HOST + '/findpw', {
-                    id : data.id,
-                    email : data.email,
-                })
-            }catch(err) {
-                console.log(err);
-            }
+            const res = await anonymous.findPwSendEmail(data);
+            
             commit
             return res;            
         },
         async find_pw_check_email({commit}, data){
-            let res;
-            try {
-                res = await axios.post(VUE_APP_BACKEND_HOST + '/checkemail', {
-                    email : data.email,
-                    no : data.no,
-                })
-            }catch(err) {
-                console.log(err);
-            }
+            const res = await anonymous.findPwCheckEmail(data);
+
             commit
             return res;            
         },
         async update_pw({commit}, data){
-            let res;
-            try {
-                res = await axios.put(VUE_APP_BACKEND_HOST + '/updatepw', {
-                    email : data.email,
-                    pw : data.pw,
-                    id : data.id
-                })
-            }catch(err) {
-                console.log(err);
+            const res = await anonymous.updatePw(data);
 
-
-            }
             commit
             return res;            
-        },
-        async test_api({commit}, token){
-            console.log(token)
-            const headers = {
-                'Authorization' : token
-            }
-            let res1 =await axios.get(VUE_APP_BACKEND_HOST + '/test1', {
-                headers
-            })
-            let res2 =await axios.get(VUE_APP_BACKEND_HOST + '/user/test2', {
-                headers
-            })
-            let res3 =await axios.get(VUE_APP_BACKEND_HOST + '/user/test3', {
-                headers
-            })
-            let res4 =await axios.get(VUE_APP_BACKEND_HOST + '/user/test4', {
-                headers
-            })
-            let res5 =await axios.get(VUE_APP_BACKEND_HOST + '/user/test5', {
-                headers
-            })
-            let res6 =await axios.get(VUE_APP_BACKEND_HOST + '/user/test6', {
-                headers
-            })
-            console.log(res1)
-            console.log(res2)
-            console.log(res3)
-            console.log(res4)
-            console.log(res5)
-            console.log(res6)
-            commit
         },
     }
 }
