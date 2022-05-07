@@ -3,24 +3,22 @@ dotenv.config();
 
 const { parse } = require('node-html-parser');
 const express = require('express');
-require('express-async-errors');
+// require('express-async-errors');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const requestIp = require('request-ip');
 const cookParser = require('cookie-parser');
+const http = require('http');
+const { Server } = require("socket.io");
 const db = require('./lib/db');
 //logging
 const winston = require('./lib/common/winston');
-
-const app = express();
-const port = 8080;
-
 const router = require('./router/index');
-
 const errorCode = require('./lib/common/error');
 
-var whitelist = ['http://localhost:8081','http://localhost:8080', 'http://mfinvest.kr', 'http://backend.mfinvest.kr']
-var corsOptions = {
+
+const whitelist = ['http://localhost:8081','http://localhost:8080', 'http://mfinvest.kr', 'http://backend.mfinvest.kr']
+const corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
       callback(null, true)
@@ -31,6 +29,58 @@ var corsOptions = {
   credentials: true,
 }
 
+const app = express();
+const httpServer = http.createServer(app);
+const io = new Server(httpServer, {
+  cors: {
+    origin: corsOptions.origin,
+    credentials: true
+  }
+});
+const port = 8080;
+
+
+
+let count = 0;
+
+// io.origin(corsOptions.origin);
+io.on('connection', (socket) => {
+  count++;
+  console.log('a user connected');
+  socket.emit('testEvent', { message: 'hihi'});
+  io.emit('nowHumanCount', { count});
+  socket.on('disconnect', () => {
+    count--;
+    io.emit('nowHumanCount', { count});
+    console.log('user disconnected');
+  });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 app.use(cors(corsOptions));
 app.use(cookParser());
 app.use(bodyParser.json({limit : 50000000}));
@@ -38,7 +88,6 @@ app.use(requestIp.mw());
 
 const schedule = require('./schedule');
 schedule.addTotal
-
 
 app.use(router.basicRouter);
 
@@ -61,7 +110,11 @@ app.get('/ping', async(req, res) => {
 })
 
 
-app.listen(port, '0.0.0.0', async () => {
+
+
+
+
+httpServer.listen(port, '0.0.0.0', async () => {
     console.log(process.env.NODE_ENV)
     await db.initialize();
     winston.info(`Listening on port ${port}`);
