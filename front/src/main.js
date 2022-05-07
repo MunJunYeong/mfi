@@ -11,23 +11,23 @@ import store from './store'
 import router from './router'
 import vuetify from './plugins/vuetify'
 import VueCookies from "vue-cookies";
-import { io } from "socket.io-client";
-const socket = io("http://localhost:8080", {
-  withCredentials: true,
-});
+// import { io } from "socket.io-client";
+// const socket = io("http://localhost:8080", {
+//   withCredentials: true,
+// });
 
 
-socket.on("connect", () => {
-  console.log(socket.id); // x8WIv7-mJelg7on_ALbx
-});
+// socket.on("connect", () => {
+//   console.log(socket.id); // x8WIv7-mJelg7on_ALbx
+// });
 
-socket.on("testEvent", (data) => {
-  console.log(data);
-});
+// socket.on("testEvent", (data) => {
+//   console.log(data);
+// });
 
-socket.on("nowHumanCount", (data) => {
-  console.log(data);
-})
+// socket.on("nowHumanCount", (data) => {
+//   console.log(data);
+// })
 
 
 const axios = require('./lib/axios');
@@ -46,7 +46,6 @@ const init  = async () => {
     let token = localStorage.getItem('accessToken');
     if(token !== null){
       await store.dispatch('get_user_data', token);
-      // await store.dispatch('test_api', token);
     }
   }
   await settingVerifyToken();

@@ -37,46 +37,24 @@ const io = new Server(httpServer, {
     credentials: true
   }
 });
+
 const port = 8080;
 
 
 
-let count = 0;
 
 // io.origin(corsOptions.origin);
-io.on('connection', (socket) => {
-  count++;
-  console.log('a user connected');
-  socket.emit('testEvent', { message: 'hihi'});
-  io.emit('nowHumanCount', { count});
-  socket.on('disconnect', () => {
-    count--;
-    io.emit('nowHumanCount', { count});
-    console.log('user disconnected');
-  });
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// io.on('connection', (socket) => {
+//   count++;
+//   console.log('a user connected');
+//   socket.emit('testEvent', { message: 'hihi'});
+//   io.emit('nowHumanCount', { count});
+//   socket.on('disconnect', () => {
+//     count--;
+//     io.emit('nowHumanCount', { count});
+//     console.log('user disconnected');
+//   });
+// });
 
 
 

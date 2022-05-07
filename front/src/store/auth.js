@@ -1,5 +1,5 @@
-import axios from "axios";
-const { VUE_APP_BACKEND_HOST } = process.env;
+import auth from '../services/auth';
+
 
 const authModule = {
     state : {
@@ -39,24 +39,13 @@ const authModule = {
     actions: {
         //admin이 유저 리스트 가져오기
         async get_user_list_admin({commit}, data){
-            let res;
             let token = localStorage.getItem('accessToken');
             if(!token){
                 return;
             }
-            let where = `page=+${data.page}`;
-            if(data.nickName !== ''){
-                where += `&nickName=${data.nickName}`
-            }
-            try{
-                res = await axios.get( VUE_APP_BACKEND_HOST + `/user?${where}`,{
-                    headers : {
-                        'Authorization' : token
-                    }
-                })
-            }catch(err){
-                console.log(err);
-            }
+
+            const res = await auth.getUserList(data, token);
+            
             if(res.data.message){
                 let message = res.data.message;
                 if(message === 'force logout'){
@@ -73,45 +62,22 @@ const authModule = {
             
         },
         async change_user_role({commit}, data){
-            let res;
             let token = localStorage.getItem('accessToken');
-            try{
-                res = await axios.put( VUE_APP_BACKEND_HOST + '/user',{
-                    role : data.role,
-                    userIdx : data.userIdx
-                },
-                {
-                    headers : {
-                        'Authorization' : token
-                    }
-                })
-                commit('set_user_role', { userIdx: data.userIdx, role: res.data } );
-            }catch(err){
-                console.log(err);
-            }
+           
+            const res = await auth.changeUserRole(data, token);
+
+            commit('set_user_role', { userIdx: data.userIdx, role: res.data } );
         },
         async logout({commit}, userIdx){
-            let res;
-            try{
-                res = await axios.put(VUE_APP_BACKEND_HOST + '/logout', {
-                    userIdx : userIdx
-                })
-            }catch(err){
-                console.log(err)
-            }
+            const res = await auth.logout(userIdx);
             localStorage.removeItem('accessToken');
             localStorage.removeItem('refreshToken');
             commit
             res
         },
         async auth_refresh_token({commit}, token) {
-            let renewToken;
-            renewToken = await axios.get(VUE_APP_BACKEND_HOST + '/refresh', {
-                headers : {
-                    AccessToken : token.accessToken,
-                    RefreshToken : token.refreshToken,
-                }
-            })
+            const renewToken = await auth.refreshToken(token);
+
             if(renewToken.data.message === 'expired token'){ //refreshToken도 만료
                 alert('토큰의 유효기간이 지났습니다. 재 로그인 해주세요.');
                 localStorage.removeItem('accessToken');
@@ -120,8 +86,6 @@ const authModule = {
                 return;
             }
             localStorage.setItem('accessToken', renewToken.data);
-            // await this.dispatch('get_user_data', renewToken.data);
-            // location.href=''; //이것이 맞는지 ?
             commit
             return renewToken.data;
         },
