@@ -1,10 +1,3 @@
-// const Vue = require('vue');
-// const App = require('./App.vue');
-// const store = require('./store');
-// const router = require('./router');
-// const vuetify = require('./plugins/vuetify');
-// const VueCookies = require('vue-cookies');
-
 import Vue from 'vue'
 import App from './App.vue'
 import store from './store'
