@@ -6,13 +6,6 @@ const {idea : ideaController} = require('../../controllers');
 const {middleware} = require('../../lib/common/index')
 
 
-// anonymousRouter.get('/test1', middleware.validateToken, anonymousController.testStart);
-// anonymousRouter.get('/test2', middleware.validateToken, anonymousController.testStart);
-// anonymousRouter.get('/test3', middleware.validateToken, anonymousController.testStart);
-// anonymousRouter.get('/test4', middleware.validateToken, anonymousController.testStart);
-// anonymousRouter.get('/test5', middleware.validateToken, anonymousController.testStart);
-// anonymousRouter.get('/test6', middleware.validateToken, anonymousController.testStart);
-
 //회원가입하기
 anonymousRouter.post('/signup', anonymousController.signUP);
 anonymousRouter.post('/sendemail', anonymousController.sendEmail);

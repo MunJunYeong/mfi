@@ -25,7 +25,6 @@ const signUp = async (id, pw, nickName, email, role) => {
             winston.error(`Unable to signUp[servcie] :`, err);
             throw new Error('DB_SIGNUP');
         }
-
     }else {
         throw new Error('TRAFFIC');
     }
