@@ -3,12 +3,13 @@ dotenv.config();
 
 const { parse } = require('node-html-parser');
 const express = require('express');
-// require('express-async-errors');
+const app = express();
+const http = require('http');
+
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const requestIp = require('request-ip');
 const cookParser = require('cookie-parser');
-const http = require('http');
 const { Server } = require("socket.io");
 const db = require('./lib/db');
 //logging
@@ -16,6 +17,7 @@ const winston = require('./lib/common/winston');
 const router = require('./router/index');
 const errorCode = require('./lib/common/error');
 
+const port = 8080;
 
 const whitelist = ['http://localhost:8081','http://localhost:8080', 'http://mfinvest.kr', 'http://backend.mfinvest.kr']
 const corsOptions = {
@@ -27,9 +29,41 @@ const corsOptions = {
     }
   },
   credentials: true,
+
 }
 
-const app = express();
+app.use(cors(corsOptions));
+app.use(cookParser());
+app.use(bodyParser.json({limit : 50000000}));
+app.use(requestIp.mw());
+
+const schedule = require('./schedule');
+schedule.addTotal
+
+app.use(router.basicRouter);
+//next를 써서 유보시키는 것이 맞는가 ?
+app.use(async (err, req, res, next) => {
+  console.log('index : ', err)
+  if(err.message in errorCode){
+    console.log('dfasfasdfas')
+    res.status(errorCode[err.message].status).send({message : errorCode[err.message].message});
+    next();  
+    return;
+  }else {
+    //예상치 못한 에러 핸들링 부분
+    winston.error(err);
+    res.send({message : '시스템 오류가 발생했습니다. 잠시 후 시도해주세요.'});
+    next();   return;
+  }
+})
+
+
+app.get('/ping', async(req, res) => {
+  res.send('pong');
+})
+
+
+
 const httpServer = http.createServer(app);
 const io = new Server(httpServer, {
   cors: {
@@ -37,11 +71,6 @@ const io = new Server(httpServer, {
     credentials: true
   }
 });
-
-const port = 8080;
-
-
-
 
 // io.origin(corsOptions.origin);
 // io.on('connection', (socket) => {
@@ -58,41 +87,7 @@ const port = 8080;
 
 
 
-
-app.use(cors(corsOptions));
-app.use(cookParser());
-app.use(bodyParser.json({limit : 50000000}));
-app.use(requestIp.mw());
-
-const schedule = require('./schedule');
-schedule.addTotal
-
-app.use(router.basicRouter);
-
-//next를 써서 유보시키는 것이 맞는가 ?
-app.use(async (err, req, res, next) => {
-  console.log(err.message)
-  if(err.message in errorCode){
-    res.status(errorCode[err.message].status).send({message : errorCode[err.message].message});
-    next();  
-    return;
-  }else {
-    //예상치 못한 에러 핸들링 부분
-    winston.error(err);
-    res.send({message : '시스템 오류가 발생했습니다. 잠시 후 시도해주세요.'});
-    next();   return;
-  }
-})
-app.get('/ping', async(req, res) => {
-  res.send('pong');
-})
-
-
-
-
-
-
-httpServer.listen(port, '0.0.0.0', async () => {
+app.listen(port, '0.0.0.0', async () => {
     console.log(process.env.NODE_ENV)
     await db.initialize();
     winston.info(`Listening on port ${port}`);

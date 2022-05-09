@@ -3,7 +3,6 @@ const {user : userService} = require('../../service');
 const { Op } = require('../../lib/db');
 const {pagination, utils} = require('../../lib/common');
 const winston = require('../../lib/common/winston');
-const { DB_CHECK_EMAIL } = require('../../lib/common/error');
 
 let checkEng = /[a-zA-Z]/;
 let checkNum = /[0-9]/; 
@@ -28,7 +27,7 @@ const signUP = async (req, res) => {
         res.send({data : result});
     }catch(err){
         if(err.message){
-            if(err.message === DB_CHECK_EMAIL) { throw new Error(WRONG_ACCESS)}  
+            // if(err.message === DB_CHECK_EMAIL) { throw new Error(WRONG_ACCESS)}  
             throw new Error(err.message);
         }else {
             winston.error(`Unable to signup :`, err);
@@ -48,7 +47,8 @@ const sendEmail = async (req, res) => {
         const result = await anonymousService.sendEmail(data.email);
         res.send({data : result.dataValues.idx});
     }catch(err){
-        if(err.message){
+        if(err.message === 'EXIST_EMAIL'){
+            console.log('afdsafasfdasfs')
             throw new Error(err.message);
         }else {
             winston.error(`Unable to sendEmail :`, err);
@@ -62,13 +62,11 @@ const checkEmail = async (req, res) => {
     if(!data.email || !data.no){
         throw new Error('WRONG_ACCESS');
     }
-    
     try{
         await anonymousService.checkEmail(data.email, data.no);
         res.send({data : 1});
     }catch(err){
-        (err.message)
-        if(err.message){
+        if(err.message ==='NOT_CORRECT_AUTHNO'){
             throw new Error(err.message);
         }else {
             winston.error(`Unable to checkEmail :`, err);
