@@ -9,8 +9,6 @@ const  getIdeaCount = async ()=>{
         winston.warn(`Unable to getIdeaCount[service] :`, err);
         throw new Error('DB_GET_IDEA_COUNT');
     }
-    
-
 }
 
 const createIdea = async (subject, content, userIdx)=>{

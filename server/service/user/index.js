@@ -17,7 +17,8 @@ const getUserData = async (userIdx) => {
     )
     return data;
   }catch(err){
-
+    winston.error(`Unable to getUserData[service] :`, err);
+    throw new Error('DB_GET_USER_DATA');
   }
 }
 
@@ -36,11 +37,12 @@ const updateRole = async (role, userIdx) => {
     if(result[0] === 1){
       return role;
     }else{
-      return {message : 'wrong data'};
+      winston.error(`Unable to findUser for idx[service] :`, err);
+      throw new Error('DB_NOT_FOUND_USER');
     }
   }catch(err){
-      winston.error(`Unable to updateRole[service] :`, err);
-      throw new Error('DB_UPDATE_ROLE');
+    winston.error(`Unable to updateRole[service] :`, err);
+    throw new Error('DB_UPDATE_ROLE');
   }
 }
 
