@@ -1,28 +1,59 @@
-www.mfinvest.kr
-<사이트 주소>
-Metaphor for Investing
 
-본인의 주식 분석 자료를 올린다. role : Winner or Normal
+MFI (Metaphor for Investing)
+==================
+홈페이지 바로가기 (www.mfinvest.kr)
 
-Winner : 다른 사람이 올린 모든 분석 자료를 볼 수 있다.
 
-Normal : 45일이 지난 분석 자료를 볼 수 있다.
+Created by
+------------
+* 기획자 : 조재훈
+* 개발자 : [문준영](https://github.com/MunJunYeong)
 
-Winner가 되면 실시간으로 등록되는 분석 자료를 열람할 수 있기 때문에 보다 다양한 정보를 획득할 수 있다.
+Description
+------------
+ 세상의 아름다움은 남들과 다르게 보는 것에서부터 시작한다고 생각하고, MFI의 메커니즘을 통해서, 다양한 아름다움을 발견할 수 있을거라 생각합니다. 
+ ######
+ MFI 매커니즘 : 주식 시장에서의 '정보 공유'에 초점을 맞춘 서비스입니다. 서비스에서 '공유'를 활발히 하기 위한 인센티브로 Winner 회원과 Normal 회원이 존재합니다. Winner 회원은 시간의 제약에 상관없이 모든 종목 분석 글을 확인할 수 있습니다. Normal 회원은 45일이 지난 종목 분석 글만 확인 가능합니다.
+ 
 
-Normal은 본인의 주식 분석 자료를 통해 Winner로 승급할 수 있다.
+Skills
+------------
+- Front :
+    - Vue.js
+- Backend :
+    - Node.js
+    - Express, Sequelize
+- DevOps :
+    - AWS EC2, Route53, RDS
+    - PostgreSQL
+    - Docker
+    - Git, sourcetree
 
-승급의 과정은 관리자가 주식 분석 자료를 보고 판단한다.
+Architecture
+------------
 
-Winner로 승급했더라도 1년에 4개의 분석글을 올려야하며, 유지기간은 1년이다.
 
-Front : Vue
-
-Backend : Node express
-
-ORM : Sequelize
-
-DB : Postgresql
+ 
+ Tutorial
+ ------------
+ 데스크탑에 "mfi" 이름의 폴더로 프로젝트가 있다고 가정한다.
+ 
+ ### Starting Server
+      cd server
+      npm install
+      npx sequelize-cli db:migrate
+      npx sequelize-cli db:seed:all
+      npm run start:local // local env
+      npm run start:dev //development env
+  
+  
+  ### Starting Front
+      cd front
+      npm install
+      npm run serve
+    
+ 
+ 
 
 Sequelize-cli를 이용한 DB migration 및 seeder 작업 
 dotenv를 통해 local 환경과 dev환경 구분(local : nodemon, dev : pm2)
