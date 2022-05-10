@@ -30,11 +30,11 @@ Skills
     - Git, sourcetree
 
 
-Front Architecture
+Architecture
 ------------
 * folder 단위
 ```bash
-├── src
+├── front/src
 │   ├── assets
 │   ├── components
 │   ├── lib
@@ -45,14 +45,6 @@ Front Architecture
 │   └── views
 |         ├── auth
 |         ├── core
-├──
-
-``` 
-
-Server Architecture
-------------
-* folder 단위 (exception : lib/common)
-```bash
 ├── Server
 │   ├── controllers
 |   |     ├── anonymous
@@ -89,6 +81,14 @@ Server Architecture
 |   |     ├── visitor
 │   └── index.js
 ├──
+
+``` 
+
+Server Architecture
+------------
+* folder 단위 (exception : lib/common)
+```bash
+
 ``` 
 
  
