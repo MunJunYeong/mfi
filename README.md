@@ -84,13 +84,6 @@ Architecture
 
 ``` 
 
-Server Architecture
-------------
-* folder 단위 (exception : lib/common)
-```bash
-
-``` 
-
  
  Tutorial
  ------------
@@ -109,7 +102,7 @@ Server Architecture
       VUE_APP_BACKEND_HOST = 'http://localhost:8080'
       
 ### setting server .env
-만약 Development도 추가하고 싶다면 LOCAL부부남ㄴ 바꾸어서 추가적으로 생성시 가능
+만약 Development도 추가하고 싶다면 LOCAL부분처럼 DEVELOPMENT로 추가 생성시 가능
 
       //PostgreSQL connection settings 
       LOCAL_USERNAME = '' 
