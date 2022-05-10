@@ -1,8 +1,8 @@
 const dotenv = require('dotenv')
 dotenv.config();
-
 const { parse } = require('node-html-parser');
 const express = require('express');
+require('express-async-errors');
 const app = express();
 const http = require('http');
 
@@ -87,7 +87,7 @@ const io = new Server(httpServer, {
 
 
 
-app.listen(port, '0.0.0.0', async () => {
+httpServer.listen(port, '0.0.0.0', async () => {
     console.log(process.env.NODE_ENV)
     await db.initialize();
     winston.info(`Listening on port ${port}`);
