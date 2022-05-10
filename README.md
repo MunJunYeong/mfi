@@ -32,7 +32,7 @@ Skills
 
 Architecture
 ------------
-* folder 단위
+
 ```bash
 ├── front/src
 │   ├── assets
@@ -86,43 +86,87 @@ Architecture
 |   |    |    ├── News.vue
 |   |    |    ├── Notice.vue
 |   |    |    ├── UserIdea.vue
-|
+│   ├── .env
+│   ├── dockerfile
+│   ├── main.js
+│   ├── App.vue
+│   ├── package.json
+|   |
 ├── Server
 │   ├── controllers
 |   |     ├── anonymous
+|   |     |    ├── index.js
 |   |     ├── comment
+|   |     |    ├── index.js
 |   |     ├── idea
+|   |     |    ├── index.js
 |   |     ├── statistics
+|   |     |    ├── index.js
 |   |     ├── user
+|   |     |    ├── index.js
 │   ├── lib
 |   |     ├── common
+|   |     |    ├── index.js
 |   |     |    ├── middleware.js
+|   |     |    ├── pagination.js
 |   |     |    ├── error.js
 |   |     |    ├── jwt.js
 |   |     |    ├── utils.js
-|   |     |     ├── winston.js
+|   |     |    ├── winston.js
 |   |     ├── db
 |   |     |    ├── config
+|   |     |    |     |── index.js
 |   |     |    ├── migrations
+|   |     |    |     |── db model만큼 .js
 |   |     |    ├── model
-|   |     |     ├── seeders
+|   |     |    |     |── authentication.js
+|   |     |    |     |── comment.js
+|   |     |    |     |── idea.js
+|   |     |    |     |── index.js
+|   |     |    |     |── news.js
+|   |     |    |     |── totalVisitor.js
+|   |     |    |     |── user.js
+|   |     |    |     |── userToken.js
+|   |     |    |     |── visitor.js
+|   |     |    ├── seeders
+|   |     |    |     |── db model만큼.js
 │   ├── logs
+|   |     ├── error, warn 등 파일 저장
 │   ├── router
 |   |     ├── anonymous
+|   |     |    ├── index.js
 |   |     ├── comment
+|   |     |    ├── index.js
 |   |     ├── idea
+|   |     |    ├── index.js
 |   |     ├── statistics
+|   |     |    ├── index.js
 |   |     ├── user
+|   |     |    ├── index.js
+|   |     ├── index.js
 │   ├── schedule
+|   |     ├── index.js
 │   ├── service
 |   |     ├── anonymous
+|   |     |    ├── index.js
 |   |     ├── comment
+|   |     |    ├── index.js
 |   |     ├── idea
+|   |     |    ├── index.js
 |   |     ├── news
+|   |     |    ├── index.js
 |   |     ├── user
+|   |     |    ├── index.js
 |   |     ├── visitor
+|   |     |    ├── index.js
+|   |     |
+│   ├── index.js
+│   ├── .env.js
+│   ├── .sequelizerc.js
+│   ├── dockerfile.js
+│   ├── package.json
 │   └── index.js
-├──
+├── docker-compose.yaml
 
 ``` 
 
