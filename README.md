@@ -29,18 +29,103 @@ Skills
     - Docker
     - Git, sourcetree
 
-Architecture
-------------
 
+Front Architecture
+------------
+* folder 단위
+```bash
+├── src
+│   ├── assets
+│   ├── components
+│   ├── lib
+│   ├── plugins
+│   ├── router
+│   ├── services
+│   ├── store
+│   └── views
+|         ├── auth
+|         ├── core
+├──
+
+``` 
+
+Server Architecture
+------------
+* folder 단위 (exception : lib/common)
+```bash
+├── Server
+│   ├── controllers
+|   |     ├── anonymous
+|   |     ├── comment
+|   |     ├── idea
+|   |     ├── statistics
+|   |     ├── user
+│   ├── lib
+|   |     ├── common
+|   |     |    ├── middleware.js
+|   |     |    ├── error.js
+|   |     |    ├── jwt.js
+|   |     |    ├── utils.js
+|   |     |     ├── winston.js
+|   |     ├── db
+|   |     |    ├── config
+|   |     |    ├── migrations
+|   |     |    ├── model
+|   |     |     ├── seeders
+│   ├── logs
+│   ├── router
+|   |     ├── anonymous
+|   |     ├── comment
+|   |     ├── idea
+|   |     ├── statistics
+|   |     ├── user
+│   ├── schedule
+│   ├── service
+|   |     ├── anonymous
+|   |     ├── comment
+|   |     ├── idea
+|   |     ├── news
+|   |     ├── user
+|   |     ├── visitor
+│   └── index.js
+├──
+``` 
 
  
  Tutorial
  ------------
- 데스크탑에 "mfi" 이름의 폴더로 프로젝트가 있다고 가정한다.
- 
- ### Starting Server
+ 데스크탑에 "mfi" 이름의 폴더로 프로젝트가 있다고 가정하고 local 환경에서의 튜토리얼 예제입니다.
+
+ ### install dependency
+      cd front
+      npm install 
+      cd ..
       cd server
       npm install
+ 
+모듈을 설치했다면 front와 server 파일에 .env 파일을 생성해줍니다.
+
+### setting front .env
+      VUE_APP_BACKEND_HOST = 'http://localhost:8080'
+      
+### setting server .env
+만약 Development도 추가하고 싶다면 LOCAL부부남ㄴ 바꾸어서 추가적으로 생성시 가능
+
+      //PostgreSQL connection settings 
+      LOCAL_USERNAME = '' 
+      LOCAL_PASSWORD = '' 
+      LOCAL_DATABASE = '' 
+      LOCAL_HOST = ''
+      
+      //Email Authentication
+      EMAIL_ID = ''
+      EMAIL_PW = ''
+      
+      // JWT Secret key      
+      SECRET = ''
+      
+ ### Starting Server
+      cd server
       npx sequelize-cli db:migrate
       npx sequelize-cli db:seed:all
       npm run start:local // local env
@@ -49,15 +134,6 @@ Architecture
   
   ### Starting Front
       cd front
-      npm install
       npm run serve
     
  
- 
-
-Sequelize-cli를 이용한 DB migration 및 seeder 작업 
-dotenv를 통해 local 환경과 dev환경 구분(local : nodemon, dev : pm2)
-
-AWS EC2 Route53을 이용하여 ubuntu에 git, docker .. 설치 후 이용하여 서비스 운용
-
-Winston logging -> dev환경에서는 warn, error log level만 저장
