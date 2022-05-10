@@ -37,14 +37,56 @@ Architecture
 ├── front/src
 │   ├── assets
 │   ├── components
+|   |     ├── Editor
+|   |     |    ├── ModifyTextEditor.vue
+|   |     |    ├── TextEditor.vue
+|   |     |    ├── Viewer.vue
+|   |     ├── CommentItem.vue
+|   |     ├── CommentItemMobile.vue
+|   |     ├── Footer.vue
+|   |     ├── HeaderNav.vue
+|   |     ├── IdeaItem.vue
+|   |     ├── MyIdea.uve
+|   |     ├── NewsItem.vue
+|   |     ├── UserItem.vue
 │   ├── lib
+|   |     ├── axios.js
 │   ├── plugins
+|   |     ├── vuetify.js
 │   ├── router
+|   |     ├── index.js
 │   ├── services
+|   |     ├── anonymous.js
+|   |     ├── auth.js
+|   |     ├── idea.js
+|   |     ├── index.js
 │   ├── store
+|   |     ├── anonymous.js
+|   |     ├── auth.js
+|   |     ├── idea.js
+|   |     ├── index.js
 │   └── views
-|         ├── auth
-|         ├── core
+|   |    ├── auth
+|   |    |    ├── layout
+|   |    |    |      ├── Index.vue
+|   |    |    ├── FindId.vue
+|   |    |    ├── FindPw.vue
+|   |    |    ├── SignIn.vue
+|   |    |    ├── SignUp.vue
+|   |    ├── core
+|   |    |    ├── layout
+|   |    |    |      ├── Index.vue
+|   |    |    ├── About.vue
+|   |    |    ├── AddIdea.vue
+|   |    |    ├── Admin.vue
+|   |    |    ├── Home.vue
+|   |    |    ├── Idea.vue
+|   |    |    ├── IdeaClick.vue
+|   |    |    ├── Info.vue
+|   |    |    ├── News.vue
+|   |    |    ├── Notice.vue
+|   |    |    ├── UserIdea.vue
+|
 ├── Server
 │   ├── controllers
 |   |     ├── anonymous
@@ -117,7 +159,7 @@ Architecture
       // JWT Secret key      
       SECRET = ''
       
- ### Starting Server
+### Starting Server
       cd server
       npx sequelize-cli db:migrate
       npx sequelize-cli db:seed:all
@@ -125,7 +167,7 @@ Architecture
       npm run start:dev //development env
   
   
-  ### Starting Front
+### Starting Front
       cd front
       npm run serve
     
