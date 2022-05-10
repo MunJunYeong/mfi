@@ -26,8 +26,9 @@ const signUP = async (req, res) => {
         // await anonymousService.makeUserToken(result.userIdx);
         res.send({data : result});
     }catch(err){
-        if(err.message){
-            // if(err.message === DB_CHECK_EMAIL) { throw new Error(WRONG_ACCESS)}  
+        if(err.message === 'DB_SIGNUP'){
+            throw new Error(err.message);
+        }else if(err.message === 'TRAFFIC'){
             throw new Error(err.message);
         }else {
             winston.error(`Unable to signup :`, err);
@@ -48,7 +49,8 @@ const sendEmail = async (req, res) => {
         res.send({data : result.dataValues.idx});
     }catch(err){
         if(err.message === 'EXIST_EMAIL'){
-            console.log('afdsafasfdasfs')
+            throw new Error(err.message);
+        }else if(err.message === 'DB_SEND_EMAIL'){
             throw new Error(err.message);
         }else {
             winston.error(`Unable to sendEmail :`, err);
@@ -66,7 +68,13 @@ const checkEmail = async (req, res) => {
         await anonymousService.checkEmail(data.email, data.no);
         res.send({data : 1});
     }catch(err){
-        if(err.message ==='NOT_CORRECT_AUTHNO'){
+        if(err.message === 'DB_FIND_AUTH_NO'){
+            throw new Error(err.message);
+        }else if(err.message === 'NOT_FOUND_EMAIL'){
+            throw new Error(err.message);
+        }else if(err.message === 'DB_CHECK_EMAIL'){
+            throw new Error(err.message);
+        }else if(err.message ==='NOT_CORRECT_AUTHNO'){
             throw new Error(err.message);
         }else {
             winston.error(`Unable to checkEmail :`, err);
@@ -85,7 +93,11 @@ const findIdSendMail = async(req, res) => {
         const result = await anonymousService.findIdSendMail(data.email);
         res.send(result);
     }catch(err){
-        if(err.message){
+        if(err.message === 'DB_FIND_USER_FOR_FINDID'){
+            throw new Error(err.message);
+        }else if(err.message === 'NOT_FOUND'){
+            throw new Error(err.message);
+        }else if(err.message === 'DB_FIND_ID_SEND_MAIL'){
             throw new Error(err.message);
         }
         winston.error(`Unable to sendMail for findId :`, err);
@@ -103,7 +115,7 @@ const findPwSendMail = async(req, res) => {
         const result = await anonymousService.findPwSendMail(data.id, data.email);
         res.send(result);
     }catch(err){
-        if(err.message){
+        if(err.message=== 'DB_FIND_PW_SEND_MAIL'){
             throw new Error(err.message);
         }
         winston.error(`Unable to sendMail for findPw :`, err);
@@ -122,8 +134,12 @@ const updatePw = async(req, res) => {
         const result = await anonymousService.updatePw(data.email, data.pw, data.id);
         res.send({data : result[0]});
     }catch(err){
-        winston.error(`Unable to updatePw :`, err);
-        throw new Error('UNABLE_UPDATE_PW');
+        if(err.message === 'DB_UPDATE_PW'){
+            throw new Error(err.message);
+        }else {
+            winston.error(`Unable to updatePw :`, err);
+            throw new Error('UNABLE_UPDATE_PW');
+        }
     }
 }
 
@@ -139,11 +155,21 @@ const signIn = async (req, res) => {
         const result = await anonymousService.signIn(data.id, data.pw);
         res.send(result);
     }catch(err){
-        if(err.message){
+        if(err.message === 'DB_FIND_ID_SIGNIN'){
+            throw new Error(err.message);
+        }else if(err.message === 'ISLOGIN'){
+            throw new Error(err.message);
+        }else if(err.message === 'DB_SIGNIN'){
+            throw new Error(err.message);
+        }else if(err.message === 'WRONG_PW'){
+            throw new Error(err.message);
+        }else if(err.message === 'WRONG_ID'){
             throw new Error(err.message);
         }
-        winston.error(`Unable to signIn :`, err);
-        throw new Error('UNABLE_SIGNIN');
+        else {
+            winston.error(`Unable to signIn :`, err);
+            throw new Error('UNABLE_SIGNIN');
+        }
     }
 }
 
@@ -159,23 +185,34 @@ const forcesignIn= async(req, res) => {
     try{
         userIdx = await anonymousService.findIdUser(data.id, data.pw);
     }catch(err){
-        if(err.message){
+        if(err.message === 'DB_FIND_USER_PARA_IDPW'){
             throw new Error(err.message);
+        }else {
+            winston.error(`Unable to findIdUser :`, err);
+            throw new Error('UNABLE_FIND_ID_USER');
         }
-        winston.error(`Unable to findIdUser :`, err);
-        throw new Error('UNABLE_FIND_ID_USER');
     }
     try{
-        //userIdx에 해당하는 토큰을 로그아웃 시킨다.
+        //userIdx에 해당하는 토큰을 제거 후 로그인 시도
         await userService.logout(userIdx);
         const result = await anonymousService.signIn(data.id, data.pw);
         res.send(result);
     }catch(err){
-        if(err.message){
+        if(err.message === 'DB_LOGOUT'){ // userService 레이어에서 오는 에러 
+            throw new Error(err.message);
+        }else if(err.message === 'ISLOGIN'){ // 이 부분에서 한 번 더 검증?
+
+        }else if(err.message === 'DB_SIGNIN'){
+            throw new Error(err.message);
+        }else if(err.message === 'WRONG_PW'){
+            throw new Error(err.message);
+        }else if(err.message === 'WRONG_ID'){
             throw new Error(err.message);
         }
-        winston.error(`Unable to forcesignIn :`, err);
-        throw new Error('UNABLE_FORCE_SIGNIN');
+        else {
+            winston.error(`Unable to forcesignIn :`, err);
+            throw new Error('UNABLE_FORCE_SIGNIN');
+        }
     }
 
 }
@@ -205,8 +242,12 @@ const checkId = async (req, res) =>{
             return;
         }
     }catch(err){
-        winston.error(`Unable to checkId(duplicate) :`, err);
-        throw new Error('UNABLE_CHECKID');
+        if(err.message ==='DB_DUPLICATE_ID'){
+            throw new Error(err.message);
+        }else {
+            winston.error(`Unable to checkId(duplicate) :`, err);
+            throw new Error('UNABLE_CHECKID');
+        }
     }
     
 }
@@ -231,8 +272,12 @@ const checkNickName = async (req, res) => {
             return;
         }
     }catch(err){
-        winston.error(`Unable to checkNickName(duplicate) :`, err);
-        throw new Error('UNABLE_CHECKNICKNAME');
+        if(err.message ==='DB_DUPLICATE_NICKNAME'){
+            throw new Error(err.message);
+        }else {
+            winston.error(`Unable to checkNickName(duplicate) :`, err);
+            throw new Error('UNABLE_CHECKNICKNAME');
+        }
     }
 
 }
@@ -244,22 +289,19 @@ const logout = async(req, res) => {
         const result = await userService.logout(data.userIdx);
         res.send(result)
     }catch(err){
-        if(err.message){
+        if(err.message === 'DB_LOGOUT'){
             throw new Error(err.message);
+        }else {
+            winston.error(`Unable to logout :`, err);
+            throw new Error('UNABLE_LOGOUT');
         }
-        winston.error(`Unable to logout :`, err);
-        throw new Error('UNABLE_LOGOUT');
     }
 }
 
 
-const testStart = async(req, res) => {
-    console.log('dfafasf')
-    res.send({data : 1})
-}
+
 
 module.exports = {
-    testStart,
     signUP,
     sendEmail,
     checkEmail,
