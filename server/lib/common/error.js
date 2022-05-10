@@ -23,7 +23,7 @@ const preProcessing = {
         message : '이미 존재하는 이메일입니다.',
         status : HTTP_CODE.SUCCESS
     },
-    FAIL_TO_SEND : {
+    NOT_FOUND_EMAIL : {
         message : 'fail to send',
         status : HTTP_CODE.SUCCESS
     },

@@ -180,7 +180,7 @@ const checkEmail = async(email, no) => {
         throw new Error('DB_FIND_AUTH_NO');
     }
     if(findAuthNo[0] === undefined){
-        throw new Error('FAIL_TO_SEND');
+        throw new Error('NOT_FOUND_EMAIL');
     }
     if(findAuthNo[0].dataValues.no === no){
         try{
@@ -268,7 +268,7 @@ const updatePw = async (email, pw, id) => {
         return result;
     }catch(err){
         winston.error(`Unable to updatePw[service] :`, err);
-        throw new Error(DB_UPDATE_PW);
+        throw new Error('DB_UPDATE_PW');
     }
     
 }
