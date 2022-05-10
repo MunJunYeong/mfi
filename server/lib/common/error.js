@@ -106,8 +106,12 @@ const postProcessing = {
         message : 'Unable to updateUserRole',
         status : HTTP_CODE.FAIL_METHOD
     },
-     UNABLE_GET_USER: {
+    UNABLE_GET_USER: {
         message : 'Unable to getUser(role:admin)',
+        status : HTTP_CODE.FAIL_METHOD
+    },
+    UNABLE_GET_USER_DATA: {
+        message : 'Unable to getUserData',
         status : HTTP_CODE.FAIL_METHOD
     },
      UNABLE_LOGOUT: {
@@ -331,12 +335,20 @@ const dbError = {
         status : HTTP_CODE.DB_SERVER
     },
     //user
+    DB_NOT_FOUND_USER : {
+        message : 'Unable to findUser for idx[service]',
+        status : HTTP_CODE.DB_SERVER
+    },
      DB_UPDATE_ROLE: {
         message : 'Unable to updateRole[service]',
         status : HTTP_CODE.DB_SERVER
     },
      DB_GET_USER: {
         message :  'Unable to  getUser[service]',
+        status : HTTP_CODE.DB_SERVER
+    },
+    DB_GET_USER_DATA: {
+        message :  'Unable to getUserData[service]',
         status : HTTP_CODE.DB_SERVER
     },
      DB_LOGOUT: {

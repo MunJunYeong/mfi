@@ -4,17 +4,6 @@ const pagination = require('../../lib/common/pagination');
 const {Op} = require('../../lib/db');
 
 
-const testStart = async(req, res) => {
-    try{
-        console.log('dfasdfsafsaf')
-        res.send({data: 1});
-
-    }catch(err){
-        console.log(err)
-    }
-}
-
-
 const updateUserRole = async (req, res) => {
     const data = req.body;
     
@@ -26,8 +15,14 @@ const updateUserRole = async (req, res) => {
         const result = await userService.updateRole(data.role, data.userIdx);
         res.send(result)
     }catch(err){
-        winston.error(`Unable to updateUserRole :`, err);
-        throw new Error('UNABLE_USERROLE');
+        if(err.message === 'DB_NOT_FOUND_USER'){
+            throw new Error(err.message);
+        }else if(err.message === 'DB_UPDATE_ROLE'){
+            throw new Error(err.message);
+        }else {
+            winston.error(`Unable to updateUserRole :`, err);
+            throw new Error('UNABLE_USERROLE');
+        }
     }
 }
 
@@ -37,11 +32,15 @@ const getuserData = async(req, res) => {
     let data;
     try{
         data = await userService.getUserData(userIdx);
+        res.send({data : data});
     }catch(err){
-        winston.error(`Unable to getUserData[service] :`, err);
-        throw new Error('DB_GET_USER_DATA');
+        if(err.message === 'DB_GET_USER_DATA'){
+            throw new Error(err.message);
+        }else {
+            winston.error(`Unable to getUserData :`, err);
+            throw new Error('UNABLE_GET_USER_DATA');
+        }
     }
-    res.send({data : data});
 }
 const getUser = async (req, res)=> {
     const {page, nickName} = req.query;
@@ -58,14 +57,17 @@ const getUser = async (req, res)=> {
             [Op.like] : `%${nickName}%`
         }
     }
-
     try{
         const data = await userService.getUser(where, limit, offset);
         const result = pagination.getPagingUserData(data, page, limit);
         res.send(result);
     }catch(err){
-        winston.error(`Unable to getUser(role:admin) :`, err);
-        throw new Error('UNABLE_GET_USER');
+        if(err.message === 'DB_GET_USER'){
+            throw new Error(err.message);
+        }else {
+            winston.error(`Unable to getUser(role:admin) :`, err);
+            throw new Error('UNABLE_GET_USER');
+        }
     }
 
 }
@@ -75,5 +77,4 @@ module.exports = {
     getuserData,
     updateUserRole,
     getUser,
-    testStart
 }
