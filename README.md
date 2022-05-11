@@ -95,15 +95,10 @@ Architecture
 ├── Server
 │   ├── controllers
 |   |     ├── anonymous
-|   |     |    ├── index.js
 |   |     ├── comment
-|   |     |    ├── index.js
 |   |     ├── idea
-|   |     |    ├── index.js
 |   |     ├── statistics
-|   |     |    ├── index.js
 |   |     ├── user
-|   |     |    ├── index.js
 │   ├── lib
 |   |     ├── common
 |   |     |    ├── index.js
@@ -134,31 +129,20 @@ Architecture
 |   |     ├── error, warn 등 파일 저장
 │   ├── router
 |   |     ├── anonymous
-|   |     |    ├── index.js
 |   |     ├── comment
-|   |     |    ├── index.js
 |   |     ├── idea
-|   |     |    ├── index.js
 |   |     ├── statistics
-|   |     |    ├── index.js
 |   |     ├── user
-|   |     |    ├── index.js
 |   |     ├── index.js
 │   ├── schedule
 |   |     ├── index.js
 │   ├── service
 |   |     ├── anonymous
-|   |     |    ├── index.js
 |   |     ├── comment
-|   |     |    ├── index.js
 |   |     ├── idea
-|   |     |    ├── index.js
 |   |     ├── news
-|   |     |    ├── index.js
 |   |     ├── user
-|   |     |    ├── index.js
 |   |     ├── visitor
-|   |     |    ├── index.js
 |   |     |
 │   ├── index.js
 │   ├── .env.js
