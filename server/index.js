@@ -64,13 +64,13 @@ app.get('/ping', async(req, res) => {
 
 
 
-const httpServer = http.createServer(app);
-const io = new Server(httpServer, {
-  cors: {
-    origin: corsOptions.origin,
-    credentials: true
-  }
-});
+// const httpServer = http.createServer(app);
+// const io = new Server(httpServer, {
+//   cors: {
+//     origin: corsOptions.origin,
+//     credentials: true
+//   }
+// });
 
 // io.origin(corsOptions.origin);
 // io.on('connection', (socket) => {
@@ -85,9 +85,7 @@ const io = new Server(httpServer, {
 //   });
 // });
 
-
-
-httpServer.listen(port, '0.0.0.0', async () => {
+app.listen(port, '0.0.0.0', async () => {
     console.log(process.env.NODE_ENV)
     await db.initialize();
     winston.info(`Listening on port ${port}`);
