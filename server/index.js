@@ -10,7 +10,10 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const requestIp = require('request-ip');
 const cookParser = require('cookie-parser');
+
 const { Server } = require("socket.io");
+const socketEventHandling = require('./socket');
+
 const db = require('./lib/db');
 //logging
 const winston = require('./lib/common/winston');
@@ -45,7 +48,6 @@ app.use(router.basicRouter);
 app.use(async (err, req, res, next) => {
   console.log('index : ', err)
   if(err.message in errorCode){
-    console.log('dfasfasdfas')
     res.status(errorCode[err.message].status).send({message : errorCode[err.message].message});
     next();  
     return;
@@ -57,35 +59,22 @@ app.use(async (err, req, res, next) => {
   }
 })
 
-
 app.get('/ping', async(req, res) => {
   res.send('pong');
 })
 
+const httpServer = http.createServer(app);
+//node 내장객체 http모듈로 만든다.
+const io = new Server(httpServer, {
+  cors: {
+    origin: corsOptions.origin,
+    credentials: true
+  }
+});
 
+socketEventHandling(io);
 
-// const httpServer = http.createServer(app);
-// const io = new Server(httpServer, {
-//   cors: {
-//     origin: corsOptions.origin,
-//     credentials: true
-//   }
-// });
-
-// io.origin(corsOptions.origin);
-// io.on('connection', (socket) => {
-//   count++;
-//   console.log('a user connected');
-//   socket.emit('testEvent', { message: 'hihi'});
-//   io.emit('nowHumanCount', { count});
-//   socket.on('disconnect', () => {
-//     count--;
-//     io.emit('nowHumanCount', { count});
-//     console.log('user disconnected');
-//   });
-// });
-
-app.listen(port, '0.0.0.0', async () => {
+httpServer.listen(port, '0.0.0.0', async () => {
     console.log(process.env.NODE_ENV)
     await db.initialize();
     winston.info(`Listening on port ${port}`);
