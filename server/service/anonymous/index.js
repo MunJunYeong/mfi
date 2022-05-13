@@ -145,22 +145,21 @@ const haveUserToken = async (userIdx)=> {
     }
 }
 const sendEmail = async (email) => {
-    if(await findUser(email) === null){
-        try{
-            const emailNo = utils.makeEmailNo(6); // 6자리 인증번호
-            const result =  await models['authentication'].create({
-                email : email,
-                no : emailNo
-            });
-            // send email method
-            utils.sendEmail(email, emailNo);
-            return result;        
-        }catch(err){
-            winston.error(`Unable to sendEmail[servcie] :`, err);
-            throw new Error('DB_SEND_EMAIL');
-        }   
-    }else {
-        throw new Error('EXIST_EMAIL');
+    const reusltUser = await findUser(email);
+    if(!(reusltUser === null)){ throw new Error('EXIST_EMAIL'); }
+
+    try{
+        const emailNo = utils.makeEmailNo(6); // 6자리 인증번호
+        const result =  await models['authentication'].create({
+            email : email,
+            no : emailNo
+        });
+        // send email method
+        utils.sendEmail(email, emailNo);
+        return result;        
+    }catch(err){
+        winston.error(`Unable to sendEmail[servcie] :`, err);
+        throw new Error('DB_SEND_EMAIL');
     }
 }
 const checkEmail = async(email, no) => {
@@ -179,24 +178,21 @@ const checkEmail = async(email, no) => {
         winston.error(`Unable to findAuthNo for checkEmail[servcie] :`, err);
         throw new Error('DB_FIND_AUTH_NO');
     }
-    if(findAuthNo[0] === undefined){
-        throw new Error('NOT_FOUND_EMAIL');
+    if(findAuthNo[0] === undefined){    throw new Error('NOT_FOUND_EMAIL'); }
+    if(findAuthNo[0].dataValues.no !== no){ throw new Error('NOT_CORRECT_AUTHNO'); }
+    
+    try{
+        await models['authentication'].destroy({
+            where : {
+                email : email
+            }
+        })
+        return {data : 1};
+    }catch(err){
+        winston.error(`Unable to checkEmail :`, err);
+        throw new Error('DB_CHECK_EMAIL');
     }
-    if(findAuthNo[0].dataValues.no === no){
-        try{
-            await models['authentication'].destroy({
-                where : {
-                    email : email
-                }
-            })
-            return {data : 1};
-        }catch(err){
-            winston.error(`Unable to checkEmail :`, err);
-            throw new Error('DB_CHECK_EMAIL');
-        }
-    }else {
-        throw new Error('NOT_CORRECT_AUTHNO');
-    }
+    
 }
 //find id , pw
 const findIdSendMail = async(email) => {

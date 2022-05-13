@@ -19,6 +19,7 @@ const db = require('./lib/db');
 const winston = require('./lib/common/winston');
 const router = require('./router/index');
 const errorCode = require('./lib/common/error');
+const socketEvent = require('./socketEvent');
 
 const port = 8080;
 
@@ -72,7 +73,13 @@ const io = new Server(httpServer, {
   }
 });
 
-socketEventHandling(io);
+
+io.on('connection', (socket) => {
+    console.log('a user connected');
+    // socket.emit('numberConnections', { data: now});
+    console.log(socket.server.engine.clientsCount);
+    socketEvent.registEvent(socket);
+});
 
 httpServer.listen(port, '0.0.0.0', async () => {
     console.log(process.env.NODE_ENV)
