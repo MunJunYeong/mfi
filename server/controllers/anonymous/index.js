@@ -70,16 +70,19 @@ const checkEmail = async (req, res) => {
     }catch(err){
         if(err.message === 'DB_FIND_AUTH_NO'){
             throw new Error(err.message);
-        }else if(err.message === 'NOT_FOUND_EMAIL'){
-            throw new Error(err.message);
-        }else if(err.message === 'DB_CHECK_EMAIL'){
-            throw new Error(err.message);
-        }else if(err.message ==='NOT_CORRECT_AUTHNO'){
-            throw new Error(err.message);
-        }else {
-            winston.error(`Unable to checkEmail :`, err);
-            throw new Error('UNABLE_CHECK_MAIL');
         }
+        if(err.message === 'NOT_FOUND_EMAIL'){
+            throw new Error(err.message);
+        }
+        if(err.message === 'DB_CHECK_EMAIL'){
+            throw new Error(err.message);
+        }
+        if(err.message ==='NOT_CORRECT_AUTHNO'){
+            throw new Error(err.message);
+        }
+        winston.error(`Unable to checkEmail :`, err);
+        throw new Error('UNABLE_CHECK_MAIL');
+        
     }
 }
 //find Id, Pw

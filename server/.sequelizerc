@@ -1,10 +1,8 @@
 const path = require('path');
 const env = process.env.NODE_ENV || 'local';
 
-
 module.exports = {
   'config': path.resolve('lib/db/config', 'index.js'),
-  // 'env': env,
   'models-path': path.resolve('lib/db', 'model'),
   'seeders-path': path.resolve('lib/db', 'seeders'),
   'migrations-path': path.resolve('lib/db', 'migrations')
