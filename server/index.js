@@ -12,7 +12,6 @@ const requestIp = require('request-ip');
 const cookParser = require('cookie-parser');
 
 const { Server } = require("socket.io");
-const socketEventHandling = require('./socket');
 
 const db = require('./lib/db');
 //logging
@@ -76,7 +75,6 @@ const io = new Server(httpServer, {
 
 io.on('connection', (socket) => {
     console.log('a user connected');
-    // socket.emit('numberConnections', { data: now});
     console.log(socket.server.engine.clientsCount);
     socketEvent.registEvent(socket);
 });
