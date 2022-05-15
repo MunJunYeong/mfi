@@ -12,10 +12,10 @@ const socket = io("http://localhost:8080", {
 
 
 socket.on("connect", () => {
-  console.log(socket.id); // x8WIv7-mJelg7on_ALbx
+  console.log('socket 통신이 연결되었습니다.'); // x8WIv7-mJelg7on_ALbx
 });
 
-socket.on("numberConnections", (data) => {
+socket.on("current", (data) => {
   console.log(data);
 });
 

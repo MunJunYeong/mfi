@@ -29,7 +29,7 @@ a {
 /* 반응형 최대크기 */ 
 #app { 
   margin:0 auto;  min-height:100%; 
-  width:1200px;
+  width:1400px;
   /* border-left:1px #D8D8D8 solid;  border-right:1px #D8D8D8 solid;   */
   padding-top: 20px;
 } 
