@@ -3,15 +3,22 @@
         <!-- background-color:#F5F5F5; -->
         <link href="https://unpkg.com/vueperslides/dist/vueperslides.css" rel="stylesheet">
         <!-- pc row -->
+        
         <v-row justify="center" style="height : 400px;" id="pc_main">
-            <v-row justify="center" id="main">
+            <v-row id="main_left">
+                dfafdsa
+            </v-row>
+            <v-row justify="center" id="main_center" >
                 <v-col cols='12' class="imageWrapper"  style="text-align: center;">
                     <div id="imageText">
                         <h1 id="mfi_mean">Metaphor For Investing</h1> <br><br>
                         <p class="subtitle">MFI는 금융시장의 메타포를 찾기 위한 아이디어를 공유하는 장소입니다.</p>
                     </div>
                 </v-col>
-            </v-row>                 
+            </v-row>
+            <v-row id="main_right">
+                dfafdsa
+            </v-row>                
         </v-row > 
         <br class="pc_margin"> <br class="pc_margin"><br class="pc_margin"><br class="pc_margin"><br class="pc_margin">
         <v-row justify="center" class="pc_margin"> 
@@ -199,7 +206,6 @@
 </script>
 
 <style scoped>
-
 @media all and (max-width:767px) {
     #pc_main, .pc_margin, .pc_item{
         display: none;
@@ -215,72 +221,72 @@
         display: none;
     }
 }
-    .imageWrapper{
-        background-image: url("../../assets/home_idea.jpg"); background-repeat : no-repeat;
-        background-size : cover; opacity: 0.85;
-    }
-    #mfi_mean{
-       font-family: 'Chosunilbo_myungjo'; color: white; line-height: 200px;
-        font-size:80px; font-weight: 900;
-    }
-    .subtitle{
-        font-family: 'Chosunilbo_myungjo';color: white; 
-        font-size:22px;
-        font-weight: normal; font-weight: 900;
-    }
-    .vueSlider{
-        font-size:30px;
-    }
-    image {
-        -webkit-filter: blur(5px); -moz-filter: blur(5px); -o-filter: blur(5px); -ms-filter: blur(5px); filter: blur(5px);
-    }
-    .model {
-        padding: 10px 10px 10px 10px; 
-    }
-    .modelContainer{
-        height: 400px;
-    }
-    hr{
-        border : solid 2px #43A047;
-    }
-    .mobile_container{
-        height: 300px;
-    }
-    .mobile_img{
-        width: 150px; height: 150px;
-    }
-    .mobile_article{
-        width: 100%; height: 150px; margin:0 auto; text-align: center;
-    }
-    .mobile_article_content{
-        width: 100%; text-align: center;
-    }
-    .div_article{
-        width: 100%;
-        height:150px;
-        overflow:hidden;
-        margin:0 auto;
-    }
-    .article{
-        width:130px;
-        height:150px;
-        object-fit:cover;
-    }
-    .article_content{
-        width: 100%;
-        height:150px;
-        text-align: center;
-        /* display: table-cell; */
-        vertical-align: middle;
-        font-family: 'S-CoreDream-3Light';
-        font-weight: bold;
-    }
-    .link_to{
-        text-decoration: underline;
-        font-family: 'NEXON Lv1 Gothic OTF';
-        font-size:17px;
-        text-shadow: 1px 1px 1px #BDBDBD; 
-    }
+.imageWrapper{
+    background-image: url("../../assets/home_idea.jpg"); background-repeat : no-repeat;
+    background-size : cover; opacity: 0.85;
+}
+#mfi_mean{
+   font-family: 'Chosunilbo_myungjo'; color: white; line-height: 200px;
+    font-size:80px; font-weight: 900;
+}
+.subtitle{
+    font-family: 'Chosunilbo_myungjo';color: white; 
+    font-size:22px;
+    font-weight: normal; font-weight: 900;
+}
+.vueSlider{
+    font-size:30px;
+}
+image {
+    -webkit-filter: blur(5px); -moz-filter: blur(5px); -o-filter: blur(5px); -ms-filter: blur(5px); filter: blur(5px);
+}
+.model {
+    padding: 10px 10px 10px 10px; 
+}
+.modelContainer{
+    height: 400px;
+}
+hr{
+    border : solid 2px #43A047;
+}
+.mobile_container{
+    height: 300px;
+}
+.mobile_img{
+    width: 150px; height: 150px;
+}
+.mobile_article{
+    width: 100%; height: 150px; margin:0 auto; text-align: center;
+}
+.mobile_article_content{
+    width: 100%; text-align: center;
+}
+.div_article{
+    width: 100%;
+    height:150px;
+    overflow:hidden;
+    margin:0 auto;
+}
+.article{
+    width:130px;
+    height:150px;
+    object-fit:cover;
+}
+.article_content{
+    width: 100%;
+    height:150px;
+    text-align: center;
+    /* display: table-cell; */
+    vertical-align: middle;
+    font-family: 'S-CoreDream-3Light';
+    font-weight: bold;
+}
+.link_to{
+    text-decoration: underline;
+    font-family: 'NEXON Lv1 Gothic OTF';
+    font-size:17px;
+    text-shadow: 1px 1px 1px #BDBDBD; 
+}
 @font-face {
     font-family: 'SLEIGothicTTF';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.0/SLEIGothicTTF.woff') format('woff');
