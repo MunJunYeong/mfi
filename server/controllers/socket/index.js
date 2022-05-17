@@ -1,7 +1,7 @@
 
 
-const disconnectEvent = (socket) => () => {
-    // io.emit('numberConnections', {data: now});
+const disconnectEvent = (socket, io) => () => {
+    io.emit('current', socket.server.engine.clientsCount);
     console.log('user disconnected');
 };
 
