@@ -9,8 +9,6 @@ import VueCookies from "vue-cookies";
 Vue.config.productionTip = false;
 // .vue 파일에서만 this.$함수이름 : 프로토타입 가능
 Vue.prototype.$Vue = Vue;
-
-//이걸로 this.$cookie 안되는 ?
 Vue.prototype.$cookie = VueCookies;
 Vue.use(VueCookies);
 
