@@ -1,5 +1,5 @@
 const { VUE_APP_BACKEND_HOST } = process.env;
-import axios from "axios";
+import axios from "../lib/axios";
 
 const createVisitor = async()=> {
     let res;

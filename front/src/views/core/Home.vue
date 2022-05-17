@@ -5,7 +5,7 @@
         <!-- pc row -->
         <v-row justify="center"  id="pc_main" class="main_wrapper">
             <v-row id="main_left" >
-                dfafdsa
+                
             </v-row>
             <v-row  id="main_center" >
                 <v-col class="imageWrapper"  style="text-align: center;">
@@ -16,7 +16,9 @@
                 </v-col>
             </v-row>
             <v-row id="main_right">
-                dfafdsa
+               <div>
+                   <div id="circle">접</div> 접속자 : {{currentUserCount}}명
+               </div>
             </v-row>                
         </v-row > 
         <br class="pc_margin"> <br class="pc_margin"><br class="pc_margin"><br class="pc_margin"><br class="pc_margin">
@@ -134,11 +136,10 @@
         this.getIdeaCount();
         this.getTodayVisitorCount();
         this.getTotalVisitorCount();
-        this.getCurrentUser();
     },
     computed : {
         currentUserCount : function(){
-            return this.$store.getters.get_current_connect_user_count.data;
+            return this.$store.getters.get_current_user_count;
         },
         userCount : function(){
             return this.$store.getters.get_user_count.data;
@@ -171,14 +172,6 @@
         }
     },
     methods : {
-        async getCurrentUser(){
-            try {
-                await this.$store.dispatch('get_current_user_count', {
-                })
-            }catch(err){
-                console.log(err)
-            }
-        },
         async getUserCount(){
             try{
                 await this.$store.dispatch('get_user_count', {
@@ -249,15 +242,20 @@
     width : 100%
 }
 #main_left{
-    width: 10%; background-color: yellow;
+    width: 10%; 
     margin-right: 20px;
 }
 #main_center{
     width: 80%;
 }
 #main_right{
-    width: 10%; background-color: yellow;
+    /* background-color: yellow; */
+    width: 10%; 
     margin-left: 20px;
+}
+#circle{
+    width: 25px; display: inline-block; height: 25px; color: greenyellow;
+    border-radius: 50%; background: greenyellow;
 }
 .vueSlider{
     font-size:30px;

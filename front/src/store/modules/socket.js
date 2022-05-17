@@ -1,29 +1,35 @@
-import { io } from "socket.io-client";
-const socket = io("http://localhost:8080", {
-  withCredentials: true,
-});
+import socket from '../../lib/socket'
+
+// socket.on("connect", () => {
+//   console.log('socket 통신이 연결되었습니다.'); // x8WIv7-mJelg7on_ALbx
+// });
 
 
-socket.on("connect", () => {
-  console.log('socket 통신이 연결되었습니다.'); // x8WIv7-mJelg7on_ALbx
-});
-
-socket.on("current", (data) => {
-  console.log(data);
-});
 
 const socketModule = {
+
     state : {
+      currentConnectUserCount : {},
 
     },
     mutations : {
-
+      set_current_user_count(state, data){
+        state.currentConnectUserCount = data;
+      },
     },
+
     getters : {
-
+      get_current_user_count(state){
+        return state.currentConnectUserCount;
+      },
     },
-    actions : {
 
+    actions : {
+      get_current_user_count({commit}){
+        socket.on('current', (data)=> {
+          commit('set_current_user_count', data);
+        })
+      },
     }
 }
 

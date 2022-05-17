@@ -74,7 +74,7 @@ const io = new Server(httpServer, {
 
 
 io.on('connection', (socket) => {
-    socketEvent.registEvent(socket);
+    socketEvent.registEvent(socket, io);
 });
 
 httpServer.listen(port, '0.0.0.0', async () => {

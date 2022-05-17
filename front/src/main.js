@@ -6,20 +6,20 @@ import vuetify from './plugins/vuetify'
 import VueCookies from "vue-cookies";
 
 
-
-
-
-const axios = require('./lib/axios');
-
-Vue.config.productionTip = false
-Vue.prototype.$http = axios;
+Vue.config.productionTip = false;
+// .vue 파일에서만 this.$함수이름 : 프로토타입 가능
+Vue.prototype.$Vue = Vue;
 
 //이걸로 this.$cookie 안되는 ?
 Vue.prototype.$cookie = VueCookies;
 Vue.use(VueCookies);
 
+
 const init  = async () => {
-  
+
+  //현재 접속자 수
+  await store.dispatch('get_current_user_count');
+
   //토큰 유효성 검사
   const settingVerifyToken = async () => {
     let token = localStorage.getItem('accessToken');
@@ -41,6 +41,7 @@ const init  = async () => {
     render: h => h(App)
   }).$mount('#app')
 }
+
 
 try{
   init();

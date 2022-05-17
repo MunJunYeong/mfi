@@ -7,7 +7,7 @@ const eventRoute = {
 }
 
 
-const registEvent = (socket) => {
+const registEvent = (socket, io) => {
     console.log('a user connected');
 
     socket.on('chat', (data) => {
@@ -22,10 +22,10 @@ const registEvent = (socket) => {
         socket.emit('chat', msg);
     })
 
-    socket.emit('current', socket.server.engine.clientsCount)
+    io.emit('current', socket.server.engine.clientsCount)
 
     Object.keys(eventRoute).forEach((key)=> {
-        socket.on(key, eventRoute[key](socket));
+        socket.on(key, eventRoute[key](socket, io));
     }) 
 };
 
