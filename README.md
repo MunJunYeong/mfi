@@ -51,6 +51,7 @@ Architecture
 |   |     ├── UserItem.vue
 │   ├── lib
 |   |     ├── axios.js
+|   |     ├── socket.js
 │   ├── plugins
 |   |     ├── vuetify.js
 │   ├── router
@@ -61,9 +62,11 @@ Architecture
 |   |     ├── idea.js
 |   |     ├── index.js
 │   ├── store
-|   |     ├── anonymous.js
-|   |     ├── auth.js
-|   |     ├── idea.js
+|   |     ├── modules
+|   |    |    ├── anonymous.js
+|   |    |    ├── auth.js
+|   |    |    ├── idea.js
+|   |    |    ├── socket.js
 |   |     ├── index.js
 │   └── views
 |   |    ├── auth
@@ -97,8 +100,10 @@ Architecture
 |   |     ├── anonymous
 |   |     ├── comment
 |   |     ├── idea
+|   |     ├── socket
 |   |     ├── statistics
 |   |     ├── user
+|   |     ├── index.js
 │   ├── lib
 |   |     ├── common
 |   |     |    ├── index.js
@@ -143,7 +148,8 @@ Architecture
 |   |     ├── news
 |   |     ├── user
 |   |     ├── visitor
-|   |     |
+│   ├── socketEvent
+|   |     ├── index.js
 │   ├── index.js
 │   ├── .env.js
 │   ├── .sequelizerc.js
