@@ -1,4 +1,4 @@
-import idea from '../services/idea';
+import idea from '../../services/idea';
 
 const ideaModule = {
     state: {

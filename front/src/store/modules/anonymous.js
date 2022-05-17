@@ -1,6 +1,6 @@
 import jwt_decode from 'jwt-decode'
 import VueCookies from "vue-cookies";
-import anonymous from '../services/anonymous';
+import anonymous from '../../services/anonymous';
 
 const anonymousModule = {
     state: {
@@ -10,6 +10,7 @@ const anonymousModule = {
         todayVisitorCount : {},
         totalVisitorCount : {},
         userData : {},
+        currentConnectUserCount : {},
     },
     mutations: {
         set_news(state, data){
@@ -32,6 +33,9 @@ const anonymousModule = {
         },
     },
     getters: {
+        get_current_connect_user_count(state){
+            return state.currentConnectUserCount;
+        },
         get_news_item(state){
             return state.news;
         },
@@ -57,9 +61,11 @@ const anonymousModule = {
         },
     },
     actions: {
+        async get_current_user_count(){
+
+        },
         async create_visitor(){
             const res =await anonymous.createVisitor();
-
             
             let now = new Date(); 
             let nextDay = new Date();

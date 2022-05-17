@@ -3,13 +3,12 @@
         <!-- background-color:#F5F5F5; -->
         <link href="https://unpkg.com/vueperslides/dist/vueperslides.css" rel="stylesheet">
         <!-- pc row -->
-        
-        <v-row justify="center" style="height : 400px;" id="pc_main">
-            <v-row id="main_left">
+        <v-row justify="center"  id="pc_main" class="main_wrapper">
+            <v-row id="main_left" >
                 dfafdsa
             </v-row>
-            <v-row justify="center" id="main_center" >
-                <v-col cols='12' class="imageWrapper"  style="text-align: center;">
+            <v-row  id="main_center" >
+                <v-col class="imageWrapper"  style="text-align: center;">
                     <div id="imageText">
                         <h1 id="mfi_mean">Metaphor For Investing</h1> <br><br>
                         <p class="subtitle">MFI는 금융시장의 메타포를 찾기 위한 아이디어를 공유하는 장소입니다.</p>
@@ -135,8 +134,12 @@
         this.getIdeaCount();
         this.getTodayVisitorCount();
         this.getTotalVisitorCount();
+        this.getCurrentUser();
     },
     computed : {
+        currentUserCount : function(){
+            return this.$store.getters.get_current_connect_user_count.data;
+        },
         userCount : function(){
             return this.$store.getters.get_user_count.data;
         },
@@ -168,13 +171,21 @@
         }
     },
     methods : {
+        async getCurrentUser(){
+            try {
+                await this.$store.dispatch('get_current_user_count', {
+                })
+            }catch(err){
+                console.log(err)
+            }
+        },
         async getUserCount(){
             try{
                 await this.$store.dispatch('get_user_count', {
                 })
             }catch(err){
                 console.log(err)
-                }
+            }
         },
         async getIdeaCount(){
             try{
@@ -182,7 +193,7 @@
                 })
             }catch(err){
                 console.log(err)
-                }
+            }
         },
         async getTodayVisitorCount(){
             try{
@@ -190,7 +201,7 @@
                 })
             }catch(err){
                 console.log(err)
-                }
+            }
         },
         async getTotalVisitorCount(){
             try{
@@ -198,7 +209,7 @@
                 })
             }catch(err){
                 console.log(err)
-                }
+            }
         },
     }
 
@@ -233,6 +244,20 @@
     font-family: 'Chosunilbo_myungjo';color: white; 
     font-size:22px;
     font-weight: normal; font-weight: 900;
+}
+.main_wrapper{
+    width : 100%
+}
+#main_left{
+    width: 10%; background-color: yellow;
+    margin-right: 20px;
+}
+#main_center{
+    width: 80%;
+}
+#main_right{
+    width: 10%; background-color: yellow;
+    margin-left: 20px;
 }
 .vueSlider{
     font-size:30px;
