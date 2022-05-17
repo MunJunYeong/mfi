@@ -32,7 +32,6 @@ const corsOptions = {
     }
   },
   credentials: true,
-
 }
 
 app.use(cors(corsOptions));
@@ -67,11 +66,11 @@ const httpServer = http.createServer(app);
 //node 내장객체 http모듈로 만든다.
 const io = new Server(httpServer, {
   cors: {
-    origin: corsOptions.origin,
+    origin: "*",
     credentials: true
   }
 });
-
+io.set
 
 io.on('connection', (socket) => {
     socketEvent.registEvent(socket, io);
