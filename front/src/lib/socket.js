@@ -1,8 +1,8 @@
 import { io } from "socket.io-client";
+const { VUE_APP_BACKEND_HOST } = process.env;
 
 
-
-let socket = io('http://backend.mfinvest.kr' ,{
+let socket = io(VUE_APP_BACKEND_HOST ,{
   withCredentials: true,
 });
 

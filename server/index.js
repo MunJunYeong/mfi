@@ -66,7 +66,7 @@ const httpServer = http.createServer(app);
 //node 내장객체 http모듈로 만든다.
 const io = new Server(httpServer, {
   cors: {
-    origin: "*",
+    origin: corsOptions.origin,
     credentials: true
   }
 });
