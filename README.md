@@ -1,7 +1,7 @@
 
 MFI (Metaphor for Investing)
 ==================
-홈페이지 바로가기 ([www.mfinvest.kr/home](http://mfinvest.kr/))
+홈페이지 바로가기 ([mfinvest.kr](http://mfinvest.kr/))
 
 
 Created by
