@@ -17,8 +17,13 @@
             </v-row>
             <v-row id="main_right">
                <div>
-                   <div id="circle">접</div> 접속자 : {{currentUserCount}}명
+                   <div id="circle">접</div> 접속자 : {{currentUserCount}}명 <br> <br>
+                   접속 중인 회원
                </div>
+               <div>
+                   List
+               </div>
+               
             </v-row>                
         </v-row > 
         <br class="pc_margin"> <br class="pc_margin"><br class="pc_margin"><br class="pc_margin"><br class="pc_margin">

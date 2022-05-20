@@ -17,6 +17,7 @@ const init  = async () => {
 
   //현재 접속자 수
   await store.dispatch('get_current_user_count');
+  await store.dispatch('get_current_private_count');
 
   //토큰 유효성 검사
   const settingVerifyToken = async () => {

@@ -143,7 +143,6 @@ import VueCookies from "vue-cookies";
           console.log(err)
           alert('통신 오류');
         }
-        console.log(res)
         //아이디 저장하기 + 쿠키에 id 값이 없다면 
         if(this.saveId && !VueCookies.isKey('id') ){
           VueCookies.set('id', this.id);
@@ -169,8 +168,7 @@ import VueCookies from "vue-cookies";
           }
           return;
         }else if(res.message){
-          
-          alert(res.message); return;
+          alert(res.message);
         }
       }
     },

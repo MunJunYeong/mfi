@@ -1,5 +1,4 @@
-import socket from '../../lib/socket'
-
+import socket from '../../lib/socket';
 // socket.on("connect", () => {
 //   console.log('socket 통신이 연결되었습니다.'); // x8WIv7-mJelg7on_ALbx
 // });
@@ -30,6 +29,12 @@ const socketModule = {
           commit('set_current_user_count', data);
         })
       },
+      get_current_private_count({commit}){
+        socket.on('verify', (data)=> {
+          console.log(data)
+          commit
+        })
+      }
     }
 }
 
