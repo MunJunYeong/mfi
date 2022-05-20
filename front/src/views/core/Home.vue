@@ -16,11 +16,12 @@
                 </v-col>
             </v-row>
             <v-row id="main_right">
-               <div>
-                   <div id="circle">접</div> 접속자 : {{currentUserCount}}명 <br> <br>
+               <div style="background-color : yellow">
+                   <div id="circle">접</div> 
+                   접속자 : {{currentUserCount}}명 <br> <br>
                    접속 중인 회원
                </div>
-               <div>
+               <div style="background-color : red">
                    List
                </div>
                

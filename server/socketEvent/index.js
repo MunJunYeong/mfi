@@ -3,13 +3,19 @@ const { socket: socketController } = require('../controllers');
 
 const eventRoute = {
     'disconnect': socketController.disconnectEvent,
-    // 'current' : socketController.currentConnectedEvent,
+    'test' : socketController.test,
 }
 
 
 const registEvent = (socket, io) => {
     console.log('a user connected');
+    io.emit('current', socket.server.engine.clientsCount)
 
+    const verify = io.of('/verify');
+    verify.on('connection', (socket)=> {
+        io.emit('verify', socket.server.engine.clientsCount)
+        console.log('verify 서버 접속 완료')
+    })
     // socket.on('chat', (data) => {
     //     console.log(`message from ${data.name} : ${data.msg}`);
     //     const msg = {
@@ -21,10 +27,8 @@ const registEvent = (socket, io) => {
     //     }
     //     socket.emit('chat', msg);
     // })
-    socket.on('current', (io)=> {
-        io.emit('current', socket.server.engine.clientsCount)
-    })
 
+    //middleware
     // io.use((socket, next)=> {
     //     console.log(socket.handshake.auth.token);
     // })
