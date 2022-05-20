@@ -70,7 +70,8 @@ const io = new Server(httpServer, {
     credentials: true
   }
 });
-io.set
+
+
 
 io.on('connection', (socket) => {
     socketEvent.registEvent(socket, io);
