@@ -21,11 +21,12 @@ const registEvent = (socket, io) => {
     //     }
     //     socket.emit('chat', msg);
     // })
-
-    io.emit('current', socket.server.engine.clientsCount)
+    socket.on('current', (io)=> {
+        io.emit('current', socket.server.engine.clientsCount)
+    })
 
     // io.use((socket, next)=> {
-    //     console.log(socket.handshake.query)
+    //     console.log(socket.handshake.auth.token);
     // })
 
 

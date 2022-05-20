@@ -5,7 +5,9 @@ const token = localStorage.getItem('accessToken');
 
 
 let socket = io(VUE_APP_BACKEND_HOST ,{
-  query: token,
+  auth: {
+    token: token
+  },
   withCredentials: true,
 });
 
