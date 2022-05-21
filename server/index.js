@@ -87,20 +87,7 @@ io.use((socket, next)=> {
 io.on('connection', (socket) => {
     socketEvent.registEvent(socket, io);
 });
-/*
-1. registEvent 부분- eventRoute에서 disconnect말고 돌지를 않음. registEvent부분에서
-io.emit은 되는데 루트를 돌려주는 socket.on이 안먹힌다? 근데 disconnect는 돌아감
 
-2. 접속 중인 회원 중에서 리스트를 뽑아내기 위해서는 유효한 토큰인지 확인을 해야하는데
-이때 검증을 해줄 미들웨어가 필요. io.use를 통해 해주는 부분인데 여기서 79번째 줄의 
-socketEvent.registEvent(socket, io);에서 원래는 socket만 전달했는데 io도 같이 전달해주는게
-맞는지?
-
-3. 채팅을 구현하기 위해서 하다가 join, leave를 해주기 위해서 namespace, room을 사용해야함
-room은 namespace의 하위개념(namespace안 소켓을 쪼갠 것이 room)
-현재 테스트로 프론트에서 testsocket을 전달해줘서 verify 소켓을 만드는거까지 성공 
-여기서 layer를 어떻게 해야하는지 ? router를 만들어야할지 안만들고 index.js에서 만들어서 사용할지
-*/
 const verify = io.of('/testsocket');
 verify.on('connection', (socket)=> {
     console.log('verify 소켓 접속 완료')

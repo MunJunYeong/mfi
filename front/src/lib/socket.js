@@ -12,7 +12,7 @@ const socket = io(VUE_APP_BACKEND_HOST ,{
 });
 
 const init = () => {
-  const test = io.connect('http://localhost:8080/testsocket')
+  // const test = io.connect('http://localhost:8080/testsocket')
 }
 export {
   socket,
