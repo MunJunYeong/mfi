@@ -153,7 +153,7 @@ import VueCookies from "vue-cookies";
           VueCookies.remove('id');
           VueCookies.remove('saveId');
         }
-
+        
         if(res.message === 'isLogin'){
           let flag = confirm('다른 기기에서 로그인 중입니다.' + '\n' + '강제 로그아웃 하고 현재 기기에서 로그인 하시겠습니까?');
           if(flag){

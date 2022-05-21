@@ -1,8 +1,6 @@
-import {socket, test} from '../../lib/socket';
+import {socket} from '../../lib/socket';
 
 //io로 새로운 room space를 만들어야하는데 이걸 lib socket에서 만들어야하는지 ?
-
-
 
 const socketModule = {
 
@@ -28,15 +26,7 @@ const socketModule = {
           commit('set_current_user_count', data);
         })
         //test
-        socket.on('test', (data)=> {
-          console.log(data)
-        })
-      },
-      get_current_private_count({commit}){
-        test.on('verify', (data)=> {
-          console.log(data)
-          commit
-        })
+        socket.emit('test', { a: 1})
       }
     }
 }
