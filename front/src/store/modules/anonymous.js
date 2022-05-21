@@ -126,6 +126,7 @@ const anonymousModule = {
                 await this.dispatch('get_user_data', res.data.token );
                 history.back();
                 commit
+                return res.data;
             }else if(res.data.message){
                 return res.data;
             }

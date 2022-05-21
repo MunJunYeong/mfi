@@ -1,41 +1,39 @@
 const { socket: socketController } = require('../controllers');
+const { middleware } = require('../lib/common');
 
 
 const eventRoute = {
-    'disconnect': socketController.disconnectEvent,
     'test' : socketController.test,
+}
+
+const anymousEventRoute = {
+    'disconnect': socketController.disconnectEvent,
 }
 
 
 const registEvent = (socket, io) => {
-    console.log('a user connected');
-    io.emit('current', socket.server.engine.clientsCount)
+    console.log(socket.user);
+    socket.server.emit('current', socket.server.engine.clientsCount)
 
-    const verify = io.of('/verify');
-    verify.on('connection', (socket)=> {
-        io.emit('verify', socket.server.engine.clientsCount)
-        console.log('verify 서버 접속 완료')
-    })
-    // socket.on('chat', (data) => {
-    //     console.log(`message from ${data.name} : ${data.msg}`);
-    //     const msg = {
-    //         from : {
-    //             name : data.name,
-    //             avatar : data.avatar
-    //         },
-    //         msg : data.msg
-    //     }
-    //     socket.emit('chat', msg);
-    // })
 
-    //middleware
-    // io.use((socket, next)=> {
-    //     console.log(socket.handshake.auth.token);
-    // })
-
+    const testmiddle = (next) => { console.log(socket.user) ; return true;};
 
     Object.keys(eventRoute).forEach((key)=> {
-        socket.on(key, eventRoute[key](socket, io));
+        socket.on(key, () => {
+            const result = testmiddle();
+            if(!result) return;
+            
+            eventRoute[key](socket);
+        });
+    }) 
+
+    
+
+
+
+
+    Object.keys(anymousEventRoute).forEach((key)=> {
+        socket.on(key, anymousEventRoute[key](socket, io));
     }) 
 };
 

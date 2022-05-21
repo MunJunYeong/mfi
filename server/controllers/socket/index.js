@@ -7,9 +7,9 @@ const disconnectEvent = (socket, io) => () => {
 
 
 
-const test = (socket)=> ()=>{
+const test = (socket)=> {
     console.log('aaaaaaaaaaaaaaaaaaa')
-    io.emit('test', 'testetstetse');
+    // socket.emit('test', 'testetstetse');
 }
 
 

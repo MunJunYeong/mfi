@@ -11,9 +11,10 @@ const socket = io(VUE_APP_BACKEND_HOST ,{
   withCredentials: true,
 });
 
-const test = io.connect('http://localhost:8080/testsocket')
-
+const init = () => {
+  const test = io.connect('http://localhost:8080/testsocket')
+}
 export {
   socket,
-  test
+  init
 };

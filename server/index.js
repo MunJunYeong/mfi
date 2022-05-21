@@ -72,6 +72,15 @@ const io = new Server(httpServer, {
   }
 });
 
+io.use((socket, next)=> {
+  console.log(socket.handshake.auth.token);
+  socket.user = {
+    name: 'a',
+  }
+  next();
+})
+
+
 //socket.request로 요청객체 접근가능
 //socket.request.res로 응답객체 접근가능
 //socket.id로 소켓 고유 아이디 가져오기
