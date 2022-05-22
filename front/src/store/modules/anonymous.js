@@ -82,7 +82,6 @@ const anonymousModule = {
             const res = await anonymous.getUserCount();
 
             if(res.data.message){
-                
                 return;
             }
             commit('user_count', res.data);
@@ -124,6 +123,7 @@ const anonymousModule = {
                 localStorage.setItem("accessToken", res.data.token);
                 localStorage.setItem("refreshToken", res.data.refreshToken);
                 await this.dispatch('get_user_data', res.data.token );
+                await this.dispatch('current_user_data'); //소켓서버 접속했음
                 history.back();
                 commit
                 return res.data;
@@ -139,6 +139,7 @@ const anonymousModule = {
                 localStorage.setItem("accessToken", res.data.token);
                 localStorage.setItem("refreshToken", res.data.refreshToken);       
                 await this.dispatch('get_user_data', res.data.token);
+                await this.dispatch('current_user_data');
                 history.back();
                 commit
             }else if(res.data.message){

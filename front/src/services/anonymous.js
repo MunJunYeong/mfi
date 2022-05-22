@@ -83,7 +83,6 @@ const getUserData = async (userIdx, token)=> {
 }
 const login = async (data)=> {
     let res;
-    console.log(data)
     try {
         res = await axios.post( VUE_APP_BACKEND_HOST + '/signin', {
             id : data.id,

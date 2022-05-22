@@ -14,14 +14,17 @@ Vue.use(VueCookies);
 
 
 const init  = async () => {
+  let token = localStorage.getItem('accessToken');
 
   //현재 접속자 수
-  await store.dispatch('get_current_user_count');
-  await store.dispatch('get_current_private_count');
+  await store.dispatch('current_user_count');
+  if(token !== null){
+    await store.dispatch('current_user_data'); //새로고침시에도 돌려주고, 로그인했을 때에도 돌려주기
+  }
+
 
   //토큰 유효성 검사
   const settingVerifyToken = async () => {
-    let token = localStorage.getItem('accessToken');
     if(token !== null){
       await store.dispatch('get_user_data', token);
     }

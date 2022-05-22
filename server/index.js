@@ -18,8 +18,9 @@ const db = require('./lib/db');
 const winston = require('./lib/common/winston');
 const router = require('./router/index');
 const errorCode = require('./lib/common/error');
-const socketEvent = require('./socketEvent');
-
+const anonymousSocket = require('./socketEvent/anonymous');
+const chattingSocket = require('./socketEvent/chatting');
+const jwtUtils = require('./lib/common/jwt');
 const port = 8080;
 
 const whitelist = ['http://localhost:8081','http://localhost:8080', 'http://mfinvest.kr', 'http://backend.mfinvest.kr','www.mfinvest.kr']
@@ -71,27 +72,28 @@ const io = new Server(httpServer, {
     credentials: true
   }
 });
-
-io.use((socket, next)=> {
-  console.log(socket.handshake.auth.token);
-  socket.user = {
-    name: 'a',
-  }
-  next();
-})
-
-
-//socket.request로 요청객체 접근가능
-//socket.request.res로 응답객체 접근가능
-//socket.id로 소켓 고유 아이디 가져오기
+//anonoymous 소켓 서버 on
 io.on('connection', (socket) => {
-    socketEvent.registEvent(socket, io);
+  anonymousSocket.anonymousRegist(socket)
 });
 
-const verify = io.of('/testsocket');
-verify.on('connection', (socket)=> {
-    console.log('verify 소켓 접속 완료')
+//chatting 소켓 middleware 걸어주고 on
+const chatting = io.of('/chatting');
+chatting.use((socket, next)=> {
+  const data = jwtUtils.verify(socket.handshake.auth.token);
+  if(data === 'need token' || data ==='accesstoken expired') return;
+  socket.user = {
+    userIdx : data.userIdx,
+    nickName : data.nickName,
+    role : data.role,
+    socket : socket.id
+  };
+  next();
 })
+chatting.on('connection', (socket)=> {
+  console.log('aaaaaaaaaaaaaaaa') //로그인하고나서 connection이 안 잡힘
+    chattingSocket.chattingRegist(socket);
+});
 
 httpServer.listen(port, '0.0.0.0', async () => {
     console.log(process.env.NODE_ENV)

@@ -13,8 +13,9 @@ const sign = (user) => {
     })
 }
 
-const verify = async (token) => {
+const verify = (token) => {
     let userData = null;
+    if(token === null) return 'need token';
     try {
         userData= jwt.verify(token, secret);
         return {

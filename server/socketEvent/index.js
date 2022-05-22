@@ -1,45 +1,47 @@
-const { socket: socketController } = require('../controllers');
-const { middleware } = require('../lib/common');
-
-
-const eventRoute = {
-    'test' : socketController.test,
-}
-
-const anymousEventRoute = {
-    'disconnect': socketController.disconnectEvent,
-}
-
-
-const registEvent = (socket, io) => {
-    console.log(socket.user);
-    socket.server.emit('current', socket.server.engine.clientsCount)
-
-
-    const testmiddle = (next) => { console.log(socket.user) ; return true;};
-
-    Object.keys(eventRoute).forEach((key)=> {
-        socket.on(key, () => {
-            const result = testmiddle();
-            if(!result) return;
-            
-            eventRoute[key](socket);
-        });
-    }) 
-
-    
-
-
-
-
-    Object.keys(anymousEventRoute).forEach((key)=> {
-        socket.on(key, anymousEventRoute[key](socket, io));
-    }) 
-};
+const anonymousRegist = require('./anonymous');
+const chattingRegist = require('./chatting');
 
 module.exports = {
-    registEvent
-};
+    anonymousRegist,
+    chattingRegist
+}
+
+
+
+
+
+
+
+
+
+// const socketMiddleware = (socket) => {
+//     const data = jwtUtils.verify(socket.handshake.auth.token);
+//     if(data === 'accesstoken expired') return false;
+//     socket.user ={
+//         data : data,
+//     }
+//     //list  중복있는지 확인
+//     let check =false;
+    
+//     connectionList.forEach((item)=> {
+//         if(item.userIdx === data.userIdx){
+//             item.socketId = socket.id; //새로고침할시 소켓 id는 계속해서 변경됨
+//             return check=true;
+//         }
+//     })
+//     if(!check) {
+//         const temp = {
+//             userIdx : data.userIdx,
+//             nickName : data.nickName,
+//             socketId : socket.id
+//         };
+//         connectionList.push(temp);
+//     }
+//     return true;
+// };
+
+
+
 
 
 
