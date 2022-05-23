@@ -78,7 +78,13 @@
                     접속자 : {{currentUserCount}}명 <br> <br>
                 </v-row>
                 <v-row justify="center">
-                    리스트
+                    <v-col cols='12'>
+                        <ConnectionUser style="cursor:pointer" v-for = "(item, index) in connectionUserList" :key="index"
+                            :nickName='item.nickName'
+                            :userIdx='item.userIdx'
+                            :role='item.role'
+                        />
+                    </v-col>
                 </v-row>
             </v-col>
         </v-row>
@@ -130,12 +136,12 @@
 
 <script>
 // import { VueperSlides, VueperSlide } from 'vueperslides'
-
+import ConnectionUser from '../../components/ConnectionUser.vue';
   export default {
     name: 'Home',
     components: {
         // VueperSlides,VueperSlide,
-
+        ConnectionUser
     },
     created() {
         this.getUserCount();
@@ -144,9 +150,6 @@
         this.getTotalVisitorCount();
     },
     computed : {
-        currentUserCount : function(){
-            return this.$store.getters.get_current_user_count;
-        },
         userCount : function(){
             return this.$store.getters.get_user_count.data;
         },
@@ -158,6 +161,12 @@
         },
         totalVisitor : function(){
             return this.$store.getters.get_total_visitor_count.data;
+        },
+        currentUserCount : function(){
+            return this.$store.getters.get_current_user_count;
+        },
+        connectionUserList : function(){
+            return this.$store.getters.get_current_user_data;
         }
     },
     data() {

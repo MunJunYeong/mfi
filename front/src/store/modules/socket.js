@@ -13,8 +13,8 @@ const socketModule = {
       set_current_user_count(state, data){
         state.currentConnectUserCount = data;
       },
-      set_current_user_data(){
-
+      set_current_user_data(state, data){
+        state.currentConnectUserData = data;
       }
     },
 
@@ -22,6 +22,9 @@ const socketModule = {
       get_current_user_count(state){
         return state.currentConnectUserCount;
       },
+      get_current_user_data(state){
+        return state.currentConnectUserData;
+      }
     },
 
     actions : {
@@ -36,6 +39,7 @@ const socketModule = {
         // const token = localStorage.getItem('accessToken');
         chatting.on('connect_user', (data)=> {
           console.log(data)
+          commit('set_current_user_data', data);
         })
         // socket.emit('connect_user');
         
