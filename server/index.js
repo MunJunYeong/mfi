@@ -91,8 +91,8 @@ chatting.use((socket, next)=> {
   next();
 })
 chatting.on('connection', (socket)=> {
-  console.log('aaaaaaaaaaaaaaaa') //로그인하고나서 connection이 안 잡힘
-    chattingSocket.chattingRegist(socket);
+  //로그인하고나서 connection이 안 잡힘
+  chattingSocket.chattingRegist(socket);
 });
 
 httpServer.listen(port, '0.0.0.0', async () => {

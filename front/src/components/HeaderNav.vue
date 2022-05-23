@@ -265,9 +265,9 @@
     #title {
         display: inline; 
         padding-left: 50px;
-         font-family: 'Recipekorea';
-         font-size:35px;
-         cursor:pointer;
+        font-family: 'Recipekorea';
+        font-size:35px;
+        cursor:pointer;
     }
     #subtitle{
         padding-left:5px;
