@@ -1,8 +1,8 @@
 const { socket: socketController } = require('../controllers');
 
-// const eventRoute = {
-//     'connect_user' : socketController.sendConnectData,
-// }
+const eventRoute = {
+    // 'apply chatting' : socketController.applyChatting,
+}
 
 
 let connectionList = [];
@@ -22,6 +22,20 @@ const chattingRegist = (socket) => {
     
     socket.emit('connect_user', connectionList);
 
+    socket.on('apply chatting', (userIdx)=> {
+        let toSocketId;
+        // 해당 userIdx의 socket id를 저장한다.
+        connectionList.forEach(key => {
+            if(key.userIdx === userIdx){
+                toSocketId = key.socket;
+            }
+        })
+        console.log(toSocketId)
+        socket.server.socket(toSocketId).emit('apply chatting', {data : 1});
+        
+    })
+
+
     socket.on('disconnect', ()=> {
         const idx = connectionList.findIndex((item)=> item.socket === socket.id);
         if(idx>-1) connectionList.splice(idx, 1);
@@ -29,11 +43,11 @@ const chattingRegist = (socket) => {
     })
 
 
-    // Object.keys(eventRoute).forEach((key)=> {
-    //     socket.on(key, () => {
-
-    //     });
-    // })
+    Object.keys(eventRoute).forEach((key)=> {
+        socket.on(key, () => {
+            socket.on(key, eventRoute[key](socket));
+        });
+    })
     
 };
 

@@ -38,7 +38,6 @@ const socketModule = {
       current_user_data({commit}){
         // const token = localStorage.getItem('accessToken');
         chatting.on('connect_user', (data)=> {
-          console.log(data)
           commit('set_current_user_data', data);
         })
         // socket.emit('connect_user');
@@ -47,7 +46,15 @@ const socketModule = {
         //   console.log(data)
         // })
         commit
-      }
+      },
+      apply_chatting({commit}, userIdx){
+        commit
+        chatting.emit('apply chatting', userIdx);
+        chatting.on('apply chatting', (data)=> {
+          alert(data)
+        })
+
+      },
     }
 }
 
