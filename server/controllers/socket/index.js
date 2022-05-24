@@ -1,13 +1,14 @@
 
 
-const disconnectEvent = (socket, connectionList) => () => {
+const disconnectEvent = (socket) => () => {
+    socket.server.emit('current', socket.server.engine.clientsCount);
     console.log('socket 연결 끊김');
 };
 
 
 
-const sendConnectData = (socket, connectionList)=> {
-    
+const applyChatting = (socket)=> {
+    console.log('dfafsdaf')
     // socket.server.emit('connect_user', connectionList);
     // socket.server.emit()
 }
@@ -15,5 +16,5 @@ const sendConnectData = (socket, connectionList)=> {
 
 module.exports = {
     disconnectEvent,
-    sendConnectData,
+    applyChatting,
 }

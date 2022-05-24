@@ -2,7 +2,7 @@
     <v-card>
         <br>
         <v-row justify='center' class="pc" >
-            <v-col cols="8" class="nickname">
+            <v-col cols="8" class="nickname"  v-on:click="chatting">
                 {{nickName}}
             </v-col>
         </v-row>
@@ -22,6 +22,11 @@ export default {
         "role",
         "userIdx",
     ],
+    computed: {
+        userData : function(){
+            return this.$store.getters.auth_get_data;
+        },
+    },
     components: {
     },
     created() {
@@ -32,11 +37,21 @@ export default {
         }
     },
     methods : {
+        chatting(){
+            if(this.userData.userIdx === this.userIdx){
+                // alert('본인한테는 채팅할 수 없습니다.'); return;
+            }
+            try{
+                this.$store.dispatch('apply_chatting', this.userIdx);
+            }catch(err){
+                console.log(err);
+            }
+        }
     }
 }
 
 </script>
-<style lang="scss" scoped>
+<style>
 @media all and (max-width:767px) {
     .pc{
         display: none;
