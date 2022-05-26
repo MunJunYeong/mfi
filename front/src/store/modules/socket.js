@@ -36,22 +36,18 @@ const socketModule = {
 
       
       current_user_data({commit}){
-        // const token = localStorage.getItem('accessToken');
-        chatting.on('connect_user', (data)=> {
+        //chatting 소켓 서버 접속
+        chatting.emit('connect user');
+        //현재 접속 중인 회원 리스트 가져오기
+        chatting.on('getUserList', (data)=> {
           commit('set_current_user_data', data);
-        })
-        // socket.emit('connect_user');
-        
-        // socket.on('connect_user', (data)=> {
-        //   console.log(data)
-        // })
-        commit
+        });
       },
-      apply_chatting({commit}, userIdx){
+
+      async apply_chatting({commit}, userIdx){
         commit
-        chatting.emit('apply chatting', userIdx);
-        console.log(chatting.id)
-        chatting.on('send apply', (data)=> {
+        await chatting.emit('applyChatting', userIdx);
+        await chatting.on('sendApply', (data)=> {
           console.log(data)
         })
 
