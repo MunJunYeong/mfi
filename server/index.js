@@ -77,8 +77,9 @@ io.on('connection', (socket) => {
   anonymousSocket.anonymousRegist(socket)
 });
 
-//chatting 소켓 middleware 걸어주고 on
+// chatting namespace
 const chatting = io.of('/chatting');
+//chatting 소켓 middleware 걸어주고 on
 chatting.use((socket, next)=> {
   const data = jwtUtils.verify(socket.handshake.auth.token);
   if(data === 'need token' || data ==='accesstoken expired') return;
