@@ -50,8 +50,9 @@ const socketModule = {
       apply_chatting({commit}, userIdx){
         commit
         chatting.emit('apply chatting', userIdx);
-        chatting.on('apply chatting', (data)=> {
-          alert(data)
+        console.log(chatting.id)
+        chatting.on('send apply', (data)=> {
+          console.log(data)
         })
 
       },

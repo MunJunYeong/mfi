@@ -2,6 +2,7 @@ const { socket: socketController } = require('../controllers');
 
 const eventRoute = {
     // 'apply chatting' : socketController.applyChatting,
+    
 }
 
 
@@ -30,9 +31,9 @@ const chattingRegist = (socket) => {
                 toSocketId = key.socket;
             }
         })
-        console.log(toSocketId)
-        socket.server.socket(toSocketId).emit('apply chatting', {data : 1});
-        
+        console.log(socket)
+        socket.server.emit('send apply', {data : 1})
+        // socket.server.socket(toSocketId).emit('apply chatting', {data : 1});
     })
 
 
@@ -41,13 +42,15 @@ const chattingRegist = (socket) => {
         if(idx>-1) connectionList.splice(idx, 1);
         socket.emit('connect_user', connectionList);
     })
-
-
-    Object.keys(eventRoute).forEach((key)=> {
-        socket.on(key, () => {
-            socket.on(key, eventRoute[key](socket));
-        });
+    socket.on('error', (err)=> {
+        console.log(err);
     })
+
+    // Object.keys(eventRoute).forEach((key)=> {
+    //     socket.on(key, () => {
+    //         socket.on(key, eventRoute[key](socket));
+    //     });
+    // })
     
 };
 
