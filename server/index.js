@@ -93,7 +93,7 @@ chatting.use((socket, next)=> {
 })
 chatting.on('connection', (socket)=> {
   //로그인하고나서 connection이 안 잡힘
-  chattingSocket.chattingRegist(socket);
+  chattingSocket.chattingRegist(socket, chatting);
 });
 
 httpServer.listen(port, '0.0.0.0', async () => {

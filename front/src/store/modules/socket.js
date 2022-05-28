@@ -34,24 +34,30 @@ const socketModule = {
         })
       },
 
-      
-      current_user_data({commit}){
+      //chatting socket 관리 다 함
+      async current_user_data({commit}){
         //chatting 소켓 서버 접속
-        chatting.emit('connect user');
+        chatting.emit('connectUser');
         //현재 접속 중인 회원 리스트 가져오기
         chatting.on('getUserList', (data)=> {
           commit('set_current_user_data', data);
         });
+        let flag2 = false;
+        chatting.on('sendApply', (data)=> {
+          if(data){
+            flag2 = confirm(`${data}님으로부터 채팅 요청이 왔습니다. 수락하시겠습니까?`);
+            if(!flag2) return;
+          }
+        });
+        console.log('dfasfasfsa')
       },
 
       async apply_chatting({commit}, userIdx){
         commit
+        // const flag = confirm('채팅을 신청하겠습니까?');
+        // if(!flag)return;
         await chatting.emit('applyChatting', userIdx);
-        await chatting.on('sendApply', (data)=> {
-          console.log(data)
-        })
-
-      },
+      }
     }
 }
 
