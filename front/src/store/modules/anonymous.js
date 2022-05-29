@@ -1,6 +1,7 @@
 import jwt_decode from 'jwt-decode'
 import VueCookies from "vue-cookies";
 import anonymous from '../../services/anonymous';
+import * as socket from '../../lib/socket';
 
 const anonymousModule = {
     state: {
@@ -125,6 +126,7 @@ const anonymousModule = {
                 await this.dispatch('get_user_data', res.data.token );
                 await this.dispatch('current_user_data'); //소켓서버 접속했음
                 history.back();
+                await socket.chatInit();
                 commit
                 return res.data;
             }else if(res.data.message){
@@ -141,6 +143,7 @@ const anonymousModule = {
                 await this.dispatch('get_user_data', res.data.token);
                 await this.dispatch('current_user_data');
                 history.back();
+                await socket.chatInit();
                 commit
             }else if(res.data.message){
                 return res.data;

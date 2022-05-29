@@ -9,18 +9,10 @@ const disconnectEvent = (socket) => () => {
 let userList = [];
 const disconnectChattingEvent = (socket, io) => () =>  {
     console.log('chatting socket 연결 끊김');
-    socket.leave(socket.user.socket);
-    const idx = userList.findIndex((item)=> item.socket === socket.id);
-    if(idx>-1) userList.splice(idx, 1);
-    socket.emit('connect_user', userList);
+    console.log(socket.nsp.userMap);
+    delete socket.nsp.userMap[socket.user.userIdx];
+    socket.emit('connecting_user', Object.values(socket.nsp.userMap));
 };
-
-const connectUser =(socket, io) => () => {
-    userList.push(socket.user);
-    socket.join(socket.user.socket);
-    // console.log(socket.server.sockets.sockets)
-    socket.emit('getUserList', userList);
-}
 
 const applyChatting =  (socket, io)=> (userIdx)=> {
     let toSocketId;
@@ -41,6 +33,5 @@ module.exports = {
     disconnectEvent,
     disconnectChattingEvent,
     applyChatting,
-    connectUser,
     chattingError,
 }
