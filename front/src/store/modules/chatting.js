@@ -1,38 +1,26 @@
-import { chatting} from '../../lib/socket';
+
+import {socket} from '../../lib/chattingSocket';
 
 //io로 새로운 room space를 만들어야하는데 이걸 lib socket에서 만들어야하는지 ?
 
-const socketModule = {
-
+const chattingSocketModule = {
     state : {
-      currentConnectUserCount : {},
       currentConnectUserData : [],
 
     },
     mutations : {
-      set_current_user_count(state, data){
-        state.currentConnectUserCount = data;
-      },
       set_current_user_data(state, data){
         state.currentConnectUserData = data;
       }
     },
 
     getters : {
-      get_current_user_count(state){
-        return state.currentConnectUserCount;
-      },
       get_current_user_data(state){
         return state.currentConnectUserData;
       }
     },
 
     actions : {
-      current_user_count({commit}, data){
-        commit('set_current_user_count', data);
-      },
-
-      //chatting socket 관리 다 함
       async current_user_data({commit}, data){
         
         commit('set_current_user_data', data);
@@ -44,10 +32,10 @@ const socketModule = {
         commit
         // const flag = confirm('채팅을 신청하겠습니까?');
         // if(!flag)return;
-        await chatting.emit('applyChatting', userIdx);
+        await socket.emit('applyChatting', userIdx);
       }
     }
 }
 
 
-export default socketModule
+export default chattingSocketModule;
