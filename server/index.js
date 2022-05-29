@@ -79,6 +79,8 @@ io.on('connection', (socket) => {
 
 // chatting namespace
 const chatting = io.of('/chatting');
+chatting.userMap = {};
+
 //chatting 소켓 middleware 걸어주고 on
 chatting.use((socket, next)=> {
   const data = jwtUtils.verify(socket.handshake.auth.token);
@@ -89,6 +91,7 @@ chatting.use((socket, next)=> {
     role : data.role,
     socket : socket.id
   };
+  
   next();
 })
 chatting.on('connection', (socket)=> {

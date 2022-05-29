@@ -4,6 +4,7 @@ import store from './store'
 import router from './router'
 import vuetify from './plugins/vuetify'
 import VueCookies from "vue-cookies";
+import * as socket from "./lib/socket";
 
 
 Vue.config.productionTip = false;
@@ -14,6 +15,7 @@ Vue.use(VueCookies);
 
 
 const init  = async () => {
+  await socket.globalInit();
   let token = localStorage.getItem('accessToken');
 
   //현재 접속자 수
@@ -27,6 +29,7 @@ const init  = async () => {
   const settingVerifyToken = async () => {
     if(token !== null){
       await store.dispatch('get_user_data', token);
+      await socket.chatInit();
     }
   }
   await settingVerifyToken();
