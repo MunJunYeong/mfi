@@ -42,8 +42,10 @@ export default {
             if(this.userData.userIdx === this.userIdx){
                 // alert('본인한테는 채팅할 수 없습니다.'); return;
             }
+            const flag = confirm('채팅을 신청하겠습니까?');
+            if(!flag)return;
             try {
-                chatting.applyChatting();
+                chatting.applyChatting(this.userIdx);
             }catch(err){
                 console.log(err);
             }

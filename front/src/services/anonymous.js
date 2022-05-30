@@ -165,5 +165,4 @@ export default{
     login, forceLogin,
     findIdSendEmail,
     findPwSendEmail, findPwCheckEmail, updatePw, 
-
- }
+}

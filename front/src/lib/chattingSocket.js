@@ -14,14 +14,32 @@ const chatSocketInit = () => {
   });
 }
 
+
+
 const registChatEventListner = () => {
   if(!socket) return;
 
   socket.on('connecting_user', (data)=> {
-    console.log(data);
+    console.log(data)
     store.dispatch('current_user_data', data);
   });
+  //요청이 들어왔을 경우
+  socket.on('applyResponse', (data)=> {
+    if(!data) return;
+    const flag = confirm(`${data}님으로부터 채팅 신청이 왔습니다. 수락하시겠습니까?`);
+    if(!flag) return;
+    // store.dispatch('')
+  });
+
 };
+
+const applyResponse = async ()=> {
+  if(!socket) return;
+
+  
+
+}
+
 
 const initialize = async () => {
   await chatSocketInit();
@@ -48,4 +66,5 @@ export {
   initialize,
   disconnect,
   socket,
+  applyResponse,
 };
