@@ -14,6 +14,7 @@
     
 </template>
 <script>
+import {chatting} from '../services';
 
 export default {
     name: 'ConnectionUser',
@@ -41,11 +42,16 @@ export default {
             if(this.userData.userIdx === this.userIdx){
                 // alert('본인한테는 채팅할 수 없습니다.'); return;
             }
-            try{
-                this.$store.dispatch('apply_chatting', this.userIdx);
+            try {
+                chatting.applyChatting();
             }catch(err){
                 console.log(err);
             }
+            // try{
+            //     this.$store.dispatch('apply_chatting', this.userIdx);
+            // }catch(err){
+            //     console.log(err);
+            // }
         }
     }
 }
