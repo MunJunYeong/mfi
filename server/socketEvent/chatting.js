@@ -7,7 +7,6 @@ const eventRoute = {
 }
 
 
-let userList = [];
 // let userIdx;
 const chattingRegist = (socket, io) => {
     console.log('chatting socket 연결 성공')

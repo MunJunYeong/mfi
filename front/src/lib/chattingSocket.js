@@ -3,12 +3,10 @@ import store from '../store'
 const { VUE_APP_BACKEND_HOST } = process.env;
 const token = localStorage.getItem('accessToken');
 
-
-
 let socket;
 
-const chatSocketInit = async () => {
-  socket = await io(VUE_APP_BACKEND_HOST+'/chatting', {
+const chatSocketInit = () => {
+  socket = io(VUE_APP_BACKEND_HOST+'/chatting', {
     auth: {
       token: token
     },
