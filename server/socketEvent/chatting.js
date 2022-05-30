@@ -1,9 +1,9 @@
-const { socket: socketController } = require('../controllers');
+const { socket : socketController } = require('../controllers');
 
 const eventRoute = {
-    'disconnect' : socketController.disconnectChattingEvent,
-    // 'applyChatting' : socketController.applyChatting,
-    'error' : socketController.chattingError,
+    'disconnect' : socketController.chatting.disconnectChattingEvent,
+    'toApplyChatting' : socketController.chatting.toApplyChatting,
+    'error' : socketController.chatting.socketError,
 }
 
 

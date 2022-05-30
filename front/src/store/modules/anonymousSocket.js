@@ -1,9 +1,4 @@
-// import {socket} from '../../lib/chattingSocket';
-
-//io로 새로운 room space를 만들어야하는데 이걸 lib socket에서 만들어야하는지 ?
-
 const socketModule = {
-
     state : {
       currentConnectUserCount : {},
 

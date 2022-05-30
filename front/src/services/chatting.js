@@ -1,10 +1,10 @@
+import {socket} from '../lib/chattingSocket';
 
-const applyChatting = async ()=> {
-    alert('dfasfasfd')
 
+const applyChatting = async (userIdx)=> {
+    await socket.emit('toApplyChatting', userIdx);
 }
 
-
-module.exports = {
-    applyChatting
+export default {
+    applyChatting,
 }

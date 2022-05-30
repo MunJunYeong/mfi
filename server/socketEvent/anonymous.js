@@ -1,7 +1,8 @@
 const { socket: socketController } = require('../controllers');
 
 const anymousEventRoute = {
-    'disconnect': socketController.disconnectEvent,
+    'disconnect': socketController.anonymous.disconnectEvent,
+    'error' : socketController.anonymous.socketError,
 }
 
 const anonymousRegist = (socket) => {
