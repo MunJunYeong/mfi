@@ -88,7 +88,9 @@
                 </v-row>
             </v-col>
         </v-row>
-        
+        <v-row id="pc_main">
+            sdfasfs
+        </v-row>
 
 
         <!-- mobile row -->

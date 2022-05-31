@@ -1,3 +1,4 @@
+
 import { io } from "socket.io-client";
 import store from '../store'
 const { VUE_APP_BACKEND_HOST } = process.env;
@@ -28,7 +29,8 @@ const registChatEventListner = () => {
     if(!data) return;
     const flag = confirm(`${data}님으로부터 채팅 신청이 왔습니다. 수락하시겠습니까?`);
     if(!flag) return;
-    // store.dispatch('')
+    //true false true false 값으로 변동주기
+    store.dispatch('startChatting', true);
   });
 
 };
