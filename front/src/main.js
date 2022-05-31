@@ -1,3 +1,4 @@
+/* eslint-disable */
 import Vue from 'vue'
 import App from './App.vue'
 import store from './store'
@@ -6,13 +7,14 @@ import vuetify from './plugins/vuetify'
 import VueCookies from "vue-cookies";
 import * as anonymousSocket from "./lib/anonymousSocket";
 import * as chattingSocket from "./lib/chattingSocket";
-
+import Chat from 'vue-beautiful-chat'
 
 Vue.config.productionTip = false;
 // .vue 파일에서만 this.$함수이름 : 프로토타입 가능
 Vue.prototype.$Vue = Vue;
 Vue.prototype.$cookie = VueCookies;
 Vue.use(VueCookies);
+Vue.use(Chat)
 
 
 const init  = async () => {
