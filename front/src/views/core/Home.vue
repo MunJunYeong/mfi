@@ -89,9 +89,12 @@
             </v-col>
         </v-row>
         <v-row id="pc_main">
-            sdfasfs
+            <chat-window
+                :current-user-id="currentUserId"
+                :rooms="rooms"
+                :messages="messages"
+            />
         </v-row>
-
 
         <!-- mobile row -->
         <v-row class="mobile_item">
@@ -139,10 +142,19 @@
 <script>
 // import { VueperSlides, VueperSlide } from 'vueperslides'
 import ConnectionUser from '../../components/ConnectionUser.vue';
+import ChatWindow from 'vue-advanced-chat'
+import 'vue-advanced-chat/dist/vue-advanced-chat.css'
+
+// const rooms = []
+// for (let i = 0; i < res.length; i++) {
+//   rooms.push(res)
+// }
+// this.rooms = rooms;
+
   export default {
     name: 'Home',
     components: {
-        // VueperSlides,VueperSlide,
+        ChatWindow,
         ConnectionUser
     },
     created() {
@@ -169,23 +181,17 @@ import ConnectionUser from '../../components/ConnectionUser.vue';
         },
         connectionUserList : function(){
             return this.$store.getters.get_current_user_data;
-        }
+        },
+        rooms : function(){
+            return [{
+                
+            }];
+        },
     },
     data() {
         return {
-            slides : [
-                {
-                    image : require('@/assets/home_signup.jpg'),
-                    content : `가치있는 투자자인가요? 회원가입 하기`,
-                    link: "/auth/signup",
-                },
-                {
-                    image : require('@/assets/home_idea.jpg'),
-                    content : '본인의 투자 분석과 생각에 대해 마음껏 펼쳐보세요',
-                    link: "/idea",
-
-                }
-            ],
+            messages: [1],
+            currentUserId: 1234
         }
     },
     methods : {
