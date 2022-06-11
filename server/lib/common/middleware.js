@@ -38,23 +38,24 @@ const refreshToken = async (req, res, next) => {
     // refreshToken = refreshToken.replace("Bearer ",  "");
     const result = await jwtUtils.refreshVerify(refreshToken, accessToken);
     if(result === 'jwt expired'){
-        await userService.forceLogout(token);
+        await userService.forceLogout(accessToken);
         res.send({message : 'expired token'});
         return;
-    }
-    //새로운 accessToken을 update
-    try {
-        await userService.updateUserToken(result.accessToken, result.userIdx);
-    }catch(err){
-        if(err.message){
-            throw new Error(err.message);
-        }else {
-            winston.error(`Middleware refresh : unable to updateUserToken :`, err);
-            throw new Error('UNABLE_UPDATE_USERTOKEN');
+    }else {
+        //새로운 accessToken을 update
+        try {
+            await userService.updateUserToken(result.accessToken, result.userIdx);
+        }catch(err){
+            if(err.message){
+                throw new Error(err.message);
+            }else {
+                winston.error(`Middleware refresh : unable to updateUserToken :`, err);
+                throw new Error('UNABLE_UPDATE_USERTOKEN');
+            }
         }
+        res.send(result.accessToken);
+        return;
     }
-    res.send(result.accessToken);
-    return;
 }
 
 
