@@ -77,7 +77,6 @@ const authModule = {
         },
         async auth_refresh_token({commit}, token) {
             const renewToken = await auth.refreshToken(token);
-            console.log(renewToken)
             if(renewToken.data.message === 'expired token'){ //refreshToken도 만료
                 alert('토큰의 유효기간이 지났습니다. 재 로그인 해주세요.');
                 localStorage.removeItem('accessToken');

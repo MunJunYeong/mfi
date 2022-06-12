@@ -1,8 +1,14 @@
+
 <template>
     <v-container style=""> 
         <!-- background-color:#F5F5F5; -->
         <link href="https://unpkg.com/vueperslides/dist/vueperslides.css" rel="stylesheet">
         <!-- pc row -->
+        <v-row id="pc_main">
+            <Chatting>
+                
+            </Chatting>
+        </v-row>
         <v-row id="pc_main">
             <v-col cols="'10">
                 <v-row >
@@ -85,16 +91,27 @@
                             :role='item.role'
                         />
                     </v-col>
+                    <!-- <v-col cols='12'>
+                        <VirtualList style="height: 360px; overflow-y: auto;" 
+                            :data-key="'userIdx'"
+                            :data-sources="items"
+                            :data-component="userComponent"
+                        />
+                    </v-col> -->
+                </v-row>
+                <v-row>
+
                 </v-row>
             </v-col>
         </v-row>
-        <v-row id="pc_main">
+        
+        <!-- <v-row id="pc_main">
             <chat-window
                 :current-user-id="currentUserId"
                 :rooms="rooms"
                 :messages="messages"
             />
-        </v-row>
+        </v-row> -->
 
         <!-- mobile row -->
         <v-row class="mobile_item">
@@ -140,22 +157,21 @@
 </template>
 
 <script>
-// import { VueperSlides, VueperSlide } from 'vueperslides'
+/* eslint-disable */
 import ConnectionUser from '../../components/ConnectionUser.vue';
-import ChatWindow from 'vue-advanced-chat'
-import 'vue-advanced-chat/dist/vue-advanced-chat.css'
+ import VirtualList from 'vue-virtual-scroll-list'
+import Chatting from '../../components/modal/Content.vue';
 
-// const rooms = []
-// for (let i = 0; i < res.length; i++) {
-//   rooms.push(res)
-// }
-// this.rooms = rooms;
+// import ChatWindow from 'vue-advanced-chat'
+// import 'vue-advanced-chat/dist/vue-advanced-chat.css'
 
   export default {
     name: 'Home',
     components: {
-        ChatWindow,
-        ConnectionUser
+        // ChatWindow,
+        ConnectionUser,
+        Chatting,
+        VirtualList,
     },
     created() {
         this.getUserCount();
@@ -182,16 +198,11 @@ import 'vue-advanced-chat/dist/vue-advanced-chat.css'
         connectionUserList : function(){
             return this.$store.getters.get_current_user_data;
         },
-        rooms : function(){
-            return [{
-                
-            }];
-        },
     },
     data() {
         return {
-            messages: [1],
-            currentUserId: 1234
+            userComponent : ConnectionUser,
+            items : this.connectionUserList
         }
     },
     methods : {

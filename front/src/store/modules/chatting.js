@@ -29,6 +29,7 @@ const chattingSocketModule = {
         commit('set_current_user_data', data);
       },
       start_chatting({commit}, flag){
+        console.log(flag)
         commit('set_start_chatting_flag', flag);
       }
     }

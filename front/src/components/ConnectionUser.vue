@@ -3,6 +3,7 @@
         <br>
         <v-row justify='center' class="pc" >
             <v-col cols="8" class="nickname"  v-on:click="chatting">
+                <!-- {{source.nickName}} -->
                 {{nickName}}
             </v-col>
         </v-row>
@@ -18,11 +19,22 @@ import {chatting} from '../services';
 
 export default {
     name: 'ConnectionUser',
-    props: [
-        "nickName",
-        "role",
-        "userIdx",
+    props : [
+        'nickName',
+        'userIdx',
+        'role'
     ],
+    // props: {
+    //     index : {
+    //         type : Number
+    //     },
+    //     source : {
+    //         type : Object,
+    //         default(){
+    //             return{}
+    //         }
+    //     }
+    // },
     computed: {
         userData : function(){
             return this.$store.getters.auth_get_data;
@@ -31,6 +43,7 @@ export default {
     components: {
     },
     created() {
+        // console.log(this.source)
     },
     data() {
         return {
@@ -49,11 +62,6 @@ export default {
             }catch(err){
                 console.log(err);
             }
-            // try{
-            //     this.$store.dispatch('apply_chatting', this.userIdx);
-            // }catch(err){
-            //     console.log(err);
-            // }
         }
     }
 }

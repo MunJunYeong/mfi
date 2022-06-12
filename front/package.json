@@ -31,6 +31,7 @@
     "vue-cli-plugin-vuetify": "~2.4.1",
     "vue-cookies": "^1.8.0",
     "vue-router": "^3.2.0",
+    "vue-virtual-scroll-list": "^2.3.3",
     "vueperslides": "^2.15.2",
     "vuetify": "^2.4.0",
     "vuetify-loader": "^1.7.0",
