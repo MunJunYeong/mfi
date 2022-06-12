@@ -15,13 +15,10 @@ const chatSocketInit = () => {
   });
 }
 
-
-
 const registChatEventListner = () => {
   if(!socket) return;
 
   socket.on('connecting_user', (data)=> {
-    console.log(data)
     store.dispatch('current_user_data', data);
   });
   //요청이 들어왔을 경우
@@ -29,8 +26,7 @@ const registChatEventListner = () => {
     if(!data) return;
     const flag = confirm(`${data}님으로부터 채팅 신청이 왔습니다. 수락하시겠습니까?`);
     if(!flag) return;
-    //true false true false 값으로 변동주기
-    store.dispatch('startChatting', true);
+    store.dispatch('start_chatting', true);
   });
 
 };
