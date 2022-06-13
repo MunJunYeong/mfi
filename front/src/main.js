@@ -21,9 +21,9 @@ const init  = async () => {
 
   //현재 접속자 수
   await store.dispatch('current_user_count');
-  if(token !== null){
-    await store.dispatch('current_user_data'); //새로고침시에도 돌려주고, 로그인했을 때에도 돌려주기
-  }
+  // if(token !== null){
+  //   await store.dispatch('current_user_data'); //새로고침시에도 돌려주고, 로그인했을 때에도 돌려주기
+  // }
 
 
   //토큰 유효성 검사

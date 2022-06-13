@@ -3,8 +3,8 @@
         <br>
         <v-row justify='center' class="pc" >
             <v-col cols="8" class="nickname"  v-on:click="chatting">
-                <!-- {{source.nickName}} -->
-                {{nickName}}
+                {{source.nickName}}
+                <!-- {{nickName}} -->
             </v-col>
         </v-row>
         <v-row justify='center' class="mobile" >
@@ -19,22 +19,22 @@ import {chatting} from '../services';
 
 export default {
     name: 'ConnectionUser',
-    props : [
-        'nickName',
-        'userIdx',
-        'role'
-    ],
-    // props: {
-    //     index : {
-    //         type : Number
-    //     },
-    //     source : {
-    //         type : Object,
-    //         default(){
-    //             return{}
-    //         }
-    //     }
-    // },
+    // props : [
+    //     'nickName',
+    //     'userIdx',
+    //     'role'
+    // ],
+    props: {
+        index : {
+            type : Number
+        },
+        source : {
+            type : Object,
+            default(){
+                return{}
+            }
+        }
+    },
     computed: {
         userData : function(){
             return this.$store.getters.auth_get_data;

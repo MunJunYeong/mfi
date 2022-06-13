@@ -2,17 +2,21 @@
 import { io } from "socket.io-client";
 import store from '../store'
 const { VUE_APP_BACKEND_HOST } = process.env;
-const token = localStorage.getItem('accessToken');
 
 let socket;
 
-const chatSocketInit = () => {
+const chatSocketInit = async () => {
+  const token = localStorage.getItem('accessToken');
   socket = io(VUE_APP_BACKEND_HOST+'/chatting', {
     auth: {
       token: token
     },
     withCredentials: true,
   });
+
+  socket.on('connect', () => {
+    console.log(socket);
+  })
 }
 
 const registChatEventListner = () => {
@@ -41,6 +45,7 @@ const applyResponse = async ()=> {
 
 const initialize = async () => {
   await chatSocketInit();
+  console.log(socket);
   await registChatEventListner();
 }
 

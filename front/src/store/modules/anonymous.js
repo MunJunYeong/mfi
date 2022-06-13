@@ -120,11 +120,10 @@ const anonymousModule = {
         async auth_login ({ commit }, data) {
             const res = await anonymous.login(data);
 
-            if(res.data.token){
+            if(res.data.token){                
                 localStorage.setItem("accessToken", res.data.token);
                 localStorage.setItem("refreshToken", res.data.refreshToken);
                 await this.dispatch('get_user_data', res.data.token );
-                await this.dispatch('current_user_data'); //소켓서버 접속했음
                 await chattingSocket.initialize();
                 history.back();
                 commit
@@ -141,7 +140,6 @@ const anonymousModule = {
                 localStorage.setItem("accessToken", res.data.token);
                 localStorage.setItem("refreshToken", res.data.refreshToken);       
                 await this.dispatch('get_user_data', res.data.token);
-                await this.dispatch('current_user_data');
                 await chattingSocket.initialize();
                 history.back();
 
