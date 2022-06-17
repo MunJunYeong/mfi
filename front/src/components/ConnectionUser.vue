@@ -19,11 +19,6 @@ import {chatting} from '../services';
 
 export default {
     name: 'ConnectionUser',
-    // props : [
-    //     'nickName',
-    //     'userIdx',
-    //     'role'
-    // ],
     props: {
         index : {
             type : Number
@@ -43,7 +38,6 @@ export default {
     components: {
     },
     created() {
-        // console.log(this.source)
     },
     data() {
         return {
@@ -52,13 +46,13 @@ export default {
     },
     methods : {
         chatting(){
-            if(this.userData.userIdx === this.userIdx){
+            if(this.userData.userIdx === this.source.userIdx){
                 // alert('본인한테는 채팅할 수 없습니다.'); return;
             }
             const flag = confirm('채팅을 신청하겠습니까?');
             if(!flag)return;
             try {
-                chatting.applyChatting(this.userIdx);
+                chatting.toApplyChatting(this.source.userIdx);
             }catch(err){
                 console.log(err);
             }

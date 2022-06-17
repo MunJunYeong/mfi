@@ -84,13 +84,6 @@
                     접속자 : {{currentUserCount}}명 <br> <br>
                 </v-row>
                 <v-row justify="center">
-                    <!-- <v-col cols='12'>
-                        <ConnectionUser style="cursor:pointer" v-for = "(item, index) in connectionUserList" :key="index"
-                            :nickName='item.nickName'
-                            :userIdx='item.userIdx'
-                            :role='item.role'
-                        />
-                    </v-col> -->
                     <v-col cols='12'>
                         <VirtualList style="height: 360px; overflow-y: auto;" 
                             :data-key="'userIdx'"
