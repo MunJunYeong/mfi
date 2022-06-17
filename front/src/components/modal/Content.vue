@@ -1,11 +1,19 @@
 <template>
-    <v-container>
-        <v-row  class="wrapper">
-            dfdass
+    <v-container  class="wrapper">
+        <v-row >
+            userName
+            <!-- {{userName}} -->
         </v-row>
+        <br> <br>
+        <v-row>
+            aa
+        </v-row>
+        
     </v-container>
 
 </template>
+
+
 
 <style scoped>
     .wrapper {

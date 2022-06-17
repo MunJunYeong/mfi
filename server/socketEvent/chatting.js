@@ -1,8 +1,10 @@
-const { socket : socketController } = require('../controllers');
+const { socket : socketController, socket } = require('../controllers');
 
 const eventRoute = {
     'disconnect' : socketController.chatting.disconnectChattingEvent,
     'toApplyChatting' : socketController.chatting.toApplyChatting,
+    'sendResultApply' : socketController.chatting.sendResultApply,
+    'joinRoom' : socketController.chatting.joinRoom,
     'error' : socketController.chatting.socketError,
 }
 
@@ -10,6 +12,7 @@ const eventRoute = {
 // let userIdx;
 const chattingRegist = (socket, io) => {
     console.log('chatting socket 연결 성공')
+    console.log(io.adapter.rooms)
     socket.nsp.userMap[socket.user.userIdx] = socket.user;
     socket.nsp.emit('connecting_user', Object.values(socket.nsp.userMap));
 

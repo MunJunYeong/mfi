@@ -1,4 +1,4 @@
-
+import  chattingService from '../../services/chatting';
 
 const chattingSocketModule = {
     state : {
@@ -28,9 +28,12 @@ const chattingSocketModule = {
       current_user_data({commit}, data){
         commit('set_current_user_data', data);
       },
-      start_chatting({commit}, flag){
-        console.log(flag)
-        commit('set_start_chatting_flag', flag);
+      resultApplyChatting({commit}, data){
+        chattingService.sendResultApply(data);
+        // commit('set_start_chatting_flag', flag);
+      },
+      joinRoom({commit}, userIdx){
+        chattingService.joinRoom(userIdx);
       }
     }
 }

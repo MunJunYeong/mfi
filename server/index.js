@@ -91,7 +91,6 @@ chatting.use((socket, next)=> {
     role : data.role,
     socket : socket.id
   };
-  
   next();
 })
 chatting.on('connection', (socket)=> {
