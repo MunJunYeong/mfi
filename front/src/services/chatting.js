@@ -2,7 +2,6 @@ import {socket} from '../lib/chattingSocket';
 
 
 const toApplyChatting = async (userIdx)=> {
-    console.log(userIdx)
     await socket.emit('toApplyChatting', userIdx);
 }
 const sendResultApply = async (data)=> {

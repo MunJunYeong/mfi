@@ -4,12 +4,7 @@
         <!-- background-color:#F5F5F5; -->
         <link href="https://unpkg.com/vueperslides/dist/vueperslides.css" rel="stylesheet">
         <!-- pc row -->
-        <v-row id="pc_main">
-            <Chatting>
-                
-            </Chatting>
-        </v-row>
-        <v-row id="pc_main">
+        <v-row id="pc_main" class="main">
             <v-col cols="'10">
                 <v-row >
                     <v-col cols='1'>
@@ -92,20 +87,12 @@
                         />
                     </v-col>
                 </v-row>
-                <v-row>
-
-                </v-row>
+                
             </v-col>
         </v-row>
-        
-        <!-- <v-row id="pc_main">
-            <chat-window
-                :current-user-id="currentUserId"
-                :rooms="rooms"
-                :messages="messages"
-            />
-        </v-row> -->
-
+        <v-row class="chatting" id="pc_main">
+            <Chatting></Chatting>
+        </v-row>
         <!-- mobile row -->
         <v-row class="mobile_item">
             <v-col class="model"  >
@@ -191,6 +178,9 @@ import Chatting from '../../components/modal/Content.vue';
         connectionUserList : function(){
             return this.$store.getters.get_current_user_data;
         },
+        roomName : function(){
+            return this.$store.getters.get_room_name;
+        }
     },
     data() {
         return {
@@ -256,6 +246,13 @@ import Chatting from '../../components/modal/Content.vue';
     background-image: url("../../assets/home_idea.jpg"); background-repeat : no-repeat;
     background-size : cover; opacity: 0.85;
 }
+.main{
+    position: relative;
+}
+.chatting{
+    position:fixed; bottom:30px; right: 100px;
+}
+
 #mfi_mean{
    font-family: 'Chosunilbo_myungjo'; color: white; line-height: 200px;
     font-size:80px; font-weight: 900;
