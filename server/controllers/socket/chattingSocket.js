@@ -14,18 +14,20 @@ const sendResultApply =  (socket, io)=> (data)=> {
         io.to(data.socket).emit('rejectChatting', socket.user.nickName); return;
     }
     //room naming 건 사람 - 수락한 사람
-    socket.join(`${data.userIdx}-${socket.user.userIdx}`);
-    io.to(data.socket).emit('joinRoom', socket.user.userIdx);
+    const roomName = `${data.userIdx}-${socket.user.userIdx}`;
+    socket.join(roomName);
+    io.to(data.socket).emit('joinRoom', roomName);
 }
 
-const joinRoom = (socket, io)=>(userIdx)=> {
-    socket.join(`${socket.user.userIdx}-${userIdx}`);
+const joinRoom = (socket, io)=>(roomName)=> {
+    socket.join(roomName);
+    console.log(io.adapter.rooms);
 }
 
 
 
 const socketError = (socket, io)=>(err)=> {
-    console.log(err)
+    console.log(err);
 }
 
 module.exports = {

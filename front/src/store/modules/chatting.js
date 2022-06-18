@@ -4,6 +4,7 @@ const chattingSocketModule = {
     state : {
       currentConnectUserData : [],
       chattingFlag : false,
+      roomName : '',
     },
     mutations : {
       set_current_user_data(state, data){
@@ -12,6 +13,9 @@ const chattingSocketModule = {
       set_start_chatting_flag(state, flag){
         state.chattingFlag = flag;
       },
+      set_room_name(state, roomName){
+        state.roomName = roomName;
+      }
     },
 
     getters : {
@@ -21,6 +25,9 @@ const chattingSocketModule = {
       get_start_chatting_flag(state){
         return state.chattingFlag;
       },
+      get_room_name(state){
+        return state.roomName;
+      }
     },
 
     actions : {
@@ -30,10 +37,14 @@ const chattingSocketModule = {
       },
       resultApplyChatting({commit}, data){
         chattingService.sendResultApply(data);
-        // commit('set_start_chatting_flag', flag);
       },
-      joinRoom({commit}, userIdx){
-        chattingService.joinRoom(userIdx);
+      joinRoom({commit}, roomName){
+        chattingService.joinRoom(roomName);
+        commit('set_room_name', )
+      },
+
+      sendMessage({commit}, msg){
+
       }
     }
 }
