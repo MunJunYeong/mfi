@@ -28,7 +28,7 @@ const registChatEventListner = () => {
   socket.on('applyResponse', (data)=> {
     console.log(data)
     if(!data) return;
-    const flag = confirm(`${data.nickName}님으로부터 채팅 신청이 왔습니다. 수락하시겠습니까?`);
+    const flag = confirm(`${data.nickName}님으로부터 채팅 신청이 왔습니다. 수락하시겠습니까?`); //이 부분 컴포넌트창으로 
     //true면 채팅 시작, false면 채팅 거부
     data.flag = flag;
     store.dispatch('resultApplyChatting', data);

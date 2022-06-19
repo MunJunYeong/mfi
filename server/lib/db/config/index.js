@@ -22,27 +22,4 @@ module.exports = {
         dialect : 'postgres',
     },
 }
-// {
-//     "local": {
-//         "username": "postgres",
-//         "password" : "postgres",
-//         "database": "mfi",
-//         "host": "localhost",
-//         "dialect": "postgres"
-//     },
-//     "development": {
-//         "username": "mfi",
-//         "password": "mfianswnsdud!",
-//         "database": "mfi",
-//         "host": "mfi.ctj83k4lukvd.ap-northeast-2.rds.amazonaws.com",
-//         "dialect": "postgres"
-//     },
-//     "production": {
-//         "username": "mfi",
-//         "password": "postgres",
-//         "database": "mfi",
-//         "host": "localhost",
-//         "dialect": "postgres"
-//     }
-// }
 
