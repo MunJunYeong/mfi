@@ -91,7 +91,7 @@
             </v-col>
         </v-row>
         <v-row v-if="joinRooms.length > 0" class="chatting" id="pc_main">
-            <Chatting v-for="(joinRoom,index) in this.joinRooms" :key ="index" :roomname="joinRoom.roomname"></Chatting>
+            <Chatting v-for="(joinRoom,index) in this.joinRooms" :key ="index" :data="joinRoom"></Chatting>
         </v-row>
 
         <!-- mobile row -->
@@ -141,7 +141,7 @@
 /* eslint-disable */
 import ConnectionUser from '../../components/ConnectionUser.vue';
  import VirtualList from 'vue-virtual-scroll-list'
-import Chatting from '../../components/modal/Content.vue';
+import Chatting from '../../components/modal/Chatting.vue';
 
 // import ChatWindow from 'vue-advanced-chat'
 // import 'vue-advanced-chat/dist/vue-advanced-chat.css'
