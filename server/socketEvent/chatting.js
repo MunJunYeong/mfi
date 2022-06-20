@@ -4,7 +4,7 @@ const eventRoute = {
     'disconnect' : socketController.chatting.disconnectChattingEvent,
     'toApplyChatting' : socketController.chatting.toApplyChatting,
     'sendResultApply' : socketController.chatting.sendResultApply,
-    'joinRoom' : socketController.chatting.joinRoom,
+    'joinTargetRoom' : socketController.chatting.joinTargetRoom,
     'error' : socketController.chatting.socketError,
 }
 

@@ -7,24 +7,26 @@ const disconnectChattingEvent = (socket, io) => () =>  {
 
 const toApplyChatting =  (socket, io)=> (userIdx)=> {
     let toSocketId = socket.nsp.userMap[userIdx].socket;
-    io.to(toSocketId).emit('applyResponse', socket.user);
+    let tempSocket = socket.user;
+    tempSocket.target = socket.nsp.userMap[userIdx];
+    io.to(toSocketId).emit('applyResponse', tempSocket);
 }
 const sendResultApply =  (socket, io)=> (data)=> {
     if(!data.flag){
-        io.to(data.socket).emit('rejectChatting', socket.user.nickName); return;
+        io.to(data.target.socket).emit('rejectChatting', socket.user.nickName); return;
     }
     //room naming 건 사람 - 수락한 사람
     const roomName = `${data.userIdx}-${socket.user.userIdx}`;
     socket.join(roomName);
-    io.to(data.socket).emit('joinRoom', roomName);
+    data.roomName = roomName;
+    io.to(data.socket).emit('joinRoom', data);
 }
 
-const joinRoom = (socket, io)=>(roomName)=> {
-    socket.join(roomName);
+const joinTargetRoom = (socket, io)=>(data)=> {
+    socket.join(data.roomName);
+    io.to(data.target.socket).emit('joinTargetRoom', data);
     console.log(io.adapter.rooms);
 }
-
-
 
 const socketError = (socket, io)=>(err)=> {
     console.log(err);
@@ -35,5 +37,5 @@ module.exports = {
     toApplyChatting,
     socketError,
     sendResultApply,
-    joinRoom
+    joinTargetRoom
 }

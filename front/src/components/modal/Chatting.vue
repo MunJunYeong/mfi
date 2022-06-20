@@ -36,10 +36,14 @@ export default {
             msg : ''
         }
     },
+    props : [
+        'data'
+    ],
     methods : {
         async sendMsg(){
+            console.log(this.data)
             try{
-                await this.$store.dispatch('sendMessage', this.msg);
+                // await this.$store.dispatch('sendMessage', this.msg);
             }catch(err){
                 console.log(err);
             }

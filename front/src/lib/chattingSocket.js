@@ -26,7 +26,6 @@ const registChatEventListner = () => {
   });
   //요청이 들어왔을 경우
   socket.on('applyResponse', (data)=> {
-    console.log(data)
     if(!data) return;
     const flag = confirm(`${data.nickName}님으로부터 채팅 신청이 왔습니다. 수락하시겠습니까?`); //이 부분 컴포넌트창으로 
     //true면 채팅 시작, false면 채팅 거부
@@ -36,8 +35,11 @@ const registChatEventListner = () => {
   socket.on('rejectChatting', (nickName)=> {
     alert(`${nickName}님이 채팅 신청을 거절했습니다.`);
   })
-  socket.on('joinRoom', (roomName)=> {
-    store.dispatch('joinRoom', roomName);
+  socket.on('joinRoom', (data)=> {
+    store.dispatch('joinRoom', data);
+  })
+  socket.on('joinTargetRoom', (data)=> {
+    store.dispatch('joinTargetRoom', data);
   })
 
 };
