@@ -1,8 +1,7 @@
 <template>
     <v-container  class="wrapper">
         <v-row >
-            userName
-            <!-- {{userName}} -->
+            {{userName}}
         </v-row>
         <br> <br>
         <v-row>
@@ -29,16 +28,45 @@
 
 </template>
 <script>
-
+/* eslint-disable */
 export default {
-    data(){
-        return{
-            msg : ''
-        }
+    created () {
     },
     props : [
-        'data'
+        'data',
+        'roomName',
+        'chatHistory'
     ],
+    computed : {
+        userData : function(){
+            return  this.$store.getters.auth_get_data;
+        },
+        userName : function(){
+            const a = this.data.nickName;
+            const b= this.data.target.nickName;
+            let res;
+            this.userData.nickName === a ? res =b : res = a;
+            console.log(res)
+            return res;
+            
+            // const userData = new Promise((resolve, reject)=> {
+            //     resolve(this.$store.getters.auth_get_data);
+            // })
+            // userData.then((userData)=> {
+            //     const a = this.data.nickName;
+            //     const b= this.data.target.nickName;
+            //     console.log(this.data)
+            //     let res;
+            //     // userData.nickName === a ? res =b : res = a;
+            //     return res;
+            // })
+        },
+    },
+    data() {
+        return {
+            msg : '',
+        }
+    }, 
     methods : {
         async sendMsg(){
             console.log(this.data)

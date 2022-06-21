@@ -91,7 +91,11 @@
             </v-col>
         </v-row>
         <v-row v-if="joinRooms.length > 0" class="chatting" id="pc_main">
-            <Chatting v-for="(joinRoom,index) in this.joinRooms" :key ="index" :data="joinRoom"></Chatting>
+            <Chatting v-for="(item,index) in this.joinRooms" :key ="index" 
+                :data="item.data"
+                :roomName = "item.roomName"
+                :chatHistory = "item.chatHistory"
+            />
         </v-row>
 
         <!-- mobile row -->
