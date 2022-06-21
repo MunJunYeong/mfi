@@ -16,7 +16,7 @@ const chattingSocketModule = {
         joinRooms.push({
           roomName:data.roomName,
           chatHistory: [],
-          targetUserIdx: ''
+          data : data,
         })
         state.joinRooms = joinRooms;
       }
