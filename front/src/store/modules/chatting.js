@@ -3,8 +3,13 @@ import  chattingService from '../../services/chatting';
 const chattingSocketModule = {
     state : {
       currentConnectUserData : [],
-      chattingFlag : false,
-      joinRooms: []
+      joinRooms: [],
+      chattingList : [
+        {
+          content : '',
+          userIdx : ''
+        }
+      ],
     },
     mutations : {
       set_current_user_data(state, data){
@@ -19,11 +24,15 @@ const chattingSocketModule = {
           data : data,
         })
         state.joinRooms = joinRooms;
+      },
+      set_chatting(state, data){
+
       }
     },
 
     getters : {
       get_current_user_data(state){
+        console.log(state.currentConnectUserData)
         return state.currentConnectUserData;
       },
       get_join_room(state){
@@ -47,8 +56,8 @@ const chattingSocketModule = {
         commit('set_join_room',data )
       },
 
-      sendMessage({commit}, msg){
-
+      sendMessage({commit}, data){
+        chattingService.sendMsg(data);
       }
     }
 }

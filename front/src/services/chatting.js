@@ -10,7 +10,10 @@ const sendResultApply = async (data)=> {
 const joinTargetRoom = async (data)=> {
     await socket.emit('joinTargetRoom', data);
 }
+const sendMsg = async (data)=> {
+    await socket.emit('sendMsg', data);
+}
 
 export default {
-    toApplyChatting, sendResultApply, joinTargetRoom
+    toApplyChatting, sendResultApply, joinTargetRoom, sendMsg
 }

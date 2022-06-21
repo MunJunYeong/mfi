@@ -5,6 +5,7 @@ const eventRoute = {
     'toApplyChatting' : socketController.chatting.toApplyChatting,
     'sendResultApply' : socketController.chatting.sendResultApply,
     'joinTargetRoom' : socketController.chatting.joinTargetRoom,
+    'sendMsg' : socketController.chatting.sendMsg,
     'error' : socketController.chatting.socketError,
 }
 
@@ -12,7 +13,6 @@ const eventRoute = {
 // let userIdx;
 const chattingRegist = (socket, io) => {
     console.log('chatting socket 연결 성공')
-    
     socket.nsp.userMap[socket.user.userIdx] = socket.user;
     socket.nsp.emit('connecting_user', Object.values(socket.nsp.userMap));
 
