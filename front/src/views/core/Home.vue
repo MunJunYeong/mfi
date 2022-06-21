@@ -87,7 +87,6 @@
                         />
                     </v-col>
                 </v-row>
-                
             </v-col>
         </v-row>
         <v-row v-if="joinRooms.length > 0" class="chatting" id="pc_main">
@@ -144,7 +143,7 @@
 <script>
 /* eslint-disable */
 import ConnectionUser from '../../components/ConnectionUser.vue';
- import VirtualList from 'vue-virtual-scroll-list'
+import VirtualList from 'vue-virtual-scroll-list'
 import Chatting from '../../components/modal/Chatting.vue';
 
 // import ChatWindow from 'vue-advanced-chat'

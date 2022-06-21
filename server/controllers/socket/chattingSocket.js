@@ -21,12 +21,21 @@ const sendResultApply =  (socket, io)=> (data)=> {
     data.roomName = roomName;
     io.to(data.socket).emit('joinRoom', data);
 }
-
 const joinTargetRoom = (socket, io)=>(data)=> {
     socket.join(data.roomName);
     io.to(data.target.socket).emit('joinTargetRoom', data);
     console.log(io.adapter.rooms);
 }
+const sendMsg = (socket, io)=> (data) => {
+    console.log(data)
+    const splitString = data.roomName.split('-');
+    const before = splitString[0];
+    const after = splitString[1];
+    let targetIdx;
+    data.myUserIdx === Number(before) ? targetIdx= Number(after) : targetIdx = Number(before);
+    io.to(socket.nsp.userMap[targetIdx].socket).emit('receiveMsg', data);
+}
+
 
 const socketError = (socket, io)=>(err)=> {
     console.log(err);
@@ -37,5 +46,6 @@ module.exports = {
     toApplyChatting,
     socketError,
     sendResultApply,
-    joinTargetRoom
+    joinTargetRoom,
+    sendMsg
 }
