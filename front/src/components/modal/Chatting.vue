@@ -2,8 +2,7 @@
     <v-container  class="wrapper">
         <v-row  class="header">
             <v-col cols="10" class="userName">
-                <!-- {{userName}} -->
-                userName
+                {{userName}}
             </v-col>
             <v-col cols="2" v-on:click="quitChatting">
                 <v-icon large color="" style="cursor:pointer" >
@@ -12,13 +11,14 @@
             </v-col>
         </v-row>
         <br> <br>
-        <v-row class="content" >
+        <v-row class="content">
             <v-col cols="1" />
-            <!-- <v-col cols="10" v-if="contents.length > 0">
+            <v-col cols="10" >
                 <ChattingContent v-for="(item, index) in this.contents" :key="index"
-                    :data = "item.data"
+                    :float = "item.float"
+                    :msg = "item.msg"
                 />
-            </v-col> -->
+            </v-col>
             <v-col cols="1" />
         </v-row>
         <v-row class="textInput">
@@ -52,7 +52,7 @@ export default {
     props : [
         'data',
         'roomName',
-        'chatHistory'
+        'chatHistory',
     ],
     computed : {
         userData : function(){
@@ -66,10 +66,7 @@ export default {
             return res;
         },
         contents : function(){
-            const temp  = {
-                data : 'lest'
-            }
-            return temp;
+            return this.$store.getters.get_chat_history(this.roomName);
         }
     },
     data() {
@@ -82,16 +79,17 @@ export default {
             const temp = {
                 roomName : this.data.roomName,
                 msg : this.msg,
-                myUserIdx : this.userData.userIdx,
+                userIdx : this.userData.userIdx,
             }
             try{
                 await this.$store.dispatch('sendMessage', temp);
+                this.msg = '';
             }catch(err){
                 console.log(err);
             }
         },
         async quitChatting(){
-            alert('ddfaf')
+            alert(this.index)
         }
     }
 }

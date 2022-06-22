@@ -42,15 +42,12 @@ const registChatEventListner = () => {
     store.dispatch('joinTargetRoom', data);
   })
   socket.on('receiveMsg', (data)=> {
-    console.log(data)
-    // store.dispatch('joinTargetRoom', data);
+    store.dispatch('receiveMsg', data);
   })
 };
 
 const applyResponse = async ()=> {
   if(!socket) return;
-
-  
 
 }
 
