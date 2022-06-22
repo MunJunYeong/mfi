@@ -1,6 +1,11 @@
 <template>
-    <v-container  class="wrapper">
-        
+    <v-container >
+        <v-row v-if="this.float === 'left'" class="left">
+            {{msg}}
+        </v-row>
+        <v-row v-if="this.float === 'right'" class="right">
+            {{msg}}
+        </v-row>
     </v-container>
 
 </template>
@@ -10,7 +15,8 @@ export default {
     created () {
     },
     props : [
-        'data'
+        'float',
+        'msg'
     ],
     computed : {
         userData : function(){
@@ -30,7 +36,10 @@ export default {
 
 
 <style scoped>
-    .wrapper {
-
+    .left{
+        float: left;
+    }
+    .right{
+        float: right;
     }
 </style>

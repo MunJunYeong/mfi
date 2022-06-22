@@ -4,12 +4,6 @@ const chattingSocketModule = {
     state : {
       currentConnectUserData : [],
       joinRooms: [],
-      chattingList : [
-        {
-          content : '',
-          userIdx : ''
-        }
-      ],
     },
     mutations : {
       set_current_user_data(state, data){
@@ -17,7 +11,7 @@ const chattingSocketModule = {
       },
       set_join_room(state, data){
         const joinRooms = [...state.joinRooms];
-        console.log(data)
+        //socket때처럼 배열의 idx를 하고싶은데 home.vue에서 v-for index로 돌리기때문에 안됨.
         joinRooms.push({
           roomName:data.roomName,
           chatHistory: [],
@@ -25,18 +19,40 @@ const chattingSocketModule = {
         })
         state.joinRooms = joinRooms;
       },
-      set_chatting(state, data){
-
+      send_msg(state, data){
+        let roomIdx;
+        for(let i = 0; i < state.joinRooms.length; i++){
+          if(state.joinRooms[i].roomName === data.roomName){
+            roomIdx = i; break;
+          }
+        }
+        state.joinRooms[roomIdx].chatHistory.push({float : 'right', msg : data.msg});
+      },
+      receive_msg(state, data){
+        let roomIdx;
+        for(let i = 0; i < state.joinRooms.length; i++){
+          if(state.joinRooms[i].roomName === data.roomName){
+            roomIdx = i; break;
+          }
+        }
+        state.joinRooms[roomIdx].chatHistory.push({float : 'left', msg : data.msg});
       }
     },
-
     getters : {
       get_current_user_data(state){
-        console.log(state.currentConnectUserData)
         return state.currentConnectUserData;
       },
       get_join_room(state){
         return state.joinRooms;
+      },
+      get_chat_history : (state) => (roomName) => {
+        let roomIdx;
+        for(let i = 0; i < state.joinRooms.length; i++){
+          if(state.joinRooms[i].roomName === roomName){
+            roomIdx = i; break;
+          }
+        }
+        return state.joinRooms[roomIdx].chatHistory;
       }
     },
 
@@ -55,9 +71,12 @@ const chattingSocketModule = {
       joinTargetRoom({commit}, data){
         commit('set_join_room',data )
       },
-
       sendMessage({commit}, data){
+        commit('send_msg', data);
         chattingService.sendMsg(data);
+      },
+      receiveMsg({commit}, data){
+        commit('receive_msg', data);
       }
     }
 }

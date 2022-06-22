@@ -2,7 +2,7 @@
 const disconnectChattingEvent = (socket, io) => () =>  {
     console.log('chatting socket 연결 끊김');
     delete socket.nsp.userMap[socket.user.userIdx];
-    socket.emit('connecting_user', Object.values(socket.nsp.userMap));
+    io.emit('connecting_user', Object.values(socket.nsp.userMap));
 };
 
 const toApplyChatting =  (socket, io)=> (userIdx)=> {
@@ -27,12 +27,11 @@ const joinTargetRoom = (socket, io)=>(data)=> {
     console.log(io.adapter.rooms);
 }
 const sendMsg = (socket, io)=> (data) => {
-    console.log(data)
     const splitString = data.roomName.split('-');
     const before = splitString[0];
     const after = splitString[1];
     let targetIdx;
-    data.myUserIdx === Number(before) ? targetIdx= Number(after) : targetIdx = Number(before);
+    data.userIdx === Number(before) ? targetIdx= Number(after) : targetIdx = Number(before);
     io.to(socket.nsp.userMap[targetIdx].socket).emit('receiveMsg', data);
 }
 
