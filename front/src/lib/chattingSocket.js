@@ -27,10 +27,14 @@ const registChatEventListner = () => {
   //요청이 들어왔을 경우
   socket.on('applyResponse', (data)=> {
     if(!data) return;
-    const flag = confirm(`${data.nickName}님으로부터 채팅 신청이 왔습니다. 수락하시겠습니까?`); //이 부분 컴포넌트창으로 
+    if(confirm(`${data.nickName}님으로부터 채팅 신청이 왔습니다. 수락하시겠습니까?`)){
+      data.flag = true;
+      store.dispatch('resultApplyChatting', data);
+    }else {
+      data.flag = false;
+      store.dispatch('resultApplyChatting', data);
+    }
     //true면 채팅 시작, false면 채팅 거부
-    data.flag = flag;
-    store.dispatch('resultApplyChatting', data);
   });
   socket.on('rejectChatting', (nickName)=> {
     alert(`${nickName}님이 채팅 신청을 거절했습니다.`);
