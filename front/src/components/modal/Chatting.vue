@@ -10,16 +10,14 @@
                 </v-icon>
             </v-col>
         </v-row>
-        <br> <br>
         <v-row class="content">
-            <v-col cols="1" />
-            <v-col cols="10" >
-                <ChattingContent v-for="(item, index) in this.contents" :key="index"
-                    :float = "item.float"
-                    :msg = "item.msg"
+            <v-col cols="12" >
+                <VirtualList style="background-color: green; height : 320px; overflow-y: auto;" 
+                    :data-key="'index'"
+                    :data-sources="contents"
+                    :data-component="ChattingComponent"
                 />
             </v-col>
-            <v-col cols="1" />
         </v-row>
         <v-row class="textInput">
             <v-col cols="8" class="inputText">
@@ -42,12 +40,14 @@
 <script>
 /* eslint-disable */
 import ChattingContent from './ChattingContent.vue';
+import VirtualList from 'vue-virtual-scroll-list'
 
 export default {
     created () {
     },
     components: {
-        ChattingContent
+        ChattingContent,
+        VirtualList
     },
     props : [
         'data',
@@ -66,12 +66,14 @@ export default {
             return res;
         },
         contents : function(){
+            console.log(this.$store.getters.get_chat_history(this.roomName))
             return this.$store.getters.get_chat_history(this.roomName);
         }
     },
     data() {
         return {
             msg : '',
+            ChattingComponent : ChattingContent,
         }
     }, 
     methods : {
@@ -83,7 +85,7 @@ export default {
             }
             try{
                 await this.$store.dispatch('sendMessage', temp);
-                this.msg = '';
+                // this.msg = '';
             }catch(err){
                 console.log(err);
             }
@@ -112,7 +114,7 @@ export default {
         padding-right: 20px;
     }
     .content{
-        background-color: green; height: 320px; padding: 10px 10px 10px 10px;
+         height: 320px; padding: 10px 10px 10px 10px;
     }
     .textInput{
          position:absolute; bottom : 15px;

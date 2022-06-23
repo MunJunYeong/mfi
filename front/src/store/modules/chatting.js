@@ -26,7 +26,8 @@ const chattingSocketModule = {
             roomIdx = i; break;
           }
         }
-        state.joinRooms[roomIdx].chatHistory.push({float : 'right', msg : data.msg});
+        let idx = state.joinRooms.length-1;
+        state.joinRooms[roomIdx].chatHistory.push({float : 'right', msg : data.msg, index : idx});
       },
       receive_msg(state, data){
         let roomIdx;
@@ -35,7 +36,8 @@ const chattingSocketModule = {
             roomIdx = i; break;
           }
         }
-        state.joinRooms[roomIdx].chatHistory.push({float : 'left', msg : data.msg});
+        let idx = state.joinRooms.length-1;
+        state.joinRooms[roomIdx].chatHistory.push({float : 'left', msg : data.msg, index : idx});
       }
     },
     getters : {
