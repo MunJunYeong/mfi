@@ -38,7 +38,17 @@ const chattingSocketModule = {
         }
         let idx = state.joinRooms.length-1;
         state.joinRooms[roomIdx].chatHistory.push({float : 'left', msg : data.msg, index : idx});
-      }
+      },
+      remove_chatting(state, data){
+        let roomIdx;
+        for(let i = 0; i < state.joinRooms.length; i++){
+          if(state.joinRooms[i].roomName === data.roomName){
+            roomIdx = i; break;
+          }
+        }
+        delete state.joinRooms[roomIdx];
+
+      },
     },
     getters : {
       get_current_user_data(state){
@@ -55,7 +65,8 @@ const chattingSocketModule = {
           }
         }
         return state.joinRooms[roomIdx].chatHistory;
-      }
+      },
+      
     },
 
     actions : {
@@ -79,6 +90,13 @@ const chattingSocketModule = {
       },
       receiveMsg({commit}, data){
         commit('receive_msg', data);
+      },
+      quitChatting({commit}, data){
+        chattingService.quitChatting(data);
+        commit('remove_chatting', data);
+      },
+      receiveQuitChatting({commit}, data){
+        commit('remove_chatting', data);
       }
     }
 }

@@ -2,8 +2,15 @@
 const disconnectChattingEvent = (socket, io) => () =>  {
     console.log('chatting socket 연결 끊김');
     delete socket.nsp.userMap[socket.user.userIdx];
+    console.log(io.adapter.rooms);
     io.emit('connecting_user', Object.values(socket.nsp.userMap));
 };
+
+const quitChatting = (socket, io) => (data) => {
+    socket.leave(data.roomName);
+    io.to(data.roomName).emit('sendQuitChatting', data);
+    // console.log(io.adapter.rooms);
+}
 
 const toApplyChatting =  (socket, io)=> (userIdx)=> {
     let toSocketId = socket.nsp.userMap[userIdx].socket;
@@ -46,5 +53,6 @@ module.exports = {
     socketError,
     sendResultApply,
     joinTargetRoom,
-    sendMsg
+    sendMsg,
+    quitChatting
 }

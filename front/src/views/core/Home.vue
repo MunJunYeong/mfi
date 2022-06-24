@@ -2,7 +2,6 @@
 <template>
     <v-container style=""> 
         <!-- background-color:#F5F5F5; -->
-        <link href="https://unpkg.com/vueperslides/dist/vueperslides.css" rel="stylesheet">
         <!-- pc row -->
         <v-row id="pc_main" class="main">
             <v-col cols="'10">

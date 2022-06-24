@@ -13,7 +13,10 @@ const joinTargetRoom = async (data)=> {
 const sendMsg = async (data)=> {
     await socket.emit('sendMsg', data);
 }
+const quitChatting = async (data) => {
+    await socket.emit('quitChatting', data);
+}
 
 export default {
-    toApplyChatting, sendResultApply, joinTargetRoom, sendMsg
+    toApplyChatting, sendResultApply, joinTargetRoom, sendMsg, quitChatting
 }

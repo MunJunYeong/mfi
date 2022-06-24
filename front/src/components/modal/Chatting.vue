@@ -12,7 +12,7 @@
         </v-row>
         <v-row class="content">
             <v-col cols="12" >
-                <VirtualList style="background-color: green; height : 320px; overflow-y: auto;" 
+                <VirtualList style="background-color: green; width: 250px;  height : 320px;  overflow-y: auto;" 
                     :data-key="'index'"
                     :data-sources="contents"
                     :data-component="ChattingComponent"
@@ -66,7 +66,6 @@ export default {
             return res;
         },
         contents : function(){
-            console.log(this.$store.getters.get_chat_history(this.roomName))
             return this.$store.getters.get_chat_history(this.roomName);
         }
     },
@@ -91,7 +90,15 @@ export default {
             }
         },
         async quitChatting(){
-            alert(this.index)
+            const data = {
+                userIdx : this.userData.userIdx,
+                roomName : this.data.roomName,
+            }
+            try{
+                await this.$store.dispatch('quitChatting', data);
+            }catch(err){
+                console.log(err);
+            }
         }
     }
 }
@@ -101,11 +108,11 @@ export default {
 <style scoped>
     .wrapper {
         width: 300px; height: 500px; background-color: yellow; justify-items: center;
-        position:relative; 
+        position:relative;  border: 1px solid black; 
         z-index: 1; padding-right: 20px;
     }
     .header{
-        padding-top: 12px;padding-left: 10px;
+        padding-top: 12px;padding-left: 10px; border-bottom: 1px solid black; 
     }
     .userName{
         font-size: 19px; font-weight: 700;
