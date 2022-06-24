@@ -6,6 +6,7 @@ const eventRoute = {
     'sendResultApply' : socketController.chatting.sendResultApply,
     'joinTargetRoom' : socketController.chatting.joinTargetRoom,
     'sendMsg' : socketController.chatting.sendMsg,
+    'quitChatting' : socketController.chatting.quitChatting,
     'error' : socketController.chatting.socketError,
 }
 

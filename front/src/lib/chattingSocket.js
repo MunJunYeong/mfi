@@ -48,6 +48,10 @@ const registChatEventListner = () => {
   socket.on('receiveMsg', (data)=> {
     store.dispatch('receiveMsg', data);
   })
+  //상대방이 나간 정보 받음
+  socket.on('sendQuitChatting', (data)=> {
+    store.dispatch('receiveQuitChatting', data);
+  })
 };
 
 const applyResponse = async ()=> {
