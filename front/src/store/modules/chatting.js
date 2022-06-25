@@ -47,7 +47,8 @@ const chattingSocketModule = {
           }
         }
         delete state.joinRooms[roomIdx];
-
+        const joinRooms = [...state.joinRooms];
+        state.joinRooms = joinRooms;
       },
     },
     getters : {
@@ -96,6 +97,7 @@ const chattingSocketModule = {
         commit('remove_chatting', data);
       },
       receiveQuitChatting({commit}, data){
+        alert('상대방이 채팅방을 나갔습니다.');
         commit('remove_chatting', data);
       }
     }

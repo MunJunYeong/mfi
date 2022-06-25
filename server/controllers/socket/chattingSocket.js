@@ -9,7 +9,6 @@ const disconnectChattingEvent = (socket, io) => () =>  {
 const quitChatting = (socket, io) => (data) => {
     socket.leave(data.roomName);
     io.to(data.roomName).emit('sendQuitChatting', data);
-    // console.log(io.adapter.rooms);
 }
 
 const toApplyChatting =  (socket, io)=> (userIdx)=> {

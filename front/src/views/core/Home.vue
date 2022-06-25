@@ -182,6 +182,7 @@ import Chatting from '../../components/modal/Chatting.vue';
             return this.$store.getters.get_current_user_data;
         },
         joinRooms : function(){
+            console.log(this.$store.getters.get_join_room)
             return this.$store.getters.get_join_room;
         }
     },
