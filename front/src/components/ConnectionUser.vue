@@ -45,14 +45,20 @@ export default {
         }
     },
     methods : {
-        chatting(){
+        async chatting(){
             if(this.userData.userIdx === this.source.userIdx){
                 alert('본인한테는 채팅할 수 없습니다.'); return;
+            }
+            const tempRoomName = this.userData.userIdx + "-" + this.source.userIdx;
+            //현재 채팅하고 있는 사람인지 확인
+            const checkRoom = this.$store.getters.get_have_room(tempRoomName);
+            if(checkRoom !== undefined) {
+                alert('현재 대화중입니다.'); return;
             }
             const flag = confirm('채팅을 신청하겠습니까?');
             if(!flag)return;
             try {
-                chatting.toApplyChatting(this.source.userIdx);
+                await chatting.toApplyChatting(this.source.userIdx);
             }catch(err){
                 console.log(err);
             }

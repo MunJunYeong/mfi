@@ -38,17 +38,15 @@ const chattingSocketModule = {
         })
       },
       remove_chatting(state, data){
-        let roomIdx;
-        for(let i = 0; i < state.joinRooms.length; i++){
-          if(state.joinRooms[i].roomName === data.roomName){
-            roomIdx = i; break;
-          }
-        }
-        const a = [...state.joinRooms];
-        a.splice(roomIdx,1);
-      
-        const joinRooms = [...a];
-        state.joinRooms = joinRooms;
+        //state.room 삭제
+        delete state.room[data.roomName];
+
+        //state.joinRooms 삭제
+        let temp = [];
+        Object.keys(state.room).forEach(key => {
+          temp.push(state.room[key]);
+        })
+        state.joinRooms = temp;
       },
     },
     getters : {
@@ -57,6 +55,9 @@ const chattingSocketModule = {
       },
       get_join_room(state){
         return state.joinRooms;
+      },
+      get_have_room : (state) => (tempRoomName)=>{
+        return state.room[tempRoomName];
       },
       get_chat_history : (state) => (roomName) => {
         return state.room[roomName].chatHistory;

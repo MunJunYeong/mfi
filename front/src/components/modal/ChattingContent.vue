@@ -1,11 +1,10 @@
 <template>
-    <v-container class="contentWrapper">
+    <v-container >
         <v-row v-if="source.float === 'left'"
             v-bind:style="{
                 height : 'auto', wordBreak: 'break-all',
                 paddingRight: '120px', paddingTop : '10px',
-                marginBottom :'5px',
-                fontSize : '14px'
+                fontSize : '14px',
             }"
         >
             <span>{{source.msg}}</span>
@@ -16,11 +15,11 @@
                 height : 'auto', wordBreak: 'break-all',
                 justifyContent : 'flex-end',
                 paddingLeft: '130px', paddingTop : '10px',
-                marginBotton : '5px',
+                marginBotton : '5px', 
                 fontSize : '14px'
             }"
         >
-            <span style="">{{source.msg}}</span>
+        {{source.msg}}
         </v-row>
     </v-container>
 

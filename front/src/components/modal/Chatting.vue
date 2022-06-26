@@ -78,6 +78,9 @@ export default {
     }, 
     methods : {
         async sendMsg(){
+            if(this.msg === ''){
+                return;
+            }
             const temp = {
                 roomName : this.data.roomName,
                 msg : this.msg,
@@ -110,10 +113,10 @@ export default {
     .wrapper {
         width: 300px; height: 500px; background-color: #bbe0f1; justify-items: center;
         position:relative;  border-radius: 25px; border: 1px solid rgba(0, 0, 0, .7);
-        z-index: 1; padding-right: 20px;
+        z-index: 1; padding-right: 20px; margin-left: 40px;
     }
     .header{
-        padding-top: 12px;padding-left: 10px; border-bottom: 0.2px solid black; 
+        padding-top: 12px;padding-left: 10px;
     }
     .userName{
         font-size: 19px; font-weight: 700;

@@ -19,7 +19,7 @@ const toApplyChatting =  (socket, io)=> (userIdx)=> {
 }
 const sendResultApply =  (socket, io)=> (data)=> {
     if(!data.flag){
-        io.to(data.target.socket).emit('rejectChatting', socket.user.nickName); return;
+        io.to(data.socket).emit('rejectChatting', socket.user.nickName); return;
     }
     //room naming 건 사람 - 수락한 사람
     const roomName = `${data.userIdx}-${socket.user.userIdx}`;
@@ -33,37 +33,23 @@ const joinTargetRoom = (socket, io)=>(data)=> {
     console.log(io.adapter.rooms);
 }
 const sendMsg = (socket, io)=> (data) => {
-    // const splitString = data.roomName.split('-');
-    // const before = splitString[0];
-    // const after = splitString[1];
-    // let targetIdx;
-    // data.userIdx === Number(before) ? targetIdx= Number(after) : targetIdx = Number(before);
     io.to(data.roomName).emit('receiveMsg', data);
 }
-
 
 const socketError = (socket, io)=>(err)=> {
     console.log(err);
 }
 
 const disconnecting = (socket, io) => (data) => {
-    console.log('disconnecting!!!!!!')
-
-    console.log(socket.rooms);
     for (let item of socket.rooms.keys()) {
         if(item != socket.id) {
             const msg = {
                 userIdx: socket.user.userIdx,
                 roomName: item,
             }
-            console.log(msg);
             io.to(item).emit('sendQuitChatting', msg);
-            console.log(item);
         }
     }
-    
-
-    console.log('finish!!!!!    disconnecting!!!!!!')
 }
 
 module.exports = {
