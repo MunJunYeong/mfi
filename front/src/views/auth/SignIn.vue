@@ -73,7 +73,6 @@
             <v-btn
               elevation="2" block
               v-on:click="login"
-              v-on:keyup.enter="login"
             >로그인</v-btn>              
           </div>
         </v-col>

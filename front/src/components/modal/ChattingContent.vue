@@ -3,8 +3,9 @@
         <v-row v-if="source.float === 'left'"
             v-bind:style="{
                 height : 'auto', wordBreak: 'break-all',
-                border : '1px solid black',
-                paddingRight: '50px', marginBotton : '10px'
+                paddingRight: '120px', paddingTop : '10px',
+                marginBottom :'5px',
+                fontSize : '14px'
             }"
         >
             <span>{{source.msg}}</span>
@@ -13,8 +14,10 @@
             align-end
             v-bind:style="{
                 height : 'auto', wordBreak: 'break-all',
-                border : '1px solid black', justifyContent : 'flex-end',
-                paddingLeft: '50px',  marginBotton : '10px'
+                justifyContent : 'flex-end',
+                paddingLeft: '130px', paddingTop : '10px',
+                marginBotton : '5px',
+                fontSize : '14px'
             }"
         >
             <span style="">{{source.msg}}</span>
@@ -57,14 +60,5 @@ export default {
 
 
 <style scoped>
-    .leftWrapper{
-        width: 100px; height: auto; border: 1px solid black;
-        float: left;  background-color: red; word-break:break-all;
-        margin-bottom: 10px;
-    }
-    .rightWrapper{
-        width: 100px; height: auto; border: 1px solid black;
-        float: right; background-color: blue; word-break:break-all;
-        margin-bottom: 10px;
-    }
+
 </style>
