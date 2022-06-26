@@ -12,7 +12,7 @@
         </v-row>
         <v-row class="content">
             <v-col cols="12" >
-                <VirtualList style="background-color: green; width: 250px;  height : 320px;  overflow-y: auto;" 
+                <VirtualList style="width: 250px;  height : 320px;  overflow-y: auto;" 
                     :data-key="'index'"
                     :data-sources="contents"
                     :data-component="ChattingComponent"
@@ -25,10 +25,11 @@
                 label="내용 입력"
                 v-model="msg"
                 hide-details="auto"
+                v-on:keyup.enter="sendMsg"
                 />
             </v-col>
             <v-col cols="3">
-                <v-btn v-on:click="sendMsg" class="sendBtn">
+                <v-btn v-on:click="sendMsg"  class="sendBtn">
                     전송
                 </v-btn>
             </v-col>
@@ -84,7 +85,7 @@ export default {
             }
             try{
                 await this.$store.dispatch('sendMessage', temp);
-                // this.msg = '';
+                this.msg = '';
             }catch(err){
                 console.log(err);
             }
@@ -107,12 +108,12 @@ export default {
 
 <style scoped>
     .wrapper {
-        width: 300px; height: 500px; background-color: yellow; justify-items: center;
-        position:relative;  border: 1px solid black; 
+        width: 300px; height: 500px; background-color: #bbe0f1; justify-items: center;
+        position:relative;  border-radius: 25px; border: 1px solid rgba(0, 0, 0, .7);
         z-index: 1; padding-right: 20px;
     }
     .header{
-        padding-top: 12px;padding-left: 10px; border-bottom: 1px solid black; 
+        padding-top: 12px;padding-left: 10px; border-bottom: 0.2px solid black; 
     }
     .userName{
         font-size: 19px; font-weight: 700;
