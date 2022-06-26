@@ -3,41 +3,39 @@ import  chattingService from '../../services/chatting';
 const chattingSocketModule = {
     state : {
       currentConnectUserData : [],
-      joinRooms: [],
+      room: {},
+      joinRooms : [],
     },
     mutations : {
       set_current_user_data(state, data){
         state.currentConnectUserData = data;
       },
       set_join_room(state, data){
-        const joinRooms = [...state.joinRooms];
-        //socket때처럼 배열의 idx를 하고싶은데 home.vue에서 v-for index로 돌리기때문에 안됨.
-        joinRooms.push({
+        // setting room
+        state.room[data.roomName] = {
           roomName:data.roomName,
           chatHistory: [],
           data : data,
+        }
+        //setting joinRooms
+        let temp = [];
+        Object.keys(state.room).forEach(key => {
+          temp.push(state.room[key]);
         })
-        state.joinRooms = joinRooms;
+        state.joinRooms = temp;
       },
-      send_msg(state, data){
-        let roomIdx;
-        for(let i = 0; i < state.joinRooms.length; i++){
-          if(state.joinRooms[i].roomName === data.roomName){
-            roomIdx = i; break;
-          }
-        }
+      set_receive_msg(state, data){
+        const userIdx = this.getters.auth_get_data.userIdx; //현재 나의 userIdx
+        let float = '';
+
+        data.userIdx === userIdx ? float = 'right' : float = 'left';
+        
         let idx = state.joinRooms.length-1;
-        state.joinRooms[roomIdx].chatHistory.push({float : 'right', msg : data.msg, index : idx});
-      },
-      receive_msg(state, data){
-        let roomIdx;
-        for(let i = 0; i < state.joinRooms.length; i++){
-          if(state.joinRooms[i].roomName === data.roomName){
-            roomIdx = i; break;
-          }
-        }
-        let idx = state.joinRooms.length-1;
-        state.joinRooms[roomIdx].chatHistory.push({float : 'left', msg : data.msg, index : idx});
+        state.room[data.roomName].chatHistory.push({
+          float : float,
+          msg : data.msg,
+          index : idx
+        })
       },
       remove_chatting(state, data){
         let roomIdx;
@@ -48,7 +46,6 @@ const chattingSocketModule = {
         }
         const a = [...state.joinRooms];
         a.splice(roomIdx,1);
-
       
         const joinRooms = [...a];
         state.joinRooms = joinRooms;
@@ -62,13 +59,7 @@ const chattingSocketModule = {
         return state.joinRooms;
       },
       get_chat_history : (state) => (roomName) => {
-        let roomIdx;
-        for(let i = 0; i < state.joinRooms.length; i++){
-          if(state.joinRooms[i].roomName === roomName){
-            roomIdx = i; break;
-          }
-        }
-        return state.joinRooms[roomIdx].chatHistory;
+        return state.room[roomName].chatHistory;
       },
       
     },
@@ -89,11 +80,10 @@ const chattingSocketModule = {
         commit('set_join_room',data )
       },
       sendMessage({commit}, data){
-        commit('send_msg', data);
         chattingService.sendMsg(data);
       },
       receiveMsg({commit}, data){
-        commit('receive_msg', data);
+        commit('set_receive_msg', data);
       },
       quitChatting({commit}, data){
         chattingService.quitChatting(data);

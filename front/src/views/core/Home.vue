@@ -88,7 +88,7 @@
                 </v-row>
             </v-col>
         </v-row>
-        <v-row v-if="joinRooms.length > 0" class="chatting" id="pc_main">
+        <v-row v-if="joinRooms.length > 0"  class="chatting" id="pc_main">
             <Chatting v-for="(item,index) in this.joinRooms" :key ="index" 
                 :data="item.data"
                 :roomName = "item.roomName"
@@ -182,7 +182,6 @@ import Chatting from '../../components/modal/Chatting.vue';
             return this.$store.getters.get_current_user_data;
         },
         joinRooms : function(){
-            console.log(this.$store.getters.get_join_room)
             return this.$store.getters.get_join_room;
         }
     },

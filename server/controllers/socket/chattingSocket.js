@@ -33,12 +33,12 @@ const joinTargetRoom = (socket, io)=>(data)=> {
     console.log(io.adapter.rooms);
 }
 const sendMsg = (socket, io)=> (data) => {
-    const splitString = data.roomName.split('-');
-    const before = splitString[0];
-    const after = splitString[1];
-    let targetIdx;
-    data.userIdx === Number(before) ? targetIdx= Number(after) : targetIdx = Number(before);
-    io.to(socket.nsp.userMap[targetIdx].socket).emit('receiveMsg', data);
+    // const splitString = data.roomName.split('-');
+    // const before = splitString[0];
+    // const after = splitString[1];
+    // let targetIdx;
+    // data.userIdx === Number(before) ? targetIdx= Number(after) : targetIdx = Number(before);
+    io.to(data.roomName).emit('receiveMsg', data);
 }
 
 

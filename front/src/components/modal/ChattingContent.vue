@@ -4,8 +4,7 @@
             v-bind:style="{
                 height : 'auto', wordBreak: 'break-all',
                 border : '1px solid black',
-                paddingRight: '50px'
-                // whiteSpace : 'nowrap',
+                paddingRight: '50px', marginBotton : '10px'
             }"
         >
             <span>{{source.msg}}</span>
@@ -14,10 +13,8 @@
             align-end
             v-bind:style="{
                 height : 'auto', wordBreak: 'break-all',
-                border : '1px solid black',
-                justifyContent : 'flex-end',
-                paddingLeft: '50px'
-                // whiteSpace : 'nowrap',
+                border : '1px solid black', justifyContent : 'flex-end',
+                paddingLeft: '50px',  marginBotton : '10px'
             }"
         >
             <span style="">{{source.msg}}</span>
