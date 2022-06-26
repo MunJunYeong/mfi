@@ -8,6 +8,7 @@ const eventRoute = {
     'sendMsg' : socketController.chatting.sendMsg,
     'quitChatting' : socketController.chatting.quitChatting,
     'error' : socketController.chatting.socketError,
+    'disconnecting' : socketController.chatting.disconnecting
 }
 
 

@@ -46,8 +46,11 @@ const chattingSocketModule = {
             roomIdx = i; break;
           }
         }
-        delete state.joinRooms[roomIdx];
-        const joinRooms = [...state.joinRooms];
+        const a = [...state.joinRooms];
+        a.splice(roomIdx,1);
+
+      
+        const joinRooms = [...a];
         state.joinRooms = joinRooms;
       },
     },

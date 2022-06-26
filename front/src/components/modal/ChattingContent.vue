@@ -1,18 +1,27 @@
 <template>
     <v-container class="contentWrapper">
-        <v-row 
+        <v-row v-if="source.float === 'left'"
             v-bind:style="{
-                float : (source.float ==='right') ? 'right' : 'left',
-                width : '100px', height : 'auto', wordBreak: 'break-all',
-                border : '1px solid black', marginBottom : '30px', 
+                height : 'auto', wordBreak: 'break-all',
+                border : '1px solid black',
+                paddingRight: '50px'
                 // whiteSpace : 'nowrap',
             }"
         >
-            {{source.msg}}
+            <span>{{source.msg}}</span>
         </v-row>
-        <!-- <v-row v-if="source.float === 'right'" class="rightWrapper">
-            {{source.msg}}
-        </v-row> -->
+        <v-row v-if="source.float === 'right'"
+            align-end
+            v-bind:style="{
+                height : 'auto', wordBreak: 'break-all',
+                border : '1px solid black',
+                justifyContent : 'flex-end',
+                paddingLeft: '50px'
+                // whiteSpace : 'nowrap',
+            }"
+        >
+            <span style="">{{source.msg}}</span>
+        </v-row>
     </v-container>
 
 </template>
