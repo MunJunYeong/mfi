@@ -37,10 +37,13 @@ Architecture
 ├── front/src
 │   ├── assets
 │   ├── components
-|   |     ├── Editor
+|   |     ├── editor
 |   |     |    ├── ModifyTextEditor.vue
 |   |     |    ├── TextEditor.vue
 |   |     |    ├── Viewer.vue
+|   |     ├── modal
+|   |     |    ├── Chatting.vue
+|   |     |    ├── ChattingContent.vue
 |   |     ├── CommentItem.vue
 |   |     ├── CommentItemMobile.vue
 |   |     ├── Footer.vue
@@ -51,7 +54,8 @@ Architecture
 |   |     ├── UserItem.vue
 │   ├── lib
 |   |     ├── axios.js
-|   |     ├── socket.js
+|   |     ├── anonymousSocket.js
+|   |     ├── chattingSocket.js
 │   ├── plugins
 |   |     ├── vuetify.js
 │   ├── router
@@ -59,14 +63,16 @@ Architecture
 │   ├── services
 |   |     ├── anonymous.js
 |   |     ├── auth.js
+|   |     ├── chatting.js
 |   |     ├── idea.js
 |   |     ├── index.js
 │   ├── store
 |   |     ├── modules
 |   |    |    ├── anonymous.js
+|   |    |    ├── anonymousSocket.js
 |   |    |    ├── auth.js
+|   |    |    ├── chatting.js
 |   |    |    ├── idea.js
-|   |    |    ├── socket.js
 |   |     ├── index.js
 │   └── views
 |   |    ├── auth
@@ -90,17 +96,21 @@ Architecture
 |   |    |    ├── Notice.vue
 |   |    |    ├── UserIdea.vue
 │   ├── .env
+│   ├── .env.production
 │   ├── dockerfile
 │   ├── main.js
 │   ├── App.vue
 │   ├── package.json
 |   |
-├── Server
+├── Server //각 폴더 안에는 index.js가 존재
 │   ├── controllers
 |   |     ├── anonymous
 |   |     ├── comment
 |   |     ├── idea
 |   |     ├── socket
+|   |     |    ├── anonymousSocket.js
+|   |     |    ├── chattingSocket.js
+|   |     |    ├── index.js
 |   |     ├── statistics
 |   |     ├── user
 |   |     ├── index.js
@@ -149,6 +159,8 @@ Architecture
 |   |     ├── user
 |   |     ├── visitor
 │   ├── socketEvent
+|   |     ├── anonymous.js
+|   |     ├── chatting.js
 |   |     ├── index.js
 │   ├── index.js
 │   ├── .env.js
