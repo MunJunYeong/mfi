@@ -13,9 +13,16 @@ let checkKor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
 //회원가입
 const signUP = async (req, res) => {
     const data = req.body;
+    console.log(data)
+    //id check
+    if(!data.id ||data.id.length <6 || data.id.length > 15) throw new Error('WRONG_ACCESS');
+    if(checkKor.test(data.id)|| !checkEng.test(data.id) || !checkNum.test(data.id)) throw new Error('NOT_CORRECT_FORM');
 
-    if(!data.id || !data.pw || !data.nickName || !data.email || data.pw.length <=5) throw new Error('WRONG_ACCESS');
-    if(!checkEng.test(data.pw) || !checkNum.test(data.pw) || !checkSpe.test(data.pw)) throw new Error('NOT_CORRECT_FORM');
+    //nickName
+    if(!data.nickName ||data.nickName.length <3 || data.nickName.length > 12) throw new Error('WRONG_ACCESS');
+    //pw check
+    if(!data.pw ||data.pw.length <6 || data.pw.length > 20) throw new Error('WRONG_ACCESS');
+    if(checkKor.test(data.pw)|| !checkEng.test(data.pw) || !checkNum.test(data.pw) || !checkSpe.test(data.pw)) throw new Error('NOT_CORRECT_FORM');
 
     try{
         const result = await anonymousService.signUp(data.id, data.pw, data.nickName, data.email, 'normal');

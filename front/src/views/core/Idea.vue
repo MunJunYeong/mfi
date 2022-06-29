@@ -1,6 +1,5 @@
 <template>
     <v-container ref="boardContainer" >
-
         <br class="pc">
         <!-- pc tablet version -->
         <v-row justify='center' class="pc">
@@ -81,7 +80,13 @@
                 </v-btn>
             </v-col>
         </v-row>
-
+        <v-row v-if="joinRooms.length > 0"  class="chatting" id="pc_main">
+            <Chatting v-for="(item,index) in this.joinRooms" :key ="index" 
+                :data="item.data"
+                :roomName = "item.roomName"
+                :chatHistory = "item.chatHistory"
+            />
+        </v-row>
         <!-- mobile version -->
         <v-row justify='center' class="mobile" >  
             <v-spacer />  
@@ -143,20 +148,14 @@
 </template>
 <script>
     import IdeaItem from '../../components/IdeaItem.vue'
-    // import IdeaItemMobile from '../../components/IdeaItemMobile.vue'  
+    import Chatting from '../../components/modal/Chatting.vue';
     export default {
         name: 'Idea',
         created() {
             this.createPagination();
         },
         components: {
-            IdeaItem,
-        },
-        mounted() {
-            
-        },
-        props: {
-
+            IdeaItem, Chatting
         },
         data() {
             return {
@@ -196,6 +195,9 @@
             },
             userData : function(){
                 return this.$store.getters.auth_get_data;
+            },
+            joinRooms : function(){
+                return this.$store.getters.get_join_room;
             }
         },
         
@@ -310,11 +312,14 @@
         display: none;
     }
 }
-    #icon{
-        background-image: url('../../assets/logo.png');background-size: 100% 100%;
-    }
-    .table {
-        border-top: black solid 1px; border-bottom: black solid 1px;text-align: center;
-    }
+#icon{
+    background-image: url('../../assets/logo.png');background-size: 100% 100%;
+}
+.table {
+    border-top: black solid 1px; border-bottom: black solid 1px;text-align: center;
+}
+.chatting{
+    position:fixed; bottom:50px; left: 100px;
+}
 </style>
 

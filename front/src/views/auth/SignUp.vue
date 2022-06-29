@@ -240,6 +240,7 @@
 <script>
 const { VUE_APP_BACKEND_HOST } = process.env;
   import axios from 'axios';
+  import validation from '../../utils/validation';
 
   const checkEng = /[a-zA-Z]/;
   const checkNum = /[0-9]/; 
@@ -284,17 +285,8 @@ const { VUE_APP_BACKEND_HOST } = process.env;
     methods : {
       // 중복 아이디 확인 axios
       async checkId(){
-        let checkEng = /[a-zA-Z]/;
-        let checkNum = /[0-9]/; 
-        let checkKor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
-        if(!this.id){
-          alert('ID를 입력해주세요.'); return;
-        }
-        if(checkKor.test(this.id) || !checkEng.test(this.id) || !checkNum.test(this.id)){
-          alert('영어와 숫자를 사용해주세요.'); return;
-        }
-        if(this.id.length <6){
-          alert('최소 6글자 이상 입력해주세요.'); return;
+        if(!validation.checkId(this.id)){
+          return;
         }
         this.overlapId = await axios.post(VUE_APP_BACKEND_HOST+'/checkid', {
           id : this.id
@@ -314,9 +306,8 @@ const { VUE_APP_BACKEND_HOST } = process.env;
       },
       // 중복 닉네임 확인 axios
       async checkNickName(){
-        if(this.nickName.length <3){
-          alert('3글자 이상 입력해주세요.')
-          return false;
+        if(!validation.checkNickName(this.nickName)){
+          return;
         }
         this.overlapNickName = await axios.post(VUE_APP_BACKEND_HOST+ '/checknickname', {
           nickName : this.nickName
@@ -341,7 +332,7 @@ const { VUE_APP_BACKEND_HOST } = process.env;
           alert('인증 번호가 이미 발송되었습니다.'); return;
         }
         //이메일 형식 확인
-        if(!this.validationEmail(this.email)){
+        if(!validation.validationEmail(this.email)){
           alert('이메일 형식에 맞추어 작성해주세요.'); return;
         }
         this.overlapEmail = await axios.post(VUE_APP_BACKEND_HOST + '/sendemail', {
@@ -383,18 +374,14 @@ const { VUE_APP_BACKEND_HOST } = process.env;
       },
       // 회원가입 axious
       async signUp(){
-        let checkEng = /[a-zA-Z]/;
-        let checkNum = /[0-9]/; 
-        let checkSpe = /[~!@#$%^&*()_+|<>?:{}]/;
+        console.log('fdasfasf')
         if(this.pw !== this.checkPw){
           alert('비밀번호가 일치하지 않습니다.!'); return;
         }
-        if(this.pw === ''){
-          alert('비밀번호를 입력하세요.'); return;
+        if(!validation.checkPw(this.pw)){
+          return;
         }
-        if(!checkEng.test(this.pw) || !checkNum.test(this.pw) || !checkSpe.test(this.pw)){
-          alert('영어, 숫자, 특수기호를 모두 사용하세요.'); return;
-        }
+        console.log('aaaaa');
         if(this.overlapId && this.overlapNickName && this.overlapAuthentication){
           await axios.post(VUE_APP_BACKEND_HOST+ '/signup', {
             id : this.id,
@@ -407,7 +394,6 @@ const { VUE_APP_BACKEND_HOST } = process.env;
               return;
             }
             alert('회원가입이 성공적으로 완료됐습니다!');
-            // location.href='/home'
             history.back();
             return;
           })
@@ -427,10 +413,7 @@ const { VUE_APP_BACKEND_HOST } = process.env;
           return;
         }
       },
-      validationEmail(str){
-        const reg = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
-        return reg.test(str);
-      }
+      
     },
   }
 </script>

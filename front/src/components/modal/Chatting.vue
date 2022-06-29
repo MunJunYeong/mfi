@@ -1,40 +1,51 @@
 <template>
-    <v-container  class="wrapper">
-        <v-row  class="header">
-            <v-col cols="10" class="userName">
-                {{userName}}
-            </v-col>
-            <v-col cols="2" v-on:click="quitChatting">
-                <v-icon large color="" style="cursor:pointer" >
-                    mdi-close
-                </v-icon>
-            </v-col>
-        </v-row>
-        <v-row class="content">
-            <v-col cols="12" >
-                <VirtualList ref="toBottom" style="width: 250px;  height : 320px;  overflow-y: auto;" 
-                    :data-key="'index'"
-                    :data-sources="contents"
-                    :data-component="ChattingComponent"
-                />
-            </v-col>
-        </v-row>
-        <v-row class="textInput">
-            <v-col cols="8" class="inputText">
-                <v-text-field
-                label="내용 입력"
-                v-model="msg"
-                hide-details="auto"
-                v-on:keyup.enter="sendMsg"
-                />
-            </v-col>
-            <v-col cols="3">
-                <v-btn v-on:click="sendMsg"  class="sendBtn">
-                    전송
-                </v-btn>
-            </v-col>
-            <v-col cols="1" />
-        </v-row>
+    <v-container>
+        <v-container v-if="!minimize" class="wrapper">
+            <v-row  class="header">
+                <v-col cols="8" class="userName">
+                    {{userName}}
+                </v-col>
+                <v-col cols="2" v-on:click="minimizeChatting" >
+                    <v-icon large color="" style="cursor:pointer" >
+                        mdi-minus
+                    </v-icon>
+                </v-col>
+                <v-col cols="2" v-on:click="quitChatting">
+                    <v-icon large color="" style="cursor:pointer" >
+                        mdi-close
+                    </v-icon>
+                </v-col>
+            </v-row>
+            <v-row class="content">
+                <v-col cols="12" >
+                    <VirtualList ref="toBottom" style="width: 250px;  height : 320px;  overflow-y: auto;" 
+                        :data-key="'index'"
+                        :data-sources="contents"
+                        :data-component="ChattingComponent"
+                    />
+                </v-col>
+            </v-row>
+            <v-row class="textInput">
+                <v-col cols="8" class="inputText">
+                    <v-text-field
+                    label="내용 입력"
+                    v-model="msg"
+                    hide-details="auto"
+                    v-on:keyup.enter="sendMsg"
+                    />
+                </v-col>
+                <v-col cols="3">
+                    <v-btn v-on:click="sendMsg"  class="sendBtn">
+                        전송
+                    </v-btn>
+                </v-col>
+                <v-col cols="1" />
+            </v-row>
+
+        </v-container>
+        <v-container v-if="minimize" class="minimizeWrapper" v-on:click="recover">
+            {{userName}}
+        </v-container>
     </v-container>
 </template>
 <script>
@@ -78,6 +89,7 @@ export default {
             msg : '',
             ChattingComponent : ChattingContent,
             isMounted : false,
+            minimize : false,
         }
     },
     mounted(){
@@ -110,6 +122,12 @@ export default {
             }catch(err){
                 console.log(err);
             }
+        },
+        minimizeChatting(){
+            this.minimize = true;
+        },
+        recover(){
+            this.minimize = false;
         }
     }
 }
@@ -121,6 +139,11 @@ export default {
         width: 300px; height: 500px; background-color: #CFD8DC; justify-items: center;
         position:relative;  border-radius: 25px; border: 1px solid rgba(0, 0, 0, .7);
         z-index: 1; padding-right: 20px; margin-left: 40px;
+    }
+    .minimizeWrapper {
+        width: 150px; height: 50px; background-color: #CFD8DC; justify-items: center; text-align: center;
+         position:relative;  border-radius: 25px; border: 1px solid rgba(0, 0, 0, .7);
+         z-index: 1; padding-right: 20px; margin-left: 40px; 
     }
     .header{
         padding-top: 12px;padding-left: 10px;
