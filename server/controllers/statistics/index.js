@@ -6,6 +6,7 @@ const {anonymous : anonymousService} = require('../../service');
 
 const createIp = async (req, res) => {
     const ip = req.clientIp;
+    console.log(ip)
     try{
         await visitorService.createIp(ip);
         res.send({data : ip})

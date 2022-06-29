@@ -3,10 +3,12 @@ const winston = require('../../lib/common/winston');
 
 const createIp = async (ip)=>{
     let res;
-    let findIp
+    let findIp;
     try{
         findIp = await models['visitor'].findOne({
-            ip : ip
+            where : {
+                ip : ip
+            }
         })
     }catch(err){
         winston.warn(`Unable to findIp for createIp[service] :`, err);
@@ -23,7 +25,6 @@ const createIp = async (ip)=>{
             throw new Error('DB_CREATE_IP');
         }
     }
-    
 }
 
 const getTodayVisitor = async ()=>{
