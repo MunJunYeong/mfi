@@ -1,6 +1,6 @@
 <template>
-    <v-container>
-        <v-container v-if="!minimize" class="wrapper">
+    <div class="main">
+        <v-container  class="wrapper" v-if="!minimize">
             <v-row  class="header">
                 <v-col cols="8" class="userName">
                     {{userName}}
@@ -43,10 +43,10 @@
             </v-row>
 
         </v-container>
-        <v-container v-if="minimize" class="minimizeWrapper" v-on:click="recover">
+        <v-container  class="minimizeWrapper" v-if="minimize"  v-on:click="recover">
             {{userName}}
         </v-container>
-    </v-container>
+    </div>
 </template>
 <script>
 /* eslint-disable */
@@ -135,32 +135,44 @@ export default {
 
 
 <style scoped>
-    .wrapper {
+.main{
+    /* width: 300px; height: 500px;  position:relative; z-index: 1; */
+    background-color: yellow; margin-left: 10px; 
+}
+.wrapper {
+    width: 300px; height: 500px; background-color: #CFD8DC; justify-items: center; 
         width: 300px; height: 500px; background-color: #CFD8DC; justify-items: center;
-        position:relative;  border-radius: 25px; border: 1px solid rgba(0, 0, 0, .7);
-        z-index: 1; padding-right: 20px; margin-left: 40px;
-    }
-    .minimizeWrapper {
-        width: 150px; height: 50px; background-color: #CFD8DC; justify-items: center; text-align: center;
-         position:relative;  border-radius: 25px; border: 1px solid rgba(0, 0, 0, .7);
-         z-index: 1; padding-right: 20px; margin-left: 40px; 
-    }
-    .header{
+    width: 300px; height: 500px; background-color: #CFD8DC; justify-items: center; 
+        width: 300px; height: 500px; background-color: #CFD8DC; justify-items: center;
+    width: 300px; height: 500px; background-color: #CFD8DC; justify-items: center; 
+    position:relative;  border-radius: 25px; border: 1px solid rgba(0, 0, 0, .7);
+    z-index: 1; padding-right: 20px; margin-left: 40px;
+}
+.minimizeWrapper {
+    width: 150px; height: 50px; background-color: #CFD8DC; justify-items: center; text-align: center;
+     position:static;  border-radius: 25px; border: 1px solid rgba(0, 0, 0, .7);
+     z-index: 1; padding-right: 20px; margin-left: 40px; float: ;
+}
+.header{
+    padding-top: 12px;padding-left: 10px; 
         padding-top: 12px;padding-left: 10px;
-    }
-    .userName{
-        font-size: 19px; font-weight: 700;
-    }
-    .closeBtn{
-        padding-right: 20px;
-    }
-    .content{
-         height: 320px; padding: 10px 10px 10px 10px;
-    }
-    .textInput{
-         position:absolute; bottom : 15px;
-    }
-    .sendBtn{
-        width: 20px;
-    }
+    padding-top: 12px;padding-left: 10px; 
+        padding-top: 12px;padding-left: 10px;
+    padding-top: 12px;padding-left: 10px; 
+}
+.userName{
+    font-size: 19px; font-weight: 700;
+}
+.closeBtn{
+    padding-right: 20px;
+}
+.content{
+     height: 320px; padding: 10px 10px 10px 10px;
+}
+.textInput{
+     position:absolute; bottom : 15px;
+}
+.sendBtn{
+    width: 20px;
+}
 </style>
