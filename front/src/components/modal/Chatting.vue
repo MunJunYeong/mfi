@@ -12,7 +12,7 @@
         </v-row>
         <v-row class="content">
             <v-col cols="12" >
-                <VirtualList style="width: 250px;  height : 320px;  overflow-y: auto;" 
+                <VirtualList ref="toBottom" style="width: 250px;  height : 320px;  overflow-y: auto;" 
                     :data-key="'index'"
                     :data-sources="contents"
                     :data-component="ChattingComponent"
@@ -36,7 +36,6 @@
             <v-col cols="1" />
         </v-row>
     </v-container>
-
 </template>
 <script>
 /* eslint-disable */
@@ -67,6 +66,10 @@ export default {
             return res;
         },
         contents : function(){
+            if(!this.isMounted) {
+                return this.$store.getters.get_chat_history(this.roomName);
+            }
+            this.$refs.toBottom.scrollToBottom();
             return this.$store.getters.get_chat_history(this.roomName);
         }
     },
@@ -74,8 +77,12 @@ export default {
         return {
             msg : '',
             ChattingComponent : ChattingContent,
+            isMounted : false,
         }
-    }, 
+    },
+    mounted(){
+        this.isMounted = true;
+    },
     methods : {
         async sendMsg(){
             if(this.msg === ''){
