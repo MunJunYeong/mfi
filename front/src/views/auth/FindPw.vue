@@ -8,6 +8,7 @@
               v-model="id"
               hide-details="auto"
               :readonly="overlapId"
+              v-on:keyup.enter="sendEmail"
             ></v-text-field>
           </v-col>
         </v-row>
@@ -18,6 +19,7 @@
               v-model="email"
               hide-details="auto"
               :readonly="overlapEmail"
+              v-on:keyup.enter="sendEmail"
             ></v-text-field>
           </v-col>
           <v-col cols='1'>
@@ -33,6 +35,7 @@
                 hide-details="auto"
                 v-model="authEmail"
                 :readonly="overlapAuthentication"
+                v-on:keyup.enter="checkAuthEmail"
               ></v-text-field>
           </v-col>
         </v-row>    
@@ -71,6 +74,7 @@
                 :type="show2 ? 'text' : 'password'"
                 :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
                 @click:append="show2 = !show2"
+                v-on:keyup.enter="updatePw"
               ></v-text-field>
             </div>
           </v-col>

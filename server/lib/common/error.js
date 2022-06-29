@@ -186,13 +186,16 @@ const dbError = {
         message : 'Unable to getUserCount[service]',
         status : HTTP_CODE.DB_SERVER
     },
-
     DB_FIND_ID_SEND_MAIL : {
         message : 'Unable to send findId [servcie]',
         status : HTTP_CODE.DB_SERVER
     },
     DB_FIND_USER_FOR_FINDID: {
         message : 'Unable to findUser for findIdSendMail[service]',
+        status : HTTP_CODE.DB_SERVER
+    },
+    DB_FIND_PW_SEND_MAIL : {
+        message : 'Unable to send findPw[service]',
         status : HTTP_CODE.DB_SERVER
     },
     DB_CHECK_EMAIL: {
