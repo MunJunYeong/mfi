@@ -62,6 +62,9 @@ const chattingSocketModule = {
       get_chat_history : (state) => (roomName) => {
         return state.room[roomName].chatHistory;
       },
+      get_room_count(state){
+        return state.joinRooms.length
+      },
       
     },
 
@@ -72,6 +75,9 @@ const chattingSocketModule = {
       },
       resultApplyChatting({commit}, data){
         chattingService.sendResultApply(data);
+      },
+      rejectMaximumChatting({commit}, data){
+        chattingService.rejectMaximumChatting(data);
       },
       joinRoom({commit}, data){
         chattingService.joinTargetRoom(data);

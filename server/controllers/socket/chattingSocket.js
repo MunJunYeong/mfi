@@ -1,3 +1,4 @@
+
 const disconnectChattingEvent = (socket, io) => () =>  {
     console.log('chatting socket 연결 끊김');
     delete socket.nsp.userMap[socket.user.userIdx];
@@ -16,6 +17,9 @@ const toApplyChatting =  (socket, io)=> (userIdx)=> {
     let tempSocket = socket.user;
     tempSocket.target = socket.nsp.userMap[userIdx];
     io.to(toSocketId).emit('applyResponse', tempSocket);
+}
+const rejectMaximumChatting =  (socket, io)=> (data)=> {
+    io.to(data.socket).emit('rejectMaximumChatting',  socket.user.nickName);
 }
 const sendResultApply =  (socket, io)=> (data)=> {
     if(!data.flag){
@@ -55,6 +59,7 @@ const disconnecting = (socket, io) => (data) => {
 module.exports = {
     disconnectChattingEvent,
     toApplyChatting,
+    rejectMaximumChatting,
     socketError,
     sendResultApply,
     joinTargetRoom,
