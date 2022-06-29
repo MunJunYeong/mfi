@@ -61,7 +61,7 @@ const anonymousModule = {
         async create_visitor(){
             const res =await anonymous.createVisitor();
             
-            let now = new Date(); 
+            let now = new Date();
             let nextDay = new Date();
             nextDay.setDate(nextDay.getDate()+1);
             nextDay.setHours(0, 0, 0); 

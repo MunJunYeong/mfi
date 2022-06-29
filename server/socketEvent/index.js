@@ -5,15 +5,6 @@ module.exports = {
     anonymousRegist,
     chattingRegist
 }
-
-
-
-
-
-
-
-
-
 // const socketMiddleware = (socket) => {
 //     const data = jwtUtils.verify(socket.handshake.auth.token);
 //     if(data === 'accesstoken expired') return false;
@@ -39,9 +30,3 @@ module.exports = {
 //     }
 //     return true;
 // };
-
-
-
-
-
-

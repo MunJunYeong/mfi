@@ -5,7 +5,6 @@ const createVisitor = async()=> {
     let res;
     try{
         res = await axios.post(VUE_APP_BACKEND_HOST + '/statistics/ip', {
-    
         })
     }catch(err){
         console.log(err);
