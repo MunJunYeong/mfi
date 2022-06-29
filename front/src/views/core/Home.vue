@@ -78,8 +78,11 @@
                     접속자 : {{currentUserCount}}명 <br> <br>
                 </v-row>
                 <v-row justify="center">
+                    <p>현재 접속중인 사용자</p>
+                </v-row>
+                <v-row justify="center">
                     <v-col cols='12'>
-                        <VirtualList style="height: 360px; overflow-y: auto;" 
+                        <VirtualList style="height: 360px; overflow-y: auto; background-color: aliceblue;" 
                             :data-key="'userIdx'"
                             :data-sources="connectionUserList"
                             :data-component="userComponent"
@@ -253,7 +256,7 @@ import Chatting from '../../components/modal/Chatting.vue';
     position: relative;
 }
 .chatting{
-    position:fixed; bottom:50px; right: 100px;
+    position:fixed; bottom: 10px; left: 100px;
 }
 
 #mfi_mean{

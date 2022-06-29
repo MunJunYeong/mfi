@@ -4,7 +4,7 @@
             v-bind:style="{
                 height : 'auto', wordBreak: 'break-all',
                 paddingRight: '110px', paddingTop : '10px',
-                fontSize : '13px',
+                fontSize : '15px',
             }"
         >
             <span class="leftMsg">{{source.msg}}</span>
@@ -16,7 +16,7 @@
                 justifyContent : 'flex-end',
                 paddingLeft: '110px', paddingTop : '10px',
                 marginBotton : '5px', 
-                fontSize : '13px'
+                fontSize : '15px'
             }"
         >
             <span class="rightMsg">{{source.msg}}</span>
@@ -59,10 +59,11 @@ export default {
 
 
 <style scoped>
-    .leftMsg {
-        border-radius: 15px; background-color: white; padding: 9px 9px 9px 9px;
-    }
-    .rightMsg {
-        border-radius: 15px; background-color: yellow; padding: 9px 9px 9px 9px;
-    }
+.leftMsg {
+    border-radius: 15px; background-color: white; padding: 9px 9px 9px 9px;
+}
+.rightMsg {
+    border-radius: 15px; background-color: yellow; padding: 9px 9px 9px 9px;
+}
+
 </style>

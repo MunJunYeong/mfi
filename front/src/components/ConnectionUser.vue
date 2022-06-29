@@ -1,17 +1,18 @@
 <template>
-    <v-card>
-        <br>
-        <v-row justify='center' class="pc" >
-            <v-col cols="8" class="nickname"  v-on:click="chatting">
-                {{source.nickName}}
-                <!-- {{nickName}} -->
-            </v-col>
-        </v-row>
-        <v-row justify='center' class="mobile" >
-            
-        </v-row>
-        <br>
-    </v-card>
+    <v-container>
+        <v-card>
+            <br>
+            <v-row justify='center'>
+                <v-col cols="8" class="nickname"  v-on:click="chatting">
+                    {{source.nickName}}
+                </v-col>
+            </v-row>
+            <v-spacer />
+            <br>
+        </v-card>
+
+    </v-container>
+
     
 </template>
 <script>

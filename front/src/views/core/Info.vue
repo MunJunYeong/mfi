@@ -23,6 +23,13 @@
                 <MyIdea />
             </v-col>
         </v-row>
+        <v-row v-if="joinRooms.length > 0"  id="chatting" class="pc">
+            <Chatting v-for="(item,index) in this.joinRooms" :key ="index" 
+                :data="item.data"
+                :roomName = "item.roomName"
+                :chatHistory = "item.chatHistory"
+            />
+        </v-row>
         <v-row class="mobile">
             <v-col cols='3'>
                 <br>
@@ -65,22 +72,26 @@
         display: none;
     }
 }
+#chatting{
+    position:fixed; bottom:50px; left: 100px;
+}
 </style>
 <script>
 import MyInfo from '../../components/MyInfo.vue'
 import MyIdea from '../../components/MyIdea.vue'
-
+import Chatting from '../../components/modal/Chatting.vue';
 export default {
     name : 'info',
     created() {
         
     },
     components: {
-        MyInfo,
-        MyIdea
+        MyInfo, MyIdea, Chatting
     },
-    mounted() {
-        
+    computed : {
+        joinRooms : function(){
+            return this.$store.getters.get_join_room;
+        }
     },
     data() {
         return {

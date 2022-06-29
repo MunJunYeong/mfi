@@ -106,10 +106,14 @@
                 </v-col>
                 <v-spacer />
             </v-row>
+            <v-row v-if="joinRooms.length > 0"  class="chatting">
+                <Chatting v-for="(item,index) in this.joinRooms" :key ="index" 
+                    :data="item.data"
+                    :roomName = "item.roomName"
+                    :chatHistory = "item.chatHistory"
+                />
+            </v-row>
         </v-container>
-
-
-
         <!-- mobile version  -->
         <!-- 제목 -->
         <v-container class="mobile">
@@ -189,9 +193,6 @@
                 <v-spacer />
             </v-row>
         </v-container>
-
-
-
     </v-container>
     
 </template>
@@ -212,19 +213,22 @@
         display: none;
     }
 }
-    #subject {
-         line-height: 40px;
-    }
-    #profile{
-        width: 20%; height: 100%; background-image: url('../../assets/profile.png' ); background-size: 100% 100%; float: left;
-        
-    }
-    #modifyBtn{
-        height: 50px;
-    }
-    #deleteBtn{
-        height: 50px;
-    }
+#subject {
+     line-height: 40px;
+}
+#profile{
+    width: 20%; height: 100%; background-image: url('../../assets/profile.png' ); background-size: 100% 100%; float: left;
+    
+}
+#modifyBtn{
+    height: 50px;
+}
+#deleteBtn{
+    height: 50px;
+}
+.chatting{
+position:fixed; bottom:50px; left: 100px;
+}
 
 </style>
 <script>
@@ -233,6 +237,7 @@ import CommentItemMobile from '../../components/CommentItemMobile.vue';
 import {Viewer} from '@toast-ui/vue-editor'
 import TextEditor from '../../components/editor/ModifyTextEditor.vue'
 import moment from 'moment';
+import Chatting from '../../components/modal/Chatting.vue';
 moment.lang('ko', {
     weekdaysShort: ["일","월","화","수","목","금","토"],
 });
@@ -255,11 +260,14 @@ moment.lang('ko', {
             userData : function(){
                 return this.$store.getters.auth_get_data;
             },
+            joinRooms : function(){
+                return this.$store.getters.get_join_room;
+            }
         },
         components : {
             CommentItem, CommentItemMobile,
             Viewer,
-            TextEditor
+            TextEditor, Chatting
         },
         data(){
             return {
