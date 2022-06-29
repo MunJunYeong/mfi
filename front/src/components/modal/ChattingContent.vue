@@ -3,23 +3,23 @@
         <v-row v-if="source.float === 'left'"
             v-bind:style="{
                 height : 'auto', wordBreak: 'break-all',
-                paddingRight: '120px', paddingTop : '10px',
-                fontSize : '14px',
+                paddingRight: '110px', paddingTop : '10px',
+                fontSize : '13px',
             }"
         >
-            <span>{{source.msg}}</span>
+            <span class="leftMsg">{{source.msg}}</span>
         </v-row>
         <v-row v-if="source.float === 'right'"
             align-end
             v-bind:style="{
                 height : 'auto', wordBreak: 'break-all',
                 justifyContent : 'flex-end',
-                paddingLeft: '130px', paddingTop : '10px',
+                paddingLeft: '110px', paddingTop : '10px',
                 marginBotton : '5px', 
-                fontSize : '14px'
+                fontSize : '13px'
             }"
         >
-        {{source.msg}}
+            <span class="rightMsg">{{source.msg}}</span>
         </v-row>
     </v-container>
 
@@ -59,5 +59,10 @@ export default {
 
 
 <style scoped>
-
+    .leftMsg {
+        border-radius: 15px; background-color: white; padding: 9px 9px 9px 9px;
+    }
+    .rightMsg {
+        border-radius: 15px; background-color: yellow; padding: 9px 9px 9px 9px;
+    }
 </style>

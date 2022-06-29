@@ -111,7 +111,7 @@ export default {
 
 <style scoped>
     .wrapper {
-        width: 300px; height: 500px; background-color: #bbe0f1; justify-items: center;
+        width: 300px; height: 500px; background-color: #CFD8DC; justify-items: center;
         position:relative;  border-radius: 25px; border: 1px solid rgba(0, 0, 0, .7);
         z-index: 1; padding-right: 20px; margin-left: 40px;
     }
