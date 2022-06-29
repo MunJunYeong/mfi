@@ -7,6 +7,7 @@
               label="이메일 입력"
               v-model="email"
               hide-details="auto"
+              v-on:keyup.enter="sendEmail"
             ></v-text-field>
           </v-col>
           <v-col cols='1'>

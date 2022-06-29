@@ -89,6 +89,7 @@ const findPwSendMail = async(req, res) => {
         const result = await anonymousService.findPwSendMail(data.id, data.email);
         res.send(result);
     }catch(err){
+        if(err.message === 'NOT_FOUND') throw new Error(err.message);
         if(err.message=== 'DB_FIND_PW_SEND_MAIL')throw new Error(err.message);
         winston.error(`Unable to sendMail for findPw :`, err);
         throw new Error('UNABLE_FIND_PW_SEND_MAIL');
