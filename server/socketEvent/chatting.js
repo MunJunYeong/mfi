@@ -4,6 +4,7 @@ const eventRoute = {
     'disconnect' : socketController.chatting.disconnectChattingEvent,
     'toApplyChatting' : socketController.chatting.toApplyChatting,
     'sendResultApply' : socketController.chatting.sendResultApply,
+    'rejectMaximumChatting' : socketController.chatting.rejectMaximumChatting,
     'joinTargetRoom' : socketController.chatting.joinTargetRoom,
     'sendMsg' : socketController.chatting.sendMsg,
     'quitChatting' : socketController.chatting.quitChatting,

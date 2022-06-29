@@ -20,13 +20,18 @@ const chatSocketInit = async () => {
 
 const registChatEventListner = () => {
   if(!socket) return;
-
+  
   socket.on('connecting_user', (data)=> {
     store.dispatch('current_user_data', data);
   });
   //요청이 들어왔을 경우
-  socket.on('applyResponse', (data)=> {
+  socket.on('applyResponse', async (data)=> {
     if(!data) return;
+    const cnt = await store.getters.get_room_count;
+    if(cnt >=3){
+      store.dispatch('rejectMaximumChatting', data);
+      return;
+    }
     if(confirm(`${data.nickName}님으로부터 채팅 신청이 왔습니다. 수락하시겠습니까?`)){
       data.flag = true;
       store.dispatch('resultApplyChatting', data);
@@ -38,6 +43,10 @@ const registChatEventListner = () => {
   });
   socket.on('rejectChatting', (nickName)=> {
     alert(`${nickName}님이 채팅 신청을 거절했습니다.`);
+  })
+  socket.on('rejectMaximumChatting', (nickName)=> {
+    alert(`${nickName}님이 현재 만들 수 있는 최대 채팅방 개수를 초과했습니다.
+    잠시 후 다시 시도해주세요.`);
   })
   socket.on('joinRoom', (data)=> {
     store.dispatch('joinRoom', data);
@@ -68,10 +77,6 @@ const initialize = async () => {
 const disconnect = async () => {
   if(socket) { 
     socket.disconnect();
-    socket = undefined;
-  }
-  if(socket) { 
-    socket.disconnect(); 
     socket = undefined;
   }
 }

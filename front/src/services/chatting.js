@@ -7,6 +7,10 @@ const toApplyChatting = async (userIdx)=> {
 const sendResultApply = async (data)=> {
     await socket.emit('sendResultApply', data);
 }
+const rejectMaximumChatting = async (data)=> {
+    await socket.emit('rejectMaximumChatting', data);
+}
+
 const joinTargetRoom = async (data)=> {
     await socket.emit('joinTargetRoom', data);
 }
@@ -18,5 +22,6 @@ const quitChatting = async (data) => {
 }
 
 export default {
-    toApplyChatting, sendResultApply, joinTargetRoom, sendMsg, quitChatting
+    toApplyChatting, sendResultApply, rejectMaximumChatting,
+    joinTargetRoom, sendMsg, quitChatting
 }
