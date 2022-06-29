@@ -256,7 +256,7 @@ import Chatting from '../../components/modal/Chatting.vue';
     position: relative;
 }
 .chatting{
-    position:fixed; bottom: 10px; left: 100px;
+    position:fixed; bottom: 20px; left: 100px; margin-left: 20px;
 }
 
 #mfi_mean{
