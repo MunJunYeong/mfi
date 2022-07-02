@@ -137,13 +137,12 @@ export default {
 <style scoped>
 .main{
     /* width: 300px; height: 500px;  position:relative; z-index: 1; */
-    background-color: yellow; margin-left: 10px; 
+    margin-left: 10px; 
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
 }
 .wrapper {
-    width: 300px; height: 500px; background-color: #CFD8DC; justify-items: center; 
-        width: 300px; height: 500px; background-color: #CFD8DC; justify-items: center;
-    width: 300px; height: 500px; background-color: #CFD8DC; justify-items: center; 
-        width: 300px; height: 500px; background-color: #CFD8DC; justify-items: center;
     width: 300px; height: 500px; background-color: #CFD8DC; justify-items: center; 
     position:relative;  border-radius: 25px; border: 1px solid rgba(0, 0, 0, .7);
     z-index: 1; padding-right: 20px; margin-left: 40px;
@@ -151,14 +150,10 @@ export default {
 .minimizeWrapper {
     width: 150px; height: 50px; background-color: #CFD8DC; justify-items: center; text-align: center;
      position:static;  border-radius: 25px; border: 1px solid rgba(0, 0, 0, .7);
-     z-index: 1; padding-right: 20px; margin-left: 40px; float: ;
+     z-index: 1; padding-right: 20px; margin-left: 40px;
 }
 .header{
-    padding-top: 12px;padding-left: 10px; 
-        padding-top: 12px;padding-left: 10px;
-    padding-top: 12px;padding-left: 10px; 
-        padding-top: 12px;padding-left: 10px;
-    padding-top: 12px;padding-left: 10px; 
+    padding-top: 12px;padding-left: 10px;
 }
 .userName{
     font-size: 19px; font-weight: 700;
