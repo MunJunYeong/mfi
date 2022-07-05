@@ -1,4 +1,4 @@
-/* eslint-disable */
+
 <template>
     <v-container>
         <v-row >
@@ -27,6 +27,7 @@
     
 </template>
 <script>
+
 import 'codemirror/lib/codemirror.css'; 
 import '@toast-ui/editor/dist/toastui-editor.css'; 
 import { Editor } from '@toast-ui/vue-editor';
@@ -54,21 +55,35 @@ export default {
     },
     methods: {
         async modify(){
+            if(this.subject === ''){
+                alert('제목을 입력해주세요.');
+                return;
+            }
+            if(this.content === ''){
+                alert('내용을 입력해주세요.');
+                return;
+            }
             let flag = confirm('수정하시겠습니까?');
             if(flag){
+                let res;
                 this.editorText = this.getContent();
                 try {
-                    await this.$store.dispatch('modify_idea', {
+                    res =await this.$store.dispatch('modify_idea', {
                         ideaIdx : this.ideaIdx,
                         subject : this.subject,
                         content : this.editorText
                     })
-                    this.changeFlag = this.contentFlag;
-                    this.changeFlag = this.$store.getters.modify_get_flage;
-                    this.$emit('child', this.changeFlag);
                 }catch(err){
                     console.log(err);
                 }
+                if(res === 'error'){
+                    alert('시스템 오류가 발생했습니다. 잠시 후 시도해주세요.');
+                    location.href='/home'; //새로고침
+                    return;
+                }
+                this.changeFlag = this.contentFlag;
+                this.changeFlag = this.$store.getters.modify_get_flage;
+                this.$emit('child', this.changeFlag);
             }
         },
         getContent() {

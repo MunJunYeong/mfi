@@ -294,14 +294,19 @@ moment.lang('ko', {
                 this.contentFlag = false;
             },
             async showIdea(){
+                let res;
                 try{
-                    await this.$store.dispatch('click_idea',{
+                    res = await this.$store.dispatch('click_idea',{
                         ideaIdx : this.ideaIdx,
                         userIdx : this.userData.userIdx
                     })
                     this.setContent(this.ideaData.content);
                 }catch(err){
                     console.log(err);
+                }
+                if(res === 'force logout'){
+                    alert('다른 기기에서 로그인하여 로그아웃 되었습니다. 재 로그인 해주세요.')
+                    location.href='/home'; //새로고침
                 }
             },
             setContent(content) {
@@ -326,15 +331,20 @@ moment.lang('ko', {
                 }
                 let confirmComment = confirm('댓글을 추가하겠습니까?');
                 if (confirmComment){
+                    let res;
                     try{
-                        await this.$store.dispatch('add_comment', {
+                        res =await this.$store.dispatch('add_comment', {
                             comment : this.writeComment,
                             ideaIdx : this.ideaIdx
                         })
-                        this.writeComment = '';
-                        this.showComment();
                     }catch(err){
                         console.log(err);
+                    }
+                    if(res.data === 1){
+                        this.writeComment = '';
+                        this.showComment();
+                    }else {
+                        alert(res.message);
                     }
                 }
             },

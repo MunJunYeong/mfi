@@ -92,13 +92,17 @@ export default {
             }
         },
         async createPagination(){
+            let res;
             try{
-                await this.$store.dispatch('get_user_list_admin', {
+                res = await this.$store.dispatch('get_user_list_admin', {
                     page : this.currentPage,
                     nickName : this.searchNickName
                 })
             }catch(err){
                 console.log(err)
+            }
+            if(res === 'force logout'){
+                alert('다른 기기에서 로그인하여 로그아웃 되었습니다. 재 로그인 해주세요.');
             }
         },
         handlePageChange(value){

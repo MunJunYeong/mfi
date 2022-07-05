@@ -25,7 +25,11 @@ const init  = async () => {
   //토큰 유효성 검사
   const settingVerifyToken = async () => {
     if(token !== null){
-      await store.dispatch('get_user_data', token);
+      const getDataMsg = await store.dispatch('get_user_data', token);
+      if(getDataMsg === 'force logout'){
+        alert('다른 기기에서 로그인하여 로그아웃 되었습니다. 재 로그인 해주세요.');
+        return;
+      }
       await chattingSocket.initialize();
     }
   }

@@ -1,5 +1,5 @@
+/* eslint-disable */
 import auth from '../../services/auth';
-
 
 const authModule = {
     state : {
@@ -43,17 +43,15 @@ const authModule = {
             if(!token){
                 return;
             }
-
             const res = await auth.getUserList(data, token);
             
             if(res.data.message){
                 let message = res.data.message;
                 if(message === 'force logout'){
-                    alert('다른 기기에서 로그인하여 로그아웃 되었습니다. 재 로그인 해주세요.')
                     localStorage.removeItem('accessToken');
                     localStorage.removeItem('refreshToken');
                     location.href='/home'; //새로고침
-                    return;
+                    return message;
                 }else{
                     alert(message); return;
                 }
@@ -63,17 +61,13 @@ const authModule = {
         },
         async change_user_role({commit}, data){
             let token = localStorage.getItem('accessToken');
-           
             const res = await auth.changeUserRole(data, token);
-
             commit('set_user_role', { userIdx: data.userIdx, role: res.data } );
         },
         async logout({commit}, userIdx){
             const res = await auth.logout(userIdx);
             localStorage.removeItem('accessToken');
             localStorage.removeItem('refreshToken');
-            commit
-            res
         },
         async auth_refresh_token({commit}, token) {
             const renewToken = await auth.refreshToken(token);
@@ -84,9 +78,7 @@ const authModule = {
                 location.href='/home'; //새로고침
                 return;
             }
-            // if()
             localStorage.setItem('accessToken', renewToken.data);
-            commit
             return renewToken.data;
         },
     }

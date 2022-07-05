@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import jwt_decode from 'jwt-decode'
 import VueCookies from "vue-cookies";
 import anonymous from '../../services/anonymous';
@@ -106,12 +108,10 @@ const anonymousModule = {
         async get_user_data({commit}, token){
             const userIdx = jwt_decode(token).userIdx 
             const res = await anonymous.getUserData(userIdx, token);
-            
             if(res.data.message === 'force logout'){
-                alert('다른 기기에서 로그인하여 로그아웃 되었습니다. 재 로그인 해주세요.')
                 localStorage.removeItem('accessToken');
                 localStorage.removeItem('refreshToken');
-                return;
+                return res.data.message;
             }
             await commit('auth_set_data', res.data.data);
             return {data : 1};
@@ -123,10 +123,9 @@ const anonymousModule = {
             if(res.data.token){                
                 localStorage.setItem("accessToken", res.data.token);
                 localStorage.setItem("refreshToken", res.data.refreshToken);
-                await this.dispatch('get_user_data', res.data.token );
+                await this.dispatch('get_user_data', res.data.token ); //login part라서 return값이 불 필요.
                 await chattingSocket.initialize();
                 history.back();
-                commit
                 return res.data;
             }else if(res.data.message){
                 return res.data;
@@ -139,11 +138,9 @@ const anonymousModule = {
             if(res.data.token){
                 localStorage.setItem("accessToken", res.data.token);
                 localStorage.setItem("refreshToken", res.data.refreshToken);       
-                await this.dispatch('get_user_data', res.data.token);
+                await this.dispatch('get_user_data', res.data.token); //login part라서 return값이 불 필요.
                 await chattingSocket.initialize();
                 history.back();
-
-                commit
             }else if(res.data.message){
                 return res.data;
             }
@@ -151,25 +148,18 @@ const anonymousModule = {
         
         async find_id_send_email({commit}, data){
             const res = await anonymous.findIdSendEmail(data);
-            commit
             return res.data;
         },
         async find_pw_send_email({commit}, data){
             const res = await anonymous.findPwSendEmail(data);
-            
-            commit
             return res;            
         },
         async find_pw_check_email({commit}, data){
             const res = await anonymous.findPwCheckEmail(data);
-
-            commit
             return res;            
         },
         async update_pw({commit}, data){
             const res = await anonymous.updatePw(data);
-
-            commit
             return res;            
         },
     }

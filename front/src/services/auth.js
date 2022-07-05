@@ -16,7 +16,6 @@ const getUserList = async (data, token)=> {
     }catch(err){
         console.log(err);
     }
-
     return res;
 }
 const changeUserRole = async (data, token)=> {

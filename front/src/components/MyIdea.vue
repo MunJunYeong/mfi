@@ -150,16 +150,21 @@ export default {
     },
     methods: {
         async createPagination(){
+            let res;
             try{
-                await this.$store.dispatch('show_my_idea', {
+                res = await this.$store.dispatch('show_my_idea', {
                     page : this.currentPage,
                     subject : this.searchSubject,
                     userIdx : this.userData.userIdx
                 })
             }catch(err){
                 console.log(err)
-            }   
-            
+            }
+            if(res === 'force logout'){
+                alert('다른 기기에서 로그인하여 로그아웃 되었습니다. 재 로그인 해주세요.')
+                location.href='/home'; //새로고침
+                return;
+            }
 
         },
         handlePageChange(value){
