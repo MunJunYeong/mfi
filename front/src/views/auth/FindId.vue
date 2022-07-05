@@ -75,6 +75,7 @@
 }
 </style>
 <script>
+import {signValidation} from '../../utils/validation/index';
 export default {
     name : 'findId',
     data (){
@@ -85,7 +86,7 @@ export default {
     methods : {
       async sendEmail(){
         let res;
-        if(!this.validationEmail(this.email)){
+        if(!signValidation.validationEmail(this.email)){
           alert('이메일 형식에 맞추어 작성해주세요.'); return;
         }
         try{
@@ -101,10 +102,6 @@ export default {
           alert('사용자님의 이메일로 아이디를 발송했습니다.');
           history.back();
         }
-      },
-      validationEmail(str){
-        const reg = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-        return reg.test(str);
       },
     },
     

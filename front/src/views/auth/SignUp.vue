@@ -240,7 +240,7 @@
 <script>
 const { VUE_APP_BACKEND_HOST } = process.env;
   import axios from 'axios';
-  import validation from '../../utils/validation';
+  import {signValidation} from '../../utils/validation/index';
 
   const checkEng = /[a-zA-Z]/;
   const checkNum = /[0-9]/; 
@@ -285,29 +285,30 @@ const { VUE_APP_BACKEND_HOST } = process.env;
     methods : {
       // 중복 아이디 확인 axios
       async checkId(){
-        if(!validation.checkId(this.id)){
-          return;
+        const preorder = signValidation.checkId(this.id);
+        if(preorder.message){
+          alert(preorder.message); return;
         }
         this.overlapId = await axios.post(VUE_APP_BACKEND_HOST+'/checkid', {
           id : this.id
         }).then(res =>{
           if(res.data.value === "true"){
             let result = confirm("사용가능한 아이디입니다. 아이디를 사용하시겠습니까?");
-            if(result){
+            if(result){ 
               return  true;
             }else {
               return false;
             }
           }else {
-            alert(res.data.message);
-            return false;
+            alert(res.data.message); return false;
           }
         })
       },
       // 중복 닉네임 확인 axios
       async checkNickName(){
-        if(!validation.checkNickName(this.nickName)){
-          return;
+        const preorder = signValidation.checkNickName(this.nickName);
+        if(preorder.message){
+          alert(preorder.message); return;
         }
         this.overlapNickName = await axios.post(VUE_APP_BACKEND_HOST+ '/checknickname', {
           nickName : this.nickName
@@ -331,14 +332,16 @@ const { VUE_APP_BACKEND_HOST } = process.env;
         if(this.overlapEmail){
           alert('인증 번호가 이미 발송되었습니다.'); return;
         }
+        if(!this.email){
+          alert('이메일을 입력해주세요.'); return;
+        }
         //이메일 형식 확인
-        if(!validation.validationEmail(this.email)){
+        if(!signValidation.validationEmail(this.email)){
           alert('이메일 형식에 맞추어 작성해주세요.'); return;
         }
         this.overlapEmail = await axios.post(VUE_APP_BACKEND_HOST + '/sendemail', {
           email : this.email
         }).then(res =>{
-          console.log(res)
           if(res.data.message){
             alert(res.data.message); return;
           }else {
@@ -374,14 +377,13 @@ const { VUE_APP_BACKEND_HOST } = process.env;
       },
       // 회원가입 axious
       async signUp(){
-        console.log('fdasfasf')
         if(this.pw !== this.checkPw){
           alert('비밀번호가 일치하지 않습니다.!'); return;
         }
-        if(!validation.checkPw(this.pw)){
-          return;
+        const preorder = signValidation.checkPw(this.pw);
+        if(preorder.message){
+          alert(preorder.message); return;
         }
-        console.log('aaaaa');
         if(this.overlapId && this.overlapNickName && this.overlapAuthentication){
           await axios.post(VUE_APP_BACKEND_HOST+ '/signup', {
             id : this.id,
