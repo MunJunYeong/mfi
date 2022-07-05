@@ -109,7 +109,8 @@
 }
 </style>
 <script>
-import VueCookies from "vue-cookies";
+  import VueCookies from "vue-cookies";
+  import {signValidation} from '../../utils/validation/index';
   export default {
     name: 'SignIn',
     
@@ -127,12 +128,16 @@ import VueCookies from "vue-cookies";
     methods: {
       async login(){
         let res;
-        if(this.id === ''){
-          alert('ID를 입력하세요'); return;
+
+        const preorderId = signValidation.checkId(this.id);
+        if(preorderId.message){
+          alert('[아이디] ' +preorderId.message); return;
         }
-        if(this.pw === ''){
-          alert('비밀번호를 입력하세요'); return;
+        const preorderPw = signValidation.checkPw(this.pw);
+        if(preorderPw.message){
+          alert('[비밀번호] ' +preorderPw.message); return;
         }
+
         try {
           res = await this.$store.dispatch('auth_login', {
             id : this.id,

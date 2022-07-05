@@ -216,9 +216,10 @@
 }
 </style>
 <script>
-  const checkEng = /[a-zA-Z]/;
-  const checkNum = /[0-9]/; 
-  const checkSpe = /[~!@#$%^&*()_+|<>?:{}]/;
+import {signValidation} from '../../utils/validation/index';
+const checkEng = /[a-zA-Z]/;
+const checkNum = /[0-9]/; 
+const checkSpe = /[~!@#$%^&*()_+|<>?:{}]/;
 export default {
     name : 'findPw',
     data (){
@@ -245,11 +246,12 @@ export default {
     },
     methods : {
       async updatePw(){
-        if(this.pw === '' || this.checkPw === ''){
-          alert('비밀번호를 입력 해주세요.'); return;
-        }
         if(this.pw !== this.checkPw){
           alert('비밀번호가 일치하지 않습니다.'); return;
+        }
+        const preorder = signValidation.checkPw(this.pw);
+        if(preorder.message){
+          alert(preorder.message); return;
         }
         let res;
         try{
@@ -273,10 +275,12 @@ export default {
         if(this.overlapEmail){
           alert('인증번호가 이미 전송되었습니다.'); return;
         } 
-        if(!this.id){
-         alert('아이디를 입력해주세요'); return;
+        
+        const preorderId = signValidation.checkId(this.id);
+        if(preorderId.message){
+          alert('[아이디] '+preorderId.message); return;
         }
-        if(!this.validationEmail(this.email)){
+        if(!signValidation.validationEmail(this.email)){
           alert('이메일 형식에 맞추어 작성해주세요.'); return;
         }
         let res;
@@ -299,7 +303,10 @@ export default {
       },
       
       async checkAuthEmail(){
-        if(this.no === ''){
+        if(this.overlapId === false){
+          alert('인증을 받아주세요.'); return;
+        }
+        if(this.authEmail === ''){
           alert('인증 번호를 입력해주세요.'); return;
         }
         let res;
