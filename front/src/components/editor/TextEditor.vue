@@ -93,14 +93,26 @@ export default {
     methods: {
         async save(){
             this.editorText = this.getContent();
+            if(!this.subject) {
+                alert('제목을 입력해주세요.'); return;
+            }
+            if(!this.content){
+                alert('내용을 입력해주세요.'); return;
+            }
+            let res;
             try {
-                await this.$store.dispatch('add_idea', {
+                res =await this.$store.dispatch('add_idea', {
                     subject : this.subject,
                     content : this.editorText
                 })
-
             }catch(err){
                 console.log(err)
+            }
+            if(res === 'success'){
+                alert("아이디어를 무사히 제출했습니다!");
+                history.back(); return;
+            }else {
+                alert(res); return;
             }
         },
         getContent() {

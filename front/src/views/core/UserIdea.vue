@@ -92,17 +92,22 @@ export default {
     },
     methods: {
         async createPagination(){
-                try{
-                    await this.$store.dispatch('show_admin_user_idea', {
-                        userIdx : this.userIdx,
-                        page : this.currentPage,
-                        subject : this.searchSubject,
-                    })
-                }catch(err){
-                    console.log(err)
-                }
-                
-            },
+            let res;    
+            try{
+                res =await this.$store.dispatch('show_admin_user_idea', {
+                    userIdx : this.userIdx,
+                    page : this.currentPage,
+                    subject : this.searchSubject,
+                })
+            }catch(err){
+                console.log(err)
+            }
+            if(res === 'error'){
+                alert('시스템 오류가 발생했습니다. 잠시 후 시도해주세요.'); 
+                location.href='/home'; //새로고침
+            }
+            
+        },
         handlePageChange(value){
             this.currentPage = value;
             this.createPagination();

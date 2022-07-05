@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import idea from '../../services/idea';
 
 const ideaModule = {
@@ -51,9 +53,7 @@ const ideaModule = {
         async show_idea({commit}, data){
             const res = await idea.getIdea(data);
             if(res.data.message){
-                alert('시스템 오류가 발생했습니다. 잠시 후 시도해주세요.'); 
-                location.href='/home'; //새로고침
-                return;
+                return 'error';
             }
             commit('idea_set_data', res.data);
             return;
@@ -65,14 +65,11 @@ const ideaModule = {
             const res = await idea.getMyIdea(data, token);
 
             if(res.data.message){
-                console.log(res.data.message)
                 let message = res.data.message;
                 if(message === 'force logout'){
-                    alert('다른 기기에서 로그인하여 로그아웃 되었습니다. 재 로그인 해주세요.')
                     localStorage.removeItem('accessToken');
                     localStorage.removeItem('refreshToken');
-                    location.href='/home'; //새로고침
-                    return;
+                    return message;
                 }else{
                     alert(message); return;
                 }
@@ -86,9 +83,7 @@ const ideaModule = {
             const res = await idea.getAdminUserIdea(data, token);
 
             if(res.data.message){
-                alert('시스템 오류가 발생했습니다. 잠시 후 시도해주세요.'); 
-                location.href='/home'; //새로고침
-                return;
+                return 'error';
             }
             commit('idea_set_data', res.data);
             return;
@@ -99,13 +94,11 @@ const ideaModule = {
             const res = await idea.getClickIdea(data, token);
             
             if(res.data.message){
-                console.log(res.data.message)
                 let message = res.data.message;
                 if(message === 'force logout'){
-                    alert('다른 기기에서 로그인하여 로그아웃 되었습니다. 재 로그인 해주세요.')
                     localStorage.removeItem('accessToken');
                     localStorage.removeItem('refreshToken');
-                    location.href='/home'; //새로고침
+                    return message;
                 }
             }else {
                 commit('click_idea_set_data', res.data.data);
@@ -115,19 +108,12 @@ const ideaModule = {
         //아이디어 추가
         async add_idea({commit}, data){
             let token = localStorage.getItem('accessToken');
-            if(!data.subject) {
-                alert('제목을 입력해주세요.'); return;
-            }
-            if(!data.content){
-                alert('내용을 입력해주세요.'); return;
-            }
+            
             const res = await idea.addIdea(data, token);
-            commit
             if(res.data.message){
-                alert(res.data.message); return;
+                return res.data.message;
             }else {
-                alert("아이디어를 무사히 제출했습니다!");
-                history.back();
+                return 'success'
             }
         },
 
@@ -145,9 +131,7 @@ const ideaModule = {
             const res = await idea.modifyIdea(data, token);
 
             if(res.data.message){
-                alert('시스템 오류가 발생했습니다. 잠시 후 시도해주세요.');
-                location.href='/home'; //새로고침
-                 return;
+                return 'error';
             }
             if(res.data.data[0] === 1){
                 commit('change_modify_flag', true);
@@ -156,26 +140,18 @@ const ideaModule = {
         async idea_comment({commit}, ideaIdx){
             let token = localStorage.getItem('accessToken');
             const res = await idea.getComment(ideaIdx, token);
-
             commit('click_comment_set_data', res.data.data);
         },
         
         async delete_idea({commit}, data){
             let token = localStorage.getItem('accessToken');
             await idea.deleteIdea(data, token);
-            commit
         },
 
         async add_comment({commit}, data){
             let token = localStorage.getItem('accessToken');
-            commit
             const res = await idea.addComment(data, token);
-
-            
-            if(res.data.message){
-                alert(res.data.message);
-            }
-            return;
+            return res.data;
         },
         
     }

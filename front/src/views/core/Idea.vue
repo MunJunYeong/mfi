@@ -147,6 +147,7 @@
     </v-container>
 </template>
 <script>
+
     import IdeaItem from '../../components/IdeaItem.vue'
     import Chatting from '../../components/modal/Chatting.vue';
     export default {
@@ -202,9 +203,15 @@
         },
         
         methods: {
+            alertErrorMessage (){
+                alert('시스템 오류가 발생했습니다. 잠시 후 시도해주세요.');
+                location.href='/home'; //새로고침
+                return;
+            },
             async createPagination(){
+                let res;
                 try{
-                    await this.$store.dispatch('show_idea', {
+                    res = await this.$store.dispatch('show_idea', {
                         page : this.currentPage,
                         subject : this.searchSubject,
                         userData : this.userData
@@ -212,7 +219,9 @@
                 }catch(err){
                     console.log(err)
                 }
-                
+                if(res === 'error'){
+                    this.alertErrorMessage();
+                }
             },
             handlePageChange(value){
                 this.currentPage = value;
@@ -238,8 +247,9 @@
                 }
             },
             async winnerOld(){
+                let res;
                 try{
-                    await this.$store.dispatch('show_idea', {
+                    res = await this.$store.dispatch('show_idea', {
                         page : this.currentPage,
                         subject : this.searchSubject,
                         role : 'winner',
@@ -248,11 +258,15 @@
                     })
                 }catch(err){
                     console.log(err);
+                }
+                if(res === 'error'){
+                    this.alertErrorMessage();
                 }
             },
             async winnerRecent(){
+                let res;
                 try{
-                    await this.$store.dispatch('show_idea', {
+                    res = await this.$store.dispatch('show_idea', {
                         page : this.currentPage,
                         subject : this.searchSubject,
                         role : 'winner',
@@ -262,10 +276,14 @@
                 }catch(err){
                     console.log(err);
                 }
+                if(res === 'error'){
+                    this.alertErrorMessage();
+                }
             },
             async allOld(){
+                let res;
                 try{
-                    await this.$store.dispatch('show_idea', {
+                    res = await this.$store.dispatch('show_idea', {
                         page : this.currentPage,
                         subject : this.searchSubject,
                         order : 'ASC',
@@ -274,10 +292,14 @@
                 }catch(err){
                     console.log(err);
                 }
+                if(res === 'error'){
+                    this.alertErrorMessage();
+                }
             },
             async allRecent(){
+                let res;
                 try{
-                    await this.$store.dispatch('show_idea', {
+                    res = await this.$store.dispatch('show_idea', {
                         page : this.currentPage,
                         subject : this.searchSubject,
                         order : 'DESC',
@@ -285,6 +307,9 @@
                     })
                 }catch(err){
                     console.log(err);
+                }
+                if(res === 'error'){
+                    this.alertErrorMessage();
                 }
             },
             addIdea(){ //add idea 버튼 클릭시 막아줌.
