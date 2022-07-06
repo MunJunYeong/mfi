@@ -136,8 +136,8 @@ export default {
             for(let i =0; i<tempIdea.length; i++){
                 tempIdea[i].number = this.startPageIndex+ i;
             }
-                return tempIdea;
-            },
+            return tempIdea;
+        },
         totalPages : function(){
             return this.$store.getters.idea_get_total_pages;
         },
