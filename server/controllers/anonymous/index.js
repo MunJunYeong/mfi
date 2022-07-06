@@ -32,7 +32,8 @@ const signUP = async (req, res) => {
 
 const sendEmail = async (req, res) => {
     const data = req.body;
-    if(!data.email || !utils.validationEmail(data.email)) throw new Error('WRONG_ACCESS');
+    if(!authValidation.isValidEmail(data.email))throw new Error('WRONG_ACCESS');
+    // if(!data.email || !utils.validationEmail(data.email)) 
         
     try{
         const result = await anonymousService.sendEmail(data.email);
@@ -47,7 +48,7 @@ const sendEmail = async (req, res) => {
 const checkEmail = async (req, res) => {
     const data = req.body;
     
-    if(!data.email || !data.no) throw new Error('WRONG_ACCESS');
+    if(!authValidation.isValidEmail(data.email) || !data.no) throw new Error('WRONG_ACCESS');
     try{
         await anonymousService.checkEmail(data.email, data.no);
         res.send({data : 1});
@@ -65,7 +66,7 @@ const checkEmail = async (req, res) => {
 const findIdSendMail = async(req, res) => {
     const data = req.body;
     // front에서 막아놨기에 비정상적인 접근으로 이메일을 쏜거임
-    if(!data.email)throw new Error('WRONG_ACCESS');
+    if(!authValidation.isValidEmail(data.email))throw new Error('WRONG_ACCESS');
     try{
         const result = await anonymousService.findIdSendMail(data.email);
         res.send(result);
@@ -81,7 +82,7 @@ const findIdSendMail = async(req, res) => {
 const findPwSendMail = async(req, res) => {
     const data = req.body;
     // front에서 막아놨기에 비정상적인 접근으로 이메일을 쏜거임
-    if( data.id === '' || data.email === '' || data.id === null || data.email === null )throw new Error('WRONG_ACCESS');
+    if(!authValidation.isValidId(data.id) || !authValidation.isValidEmail(data.email)) throw new Error('WRONG_ACCESS');
 
     try{
         const result = await anonymousService.findPwSendMail(data.id, data.email);
@@ -96,7 +97,9 @@ const findPwSendMail = async(req, res) => {
 const updatePw = async(req, res) => {
     const data = req.body; // data -> email, pw, id
     // front에서 막아놨기에 비정상적인 접근으로 이메일을 쏜거임
-    if(data.email === '' || data.pw === '' || data.id === '') throw new Error('WRONG_ACCESS');
+    if(!authValidation.isValidId(data.id) || !authValidation.isValidEmail(data.email)||
+    !authValidation.isValidPw(data.pw)) throw new Error('WRONG_ACCESS');
+
     try{
         const result = await anonymousService.updatePw(data.email, data.pw, data.id);
         res.send({data : result[0]});
@@ -110,10 +113,8 @@ const updatePw = async(req, res) => {
 //로그인
 const signIn = async (req, res) => {
     const data = req.body;
-
-    if(!data.id || !data.pw){
-        throw new Error('WRONG_ACCESS');
-    }
+    
+    if(!authValidation.isValidId(data.id) || !authValidation.isValidPw(data.pw)) throw new Error('WRONG_ACCESS');
 
     try{
         const result = await anonymousService.signIn(data.id, data.pw);
@@ -133,7 +134,7 @@ const signIn = async (req, res) => {
 const forcesignIn= async(req, res) => {
     const data = req.body;
 
-    if(!data.id || !data.pw) throw new Error('WRONG_ACCESS');
+    if(!authValidation.isValidId(data.id) || !authValidation.isValidPw(data.pw)) throw new Error('WRONG_ACCESS');
     let userIdx;
     //해당 id pw의 userIdx를 가지고 온다.
     try{
@@ -163,10 +164,7 @@ const forcesignIn= async(req, res) => {
 //아이디 중복확인
 const checkId = async (req, res) =>{
     const data = req.body;
-
-    if(!data.id)throw new Error('WRONG_ACCESS');
-    if(checkKor.test(data.id) || !checkEng.test(data.id) || !checkNum.test(data.id)) throw new Error('WRONG_ACCESS');
-    if(data.id.length <6) throw new Error('WRONG_ACCESS');
+    if(!authValidation.isValidId(data.id)) throw new Error('WRONG_ACCESS');
 
     try{
         const result = await anonymousService.duplicateId(data.id);
@@ -191,7 +189,7 @@ const checkId = async (req, res) =>{
 const checkNickName = async (req, res) => {
     const data = req.body;
     
-    if(data.nickName <3)throw new Error('WRONG_ACCESS');
+    if(!authValidation.isValidNickName(data.nickName))throw new Error('WRONG_ACCESS');
 
     try{
         const result = await anonymousService.duplicateNickName(data.nickName);

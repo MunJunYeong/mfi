@@ -16,6 +16,7 @@ const postComment = async (req, res) => {
 
 const getComment = async (req, res) => {
     const ideaIdx = req.query.ideaIdx;
+    if(!ideaIdx) throw new Error('WRONG_ACCESS');
     try{
         const result = await commentService.getComment(ideaIdx);
         res.send({data : result});
