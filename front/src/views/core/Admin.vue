@@ -101,9 +101,15 @@ export default {
             }catch(err){
                 console.log(err)
             }
-            if(res === 'force logout'){
+            if(res.message === 'force logout'){
                 alert('다른 기기에서 로그인하여 로그아웃 되었습니다. 재 로그인 해주세요.');
+                return;
             }
+            if(res.message){
+                alert(res.message); return;
+            }
+
+
         },
         handlePageChange(value){
             this.currentPage = value;

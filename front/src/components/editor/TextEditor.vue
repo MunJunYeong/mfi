@@ -77,7 +77,7 @@
 import 'codemirror/lib/codemirror.css'; 
 import '@toast-ui/editor/dist/toastui-editor.css'; 
 import { Editor } from '@toast-ui/vue-editor';
-
+import { coreValidation } from '../../utils/validation';
 
 export default {
     nama : 'TextEditor',
@@ -93,11 +93,9 @@ export default {
     methods: {
         async save(){
             this.editorText = this.getContent();
-            if(!this.subject) {
-                alert('제목을 입력해주세요.'); return;
-            }
-            if(!this.content){
-                alert('내용을 입력해주세요.'); return;
+            const preorder = coreValidation.checkIdea(this.subject, this.editorText);
+            if(preorder.message){
+                alert(preorder.message); return;
             }
             let res;
             try {
