@@ -93,7 +93,7 @@ const showAdminUserIdea = async (req, res) => {
     const userIdx = req.params.userIdx;
     const {page, subject} = req.query;
     const {limit, offset} = pagination.getPagination(page);
-    
+    if(!userIdx) throw new Error('WRONG_ACCESS');
     try{
         const data = await ideaService.getAdminUserIdea(limit, offset, subject, userIdx);
         const result = await pagination.getPagingIdeaData(data, page, limit);

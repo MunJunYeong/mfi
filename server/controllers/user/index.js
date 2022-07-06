@@ -7,7 +7,7 @@ const {Op} = require('../../lib/db');
 const updateUserRole = async (req, res) => {
     const data = req.body;
     
-    if(!data.role || !data.userIdx)throw new Error('WRONG_ACCESS');
+    if(!data.role || !data.userIdx) throw new Error('WRONG_ACCESS');
 
     try{
         const result = await userService.updateRole(data.role, data.userIdx);
@@ -21,7 +21,7 @@ const updateUserRole = async (req, res) => {
 
 const getuserData = async(req, res) => {
     const userIdx = req.params.userIdx;
-    
+    if(!userIdx) throw new Error('WRONG_ACCESS');
     let data;
     try{
         data = await userService.getUserData(userIdx);
