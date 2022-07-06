@@ -3,26 +3,17 @@ const {user : userService} = require('../../service');
 const { Op } = require('../../lib/db');
 const {pagination, utils} = require('../../lib/common');
 const winston = require('../../lib/common/winston');
+const {authValidation} = require('../../lib/common/validation');
 
-let checkEng = /[a-zA-Z]/;
-let checkNum = /[0-9]/; 
-let checkSpe = /[~!@#$%^&*()_+|<>?:{}]/;
-let checkKor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
 
 
 //회원가입
 const signUP = async (req, res) => {
     const data = req.body;
-    console.log(data)
-    //id check
-    if(!data.id ||data.id.length <6 || data.id.length > 15) throw new Error('WRONG_ACCESS');
-    if(checkKor.test(data.id)|| !checkEng.test(data.id) || !checkNum.test(data.id)) throw new Error('NOT_CORRECT_FORM');
+    if(!authValidation.isValidId(data.id) || !authValidation.isValidNickName(data.nickName) ||
+        !authValidation.isValidPw(data.pw) || !authValidation.isValidEmail(data.email)
+    )  throw new Error('WRONG_ACCESS');
 
-    //nickName
-    if(!data.nickName ||data.nickName.length <3 || data.nickName.length > 12) throw new Error('WRONG_ACCESS');
-    //pw check
-    if(!data.pw ||data.pw.length <6 || data.pw.length > 20) throw new Error('WRONG_ACCESS');
-    if(checkKor.test(data.pw)|| !checkEng.test(data.pw) || !checkNum.test(data.pw) || !checkSpe.test(data.pw)) throw new Error('NOT_CORRECT_FORM');
 
     try{
         const result = await anonymousService.signUp(data.id, data.pw, data.nickName, data.email, 'normal');

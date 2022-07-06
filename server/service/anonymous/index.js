@@ -1,9 +1,7 @@
 const {models, Op} = require('../../lib/db');
 const {utils} = require('../../lib/common')
 const winston = require('../../lib/common/winston');
-// const jwt = require('jsonwebtoken');
 const jwtUtils = require('../../lib/common/jwt');
-const redisClient = require('../../lib/common/redis');
 
 
 
@@ -19,12 +17,18 @@ const signUp = async (id, pw, nickName, email, role) => {
                 email : email,
                 role : role
             });
-            await makeUserToken(result.userIdx);
-            return result;
         }catch(err){
             winston.error(`Unable to signUp[servcie] :`, err);
             throw new Error('DB_SIGNUP');
         }
+        try{
+            await makeUserToken(result.userIdx);
+        }catch(err){
+            console.log(err); // 이 부분 에러 핸들링 나중에 하기
+        }
+        
+        return result;
+
     }else {
         throw new Error('TRAFFIC');
     }
