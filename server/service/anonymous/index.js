@@ -2,37 +2,34 @@ const {models, Op} = require('../../lib/db');
 const {utils} = require('../../lib/common')
 const winston = require('../../lib/common/winston');
 const jwtUtils = require('../../lib/common/jwt');
-
+const {authValidation} = require('../validation');
 
 
 const signUp = async (id, pw, nickName, email, role) => {
     //혹시나 회원가입이 이미 되었는데도 또 2번 이상의 요청이 가서 생기는 경우 예외처리
     let result;
-    if(await findUser(email) === null){
-        try{
-            result = await models['user'].create({
-                id : id,
-                pw : pw,
-                nickName : nickName,
-                email : email,
-                role : role
-            });
-        }catch(err){
-            winston.error(`Unable to signUp[servcie] :`, err);
-            throw new Error('DB_SIGNUP');
-        }
-        try{
-            await makeUserToken(result.userIdx);
-        }catch(err){
-            console.log(err); // 이 부분 에러 핸들링 나중에 하기
-        }
-        
-        return result;
 
-    }else {
-        throw new Error('TRAFFIC');
+    if(!await authValidation.isDuplicatedId(id) || !await authValidation.isDuplicatedEmail(email) || 
+        !await authValidation.isDuplicatedNickName(nickName))  throw new Error('WRONG_ACCESS');
+
+    try{
+        result = await models['user'].create({
+            id : id,
+            pw : pw,
+            nickName : nickName,
+            email : email,
+            role : role
+        });
+    }catch(err){
+        winston.error(`Unable to signUp[servcie] :`, err);
+        throw new Error('DB_SIGNUP');
     }
-    
+    try{
+        await makeUserToken(result.userIdx);
+    }catch(err){
+        console.log(err); // 이 부분 에러 핸들링 나중에 하기
+    }
+    return result;
 }
 const  getUserCount = async ()=>{
     try{
@@ -77,7 +74,7 @@ const signIn = async (id, pw) => {
         // 2. 비밀번호가 일치하는지 확인한다.
         if(pw === idData.pw){
             // 3. userToken Table에 token이 저장되어져 있는지 확인한다 (true : 이미 로그인되어져 있음.)
-            if(await haveUserToken(idData.userIdx)){
+            if(await authValidation.haveUserToken(idData.userIdx)){
                 // 다른 기기에서 로그인이 되어져 있는 경우 (err: isLogin을 던진다.)
                 throw new Error('ISLOGIN');
             }else {
@@ -130,28 +127,9 @@ const saveUserToken = async (idx ,token) => {
         throw new Error('DB_SAVE_USER_TOKEN');
     }
 }
-//userToken table에 해당 idx가 로그인되어져 있는지 확인
-const haveUserToken = async (userIdx)=> {
-    try{
-        const result = await models['userToken'].findOne({
-            where : {
-                userIdx : userIdx
-            }
-        })
-        if(result.token === null || result.token.length === 0){
-            return false;
-        }else {
-            return true;
-        }
-    }catch(err){
-        winston.error(`Unable to haveUserToken[service] :`, err);
-        throw new Error('DB_HAVE_USER_TOKEN');
-    }
-}
-const sendEmail = async (email) => {
-    const reusltUser = await findUser(email);
-    if(!(reusltUser === null)){ throw new Error('EXIST_EMAIL'); }
 
+const sendEmail = async (email) => {
+    if(!await authValidation.isDuplicatedEmail(email)) throw new Error('EXIST_EMAIL');
     try{
         const emailNo = utils.makeEmailNo(6); // 6자리 인증번호
         const result =  await models['authentication'].create({
@@ -235,22 +213,19 @@ const findIdSendMail = async(email) => {
     }
 }
 const findPwSendMail = async(id, email) => {
-    if(await findUserId(id) === null || await findUser(email) === null){
-        throw new Error('NOT_FOUND');
-    }else {
-        try{
-            const emailNo = utils.makeEmailNo(6); // 6자리 인증번호
-            await models['authentication'].create({
-                email : email,
-                no : emailNo
-            });
-            utils.sendPw(email, emailNo);
-            return {data : 1};
-        }catch(err){
-            winston.error(`Unable to send findPw[service] :`, err);
-            throw new Error('DB_FIND_PW_SEND_MAIL');
-        }
-    }
+    if(await authValidation.isDuplicatedId(id) || await authValidation.isDuplicatedEmail(email)) throw new Error('NOT_FOUND');
+     try{
+         const emailNo = utils.makeEmailNo(6); // 6자리 인증번호
+         await models['authentication'].create({
+             email : email,
+             no : emailNo
+         });
+         utils.sendPw(email, emailNo);
+         return {data : 1};
+     }catch(err){
+         winston.error(`Unable to send findPw[service] :`, err);
+         throw new Error('DB_FIND_PW_SEND_MAIL');
+     }
 }
 const updatePw = async (email, pw, id) => {
     try {
@@ -270,7 +245,6 @@ const updatePw = async (email, pw, id) => {
         winston.error(`Unable to updatePw[service] :`, err);
         throw new Error('DB_UPDATE_PW');
     }
-    
 }
 
 const duplicateId = async (id) => {
@@ -288,7 +262,6 @@ const duplicateId = async (id) => {
         winston.error(`Unable to duplicatedId[service] :`, err);
         throw new Error('DB_DUPLICATE_ID');
     }
-    
 } 
 const duplicateNickName = async (nickName) => {
     try{
@@ -307,41 +280,6 @@ const duplicateNickName = async (nickName) => {
     }
     
 } 
-
-const findUserId = async (id) => {
-    let findUser;
-    try{
-        findUser = await models['user'].findOne({
-            where : {
-                id : id
-            },
-            attributes : {
-                exclude : ['id', 'pw', 'nickName', 'role']
-            },
-        });
-        return findUser;
-    }catch(err){
-        winston.error(`Unable to findUser(id) for sendEmail[servcie] :`, err);
-        throw new Error('DB_FIND_USER_PARA_ID');
-    }
-}
-const findUser = async (email) => {
-    let findUser;
-    try{
-        findUser = await models['user'].findOne({
-            where : {
-                email : email
-            },
-            attributes : {
-                exclude : ['id', 'pw', 'nickName', 'role']
-            },
-        });
-        return findUser;
-    }catch(err){
-        winston.error(`Unable to findUser(email) for sendEmail[servcie] :`, err);
-        throw new Error('DB_FIND_USER_PARA_EMAIL');
-    }
-}
 const findIdUser = async (id, pw) => {
     let findUser;
     try {

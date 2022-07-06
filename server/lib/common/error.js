@@ -1,7 +1,6 @@
 const HTTP_CODE = {
     SUCCESS: 200,
     NOT_ACCESS : 406,
-    TRAFFIC : 408,
     FAIL_METHOD : 424,
     DB_SERVER : 500,
 }
@@ -42,10 +41,6 @@ const preProcessing = {
     WRONG_ACCESS : { // front에서 막아둔 부분인데 비정상적인 접근
         message : 'wrong access',
         status : HTTP_CODE.NOT_ACCESS
-    },
-    TRAFFIC : {
-        message : '트래픽 문제로 잠시 후 다시 시도해주세요',
-        status : HTTP_CODE.TRAFFIC
     },
 }
 
@@ -208,14 +203,6 @@ const dbError = {
     },
     DB_SEND_EMAIL: {
         message : 'Unable to sendMail[service]',
-        status : HTTP_CODE.DB_SERVER
-    },
-    DB_FIND_USER_PARA_EMAIL: {
-        message : 'Unable to findUser(email) for sendMail[service]',
-        status : HTTP_CODE.DB_SERVER
-    },
-    DB_FIND_USER_PARA_ID: {
-        message : 'Unable to findUser(id) for sendMail[service]',
         status : HTTP_CODE.DB_SERVER
     },
     DB_SIGNUP : {

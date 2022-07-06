@@ -35,9 +35,9 @@ const corsOptions = {
   credentials: true,
 }
 
-// app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 
-app.use(cors());
+// app.use(cors());
 
 app.use(cookParser());
 app.use(bodyParser.json({limit : 50000000}));
