@@ -22,7 +22,7 @@ const signUP = async (req, res) => {
         res.send({data : result});
     }catch(err){
         if(err.message === 'DB_SIGNUP') throw new Error(err.message);
-        if(err.message === 'TRAFFIC') throw new Error(err.message);
+        if(err.message === 'WRONG_ACCESS') throw new Error(err.message);
         winston.error(`Unable to signup :`, err);
         throw new Error('UNABLE_SIGNUP');
 
