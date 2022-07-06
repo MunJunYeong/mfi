@@ -120,14 +120,6 @@ const ideaModule = {
         //아이디어 수정
         async modify_idea({commit}, data){
             let token = localStorage.getItem('accessToken');
-            if(data.subject === ''){
-                alert('제목을 입력해주세요.');
-                return;
-            }
-            if(data.content === ''){
-                alert('내용을 입력해주세요.');
-                return;
-            }
             const res = await idea.modifyIdea(data, token);
 
             if(res.data.message){

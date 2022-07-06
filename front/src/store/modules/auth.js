@@ -51,9 +51,9 @@ const authModule = {
                     localStorage.removeItem('accessToken');
                     localStorage.removeItem('refreshToken');
                     location.href='/home'; //새로고침
-                    return message;
-                }else{
-                    alert(message); return;
+                    return {message : message};
+                }else {
+                    return {message : message};
                 }
             }
             commit('user_set_data_admin', res.data);
