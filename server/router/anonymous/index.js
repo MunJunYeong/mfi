@@ -18,7 +18,7 @@ anonymousRouter.put('/updatepw', anonymousController.updatePw);
 
 //로그인하기 - 이중로그인에서 1개만 로그인
 anonymousRouter.post('/signin', anonymousController.signIn);
-anonymousRouter.post('/forcesignin', anonymousController.forcesignIn);
+anonymousRouter.post('/forcesignin', anonymousController.forceSignIn);
 
 //로그아웃
 anonymousRouter.put('/logout',  anonymousController.logout);

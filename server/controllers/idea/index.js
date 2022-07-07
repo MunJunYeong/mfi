@@ -16,7 +16,6 @@ const postIdea = async (req, res) => {
         winston.error(`Unable to postIdea :`, err);
         throw new Error('UNABLE_POST_IDEA');
     }
-    
 }
 
 const deleteIdea = async (req, res) => {

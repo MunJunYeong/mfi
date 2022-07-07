@@ -1,11 +1,5 @@
 const nodemailer = require('nodemailer');
 
-//이메일 형식 체크
-const validationEmail = (str) => {
-  const reg = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
-  return reg.test(str);
-}
-
 //회원가입 이메일 인증번호 보내는 함수
 const makeEmailNo = (length)=>{
     let result = '';
@@ -107,6 +101,6 @@ const sendPw = async (email, no) => {
   });
 };
 module.exports = {
-    makeEmailNo, sendEmail,validationEmail, sendId,sendPw
+    makeEmailNo, sendEmail, sendId,sendPw
 
 }
