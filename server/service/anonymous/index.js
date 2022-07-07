@@ -1,5 +1,5 @@
 const {models, Op} = require('../../lib/db');
-const {utils} = require('../../lib/common')
+const {mailer} = require('../../lib/common')
 const winston = require('../../lib/common/winston');
 const jwtUtils = require('../../lib/common/jwt');
 const {authValidation} = require('../validation');
@@ -27,7 +27,8 @@ const signUp = async (id, pw, nickName, email, role) => {
     try{
         await makeUserToken(result.userIdx);
     }catch(err){
-        console.log(err); // 이 부분 에러 핸들링 나중에 하기
+        winston.warn(`Unable to makeUserToken[servcie] :`, err);
+        throw new Error('DB_MAKE_USER_TOKE');
     }
     return result;
 }
@@ -131,13 +132,13 @@ const saveUserToken = async (idx ,token) => {
 const sendEmail = async (email) => {
     if(!await authValidation.isDuplicatedEmail(email)) throw new Error('EXIST_EMAIL');
     try{
-        const emailNo = utils.makeEmailNo(6); // 6자리 인증번호
+        const emailNo = mailer.makeEmailNo(6); // 6자리 인증번호
         const result =  await models['authentication'].create({
             email : email,
             no : emailNo
         });
         // send email method
-        utils.sendEmail(email, emailNo);
+        mailer.sendEmail(email, emailNo);
         return result;        
     }catch(err){
         winston.error(`Unable to sendEmail[servcie] :`, err);
@@ -203,7 +204,7 @@ const findIdSendMail = async(email) => {
                 email : findUser.dataValues.email
             };
             let id = userInfo.id.substring(0, userInfo.id.length-3);
-            utils.sendId( id+'***' , userInfo.email);
+            mailer.sendId( id+'***' , userInfo.email);
             return {data : 1};
         }catch(err){
             winston.error(`Unable to send findId[service] :`, err);
@@ -215,12 +216,12 @@ const findIdSendMail = async(email) => {
 const findPwSendMail = async(id, email) => {
     if(await authValidation.isDuplicatedId(id) || await authValidation.isDuplicatedEmail(email)) throw new Error('NOT_FOUND');
      try{
-         const emailNo = utils.makeEmailNo(6); // 6자리 인증번호
+         const emailNo = mailer.makeEmailNo(6); // 6자리 인증번호
          await models['authentication'].create({
              email : email,
              no : emailNo
          });
-         utils.sendPw(email, emailNo);
+         mailer.sendPw(email, emailNo);
          return {data : 1};
      }catch(err){
          winston.error(`Unable to send findPw[service] :`, err);

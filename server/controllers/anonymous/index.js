@@ -1,11 +1,7 @@
 const {anonymous: anonymousService } = require('../../service');
 const {user : userService} = require('../../service');
-const { Op } = require('../../lib/db');
-const {pagination, utils} = require('../../lib/common');
-const winston = require('../../lib/common/winston');
 const {authValidation} = require('../../lib/common/validation');
-
-
+const winston = require('../../lib/common/winston');
 
 //회원가입
 const signUP = async (req, res) => {
@@ -14,18 +10,15 @@ const signUP = async (req, res) => {
         !authValidation.isValidPw(data.pw) || !authValidation.isValidEmail(data.email)
     )  throw new Error('WRONG_ACCESS');
 
-
     try{
         const result = await anonymousService.signUp(data.id, data.pw, data.nickName, data.email, 'normal');
         //userToken 만드는 트랜잭션은 service레이어에서 동시에 실행
-        // await anonymousService.makeUserToken(result.userIdx);
         res.send({data : result});
     }catch(err){
         if(err.message === 'DB_SIGNUP') throw new Error(err.message);
         if(err.message === 'WRONG_ACCESS') throw new Error(err.message);
         winston.error(`Unable to signup :`, err);
         throw new Error('UNABLE_SIGNUP');
-
     }
     
 }
@@ -33,7 +26,6 @@ const signUP = async (req, res) => {
 const sendEmail = async (req, res) => {
     const data = req.body;
     if(!authValidation.isValidEmail(data.email))throw new Error('WRONG_ACCESS');
-    // if(!data.email || !utils.validationEmail(data.email)) 
         
     try{
         const result = await anonymousService.sendEmail(data.email);
@@ -59,13 +51,11 @@ const checkEmail = async (req, res) => {
         if(err.message ==='NOT_CORRECT_AUTHNO')throw new Error(err.message);
         winston.error(`Unable to checkEmail :`, err);
         throw new Error('UNABLE_CHECK_MAIL');
-        
     }
 }
 //find Id, Pw
 const findIdSendMail = async(req, res) => {
     const data = req.body;
-    // front에서 막아놨기에 비정상적인 접근으로 이메일을 쏜거임
     if(!authValidation.isValidEmail(data.email))throw new Error('WRONG_ACCESS');
     try{
         const result = await anonymousService.findIdSendMail(data.email);
@@ -81,7 +71,6 @@ const findIdSendMail = async(req, res) => {
 }
 const findPwSendMail = async(req, res) => {
     const data = req.body;
-    // front에서 막아놨기에 비정상적인 접근으로 이메일을 쏜거임
     if(!authValidation.isValidId(data.id) || !authValidation.isValidEmail(data.email)) throw new Error('WRONG_ACCESS');
 
     try{
@@ -96,7 +85,6 @@ const findPwSendMail = async(req, res) => {
 }
 const updatePw = async(req, res) => {
     const data = req.body; // data -> email, pw, id
-    // front에서 막아놨기에 비정상적인 접근으로 이메일을 쏜거임
     if(!authValidation.isValidId(data.id) || !authValidation.isValidEmail(data.email)||
     !authValidation.isValidPw(data.pw)) throw new Error('WRONG_ACCESS');
 
@@ -130,13 +118,13 @@ const signIn = async (req, res) => {
     }
 }
 
-
-const forcesignIn= async(req, res) => {
+// flow : isLogin을 받았을 경우 -> 1. (id, pw)로 userIdx를 찾는다. 
+// 2. userToken에 저장되어져 있는 토큰을 제거. 3. 로그인 시도
+const forceSignIn= async(req, res) => {
     const data = req.body;
 
     if(!authValidation.isValidId(data.id) || !authValidation.isValidPw(data.pw)) throw new Error('WRONG_ACCESS');
     let userIdx;
-    //해당 id pw의 userIdx를 가지고 온다.
     try{
         userIdx = await anonymousService.findIdUser(data.id, data.pw);
     }catch(err){
@@ -145,20 +133,35 @@ const forcesignIn= async(req, res) => {
         throw new Error('UNABLE_FIND_ID_USER');
     }
     try{
-        //userIdx에 해당하는 토큰을 제거 후 로그인 시도
         await userService.logout(userIdx);
+    }catch(err){
+        if(err.message === 'DB_LOGOUT') throw new Error(err.message);
+        winston.error(`Unable to logout :`, err);
+        throw new Error('UNABLE_LOGOUT');
+    }
+    try{
+        //userIdx에 해당하는 토큰을 제거 후 로그인 시도
         const result = await anonymousService.signIn(data.id, data.pw);
         res.send(result);
     }catch(err){
-        if(err.message === 'DB_LOGOUT') throw new Error(err.message);
-        // if(err.message === 'ISLOGIN'){ // 이 부분에서 한 번 더 검증?
         if(err.message === 'DB_SIGNIN')throw new Error(err.message);
         if(err.message === 'WRONG_PW')throw new Error(err.message);
         if(err.message === 'WRONG_ID')throw new Error(err.message);
         winston.error(`Unable to forcesignIn :`, err);
         throw new Error('UNABLE_FORCE_SIGNIN');
     }
+}
+const logout = async(req, res) => {
+    const data = req.body;
 
+    try{
+        const result = await userService.logout(data.userIdx);
+        res.send(result)
+    }catch(err){
+        if(err.message === 'DB_LOGOUT')throw new Error(err.message);
+        winston.error(`Unable to logout :`, err);
+        throw new Error('UNABLE_LOGOUT');
+    }
 }
 
 //아이디 중복확인
@@ -209,32 +212,14 @@ const checkNickName = async (req, res) => {
         winston.error(`Unable to checkNickName(duplicate) :`, err);
         throw new Error('UNABLE_CHECKNICKNAME');
     }
-
 }
-
-
-const logout = async(req, res) => {
-    const data = req.body;
-
-    try{
-        const result = await userService.logout(data.userIdx);
-        res.send(result)
-    }catch(err){
-        if(err.message === 'DB_LOGOUT')throw new Error(err.message);
-        winston.error(`Unable to logout :`, err);
-        throw new Error('UNABLE_LOGOUT');
-    }
-}
-
-
-
 
 module.exports = {
     signUP,
     sendEmail,
     checkEmail,
     signIn,
-    forcesignIn,
+    forceSignIn,
     checkId,
     checkNickName,
     findIdSendMail,

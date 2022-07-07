@@ -1,4 +1,5 @@
 const {models, Op} = require('../../lib/db');
+const winston = require('../../lib/common/winston');
 
 // null일 경우 true -> 없을 경우가 return true;
 const isDuplicatedId = async (id) => {
@@ -13,7 +14,8 @@ const isDuplicatedId = async (id) => {
         },
     });
     }catch(err){
-
+        winston.error(`Unable to isDuplicatedId[servcie] :`, err);
+        throw new Error('DB_IS_DUPLICATED_ID');
     }
     if(res === null) return true;
     return false;
@@ -30,7 +32,8 @@ const isDuplicatedNickName = async (nickName) => {
             },
         });
     }catch(err){
-
+        winston.error(`Unable to isDuplicatedNickName[servcie] :`, err);
+        throw new Error('DB_IS_DUPLICATED_NICKNAME');
     }
     if(res === null) return true;
     return false;
@@ -47,7 +50,8 @@ const isDuplicatedEmail = async (email) => {
             },
         });
     }catch(err){
-
+        winston.error(`Unable to isDuplicatedEmail[servcie] :`, err);
+        throw new Error('DB_IS_DUPLICATED_EMAIL');
     }
     if(res === null) return true;
     return false;

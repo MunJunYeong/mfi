@@ -45,23 +45,23 @@ const preProcessing = {
 }
 
 const postProcessing = {
-     UNABLE_USERCOUNT : {
+    UNABLE_USERCOUNT : {
         message : 'Unable to get userCount',
         status : HTTP_CODE.FAIL_METHOD
     },
-     UNABLE_TODAY_VISITOR : {
+    UNABLE_TODAY_VISITOR : {
         message : 'Unable to get todayVisitor',
         status : HTTP_CODE.FAIL_METHOD
     },
-     UNABLE_TOTAL_VISITOR : {
+    UNABLE_TOTAL_VISITOR : {
         message : 'Unable to get totalVisitor',
         status : HTTP_CODE.FAIL_METHOD
     },
-     UNABLE_NEWITEMS: {
+    UNABLE_NEWITEMS: {
         message : 'Unable to get newsItem',
         status : HTTP_CODE.FAIL_METHOD
     },
-     UNABLE_SIGNUP: {
+    UNABLE_SIGNUP: {
         message : 'Unable signup',
         status : HTTP_CODE.FAIL_METHOD
     },
@@ -205,6 +205,10 @@ const dbError = {
         message : 'Unable to sendMail[service]',
         status : HTTP_CODE.DB_SERVER
     },
+    DB_MAKE_USER_TOKE : {
+        message : 'Unable to makeUserToken[servcie]',
+        status : HTTP_CODE.DB_SERVER
+    },
     DB_SIGNUP : {
         message : 'Unable to signUp[service]',
         status : HTTP_CODE.DB_SERVER
@@ -273,11 +277,9 @@ const dbError = {
         status : HTTP_CODE.DB_SERVER
     },
      DB_GET_MY_IDEA: {
-     
         message : 'Unable to getMyIdea[service]',
         status : HTTP_CODE.DB_SERVER
     },
-     
      DB_GET_ADMIN_USER_IDEA: {
         message : 'Unable to getAdminUserIdea[service]',
         status : HTTP_CODE.DB_SERVER
@@ -357,9 +359,25 @@ const dbError = {
         message : 'Unable to updateUserToken[service]',
         status : HTTP_CODE.DB_SERVER
     },
-      
     DB_GET_USER_DATA: {
         message : 'Unable to getUserData[service]',
+        status : HTTP_CODE.DB_SERVER
+    },
+    //validation
+    DB_HAVE_USER_TOKEN : {
+        message : 'Unable to haveUserToken[service]',
+        status : HTTP_CODE.DB_SERVER
+    },
+    DB_IS_DUPLICATED_EMAIL : {
+        message : 'Unable to isDuplicatedEmail[servcie]',
+        status : HTTP_CODE.DB_SERVER
+    },
+    DB_IS_DUPLICATED_NICKNAME : {
+        message : 'Unable to isDuplicatedNickName[servcie]',
+        status : HTTP_CODE.DB_SERVER
+    },
+    DB_IS_DUPLICATED_ID : {
+        message : 'Unable to isDuplicatedId[servcie]',
         status : HTTP_CODE.DB_SERVER
     },
 }
