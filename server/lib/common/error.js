@@ -11,7 +11,7 @@ const preProcessing = {
         status : HTTP_CODE.SUCCESS
     },
     NOT_CORRECT_AUTHNO : {
-        message : '인증번호가 일치하지 않습니다!',
+        message : 'wrong no',
         status : HTTP_CODE.SUCCESS
     }, 
     ISLOGIN : {
@@ -19,7 +19,7 @@ const preProcessing = {
         status : HTTP_CODE.SUCCESS
     },
     EXIST_EMAIL : {
-        message : '이미 존재하는 이메일입니다.',
+        message : 'exist email',
         status : HTTP_CODE.SUCCESS
     },
     NOT_FOUND_EMAIL : {

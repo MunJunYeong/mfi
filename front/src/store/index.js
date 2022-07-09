@@ -6,6 +6,7 @@ import idea from './modules/idea';
 import anonymous from './modules/anonymous'
 import anonymousSocket from './modules/anonymousSocket'
 import chatting from './modules/chatting'
+import statistics from './modules/statistics'
 
 Vue.use(Vuex)
 
@@ -19,6 +20,6 @@ export default new Vuex.Store({
   // actions: {
   // },
   modules: {
-    auth, idea, anonymous, anonymousSocket, chatting
+    auth, idea, anonymous, anonymousSocket, chatting, statistics
   },
 })

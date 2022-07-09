@@ -238,8 +238,6 @@
   }
 </script>
 <script>
-const { VUE_APP_BACKEND_HOST } = process.env;
-  import axios from 'axios';
   import {signValidation} from '../../utils/validation/index';
 
   const checkEng = /[a-zA-Z]/;
@@ -289,20 +287,25 @@ const { VUE_APP_BACKEND_HOST } = process.env;
         if(preorder.message){
           alert(preorder.message); return;
         }
-        this.overlapId = await axios.post(VUE_APP_BACKEND_HOST+'/checkid', {
-          id : this.id
-        }).then(res =>{
-          if(res.data.value === "true"){
-            let result = confirm("사용가능한 아이디입니다. 아이디를 사용하시겠습니까?");
-            if(result){ 
-              return  true;
-            }else {
-              return false;
-            }
+
+        let res;
+        try{
+          res = await this.$store.dispatch('check_id', {
+            id : this.id,
+          })
+        }catch(err){
+          console.log(err);
+        }
+        if(res.data.value === "true"){
+          let result = confirm("사용가능한 아이디입니다. 아이디를 사용하시겠습니까?");
+          if(result){ 
+            this.overlapId = true;
           }else {
-            alert(res.data.message); return false;
+            this.overlapId = false;
           }
-        })
+        }else {
+          alert('존재하는 ID입니다.'); 
+        }
       },
       // 중복 닉네임 확인 axios
       async checkNickName(){
@@ -310,21 +313,25 @@ const { VUE_APP_BACKEND_HOST } = process.env;
         if(preorder.message){
           alert(preorder.message); return;
         }
-        this.overlapNickName = await axios.post(VUE_APP_BACKEND_HOST+ '/checknickname', {
-          nickName : this.nickName
-        }).then(res=>{
-          if(res.data.value === 'true'){
-            let result = confirm("사용가능한 닉네임입니다. 닉네임을 사용하시겠습니까?");
-            if(result){
-              return true;
-            }else {
-              return false;
-            }
+
+        let res;
+        try{
+          res = await this.$store.dispatch('check_nick_name', {
+            nickName : this.nickName,
+          })
+        }catch(err){
+          console.log(err);
+        }
+        if(res.data.value === 'true'){
+          let result = confirm("사용가능한 닉네임입니다. 닉네임을 사용하시겠습니까?");
+          if(result){
+            this.overlapNickName = true;
           }else {
-            alert(res.data.message);
-            return false;
+            this.overlapNickName = false;
           }
-        })
+        }else {
+          alert('존재하는 닉네임입니다.');
+        }
       },
       
       //이메일 인증하기 버튼
@@ -332,47 +339,50 @@ const { VUE_APP_BACKEND_HOST } = process.env;
         if(this.overlapEmail){
           alert('인증 번호가 이미 발송되었습니다.'); return;
         }
-        if(!this.email){
-          alert('이메일을 입력해주세요.'); return;
-        }
         //이메일 형식 확인
         if(!signValidation.validationEmail(this.email)){
           alert('이메일 형식에 맞추어 작성해주세요.'); return;
         }
-        this.overlapEmail = await axios.post(VUE_APP_BACKEND_HOST + '/sendemail', {
-          email : this.email
-        }).then(res =>{
-          if(res.data.message){
-            alert(res.data.message); return;
-          }else {
-            this.authEmailIf = true;
-            alert('이메일을 보냈습니다.');
-            return true;
-          }
-        })
+        let res;
+        try{
+          res = await this.$store.dispatch('send_email', {
+            email : this.email
+          })
+        }catch(err){
+          console.log(err);
+        }
+        if(res.data.message === 'exist email'){
+          alert('이미 존재하는 이메일입니다.'); return;
+        }else {
+          this.authEmailIf = true;
+          this.overlapEmail = true;
+          alert('이메일을 보냈습니다.');
+        }
       },
       //이메일 인증하기 
       async checkAuthEmail(){
         if(this.authEmail === ''){ 
-          alert('인증번호를 입력해주세요.'); 
-          return;
-        }else{
-          this.overlapAuthentication = await axios.post(VUE_APP_BACKEND_HOST + '/checkemail', {
+          alert('인증번호를 입력해주세요.'); return;
+        }
+        let res;
+        try{
+          res = await this.$store.dispatch('check_auth_email', {
             email : this.email,
             no : this.authEmail
-          }).then(res => {
-            if(res.data.message){
-              alert(res.data.message); return;
-            }
-            if(res.data.data === 1){
-              alert('인증이 완료되었습니다.');
-              this.authEmailIf = false;
-              return true;
-            }else {
-              alert('인증에 실패했습니다.');
-              return false;
-            }
           })
+        }catch(err){
+          console.log(err);
+        }
+        if(res.data.message === 'wrong no'){
+          alert('인증번호가 일치하지 않습니다.'); return;
+        }
+        if(res.data.data){
+          alert('인증이 완료되었습니다.');
+          this.authEmailIf = false;
+          this.overlapAuthentication = true;
+        }else {
+          alert('인증에 실패했습니다.');
+          this.overlapAuthentication = false;
         }
       },
       // 회원가입 axious
@@ -384,38 +394,34 @@ const { VUE_APP_BACKEND_HOST } = process.env;
         if(preorder.message){
           alert(preorder.message); return;
         }
-        if(this.overlapId && this.overlapNickName && this.overlapAuthentication){
-          await axios.post(VUE_APP_BACKEND_HOST+ '/signup', {
-            id : this.id,
-            pw : this.pw,
-            nickName : this.nickName,
-            email : this.email
-          }).then(res => {
-            if(res.data.message){
-              alert(res.data.message);
-              return;
-            }
-            alert('회원가입이 성공적으로 완료됐습니다!');
-            history.back();
-            return;
-          })
-        }else if(!this.overlapId && !this.overlapNickName){
-          alert('아이디, 닉네임 중복확인을 해주세요');
-          return;
-        }else if(!this.overlapId) {
-          alert('아이디 중복확인을 해주세요');
-          return;
+        if(!this.overlapId) {
+          alert('아이디 중복확인을 해주세요'); return;
         }else if(!this.overlapNickName){
-          alert('닉네임 중복확인을 해주세요');
-          return;
+          alert('닉네임 중복확인을 해주세요'); return;
         }else if(!this.overlapAuthentication){
-          alert('이메일 인증을 다시 해주세요');
-        }else {
-          alert('통신 오류');
-          return;
+          alert('이메일 인증을 해주세요'); return;
         }
+
+        let res;
+        if(this.overlapId && this.overlapNickName && this.overlapAuthentication){
+          try{
+            res = await this.$store.dispatch('sign_up', {
+              id : this.id,
+              pw : this.pw,
+              nickName : this.nickName,
+              email : this.email
+            })
+          }catch(err){
+            console.log(err);
+          }
+        }
+        if(res.data.message){
+          alert(res.data.message); return;
+        }
+        alert('회원가입이 성공적으로 완료됐습니다!');
+        history.back();
+        return;
       },
-      
     },
   }
 </script>
