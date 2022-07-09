@@ -28,7 +28,6 @@
               v-on:click="login"
             >로그인
             </v-btn>
-                       
             <v-checkbox
               v-model="saveId"
               :label="`아이디 저장하기`"
@@ -46,9 +45,22 @@
           </div>
         </v-col>
       </v-row>
+      <v-row justify="center" >
+        <v-col cols='3' class="authLogin" v-on:click="naverLogin">
+          <!-- <router-link to=""> -->
+              <v-img  src="@/assets/naver_login.png"  class="image" />
+          <!-- </router-link> -->
+        </v-col>
+      </v-row>
+      <v-row justify="center" >
+        <v-col cols='3' class="authLogin">
+          <router-link to="/home">
+              <v-img  src="@/assets/kakao_login.png"  class="image" />
+          </router-link>
+        </v-col>
+      </v-row>
       <br><br>
     </v-container>
-
     <v-container class="mobile">
       <v-row justify="center">
         <v-col cols='8'>
@@ -107,10 +119,22 @@
         display: none;
     }
 }
+@media all and (min-width:1268px) {
+    .image {
+      height: 70px;
+    }
+}
+.authLogin {
+  margin-bottom: -10px;
+}
+.image{
+  object-fit: contain;  width: auto; 
+}
 </style>
 <script>
   import VueCookies from "vue-cookies";
   import {signValidation} from '../../utils/validation/index';
+  import {anonymous} from '../../services';
   export default {
     name: 'SignIn',
     
@@ -126,6 +150,9 @@
       }
     },
     methods: {
+      async naverLogin(){
+        await anonymous.naverLogin();
+      },
       async login(){
         let res;
 

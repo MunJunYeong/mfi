@@ -1,14 +1,26 @@
 const {anonymous: anonymousService } = require('../../service');
 const {user : userService} = require('../../service');
-const {authValidation} = require('../../lib/common/validation');
 const winston = require('../../lib/common/winston');
+
+const {authValidation} = require('../../lib/common/validation');
+const  {authValidationService} = require('../../service/validation');
 
 //회원가입
 const signUP = async (req, res) => {
     const data = req.body;
+
     if(!authValidation.isValidId(data.id) || !authValidation.isValidNickName(data.nickName) ||
         !authValidation.isValidPw(data.pw) || !authValidation.isValidEmail(data.email)
     )  throw new Error('WRONG_ACCESS');
+
+    try{
+        if(!await authValidationService.isDuplicatedId(data.id) || !await authValidationService.isDuplicatedEmail(data.email) || 
+        !await authValidationService.isDuplicatedNickName(data.nickName))  throw new Error('WRONG_ACCESS');
+    }catch(err){
+        if(err.message) throw new Error(err.message);
+        winston.error(`Unable to validation for duplicated data :`, err);
+        throw new Error('')
+    }
 
     try{
         const result = await anonymousService.signUp(data.id, data.pw, data.nickName, data.email, 'normal');
@@ -26,7 +38,9 @@ const signUP = async (req, res) => {
 const sendEmail = async (req, res) => {
     const data = req.body;
     if(!authValidation.isValidEmail(data.email))throw new Error('WRONG_ACCESS');
-        
+    
+    if(!await authValidationService.isDuplicatedEmail(data.email)) throw new Error('EXIST_EMAIL');
+
     try{
         const result = await anonymousService.sendEmail(data.email);
         res.send({data : result.dataValues.idx});
@@ -39,8 +53,8 @@ const sendEmail = async (req, res) => {
 }
 const checkEmail = async (req, res) => {
     const data = req.body;
-    
     if(!authValidation.isValidEmail(data.email) || !data.no) throw new Error('WRONG_ACCESS');
+
     try{
         await anonymousService.checkEmail(data.email, data.no);
         res.send({data : 1});
@@ -72,6 +86,8 @@ const findIdSendMail = async(req, res) => {
 const findPwSendMail = async(req, res) => {
     const data = req.body;
     if(!authValidation.isValidId(data.id) || !authValidation.isValidEmail(data.email)) throw new Error('WRONG_ACCESS');
+
+    if(await authValidationService.isDuplicatedId(data.id) || await authValidationService.isDuplicatedEmail(data.email)) throw new Error('NOT_FOUND');
 
     try{
         const result = await anonymousService.findPwSendMail(data.id, data.email);

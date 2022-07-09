@@ -1,6 +1,6 @@
 const express = require('express')
+const passport = require('passport');
 const anonymousRouter = express.Router();
-// const ideaPagination = require('../../controllers/idea');
 const {anonymous: anonymousController} = require('../../controllers');
 const {idea : ideaController} = require('../../controllers');
 const {middleware} = require('../../lib/common/index')
@@ -32,5 +32,8 @@ anonymousRouter.post('/checknickname', anonymousController.checkNickName)
 anonymousRouter.get('/idea', ideaController.showIdea);
 anonymousRouter.get('/info/idea', middleware.validateToken ,ideaController.showMyIdea);
 anonymousRouter.get('/user/:userIdx/idea', ideaController.showAdminUserIdea);
+
+//OAuth
+anonymousRouter.get('/signin/naver', passport.authenticate('naver'));
 
 module.exports = anonymousRouter;

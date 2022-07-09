@@ -9,9 +9,6 @@ const signUp = async (id, pw, nickName, email, role) => {
     //혹시나 회원가입이 이미 되었는데도 또 2번 이상의 요청이 가서 생기는 경우 예외처리
     let result;
 
-    if(!await authValidation.isDuplicatedId(id) || !await authValidation.isDuplicatedEmail(email) || 
-        !await authValidation.isDuplicatedNickName(nickName))  throw new Error('WRONG_ACCESS');
-
     try{
         result = await models['user'].create({
             id : id,
@@ -130,7 +127,6 @@ const saveUserToken = async (idx ,token) => {
 }
 
 const sendEmail = async (email) => {
-    if(!await authValidation.isDuplicatedEmail(email)) throw new Error('EXIST_EMAIL');
     try{
         const emailNo = mailer.makeEmailNo(6); // 6자리 인증번호
         const result =  await models['authentication'].create({
@@ -214,7 +210,6 @@ const findIdSendMail = async(email) => {
     }
 }
 const findPwSendMail = async(id, email) => {
-    if(await authValidation.isDuplicatedId(id) || await authValidation.isDuplicatedEmail(email)) throw new Error('NOT_FOUND');
      try{
          const emailNo = mailer.makeEmailNo(6); // 6자리 인증번호
          await models['authentication'].create({
