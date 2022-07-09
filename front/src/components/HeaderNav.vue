@@ -240,11 +240,11 @@
 
 <style scoped>
 
-/* @media all and (max-width:767px) {
+@media all and (max-width:767px) {
     #pc{
         display: none; 
     }
-} */
+}
 @media all and (max-width:1023px) {
     #pc{
         display: none;
@@ -301,7 +301,7 @@
     #showRole{
         font-size: 0.6em; display: inline; color: darkgreen;
     }
-    @font-face {
+@font-face {
     font-family: 'ROKABold';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.1/ROKABold.woff') format('woff');
     font-weight: normal;

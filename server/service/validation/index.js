@@ -1,7 +1,7 @@
-const authValidation = require('./auth');
+const authValidationService = require('./auth');
 
 
 
 module.exports = {
-    authValidation
+    authValidationService
 }

@@ -148,13 +148,9 @@ import ConnectionUser from '../../components/ConnectionUser.vue';
 import VirtualList from 'vue-virtual-scroll-list'
 import Chatting from '../../components/modal/Chatting.vue';
 
-// import ChatWindow from 'vue-advanced-chat'
-// import 'vue-advanced-chat/dist/vue-advanced-chat.css'
-
   export default {
     name: 'Home',
     components: {
-        // ChatWindow,
         ConnectionUser,
         Chatting,
         VirtualList,

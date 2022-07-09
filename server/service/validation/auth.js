@@ -79,10 +79,3 @@ module.exports = {
     isDuplicatedId, isDuplicatedNickName, isDuplicatedEmail,
     haveUserToken, 
 }
-
-// let res;
-//     try{
-
-//     }catch(err){
-
-//     }

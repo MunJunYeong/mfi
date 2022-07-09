@@ -155,6 +155,15 @@ const updatePw = async (data)=> {
     return res;
 }
 
+const naverLogin = async()=> {
+    let res;
+    try{
+        res =await axios.get(VUE_APP_BACKEND_HOST+'/signin/naver', {});
+    }catch(err){
+        console.log(err);
+    }
+    console.log(res)
+}
 
 export default{
     createVisitor,
@@ -163,5 +172,5 @@ export default{
     getUserData,
     login, forceLogin,
     findIdSendEmail,
-    findPwSendEmail, findPwCheckEmail, updatePw, 
+    findPwSendEmail, findPwCheckEmail, updatePw, naverLogin
 }
