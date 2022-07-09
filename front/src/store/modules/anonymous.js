@@ -1,55 +1,19 @@
 /* eslint-disable */
 
 import jwt_decode from 'jwt-decode'
-import VueCookies from "vue-cookies";
 import anonymous from '../../services/anonymous';
 import * as chattingSocket from '../../lib/chattingSocket';
 
 const anonymousModule = {
     state: {
-        news : [],
-        userCount : {},
-        ideaCount : {},
-        todayVisitorCount : {},
-        totalVisitorCount : {},
         userData : {},
     },
     mutations: {
-        set_news(state, data){
-            state.news = data;
-        },
-        user_count (state, count){
-            state.userCount = count;
-        },
-        idea_count (state, count){
-            state.ideaCount = count;
-        },
-        today_visitor_count (state, count){
-            state.todayVisitorCount = count;
-        },
-        total_visitor_count (state, count){
-            state.totalVisitorCount = count;
-        },
         auth_set_data (state, authData) { // 로그인 한 유저 데이터 저장
             state.userData = {...authData};
         },
     },
     getters: {
-        get_news_item(state){
-            return state.news;
-        },
-        get_user_count(state){
-            return state.userCount;
-        },
-        get_idea_count(state){
-            return state.ideaCount;
-        },
-        get_today_visitor_count(state){
-            return state.todayVisitorCount;
-        },
-        get_total_visitor_count(state){
-            return state.totalVisitorCount;
-        },
         //로그인 한 유저 데이터 gettter
         auth_get_data (state) {
             return state.userData;
@@ -60,50 +24,6 @@ const anonymousModule = {
         },
     },
     actions: {
-        async create_visitor(){
-            const res =await anonymous.createVisitor();
-            
-            let now = new Date();
-            let nextDay = new Date();
-            nextDay.setDate(nextDay.getDate()+1);
-            nextDay.setHours(0, 0, 0); 
-            const second = (nextDay-now)/ 1000;
-            VueCookies.set("visitor", res.data.data, second+'s');
-        },
-        async get_news({commit}){
-            const res = await anonymous.getNews();
-
-            if(res.data.message){
-                return;
-            }else {
-                commit('set_news', res.data.data);
-            }
-            
-        },
-        //메인페이지 정보 
-        async get_user_count({commit}){
-            const res = await anonymous.getUserCount();
-
-            if(res.data.message){
-                return;
-            }
-            commit('user_count', res.data);
-        },
-        async get_idea_count({commit}){
-            const res = await anonymous.getIdeaCount();
-
-            commit('idea_count', res.data);
-        },
-        async get_today_visitor_count({commit}){
-            const res = await anonymous.getTodayVisitor();
-
-            commit('today_visitor_count', res.data);
-        },
-        async get_total_visitor_count({commit}){
-            const res = await anonymous.getTotalVisitor();
-            commit('total_visitor_count', res.data);
-        },
-
         //해당 토큰을 가진 userIdx를 찾은 다음 user 정보 가져오기
         async get_user_data({commit}, token){
             const userIdx = jwt_decode(token).userIdx 
@@ -116,10 +36,25 @@ const anonymousModule = {
             await commit('auth_set_data', res.data.data);
             return {data : 1};
         },
+        //회원가입
+        async check_id({commit}, data){
+            return await anonymous.checkId(data.id);
+        },
+        async check_nick_name({commit}, data){
+            return await anonymous.checkNickName(data.nickName);
+        },
+        async send_email({commit}, data){
+            return await anonymous.sendEmail(data.email);
+        },
+        async check_auth_email({commit}, data){
+            return await anonymous.checkAuthEmail(data.email, data.no);
+        },
+        async sign_up({commit}, data){
+            return await anonymous.signUp(data.id, data.pw, data.nickName, data.email);
+        },
         //로그인
         async auth_login ({ commit }, data) {
             const res = await anonymous.login(data);
-
             if(res.data.token){                
                 localStorage.setItem("accessToken", res.data.token);
                 localStorage.setItem("refreshToken", res.data.refreshToken);
@@ -131,7 +66,6 @@ const anonymousModule = {
                 return res.data;
             }
         },
-        
         async auth_force_login ({ commit }, data) {
             const res = await anonymous.forceLogin(data);
 
@@ -145,7 +79,6 @@ const anonymousModule = {
                 return res.data;
             }
         },
-        
         async find_id_send_email({commit}, data){
             const res = await anonymous.findIdSendEmail(data);
             return res.data;

@@ -190,12 +190,12 @@ const checkId = async (req, res) =>{
         if(result){
             res.send({
                 value : 'false',
-                message : '존재하는 ID입니다.'})
+                message : 'exist id'})
             return;
         }else {
             res.send({
                 value : 'true',
-                message : '사용가능한 ID입니다!'})
+                message : 'usable id'})
             return;
         }
     }catch(err){
@@ -215,12 +215,12 @@ const checkNickName = async (req, res) => {
         if(result){
             res.send({
                 value : 'false',
-                message : '존재하는 닉네임입니다.'})
+                message : 'exist nickName'})
             return;
         }else {
             res.send({
                 value : 'true',
-                message : '사용가능한 닉네임입니다!'})
+                message : 'usable nickName'})
             return;
         }
     }catch(err){

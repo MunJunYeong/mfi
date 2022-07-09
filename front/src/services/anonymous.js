@@ -1,72 +1,6 @@
 const { VUE_APP_BACKEND_HOST } = process.env;
 import axios from "../lib/axios";
 
-const createVisitor = async()=> {
-    let res;
-    try{
-        res = await axios.post(VUE_APP_BACKEND_HOST + '/statistics/ip', {
-        })
-    }catch(err){
-        console.log(err);
-    }
-    return res;
-}
-
-const getNews = async ()=> {
-    let res;
-    try{
-        res = await axios.get( VUE_APP_BACKEND_HOST + '/statistics/news', {
-        })
-    }catch(err){
-        console.log(err);
-    }
-    return res;
-}
-
-const getUserCount = async ()=> {
-    let res;
-    try{
-        res = await axios.get( VUE_APP_BACKEND_HOST + '/statistics/usercount', {
-        })
-    }catch(err){
-        console.log(err);
-    }
-    return res;
-}
-
-const getIdeaCount = async ()=> {
-    let res;
-    try{
-        res = await axios.get( VUE_APP_BACKEND_HOST + '/statistics/ideacount', {
-
-        })
-    }catch(err){
-        console.log(err);
-    }
-    return res;
-}
-const getTodayVisitor = async ()=> {
-    let res;
-    try{
-        res = await axios.get( VUE_APP_BACKEND_HOST + '/statistics/todayvisitor', {
-
-        })
-    }catch(err){
-        console.log(err);
-    }
-    return res;
-}
-const getTotalVisitor = async ()=> {
-    let res;
-    try{
-        res = await axios.get( VUE_APP_BACKEND_HOST + '/statistics/totalvisitor', {
-            
-        })
-    }catch(err){
-        console.log(err);
-    }
-    return res;
-}
 const getUserData = async (userIdx, token)=> {
     let res;
     try{
@@ -80,6 +14,66 @@ const getUserData = async (userIdx, token)=> {
     }
     return res;
 }
+const checkId = async(id)=> {
+    let res;
+    try {
+        res = await axios.post( VUE_APP_BACKEND_HOST + '/checkid', {
+            id : id,
+        });
+    } catch (err) {
+        console.log(err);
+    }
+    return res;
+}
+const checkNickName = async(nickName)=> {
+    let res;
+    try {
+        res = await axios.post( VUE_APP_BACKEND_HOST + '/checknickname', {
+            nickName : nickName,
+        });
+    } catch (err) {
+        console.log(err);
+    }
+    return res;
+}
+const sendEmail = async(email)=> {
+    let res;
+    try {
+        res = await axios.post( VUE_APP_BACKEND_HOST + '/sendemail', {
+            email : email,
+        });
+    } catch (err) {
+        console.log(err);
+    }
+    return res;
+}
+const checkAuthEmail = async(email, no)=> {
+    let res;
+    try {
+        res = await axios.post( VUE_APP_BACKEND_HOST + '/checkemail', {
+            email : email,
+            no : no
+        });
+    } catch (err) {
+        console.log(err);
+    }
+    return res;
+}
+const signUp = async(id, pw, nickName, email)=> {
+    let res;
+    try {
+        res = await axios.post( VUE_APP_BACKEND_HOST + '/signup', {
+            id : id,
+            pw : pw,
+            nickName : nickName,
+            email : email
+        });
+    } catch (err) {
+        console.log(err);
+    }
+    return res;
+}
+
 const login = async (data)=> {
     let res;
     try {
@@ -166,11 +160,7 @@ const naverLogin = async()=> {
 }
 
 export default{
-    createVisitor,
-    getNews,
-    getUserCount, getIdeaCount, getTodayVisitor, getTotalVisitor,
-    getUserData,
-    login, forceLogin,
-    findIdSendEmail,
+    checkId, checkNickName, sendEmail,checkAuthEmail, signUp,
+    getUserData, login, forceLogin, findIdSendEmail,
     findPwSendEmail, findPwCheckEmail, updatePw, naverLogin
 }
