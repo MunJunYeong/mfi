@@ -14,15 +14,6 @@ const signUP = async (req, res) => {
     )  throw new Error('WRONG_ACCESS');
 
     try{
-        if(!await authValidationService.isDuplicatedId(data.id) || !await authValidationService.isDuplicatedEmail(data.email) || 
-        !await authValidationService.isDuplicatedNickName(data.nickName))  throw new Error('WRONG_ACCESS');
-    }catch(err){
-        if(err.message) throw new Error(err.message);
-        winston.error(`Unable to validation for duplicated data :`, err);
-        throw new Error('')
-    }
-
-    try{
         const result = await anonymousService.signUp(data.id, data.pw, data.nickName, data.email, 'normal');
         //userToken 만드는 트랜잭션은 service레이어에서 동시에 실행
         res.send({data : result});
@@ -32,18 +23,15 @@ const signUP = async (req, res) => {
         winston.error(`Unable to signup :`, err);
         throw new Error('UNABLE_SIGNUP');
     }
-    
 }
 
 const sendEmail = async (req, res) => {
     const data = req.body;
     if(!authValidation.isValidEmail(data.email))throw new Error('WRONG_ACCESS');
-    
-    if(!await authValidationService.isDuplicatedEmail(data.email)) throw new Error('EXIST_EMAIL');
 
     try{
         const result = await anonymousService.sendEmail(data.email);
-        res.send({data : result.dataValues.idx});
+        res.send({data : result.idx});
     }catch(err){
         if(err.message === 'EXIST_EMAIL') throw new Error(err.message);
         if(err.message === 'DB_SEND_EMAIL') throw new Error(err.message);
@@ -59,10 +47,11 @@ const checkEmail = async (req, res) => {
         await anonymousService.checkEmail(data.email, data.no);
         res.send({data : 1});
     }catch(err){
-        if(err.message === 'DB_FIND_AUTH_NO')throw new Error(err.message);
-        if(err.message === 'NOT_FOUND_EMAIL')throw new Error(err.message);
-        if(err.message === 'DB_CHECK_EMAIL')throw new Error(err.message);
-        if(err.message ==='NOT_CORRECT_AUTHNO')throw new Error(err.message);
+        if(err.message) throw new Error(err.message);
+        // if(err.message === 'DB_FIND_AUTH_NO')throw new Error(err.message);
+        // if(err.message === 'NOT_FOUND_EMAIL')throw new Error(err.message);
+        // if(err.message === 'DB_CHECK_EMAIL')throw new Error(err.message);
+        // if(err.message ==='NOT_CORRECT_AUTHNO')throw new Error(err.message);
         winston.error(`Unable to checkEmail :`, err);
         throw new Error('UNABLE_CHECK_MAIL');
     }
@@ -86,8 +75,6 @@ const findIdSendMail = async(req, res) => {
 const findPwSendMail = async(req, res) => {
     const data = req.body;
     if(!authValidation.isValidId(data.id) || !authValidation.isValidEmail(data.email)) throw new Error('WRONG_ACCESS');
-
-    if(await authValidationService.isDuplicatedId(data.id) || await authValidationService.isDuplicatedEmail(data.email)) throw new Error('NOT_FOUND');
 
     try{
         const result = await anonymousService.findPwSendMail(data.id, data.email);

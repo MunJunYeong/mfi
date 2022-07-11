@@ -4,6 +4,9 @@ const {idea : ideaService} = require ('../../service');
 const {visitor : visitorService} = require('../../service');
 const {anonymous : anonymousService} = require('../../service');
 
+const repository = require('../../repository');
+
+
 const createIp = async (req, res) => {
     const ip = req.clientIp;
     try{
@@ -19,7 +22,7 @@ const createIp = async (req, res) => {
 
 const getUserCount = async(req, res) => {
     try{
-        const result = await anonymousService.getUserCount();
+        const result = await repository.anonymous.getUserCount();
         res.send({data : result});
     }catch(err){
         if(err.message === 'DB_GET_USER_COUNT')throw new Error(err.message);
@@ -51,7 +54,7 @@ const getTotalVisitor = async(req, res) => {
 }
 const getNewsItem = async(req, res) => {
     try{
-        const result = await anonymousService.getNewsItem();
+        const result = await repository.anonymous.getNewsItem();
         res.send({data : result});
     }catch(err){
         if(err.message === 'DB_GET_NEWS_ITEM')throw new Error(err.message);
