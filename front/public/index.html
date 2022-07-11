@@ -8,6 +8,7 @@
     <title><%= htmlWebpackPlugin.options.title %></title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css">
+    <script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
   </head>
   <body>
     <noscript>
@@ -20,3 +21,6 @@
     
   </body>
 </html>
+<script type="text/javascript">
+  new naver_id_login("등록한 ClientID 값", "등록한 Callback URL 값");
+</script>

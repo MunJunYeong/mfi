@@ -151,8 +151,14 @@ const updatePw = async (data)=> {
 
 const naverLogin = async()=> {
     let res;
+    const client_id = 'F3CEZShVnOqQAoKzfili';
+    const redirect_uri = 'http://127.0.0.1:8080/signin/naver';
+    const state = '';
+    const secret = '64VA9sC5Kj';
     try{
-        res =await axios.get(VUE_APP_BACKEND_HOST+'/signin/naver', {});
+        console.log('1111');
+        // res =await axios.get(`https://nid.naver.com/oauth2.0/authorize?client_id=${client_id}&response_type=code&redirect_uri=${redirect_uri}&state=`);
+
     }catch(err){
         console.log(err);
     }
