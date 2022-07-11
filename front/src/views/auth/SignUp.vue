@@ -120,7 +120,7 @@
       <v-row justify="center">
         <v-col cols='8'>
           <v-text-field
-              label="아이디 입력"
+              label="cvzvxzvzxvxc 입력"
               v-model="id"
               :rules="idRules"
               hide-details="auto"
@@ -232,11 +232,6 @@
   </v-container>
 </template>
 
-<script>
-  export default {
-    
-  }
-</script>
 <script>
   import {signValidation} from '../../utils/validation/index';
 
@@ -430,20 +425,20 @@
   v-textarea[readonly="readonly"] {
     background-color: yellowgreen
 }
-@media all and (max-width:767px) {
+/* @media (max-width:767px) {
     .pc{
         display: none;
     }
-}
-@media all and (max-width:1023px) and (min-width:767px) {
+} */
+/* @media all and (max-width:1023px) and (min-width:767px) {
     .mobile{
         display: none;
     }
     /* 태블릿은 잘보임 */
-}
-@media all and (min-width:1024px) {
+/* } */
+/* @media (min-width:767px) {
     .mobile{
         display: none;
     }
-}
+} */
 </style>

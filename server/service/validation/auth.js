@@ -2,6 +2,7 @@ const {models, Op} = require('../../lib/db');
 const winston = require('../../lib/common/winston');
 
 // null일 경우 true -> 없을 경우가 return true;
+//repository를 둬서 return res;만 해주고 이것에 대한 처리는 service에서
 const isDuplicatedId = async (id) => {
     let res;
     try{
