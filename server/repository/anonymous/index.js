@@ -192,10 +192,11 @@ const updatePw = async (email, pw, id) => {
     }
 }
 
-const findIdUser = async (id, pw) => {
-    let findUser;
+
+const findUserByIdPw = async (id, pw) => {
+    let res;
     try {
-        findUser = await models['user'].findOne({
+        res = await models['user'].findOne({
             where : {
                 id : id,
                 pw : pw
@@ -204,7 +205,7 @@ const findIdUser = async (id, pw) => {
                 exclude : ['id', 'pw', 'nickName', 'role']
             },
         });
-        return findUser.userIdx;
+        return res;
     }catch(err){
         winston.error(`Unable to findIdUser for forceSignIn[servcie] :`, err);
         throw new Error('DB_FIND_USER_PARA_IDPW');
@@ -217,7 +218,8 @@ module.exports = {
     getUserCount,
     updatePw,
     getNewsItem,
-    findIdUser,
+    
+    findUserByIdPw,
 
     findUserById,
     findUserByNickName,

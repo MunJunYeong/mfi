@@ -1,9 +1,9 @@
 const {anonymous: anonymousService } = require('../../service');
 const {user : userService} = require('../../service');
 const winston = require('../../lib/common/winston');
-
+const {anonymous : anonymousRepo} = require('../../repository');
 const {authValidation} = require('../../lib/common/validation');
-const  {authValidationService} = require('../../service/validation');
+
 
 //회원가입
 const signUP = async (req, res) => {
@@ -128,30 +128,12 @@ const forceSignIn= async(req, res) => {
 
     if(!authValidation.isValidId(data.id) || !authValidation.isValidPw(data.pw)) throw new Error('WRONG_ACCESS');
     let userIdx;
+
     try{
-        userIdx = await anonymousService.findIdUser(data.id, data.pw);
-    }catch(err){
-        if(err.message === 'DB_FIND_USER_PARA_IDPW')throw new Error(err.message);
-        winston.error(`Unable to findIdUser :`, err);
-        throw new Error('UNABLE_FIND_ID_USER');
-    }
-    try{
-        await userService.logout(userIdx);
-    }catch(err){
-        if(err.message === 'DB_LOGOUT') throw new Error(err.message);
-        winston.error(`Unable to logout :`, err);
-        throw new Error('UNABLE_LOGOUT');
-    }
-    try{
-        //userIdx에 해당하는 토큰을 제거 후 로그인 시도
-        const result = await anonymousService.signIn(data.id, data.pw);
+        const result = await anonymousService.forceSignIn(data.id, data.pw);
         res.send(result);
     }catch(err){
-        if(err.message === 'DB_SIGNIN')throw new Error(err.message);
-        if(err.message === 'WRONG_PW')throw new Error(err.message);
-        if(err.message === 'WRONG_ID')throw new Error(err.message);
-        winston.error(`Unable to forcesignIn :`, err);
-        throw new Error('UNABLE_FORCE_SIGNIN');
+        console.log(err);
     }
 }
 const logout = async(req, res) => {
@@ -171,49 +153,48 @@ const logout = async(req, res) => {
 const checkId = async (req, res) =>{
     const data = req.body;
     if(!authValidation.isValidId(data.id)) throw new Error('WRONG_ACCESS');
-
+    let result;
     try{
-        const result = await anonymousService.duplicateId(data.id);
-        if(result){
-            res.send({
-                value : 'false',
-                message : 'exist id'})
-            return;
-        }else {
-            res.send({
-                value : 'true',
-                message : 'usable id'})
-            return;
-        }
+        result = await anonymousRepo.findUserById(data.id);
     }catch(err){
         if(err.message ==='DB_DUPLICATE_ID')throw new Error(err.message);
         winston.error(`Unable to checkId(duplicate) :`, err);
         throw new Error('UNABLE_CHECKID');
     }
-    
+    if(result){
+        res.send({
+            value : 'false',
+            message : 'exist id'})
+        return;
+    }else {
+        res.send({
+            value : 'true',
+            message : 'usable id'})
+        return;
+    }
 }
 const checkNickName = async (req, res) => {
     const data = req.body;
     
     if(!authValidation.isValidNickName(data.nickName))throw new Error('WRONG_ACCESS');
-
+    let result;
     try{
-        const result = await anonymousService.duplicateNickName(data.nickName);
-        if(result){
-            res.send({
-                value : 'false',
-                message : 'exist nickName'})
-            return;
-        }else {
-            res.send({
-                value : 'true',
-                message : 'usable nickName'})
-            return;
-        }
+        result = await anonymousRepo.findUserByNickName(data.nickName);
     }catch(err){
         if(err.message ==='DB_DUPLICATE_NICKNAME')throw new Error(err.message);
         winston.error(`Unable to checkNickName(duplicate) :`, err);
         throw new Error('UNABLE_CHECKNICKNAME');
+    }
+    if(result){
+        res.send({
+            value : 'false',
+            message : 'exist nickName'})
+        return;
+    }else {
+        res.send({
+            value : 'true',
+            message : 'usable nickName'})
+        return;
     }
 }
 

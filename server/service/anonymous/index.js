@@ -3,7 +3,7 @@ const winston = require('../../lib/common/winston');
 const jwtUtils = require('../../lib/common/jwt');
 
 const {anonymous : anonymousRepo} = require('../../repository');
-
+const {user : userRepo} = require('../../repository');
 
 const signUp = async (id, pw, nickName, email, role) => {
     let duplicatedId;
@@ -134,6 +134,39 @@ const updatePw = async (email, pw, id) => {
     }
 }
 
+const forceSignIn = async(id, pw)=> {
+    let userData;
+    // 1. id pw 해당하는 data 찾기
+    try{
+        userData = await anonymousRepo.findUserByIdPw(id, pw);
+    }catch(err){
+        if(err.message === 'DB_FIND_USER_PARA_IDPW')throw new Error(err.message);
+        winston.error(`Unable to findIdUser :`, err);
+        throw new Error('UNABLE_FIND_ID_USER');
+    }
+    // 2. 로그인 되어져 있는 강제 로그아웃
+    try{
+        //이 부분 로그아웃
+        await userRepo.logout(userData.userIdx);
+        // await userService.logout(userIdx);
+    }catch(err){
+        if(err.message === 'DB_LOGOUT') throw new Error(err.message);
+        winston.error(`Unable to logout :`, err);
+        throw new Error('UNABLE_LOGOUT');
+    }
+    try{
+        //userIdx에 해당하는 토큰을 제거 후 로그인 시도
+        const result = await signIn(id, pw);
+        return result;
+    }catch(err){
+        if(err.message === 'DB_SIGNIN')throw new Error(err.message);
+        if(err.message === 'WRONG_PW')throw new Error(err.message);
+        if(err.message === 'WRONG_ID')throw new Error(err.message);
+        winston.error(`Unable to forcesignIn :`, err);
+        throw new Error('UNABLE_FORCE_SIGNIN');
+    }
+}
+
 
 module.exports = {
     signUp,
@@ -143,4 +176,5 @@ module.exports = {
     findIdSendMail,
     findPwSendMail,
     updatePw,
+    forceSignIn,
 }
