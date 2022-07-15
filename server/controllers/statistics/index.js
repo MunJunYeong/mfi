@@ -1,76 +1,66 @@
 const winston = require('../../lib/common/winston');
-
-const {idea : ideaService} = require ('../../service');
-const {visitor : visitorService} = require('../../service');
-const {anonymous : anonymousService} = require('../../service');
-
-const repository = require('../../repository');
+const {statistics : statisticsService} = require('../../service');
 
 
 const createIp = async (req, res) => {
     const ip = req.clientIp;
     try{
-        await visitorService.createIp(ip);
-        res.send({data : ip})
+        await statisticsService.createIp(ip);
     }catch(err){
-        if(err.message === 'DB_FIND_IP')throw new Error(err.message);
-        if(err.message === 'DB_CREATE_IP')throw new Error(err.message);
-        winston.warn(`Unable to create Ip :`, err);
-        throw new Error('UNABLE_CREATEIP');
+        
     }
+    res.send({data : ip})
 }
 
 const getUserCount = async(req, res) => {
+    let result;
     try{
-        const result = await repository.anonymous.getUserCount();
-        res.send({data : result});
+        result = await statisticsService.getUserCount();
     }catch(err){
-        if(err.message === 'DB_GET_USER_COUNT')throw new Error(err.message);
-        winston.warn(`Unable to get user cout :`, err);
-        throw new Error('UNABLE_USERCOUNT');
+
     }
+    res.send({data : result});
 }
 const getTodayVisitor = async(req, res) => {
+    let result;
     try{
-        const result = await visitorService.getTodayVisitor();
-        res.send({data : result});
+        result = await statisticsService.getTodayVisitor();
     }catch(err){
-        if(err.message === 'DB_GET_TODAY_VISITOR')throw new Error(err.message);
-        winston.warn(`Unable to get today visitor :`, err);
-        throw new Error('UNABLE_TODAY_VISITOR');
+        
     }
+    res.send({data : result});
     
 }
 const getTotalVisitor = async(req, res) => {
+    let result;
     try{
-        const result = await visitorService.getTotalVisitor();
-        res.send({data : result});
+        result = await statisticsService.getTotalVisitor();
     }catch(err){
-        if(err.message === 'DB_GET_TOTAL_VISITOR')throw new Error(err.message);
-        winston.warn(`Unable to get total visitor :`, err);
-        throw new Error('UNABLE_TOTAL_VISITOR');
+        
     }
+    res.send({data : result});
 
 }
 const getNewsItem = async(req, res) => {
+    let result;
     try{
-        const result = await repository.anonymous.getNewsItem();
-        res.send({data : result});
+        result = await statisticsService.getNewsItem();
     }catch(err){
         if(err.message === 'DB_GET_NEWS_ITEM')throw new Error(err.message);
         winston.warn(`Unable to get newsItem :`, err);
         throw new Error('UNABLE_NEWITEMS');
     }
+    res.send({data : result});
 }
+
 const getIdeaCount = async(req, res) => {
+    let result;
     try{
-        const result = await ideaService.getIdeaCount();
-        res.send({data : result});
+        result = await statisticsService.getIdeaCount();
     }catch(err){
-        if(err.message === 'DB_GET_IDEA_COUNT')throw new Error(err.message);
-        winston.warn(`Unable to getIdeaCout :`, err);
-        throw new Error('UNABLE_IDEA_COUNT');
+        
     }
+    res.send({data : result});
     
 }
 

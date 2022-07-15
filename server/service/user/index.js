@@ -1,147 +1,79 @@
-const { models, Op } = require('../../lib/db');
 const winston = require('../../lib/common/winston');
-
+const {user : userRepo} = require('../../repository');
 
 const getUserData = async (userIdx) => {
+  let res;
   try{
-    const data = await models['user'].findOne(
-      {
-        where : {
-          userIdx : userIdx
-        },
-        attributes : {
-          exclude : ['id', 'pw' , 'status']
-      },
-      },
-      
-    )
-    return data;
+    res= await userRepo.getUserData(userIdx);
   }catch(err){
-    winston.error(`Unable to getUserData[service] :`, err);
-    throw new Error('DB_GET_USER_DATA');
+
   }
+  return res;
 }
 
 const updateRole = async (role, userIdx) => {
+  let res;
   try{
-    const result = await models['user'].update(
-      {
-        role : role
-      },
-      {
-        where : {
-          userIdx : userIdx
-        }
-      }
-    )
-    if(result[0] === 1){
-      return role;
-    }else{
-      winston.error(`Unable to findUser for idx[service] :`, err);
-      throw new Error('DB_NOT_FOUND_USER');
-    }
+    res = await userRepo.updateRole(role, userIdx);
   }catch(err){
-    winston.error(`Unable to updateRole[service] :`, err);
-    throw new Error('DB_UPDATE_ROLE');
+
+  }
+  if(res[0]=== 1){
+    return role;
   }
 }
 
 const updateUserToken = async(token, userIdx) => {
+  let res;
   try{
-    await models['userToken'].update(
-      {
-        token : token
-      },
-      {
-        where : {
-          userIdx : userIdx
-        }
-      }
-    )
+    res=  await userRepo.updateUserToken(token, userIdx);
   }catch(err){
-      winston.error(`Unable to updateUserToken[service] :`, err);
-      throw new Error('DB_UPDATE_USERTOKEN');
+
   }
+  return res;
 }
 
 const getUserToken = async (userIdx) => {
   let res;
   try{
-    res = await models['userToken'].findOne(
-      {
-        where : {
-          userIdx : userIdx
-        }
-      }
-    )
-    return res.token;
+    res=  await userRepo.getUserToken(userIdx);
   }catch(err){
-    winston.error(`Unable to getUserToken[service] :`, err);
-    throw new Error('DB_GET_USER_TOKEN');
+
   }
+  return res.token;
 }
 
 const logout = async (userIdx) => {
   let res;
   try{
-    res = await models['userToken'].update(
-      {
-        token : '',
-      },
-      {
-        where : {
-          userIdx : userIdx
-        }
-      }
-    )
-    return res;
+    res = await userRepo.logout(userIdx);
   }catch(err){
     winston.error(`Unable to logout[service] :`, err);
     throw new Error('DB_LOGOUT');
   }
+  return res;
 }
 // 토큰 유효성 검사에서
 const forceLogout = async (token) => {
   let res;
   try{
-    res = await models['userToken'].update(
-      {
-        token : '',
-      },
-      {
-        where : {
-          token : token
-        }
-      }
-    )
-    return res;
+    res = await userRepo.forceLogout(token);
   }catch(err){
     winston.error(`Unable to forceLogout[service] :`, err);
     throw new Error('DB_FORCE_LOGOUT');
   }
+  return res;
 }
 
 const getUser =  async (where, limit, offset) => {
+  let res;
   try{
-    const data = await models['user'].findAndCountAll({
-      where,
-      attributes : {
-        exclude : ['id', 'pw', 'email']
-      },
-      order : [
-        ['role', 'DESC'],
-        ['userIdx', 'ASC'],
-        
-      ],
-      limit,
-      offset
-    })
-    return data;
+    res = await userRepo.getUser(where, limit, offset);
   }catch(err){
     winston.error(`Unable to getUser[service] :`, err);
     throw new Error('DB_GET_USER');
   }
-
+  return res;
 }
 
 module.exports = {
