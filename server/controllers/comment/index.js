@@ -1,11 +1,11 @@
-const {comment : commentService } = require ('../../service');
+const {comment : commentRepo } = require ('../../repository');
 
 const postComment = async (req, res) => {
     const data = req.body;
 
     if(!data.comment) throw new Error('WRONG_ACCESS');
     try{
-        const result = await commentService.postComment(data.comment, req.userData.userIdx, data.ideaIdx);
+        const result = await commentRepo.postComment(data.comment, req.userData.userIdx, data.ideaIdx);
         res.send({data : 1});
     }catch(err){
         if(err.message === 'DB_POST_COMMENT')throw new Error(err.message);
@@ -18,7 +18,7 @@ const getComment = async (req, res) => {
     const ideaIdx = req.query.ideaIdx;
     if(!ideaIdx) throw new Error('WRONG_ACCESS');
     try{
-        const result = await commentService.getComment(ideaIdx);
+        const result = await commentRepo.getComment(ideaIdx);
         res.send({data : result});
     }catch(err){
         if(err.message === 'DB_GET_COMMENT')throw new Error(err.message);

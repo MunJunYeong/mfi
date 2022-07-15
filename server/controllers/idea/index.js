@@ -1,6 +1,6 @@
 
 const {idea : ideaService} = require ('../../service');
-const {pagination} = require('../../lib/common');
+
 
 
 const postIdea = async (req, res) => {
@@ -18,18 +18,33 @@ const postIdea = async (req, res) => {
     }
 }
 
+const showIdea = async (req, res) => {
+    const {page, subject, order, role, userIdx, userRole} = req.query;
+    const {limit, offset} = pagination.getPagination(page);
+    let data;
+    try{
+        data = await ideaService.getAllIdea(limit, offset, subject, userIdx, userRole, order, role);
+    }catch(err){
+        if(err.message === 'DB_GET_ALL_IDEA')throw new Error(err.message);
+        winston.error(`Unable to showIdea :`, err);
+        throw new Error('UNABLE_SHOW_IDEA');
+    }
+    const result = pagination.getPagingIdeaData(data, page, limit);
+    res.send(result);
+}
+
 const deleteIdea = async (req, res) => {
     const ideaIdx = req.query.ideaIdx;
     if(!ideaIdx) throw new Error('WRONG_ACCESS');
-
+    let result;
     try{
-        const result = await ideaService.deleteIdea(ideaIdx);
-        res.send({success : '1'});
+        result = await ideaService.deleteIdea(ideaIdx);
     }catch(err){
         if(err.message === 'DB_DELETE_IDEA') throw new Error(err.message);
         winston.error(`Unable to deleteIdea :`, err);
         throw new Error('UNABLE_DELETE_IDEA');
     }
+    res.send({success : '1'});
 }
 const updateIdea =  async (req, res) => {
     const ideaIdx = req.body.params.ideaIdx;
@@ -37,71 +52,60 @@ const updateIdea =  async (req, res) => {
     const content = req.body.params.content;
     if(!ideaIdx || !subject || !content) throw new Error('WRONG_ACCESS');
 
+    let result;
     try{
-        const result = await ideaService.updateIdea(ideaIdx, subject, content);
-        res.send({data : result});
+        result = await ideaService.updateIdea(ideaIdx, subject, content);
     }catch(err){
         if(err.message === 'DB_UPDATE_IDEA')throw new Error(err.message);
         winston.error(`Unable to updateIdea :`, err);
         throw new Error('UNABLE_UPDATE_IDEA');
     }
+    res.send({data : result});
 }
 //click한 아이디어 가져오기
 const getClickIdea = async (req, res) =>{
     const ideaIdx = req.params.ideaIdx;
     //아이디어 가져오는 절
+    let result;
     try{
-        const result = await ideaService.getIdea(ideaIdx);
-        res.send({data : result});
+        result = await ideaService.getIdea(ideaIdx);
     }catch(err){
         if(err.message === 'DB_GET_IDEA')throw new Error(err.message);
         winston.error(`Unable to getClickIdea :`, err);
         throw new Error('UNABLE_CLICK_IDEA');
     }
+    res.send({data : result});
 }
 
-const showIdea = async (req, res) => {
-    const {page, subject, order, role, userIdx, userRole} = req.query;
-    const {limit, offset} = pagination.getPagination(page);
-    
-    try{
-        const data = await ideaService.getAllIdea(limit, offset, subject, userIdx, userRole, order, role);
-        const result = pagination.getPagingIdeaData(data, page, limit);
-        res.send(result);
-    }catch(err){
-        if(err.message === 'DB_GET_ALL_IDEA')throw new Error(err.message);
-        winston.error(`Unable to showIdea :`, err);
-        throw new Error('UNABLE_SHOW_IDEA');
-    }
-}
 const showMyIdea = async (req, res) => {
     const {page, subject, userIdx} = req.query;
     const {limit, offset} = pagination.getPagination(page);
-
+    let data;
     try{
-        const data = await ideaService.getMyIdea(limit, offset, subject, userIdx);
-        const result = pagination.getPagingIdeaData(data, page, limit);
-        res.send(result);
+        data = await ideaService.getMyIdea(limit, offset, subject, userIdx);
     }catch(err){
         if(err.message === 'DB_GET_MY_IDEA')throw new Error(err.message);
         winston.error(`Unable to showMyIdea :`, err);
         throw new Error('UNABLE_SHOW_MY_IDEA');
     }
+    const result = pagination.getPagingIdeaData(data, page, limit);
+    res.send(result);
 }
 const showAdminUserIdea = async (req, res) => {
     const userIdx = req.params.userIdx;
     const {page, subject} = req.query;
     const {limit, offset} = pagination.getPagination(page);
     if(!userIdx) throw new Error('WRONG_ACCESS');
+    let data;
     try{
-        const data = await ideaService.getAdminUserIdea(limit, offset, subject, userIdx);
-        const result = await pagination.getPagingIdeaData(data, page, limit);
-        res.send(result);
+        data = await ideaService.getAdminUserIdea(limit, offset, subject, userIdx);
     }catch(err){
         if(err.message === 'DB_GET_ADMIN_USER_IDEA')throw new Error(err.message);
         winston.error(`Unable to showAdminUserIdea :`, err);
         throw new Error('UNABLE_SHOW_ADMIN_IDEA');
     }
+    const result = await pagination.getPagingIdeaData(data, page, limit);
+    res.send(result);
 
 }
 module.exports = {
