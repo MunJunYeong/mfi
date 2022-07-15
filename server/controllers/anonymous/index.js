@@ -1,9 +1,9 @@
+const winston = require('../../lib/common/winston');
+const {authValidation} = require('../../lib/common/validation');
 const {anonymous: anonymousService } = require('../../service');
 const {user : userService} = require('../../service');
-const winston = require('../../lib/common/winston');
+//아이디/ 닉네임 중복확인때문에 바로 가지고 와서 사용(service layer 불필요)
 const {anonymous : anonymousRepo} = require('../../repository');
-const {authValidation} = require('../../lib/common/validation');
-
 
 //회원가입
 const signUP = async (req, res) => {

@@ -9,7 +9,5 @@ module.exports = {
     anonymous,
     comment,
     user,
-    visitor,
-    news,
     statistics
 }

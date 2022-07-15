@@ -1,20 +1,16 @@
-const {models, Op} = require('../../lib/db');
-const winston = require('../../lib/common/winston');
 
+const winston = require('../../lib/common/winston');
+const {idea : ideaRepo} = require('../../repository');
 
 const createIdea = async (subject, content, userIdx)=>{
+    let res;
     try{
-        const result = await models['idea'].create({
-            subject : subject,
-            content : content,
-            userIdx : userIdx
-        });
-        return result;
+        res = await ideaRepo.createIdea(subject, content, userIdx);
     }catch(err){
         winston.error(`Unable to createIdea[service] :`, err);
         throw new Error('DB_CREATE_IDEA');
     }
-    
+    return res;
 }
 
 //repositry where절을 여기서 
@@ -89,33 +85,14 @@ const getAllIdea = async (limit, offset, subject, userIdx, userRole, orderData, 
         orWhere[Op.or].push(andWhere);
         where[Op.and].push(orWhere);
     }
-    
+    let res;
     try{
-        const data = await models['idea'].findAndCountAll({
-            where,
-            include : [
-                {
-                    model : models['user'],
-                    where : userWhere,
-                    attributes : {
-                        exclude : ['id', 'pw', 'email']
-                    },
-                    required: true,
-                }
-            ],
-            order,
-            limit,
-            attributes : {
-                exclude : ['content']
-            },
-            offset
-        });
-        return data;
+        res = await ideaRepo.getAllIdea(where, userWhere, order, limit, offset)
     }catch(err){
         winston.error(`Unable to getAllIdea[service] :`, err);
         throw new Error('DB_GET_ALL_IDEA');
     }
-    
+    return res;
 }
 const getMyIdea = async (limit, offset, subject, userIdx)=>{
     const where = {};
@@ -127,31 +104,14 @@ const getMyIdea = async (limit, offset, subject, userIdx)=>{
     const userWhere = {};
     userWhere.userIdx = userIdx;
 
+    let res;
     try{
-        const data = await models['idea'].findAndCountAll({
-            where,
-            include : [
-                {
-                    model : models['user'],
-                    where : userWhere,
-                    attributes : {
-                        exclude : ['id', 'pw', 'email']
-                    },
-                    required: true,
-                }
-            ],
-            order : [['ideaIdx', 'DESC']],
-            attributes : {
-                exclude : ['content']
-            },
-            limit,
-            offset
-        });
-        return data;
+        res = await ideaRepo.getMyIdea(where, userWhere, limit, offset);
     }catch(err){
         winston.error(`Unable to getMyIdea[service] :`, err);
         throw new Error('DB_GET_MY_IDEA');
     }
+    return res;
     
 }
 const getAdminUserIdea = async (limit, offset, subject, userIdx)=>{
@@ -163,28 +123,15 @@ const getAdminUserIdea = async (limit, offset, subject, userIdx)=>{
     }
     const userWhere = {};
     userWhere.userIdx = userIdx;
+
+    let res;
     try{
-        const data = await models['idea'].findAndCountAll({
-            where,
-            include : [
-                {
-                    model : models['user'],
-                    where : userWhere,
-                    attributes : {
-                        exclude : ['id', 'pw', 'email']
-                    },
-                    required: true,
-                }
-            ],
-            order : [['ideaIdx', 'DESC']],
-            limit,
-            offset
-        });
-        return data;
+        res = await ideaRepo.getAdminUserIdea(where, userWhere, limit, offset);
     }catch(err){
         winston.error(`Unable to getAdminUserIdea[service] :`, err);
         throw new Error('DB_GET_ADMIN_USER_IDEA');
     }
+    return res;
     
 }
 //클릭시 아이디어 가져오기
@@ -193,58 +140,37 @@ const getIdea = async (ideaIdx) => {
     
     where.ideaIdx = ideaIdx;
     //where을 토대로 idea 가져오기.
+    let res;
     try{
-        const result = await models['idea'].findAll({
-            where,
-            include : [
-                {
-                    model : models['user'],
-                    attributes : {
-                        exclude : ['id', 'pw', 'email']
-                    },
-                }
-            ]
-        })
-        return result;
+        res = await ideaRepo.getIdea(where);
     }catch(err){
         winston.error(`Unable to getIdea[service] :`, err);
         throw new Error('DB_GET_IDEA');
     }
+    return res;
     
 }
 
 const updateIdea = async(ideaIdx, subject, content) =>{
+    let res;
     try{
-        const result = await models['idea'].update(
-            {
-                subject : subject,
-                content : content
-            },
-            {
-                where : {
-                    ideaIdx : ideaIdx,
-                },
-            }
-        )
-        return result;
+        res = await ideaRepo.updateIdea(ideaIdx, subject, content)
     }catch(err){
         winston.error(`Unable to updateIdea[service] :`, err);
         throw new Error('DB_UPDATE_IDEA');
     }
+    return res;
     
 }
 const deleteIdea = async(ideaIdx) => {
+    let res;
     try{
-        const result = await models['idea'].destroy({
-            where : {
-                ideaIdx : ideaIdx
-            },
-        })
-        return result; 
+        res = await ideaRepo.deleteIdea(ideaIdx);
     }catch(err){
         winston.error(`Unable to deleteIdea[service] :`, err);
         throw new Error('DB_DELETE_IDEA');
     }
+    return res; 
     
 }
 
