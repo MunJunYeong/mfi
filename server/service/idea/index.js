@@ -1,6 +1,7 @@
 
 const winston = require('../../lib/common/winston');
 const {idea : ideaRepo} = require('../../repository');
+const {Op} = require('../../lib/db');
 
 const createIdea = async (subject, content, userIdx)=>{
     let res;
