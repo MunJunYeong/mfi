@@ -1,15 +1,6 @@
 const {models, Op} = require('../../lib/db');
 const winston = require('../../lib/common/winston');
 
-const  getIdeaCount = async ()=>{
-    try{
-        const result  = await models['idea'].count();
-        return result;
-    }catch(err){
-        winston.warn(`Unable to getIdeaCount[service] :`, err);
-        throw new Error('DB_GET_IDEA_COUNT');
-    }
-}
 
 const createIdea = async (subject, content, userIdx)=>{
     try{
@@ -259,7 +250,6 @@ const deleteIdea = async(ideaIdx) => {
 
 
 module.exports = {
-    getIdeaCount,
     getAllIdea,
     getMyIdea,
     getIdea,
