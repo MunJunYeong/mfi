@@ -422,23 +422,24 @@
 </script>
 
 <style scoped>
-  v-textarea[readonly="readonly"] {
+
+v-textarea[readonly="readonly"] {
     background-color: yellowgreen
 }
-/* @media (max-width:767px) {
+@media (max-width:767px) {
     .pc{
         display: none;
     }
-} */
-/* @media all and (max-width:1023px) and (min-width:767px) {
+}
+@media all and (max-width:1023px) and (min-width:767px) {
     .mobile{
         display: none;
     }
+}
     /* 태블릿은 잘보임 */
-/* } */
-/* @media (min-width:767px) {
+@media (min-width:767px) {
     .mobile{
         display: none;
     }
-} */
+}
 </style>
