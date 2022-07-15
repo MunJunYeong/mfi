@@ -14,20 +14,25 @@ const signUp = async (id, pw, nickName, email, role) => {
         await anonymousRepo.findUserByNickName(nickName) === null ? duplicatedNickName = true : duplicatedNickName = false;;
         await anonymousRepo.findUserByEmail(email) === null ? duplicatedEmail = true : duplicatedEmail = false;
     }catch(err){
-        
+        if(err.message)throw new Error(err.message);
+        winston.error(`Service validation signUp :`, err);
+        throw new Error('SERVICE_VALIDATION_SIGNUP');
     }
     if(!duplicatedId || !duplicatedNickName || !duplicatedEmail){
         throw new Error('WRONG_ACCESS');
     }
 
     try{
+        //이 부분 트랜잭션이 일어나는데 중간에 해주어야하는지
         const signUpData = await anonymousRepo.signUp(id, pw, nickName, email, role);
-        if(!signUpData) throw new Error('')
+        // if(!signUpData) throw new Error('')
         const res = await anonymousRepo.makeUserToken(signUpData.userIdx);
-        if(!res) throw Error('');
+        // if(!res) throw Error('');
         return res;
     }catch(err){
-
+        if(err.message) throw new Error(err.message);
+        winston.error(`Service signUp :`, err);
+        throw new Error('SERVICE_SIGNUP');
     }
 }
 
@@ -37,8 +42,9 @@ const signIn = async (id, pw) => {
     try{
         findId = await anonymousRepo.findUserById(id);
     }catch(err){
-        winston.error(`Unable to findId for signIn[service] :`, err);
-        throw new Error('DB_FIND_ID_SIGNIN');
+        if(err.message)throw new Error(err.message);
+        winston.error(`Service findUserById Error :`, err);
+        throw new Error('SERVICE_FIND_USER_BY_ID');
     }
     if(findId === null) throw new Error('WRONG_ID');
     const idData = {
@@ -58,8 +64,8 @@ const signIn = async (id, pw) => {
         await anonymousRepo.saveUserToken(idData.userIdx, accessToken);
         return {token : accessToken, refreshToken : refreshToken};
     }catch(err){
-        winston.error(`Unable to signIn[service] :`, err);
-        throw new Error('DB_SIGNIN');
+        winston.error(`Service signIn Error :`, err);
+        throw new Error('SERVICE_SIGNIN');
     }
 }
 
@@ -68,7 +74,9 @@ const sendEmail = async (email) => {
     try{
         await anonymousRepo.findUserByEmail(email) === null ? duplicatedEmail = true : duplicatedEmail = false;
     }catch(err){
-        
+        if(err.message)throw new Error(err.message);
+        winston.error(`Service findUserByEmail Error :`, err);
+        throw new Error('SERVICE_FIND_USER_BY_EMAIL');
     }
     if(!duplicatedEmail) throw new Error('EXIST_EMAIL');
     const emailNo = mailer.makeEmailNo(6); // 6자리 인증번호
@@ -79,7 +87,9 @@ const sendEmail = async (email) => {
         mailer.sendEmail(email, emailNo);
         return res;
     }catch(err){
-
+        if(err.message)throw new Error(err.message);
+        winston.error(`Service sendEmail Error :`, err);
+        throw new Error('SERVICE_SEND_EMAIL');
     }
 }
 
@@ -89,13 +99,21 @@ const checkEmail = async(email, no) => {
     try{
         authNo = await anonymousRepo.findAuthNoByEmail(email);
     }catch(err){
-        if(err.message === 'DB_FIND_AUTH_NO') throw new Error(err.message);
+        if(err.message)throw new Error(err.message);
+        winston.error(`Service findAuthNoByEmail Error :`, err);
+        throw new Error('SERVICE_FIND_AUTH_NO_BY_EMAIL');
     }
     
     if(authNo.length === 0 || authNo[0] === undefined)throw new Error('NOT_FOUND_EMAIL');
     if(authNo[0].no !== no) throw new Error('NOT_CORRECT_AUTHNO');
-    const res = await anonymousRepo.deleteAuthNo(email);
-    return res;
+    try{
+        const res = await anonymousRepo.deleteAuthNo(email);
+        return res;
+    }catch(err){
+        if(err.message)throw new Error(err.message);
+        winston.error(`Service checkEmail Error :`, err);
+        throw new Error('SERVICE_CHECK_EMAIL');
+    }
 }
 
 const findIdSendMail = async(email) => {
@@ -104,9 +122,9 @@ const findIdSendMail = async(email) => {
     try{
         userData = await anonymousRepo.findUserByEmail(email);
     }catch(err){
-        //지우기
-        // winston.error(`Unable to findUser for findIdSendMail[servcie] :`, err);
-        // throw new Error('DB_FIND_USER_FOR_FINDID');
+        if(err.message)throw new Error(err.message);
+        winston.error(`Service findUserByEmail Error :`, err);
+        throw new Error('SERVICE_FIND_USER_BY_EMAIL');
     }
     if(userData === null)throw new Error('NOT_FOUND');
     const tempId = userData.id.substring(0, userData.id.length-3);
@@ -118,7 +136,9 @@ const findPwSendMail = async(id, email) => {
     try{
         await anonymousRepo.saveEmailAuthentication(email, emailNo);
     }catch(err){
-
+        if(err.message)throw new Error(err.message);
+        winston.error(`Service findPwSendMail Error :`, err);
+        throw new Error('SERVICE_FIND_PW_SEND_EMAIL');
     }
     mailer.sendPw(email, emailNo);
     return {data : 1};
@@ -129,8 +149,8 @@ const updatePw = async (email, pw, id) => {
         const result = await anonymousRepo.updatePw(email, pw, id);
         return result;
     }catch(err){
-        winston.error(`Unable to updatePw[service] :`, err);
-        throw new Error('DB_UPDATE_PW');
+        winston.error(`Service updatePw Error :`, err);
+        throw new Error('SERVICE_UPDATE_PW');
     }
 }
 
@@ -140,9 +160,9 @@ const forceSignIn = async(id, pw)=> {
     try{
         userData = await anonymousRepo.findUserByIdPw(id, pw);
     }catch(err){
-        if(err.message === 'DB_FIND_USER_PARA_IDPW')throw new Error(err.message);
-        winston.error(`Unable to findIdUser :`, err);
-        throw new Error('UNABLE_FIND_ID_USER');
+        if(err.message)throw new Error(err.message);
+        winston.error(`Service findUserByIdPw Error  :`, err);
+        throw new Error('SERVICE_FIND_USER_BY_ID_PW');
     }
     // 2. 로그인 되어져 있는 강제 로그아웃
     try{
@@ -150,20 +170,18 @@ const forceSignIn = async(id, pw)=> {
         await userRepo.logout(userData.userIdx);
         // await userService.logout(userIdx);
     }catch(err){
-        if(err.message === 'DB_LOGOUT') throw new Error(err.message);
-        winston.error(`Unable to logout :`, err);
-        throw new Error('UNABLE_LOGOUT');
+        if(err.message)throw new Error(err.message);
+        winston.error(`Service logout Error  :`, err);
+        throw new Error('SERVICE_LOGOUT');
     }
     try{
         //userIdx에 해당하는 토큰을 제거 후 로그인 시도
         const result = await signIn(id, pw);
         return result;
     }catch(err){
-        if(err.message === 'DB_SIGNIN')throw new Error(err.message);
-        if(err.message === 'WRONG_PW')throw new Error(err.message);
-        if(err.message === 'WRONG_ID')throw new Error(err.message);
-        winston.error(`Unable to forcesignIn :`, err);
-        throw new Error('UNABLE_FORCE_SIGNIN');
+        if(err.message)throw new Error(err.message);
+        winston.error(`Service forceSignIn Error  :`, err);
+        throw new Error('SERVICE_FORCE_SIGNIN');
     }
 }
 

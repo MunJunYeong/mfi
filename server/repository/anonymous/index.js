@@ -8,14 +8,15 @@ const findUserById = async (id) => {
             where : {
                 id : id
             },
+            // attributes로 데이터를 빼줄지
             // attributes : {
             //     exclude : ['pw', 'nickName', 'role', 'email']
             // },
         });
         return res;
     }catch(err){
-        winston.error(``, err);
-        throw new Error('~');
+        winston.error(`DB findUserById Error : `, err);
+        throw new Error('DB_FIND_USER_BY_ID');
     }
 }
 const findUserByNickName = async (nickName) => {
@@ -24,14 +25,11 @@ const findUserByNickName = async (nickName) => {
             where : {
                 nickName : nickName
             },
-            // attributes : {
-            //     exclude : ['pw', 'nickName', 'role', 'email']
-            // },
         });
         return res;
     }catch(err){
-        winston.error(``, err);
-        throw new Error('DB_IS_DUPLICATED_NICKNAME');
+        winston.error(`DB findUserByNickName Error : `, err);
+        throw new Error('DB_FIND_USER_BY_NICKNAME');
     }
 }
 const findUserByEmail = async (email) => {
@@ -40,14 +38,11 @@ const findUserByEmail = async (email) => {
             where : {
                 email : email
             },
-            // attributes : {
-            //     exclude : ['pw', 'nickName', 'role', 'email']
-            // },
         });
         return res;
     }catch(err){
-        winston.error(``, err);
-        throw new Error('DB_IS_DUPLICATED_EMAIL');
+        winston.error(`DB findUserByEmail Error : `, err);
+        throw new Error('DB_FIND_USER_BY_EMAIL');
     }
 }
 const signUp = async (id, pw, nickName, email, role) => {
@@ -61,7 +56,7 @@ const signUp = async (id, pw, nickName, email, role) => {
         });
         return res;
     }catch(err){
-        winston.error(`Unable to signUp[servcie] :`, err);
+        winston.error(`DB signUp Error :`, err);
         throw new Error('DB_SIGNUP');
     }
 }
@@ -74,26 +69,8 @@ const makeUserToken= async (idx)=> {
         })
         return res;
     }catch(err){
-        winston.error(`Unable to makeUserToken[servcie] :`, err);
+        winston.error(`DB makeUserToken Error :`, err);
         throw new Error('DB_MAKE_USER_TOKEN');
-    }
-}
-const  getUserCount = async ()=>{
-    try{
-        const result  = await models['user'].count();
-        return result;
-    }catch(err){
-        winston.warn(`Unable to getUserCount[servcie] :`, err);
-        throw new Error('DB_GET_USER_COUNT');
-    }
-}
-const  getNewsItem = async ()=>{
-    try{
-        const result  = await models['news'].findAll({});
-        return result;
-    }catch(err){
-        winston.warn(`Unable to getNewsItem[servcie] :`, err);
-        throw new Error('DB_GET_NEWS_ITEM');
     }
 }
 const haveUserToken = async (userIdx)=> {
@@ -105,7 +82,7 @@ const haveUserToken = async (userIdx)=> {
         })
         return result;
     }catch(err){
-        winston.error(`Unable to haveUserToken[service] :`, err);
+        winston.error(`DB haveUserToken Error :`, err);
         throw new Error('DB_HAVE_USER_TOKEN');
     }
 }
@@ -123,7 +100,7 @@ const saveUserToken = async (idx ,token) => {
             }
         )
     }catch(err){
-        winston.error(`Unable to saveUserToken[service] :`, err);
+        winston.error(`DB saveUserToken Error :`, err);
         throw new Error('DB_SAVE_USER_TOKEN');
     }
 }
@@ -135,8 +112,8 @@ const saveEmailAuthentication = async (email, emailNo) => {
         });
         return res;        
     }catch(err){
-        winston.error(`Unable to sendEmail[servcie] :`, err);
-        throw new Error('DB_SEND_EMAIL');
+        winston.error(`DB saveEmailAuthentication Error :`, err);
+        throw new Error('DB_SAVE_EMAIL_AUTHENTICATION');
     }
 }
 const findAuthNoByEmail = async (email) => {
@@ -152,8 +129,8 @@ const findAuthNoByEmail = async (email) => {
         })
         return res;
     }catch(err){
-        winston.error(`Unable to findAuthNo for checkEmail[servcie] :`, err);
-        throw new Error('DB_FIND_AUTH_NO');
+        winston.error(`DB findAuthNoByEmail Error :`, err);
+        throw new Error('DB_FIND_AUTH_NO_BY_EMAIL');
     }
 }
 
@@ -166,8 +143,8 @@ const deleteAuthNo = async(email) => {
         })
         return res;
     }catch(err){
-        winston.error(`:`, err);
-        throw new Error('');
+        winston.error(`DB deleteAuthNo Error:`, err);
+        throw new Error('DB_DELETE_AUTH_NO');
     }
     
 }
@@ -187,11 +164,10 @@ const updatePw = async (email, pw, id) => {
         )
         return result;
     }catch(err){
-        winston.error(`Unable to updatePw[service] :`, err);
+        winston.error(`DB updatePw Error :`, err);
         throw new Error('DB_UPDATE_PW');
     }
 }
-
 
 const findUserByIdPw = async (id, pw) => {
     let res;
@@ -207,20 +183,16 @@ const findUserByIdPw = async (id, pw) => {
         });
         return res;
     }catch(err){
-        winston.error(`Unable to findIdUser for forceSignIn[servcie] :`, err);
-        throw new Error('DB_FIND_USER_PARA_IDPW');
+        winston.error(`DB findUserByIdPw Error :`, err);
+        throw new Error('DB_FIND_USER_BY_ID_PW');
     }
 }
 
 module.exports = {
     signUp,
     makeUserToken,
-    getUserCount,
     updatePw,
-    getNewsItem,
-    
     findUserByIdPw,
-
     findUserById,
     findUserByNickName,
     findUserByEmail,
