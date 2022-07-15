@@ -1,4 +1,6 @@
 const {user : userService} = require('../../service');
+const winston = require('../../lib/common/winston');
+const pagination = require('../../lib/common/pagination');
 
 const updateUserRole = async (req, res) => {
     const data = req.body;
@@ -29,14 +31,17 @@ const getuserData = async(req, res) => {
 }
 const getUser = async (req, res)=> {
     const {page, nickName} = req.query;
+    const {limit, offset} = pagination.getPagination(page);
+    let data
     try{
-        const result = await userService.getUser(page, nickName);
-        res.send(result);
+        data = await userService.getUser(page, nickName, limit, offset);
     }catch(err){
         if(err.message === 'DB_GET_USER')throw new Error(err.message);
-        winston.error(`Unable to getUser(role:admin) :`, err);throw new Error('UNABLE_GET_USER');
+        winston.error(`Unable to getUser(role:admin) :`, err);
+        throw new Error('UNABLE_GET_USER');
     }
-
+    const result = pagination.getPagingUserData(data, page, limit);
+    res.send(result);
 }
 
 

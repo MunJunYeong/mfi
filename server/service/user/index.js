@@ -1,6 +1,5 @@
 const winston = require('../../lib/common/winston');
 const {user : userRepo} = require('../../repository');
-const pagination = require('../../lib/common/pagination');
 const {Op} = require('../../lib/db');
 
 const getUserData = async (userIdx) => {
@@ -67,10 +66,7 @@ const forceLogout = async (token) => {
   return res;
 }
 
-const getUser =  async (page, nickName) => {
-
-  const {limit, offset} = pagination.getPagination(page);
-      
+const getUser =  async (page, nickName, limit, offset) => {
   let where = {};
   
   where.role = {
@@ -87,8 +83,7 @@ const getUser =  async (page, nickName) => {
     winston.error(`Unable to getUser[service] :`, err);
     throw new Error('DB_GET_USER');
   }
-  const result = pagination.getPagingUserData(data, page, limit);
-  return result;
+  return res;
 }
 
 module.exports = {
