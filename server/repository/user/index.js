@@ -16,7 +16,7 @@ const getUserData = async (userIdx) => {
         },
       )
     }catch(err){
-        winston.error(`Unable to getUserData[service] :`, err);
+        winston.error(`DB getUserData Error :`, err);
         throw new Error('DB_GET_USER_DATA');
     }
     return res;
@@ -37,7 +37,7 @@ const getUserData = async (userIdx) => {
       )
       
     }catch(err){
-      winston.error(`Unable to updateRole[service] :`, err);
+      winston.error(`DB updateRole Error :`, err);
       throw new Error('DB_UPDATE_ROLE');
     }
     return res;
@@ -57,8 +57,8 @@ const getUserData = async (userIdx) => {
         }
       )
     }catch(err){
-        winston.error(`Unable to updateUserToken[service] :`, err);
-        throw new Error('DB_UPDATE_USERTOKEN');
+      winston.error(`DB updateUserToken Error :`, err);
+      throw new Error('DB_UPDATE_USERTOKEN');
     }
     return res;
   }
@@ -74,8 +74,8 @@ const getUserData = async (userIdx) => {
         }
       )
     }catch(err){
-        winston.error(`Unable to getUserToken[service] :`, err);
-        throw new Error('DB_GET_USER_TOKEN');
+      winston.error(`DB getUserToken Error :`, err);  
+      throw new Error('DB_GET_USER_TOKEN');
     }
     return res;
   }
@@ -94,8 +94,8 @@ const getUserData = async (userIdx) => {
         }
       )
     }catch(err){
-        winston.error(`Unable to logout[service] :`, err);
-        throw new Error('DB_LOGOUT');
+      winston.error(`DB logout Error :`, err);
+      throw new Error('DB_LOGOUT');
     }
     return res;
   }
@@ -115,7 +115,7 @@ const getUserData = async (userIdx) => {
       )
       return res;
     }catch(err){
-      winston.error(`Unable to forceLogout[service] :`, err);
+      winston.error(`DB forceLogout Error :`, err);
       throw new Error('DB_FORCE_LOGOUT');
     }
   }
@@ -137,8 +137,8 @@ const getUserData = async (userIdx) => {
         offset
       })
     }catch(err){
-        winston.error(`Unable to getUser[service] :`, err);
-        throw new Error('DB_GET_USER');
+      winston.error(`DB getUser Error :`, err);
+      throw new Error('DB_GET_USER');
     }
     return res;
   }

@@ -11,7 +11,7 @@ const createIdea = async (subject, content, userIdx)=>{
             userIdx : userIdx
         });
     }catch(err){
-        winston.error(`Unable to createIdea[service] :`, err);
+        winston.error(`DB createIdea Error :`, err);
         throw new Error('DB_CREATE_IDEA');
     }
     return res;
@@ -41,7 +41,7 @@ const getAllIdea = async (where, userWhere, order, limit, offset) => {
             offset
         });
     }catch(err){
-        winston.error(`Unable to getAllIdea[service] :`, err);
+        winston.error(`DB getAllIdea Error :`, err);
         throw new Error('DB_GET_ALL_IDEA');
     }
     return res;
@@ -70,11 +70,10 @@ const getMyIdea = async (where, userWhere, limit, offset)=>{
             offset
         });
     }catch(err){
-        winston.error(`Unable to getMyIdea[service] :`, err);
+        winston.error(`DB getMyIdea Error :`, err);
         throw new Error('DB_GET_MY_IDEA');
     }
     return res;
-    
 }
 const getAdminUserIdea = async (where, userWhere, limit, offset)=>{
     let res;
@@ -96,7 +95,7 @@ const getAdminUserIdea = async (where, userWhere, limit, offset)=>{
             offset
         });
     }catch(err){
-        winston.error(`Unable to getAdminUserIdea[service] :`, err);
+        winston.error(`DB getAdminUserIdea Error :`, err);
         throw new Error('DB_GET_ADMIN_USER_IDEA');
     }
     return res;
@@ -117,7 +116,7 @@ const getIdea = async (where) => {
             ]
         })
     }catch(err){
-        winston.error(`Unable to getIdea[service] :`, err);
+        winston.error(`DB getIdea Error :`, err);
         throw new Error('DB_GET_IDEA');
     }
     return res;
@@ -139,7 +138,7 @@ const updateIdea = async(ideaIdx, subject, content) =>{
             }
         )
     }catch(err){
-        winston.error(`Unable to updateIdea[service] :`, err);
+        winston.error(`DB updateIdea Error :`, err);
         throw new Error('DB_UPDATE_IDEA');
     }
     return res;
@@ -154,7 +153,7 @@ const deleteIdea = async(ideaIdx) => {
             },
         })
     }catch(err){
-        winston.error(`Unable to deleteIdea[service] :`, err);
+        winston.error(`DB deleteIdea Error :`, err);
         throw new Error('DB_DELETE_IDEA');
     }
     return res; 

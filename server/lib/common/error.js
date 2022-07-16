@@ -293,7 +293,7 @@ Service  Error
 
 }
 
-const dbError = {
+const repoError = {
     //anonymous repository
     DB_FIND_USER_BY_ID : {
         message : 'DB findUserById Error',
@@ -320,7 +320,7 @@ const dbError = {
         status : HTTP_CODE.SERVER_ERROR
     },
     DB_SAVE_USER_TOKEN: {
-        message : 'Unable to saveUserToken[service]',
+        message : 'DB saveUserToken Error',
         status : HTTP_CODE.SERVER_ERROR
     },
     DB_SAVE_EMAIL_AUTHENTICATION: {
@@ -328,7 +328,7 @@ const dbError = {
         status : HTTP_CODE.SERVER_ERROR
     },
     DB_FIND_AUTH_NO_BY_EMAIL: {
-        message : 'Unable to findAuthNo for checkEmail[service]',
+        message : 'DB findAuthNoByEmail Error',
         status : HTTP_CODE.SERVER_ERROR
     },
     DB_DELETE_AUTH_NO: {
@@ -336,157 +336,126 @@ const dbError = {
         status : HTTP_CODE.SERVER_ERROR
     },
     DB_UPDATE_PW : {
-        message : 'Unable to updatePw[service]',
+        message : 'DB updatePw Error',
         status : HTTP_CODE.SERVER_ERROR
     },
     DB_FIND_USER_BY_ID_PW : {
-        message : 'Unable to findIdUser for forceSignIn[service]',
+        message : 'DB findUserByIdPw Error',
         status : HTTP_CODE.SERVER_ERROR
     },
-/*
-DB  Error
-*/
-
     //comment
-    DB_POST_COMMENT: {
-        message : 'Unable to postComment[service]',
+    DB_POST_COMMENT : {
+        message : 'DB postComment Error',
         status : HTTP_CODE.SERVER_ERROR
     },
-    DB_GET_COMMENT: {
-        message : 'Unable to getComment[service]',
+    DB_GET_COMMENT : {
+        message : 'DB getComment Error',
         status : HTTP_CODE.SERVER_ERROR
     },
-    //idea
-    
-     DB_GET_IDEA_COUNT: {
-        message : 'Unable to getIdeaCount[service]',
+    //Idea
+    DB_CREATE_IDEA : {
+        message : 'DB createIdea Error',
         status : HTTP_CODE.SERVER_ERROR
     },
-     DB_CREATE_IDEA: {
-        message : 'Unable to createIdea[service]',
+    DB_GET_ALL_IDEA : {
+        message : 'DB getAllIdea Error',
         status : HTTP_CODE.SERVER_ERROR
     },
-     DB_GET_ALL_IDEA: {
-        message : 'Unable to getAllIdea[service]',
+    DB_GET_MY_IDEA : {
+        message : 'DB getMyIdea Error',
         status : HTTP_CODE.SERVER_ERROR
     },
-     DB_GET_MY_IDEA: {
-        message : 'Unable to getMyIdea[service]',
+    DB_GET_ADMIN_USER_IDEA : {
+        message : 'DB getAdminUserIdea Error',
         status : HTTP_CODE.SERVER_ERROR
     },
-     DB_GET_ADMIN_USER_IDEA: {
-        message : 'Unable to getAdminUserIdea[service]',
+    DB_GET_IDEA : {
+        message : 'DB getIdea Error',
         status : HTTP_CODE.SERVER_ERROR
     },
-     DB_GET_IDEA: {
-        message : 'Unable to getIdea[service]',
+    DB_UPDATE_IDEA : {
+        message : 'DB updateIdea Error',
         status : HTTP_CODE.SERVER_ERROR
     },
-     DB_UPDATE_IDEA : {
-        message : 'Unable to updateIdea[service]',
+    DB_DELETE_IDEA : {
+        message : 'DB deleteIdea Error',
         status : HTTP_CODE.SERVER_ERROR
     },
-     DB_DELETE_IDEA: {
-        message : 'Unable to deleteIdea[service]',
-        status : HTTP_CODE.SERVER_ERROR
-    },
-
-    //statistics
+    // statistics
     DB_GET_USER_COUNT : {
         message : 'DB getUserCount Error',
         status : HTTP_CODE.SERVER_ERROR
     },
+    DB_FIND_VISITOR_BY_IP : {
+        message : 'DB findVisitorByIp Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    DB_CREATE_IP : {
+        message : 'DB createIp Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    DB_GET_TODAY_VISITOR : {
+        message : 'DB getTodayVisitor Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    DB_GET_TOTAL_VISITOR : {
+        message : 'DB getTotalVisitor Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    DB_UPDATE_TOTAL_VISITOR : {
+        message : 'DB updateTotalVisitor Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    DB_DELETE_VISITOR : {
+        message : 'DB deleteVisitor Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
     DB_GET_NEWS_ITEM : {
-        message : 'Unable to getNewsItem[service]',
+        message : 'DB getNewsItem Error',
         status : HTTP_CODE.SERVER_ERROR
     },
-
-    //news
-     DB_CREATE_NEWS: {
-        message : 'Unable to createNews[service]',
+    DB_CREATE_NEWS : {
+        message : 'DB createNews Error',
         status : HTTP_CODE.SERVER_ERROR
     },
-     DB_DELETE_NEWS: {
-        message : 'Unable to  deleteNews[service]',
+    DB_DELETE_NEWS : {
+        message : 'DB deleteNews Error',
         status : HTTP_CODE.SERVER_ERROR
     },
-    //visitor
-     DB_FIND_IP: {
-        message : 'Unable to findIp for createIp[service]',
-        status : HTTP_CODE.SERVER_ERROR
-    },
-     DB_CREATE_IP: {
-        message : 'Unable to createIp[service]',
-        status : HTTP_CODE.SERVER_ERROR
-    },
-     DB_GET_TODAY_VISITOR: {
-        message : 'Unable to getTodayVisitor[service]',
-        status : HTTP_CODE.SERVER_ERROR
-    },
-     DB_GET_TOTAL_VISITOR: {
-        message : 'Unable to getTotalVisitor[service]',
-        status : HTTP_CODE.SERVER_ERROR
-    },
-     DB_UPDATE_TOTAL_VISITOR: {
-        message : 'Unable to updateTotalVisitor[service]',
+    DB_GET_IDEA_COUNT : {
+        message : 'DB getIdeaCount Error',
         status : HTTP_CODE.SERVER_ERROR
     },
     //user
-    DB_NOT_FOUND_USER : {
-        message : 'Unable to findUser for idx[service]',
+    DB_GET_USER_DATA : {
+        message : 'DB getUserData Error',
         status : HTTP_CODE.SERVER_ERROR
     },
-     DB_UPDATE_ROLE: {
-        message : 'Unable to updateRole[service]',
+    DB_UPDATE_ROLE : {
+        message : 'DB updateRole Error',
         status : HTTP_CODE.SERVER_ERROR
     },
-     DB_GET_USER: {
-        message :  'Unable to  getUser[service]',
+    DB_UPDATE_USERTOKEN : {
+        message : 'DB updateUserToken Error',
         status : HTTP_CODE.SERVER_ERROR
     },
-    DB_GET_USER_DATA: {
-        message :  'Unable to getUserData[service]',
+    DB_GET_USER_TOKEN : {
+        message : 'DB getUserToken Error',
         status : HTTP_CODE.SERVER_ERROR
     },
-     DB_LOGOUT: {
-        message : 'Unable to  logout[service]',
+    DB_LOGOUT : {
+        message : 'DB logout Error',
         status : HTTP_CODE.SERVER_ERROR
     },
-     DB_FORCE_LOGOUT: {
-        message : 'Unable to  forceLogout[service]',
+    DB_FORCE_LOGOUT : {
+        message : 'DB forceLogout Error',
         status : HTTP_CODE.SERVER_ERROR
     },
-     DB_GET_USER_TOKEN: {
-        message :  'Unable to getUserToken[service]',
-        status : HTTP_CODE.SERVER_ERROR
-    },
-    DB_UPDATE_USERTOKEN: {
-        message : 'Unable to updateUserToken[service]',
-        status : HTTP_CODE.SERVER_ERROR
-    },
-    DB_GET_USER_DATA: {
-        message : 'Unable to getUserData[service]',
-        status : HTTP_CODE.SERVER_ERROR
-    },
-    //validation
-    DB_HAVE_USER_TOKEN : {
-        message : 'Unable to haveUserToken[service]',
-        status : HTTP_CODE.SERVER_ERROR
-    },
-    DB_IS_DUPLICATED_EMAIL : {
-        message : 'Unable to isDuplicatedEmail[servcie]',
-        status : HTTP_CODE.SERVER_ERROR
-    },
-    DB_IS_DUPLICATED_NICKNAME : {
-        message : 'Unable to isDuplicatedNickName[servcie]',
-        status : HTTP_CODE.SERVER_ERROR
-    },
-    DB_IS_DUPLICATED_ID : {
-        message : 'Unable to isDuplicatedId[servcie]',
+    DB_GET_USER : {
+        message : 'DB getUser Error',
         status : HTTP_CODE.SERVER_ERROR
     },
 }
-
 
 
 
@@ -495,5 +464,5 @@ module.exports = {
     ...postProcessing,
     ...controllerError,
     ...serviceError,
-    ...dbError
+    ...repoError,
 }

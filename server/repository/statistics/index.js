@@ -21,8 +21,8 @@ const findVisitorByIp = async (ip)=>{
             }
         })
     }catch(err){
-        winston.warn(`Unable to findIp for createIp[service] :`, err);
-        throw new Error('DB_FIND_IP');
+        winston.warn(`DB findVisitorByIp Error :`, err);
+        throw new Error('DB_FIND_VISITOR_BY_IP');
     }
     return res;
 }
@@ -33,7 +33,7 @@ const createIp = async (ip) => {
             ip : ip
         })
     }catch(err){
-        winston.warn(`Unable to createIp[service] :`, err);
+        winston.warn(`DB createIp Error :`, err);
         throw new Error('DB_CREATE_IP');
     }
     return res;
@@ -44,7 +44,8 @@ const getTodayVisitor = async ()=> {
     try{
         res = await models['visitor'].count();
     }catch(err){
-        
+        winston.warn(`DB getTodayVisitor Error :`, err);
+        throw new Error('DB_GET_TODAY_VISITOR');
     }
     return res;
 }
@@ -55,7 +56,8 @@ const getTotalVisitor = async ()=> {
             idx : 1
         });
     }catch(err){
-        
+        winston.warn(`DB getTotalVisitor Error :`, err);
+        throw new Error('DB_GET_TOTAL_VISITOR');
     }
     return res;
 }
@@ -73,7 +75,8 @@ const updateTotalVisitor = async (totalCnt)=> {
             }
         )
     }catch(err){
-
+        winston.warn(`DB updateTotalVisitor Error :`, err);
+        throw new Error('DB_UPDATE_TOTAL_VISITOR');
     }
     return res;
 }
@@ -85,7 +88,8 @@ const deleteVisitor = async ()=> {
             truncate : true
         });
     }catch(err){
-
+        winston.warn(`DB deleteVisitor Error :`, err);
+        throw new Error('DB_DELETE_VISITOR');
     }
     return res;
 }
@@ -94,7 +98,7 @@ const getNewsItem = async ()=>{
         const result  = await models['news'].findAll({});
         return result;
     }catch(err){
-        winston.warn(`Unable to getNewsItem[servcie] :`, err);
+        winston.warn(`DB getNewsItem Error :`, err);
         throw new Error('DB_GET_NEWS_ITEM');
     }
 }
@@ -110,7 +114,7 @@ const createNews = async (tit, subcontent, oid, aid, ohnm, dt)=> {
             dt : dt
         })
     }catch(err){
-        winston.warn(`Unable to createNews[service] :`, err);
+        winston.warn(`DB createNews Error :`, err);
         throw new Error('DB_CREATE_NEWS');
     }
     return res;
@@ -124,7 +128,8 @@ const deleteNews = async()=> {
             truncate : true
         })
     }catch(err){
-
+        winston.warn(`DB deleteNews Error :`, err);
+        throw new Error('DB_DELETE_NEWS');
     }
     return res;
 }
@@ -134,24 +139,11 @@ const getIdeaCount = async ()=>{
     try{
         res  = await models['idea'].count();
     }catch(err){
-        winston.warn(`Unable to getIdeaCount[service] :`, err);
+        winston.warn(`DB getIdeaCount Error :`, err);
         throw new Error('DB_GET_IDEA_COUNT');
     }
     return res;
 }
-
-
-/*
-const  = async ()=> {
-    let res;
-    try{
-
-    }catch(err){
-
-    }
-    return res;
-}
-*/
 
 module.exports = {
     getUserCount,
