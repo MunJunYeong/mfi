@@ -15,7 +15,7 @@ const signUp = async (id, pw, nickName, email, role) => {
         await anonymousRepo.findUserByEmail(email) === null ? duplicatedEmail = true : duplicatedEmail = false;
     }catch(err){
         if(err.message)throw new Error(err.message);
-        winston.error(`Service validation signUp :`, err);
+        winston.error(`Service validation signUp Error :`, err);
         throw new Error('SERVICE_VALIDATION_SIGNUP');
     }
     if(!duplicatedId || !duplicatedNickName || !duplicatedEmail){
@@ -31,7 +31,7 @@ const signUp = async (id, pw, nickName, email, role) => {
         return res;
     }catch(err){
         if(err.message) throw new Error(err.message);
-        winston.error(`Service signUp :`, err);
+        winston.error(`Service signUp Error :`, err);
         throw new Error('SERVICE_SIGNUP');
     }
 }
@@ -142,16 +142,16 @@ const findPwSendMail = async(id, email) => {
     }
     mailer.sendPw(email, emailNo);
     return {data : 1};
-
 }
 const updatePw = async (email, pw, id) => {
+    let res;
     try {
-        const result = await anonymousRepo.updatePw(email, pw, id);
-        return result;
+        res = await anonymousRepo.updatePw(email, pw, id);
     }catch(err){
         winston.error(`Service updatePw Error :`, err);
         throw new Error('SERVICE_UPDATE_PW');
     }
+    return res;
 }
 
 const forceSignIn = async(id, pw)=> {

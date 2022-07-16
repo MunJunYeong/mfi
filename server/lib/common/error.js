@@ -44,7 +44,6 @@ const preProcessing = {
         message : '영어, 숫자, 특수기호를 모두 사용해주세요.',
         status : HTTP_CODE.NOT_ACCESS
     },
-    
 }
 
 const postProcessing = {
@@ -233,12 +232,13 @@ Controller  Error
 }
 
 const serviceError ={
+    //anonymous service
     SERVICE_VALIDATION_SIGNUP : {
-        message : 'Service validation signUp',
+        message : 'Service validation signUp Error',
         status : HTTP_CODE.SERVER_ERROR
     },
     SERVICE_SIGNUP : {
-        message : 'Service signUp',
+        message : 'Service signUp Error',
         status : HTTP_CODE.SERVER_ERROR
     },
     SERVICE_FIND_USER_BY_ID : {
@@ -285,12 +285,104 @@ const serviceError ={
         message : 'Service forceSignIn Error',
         status : HTTP_CODE.SERVER_ERROR
     },
-
-/*
-Service  Error
-*/
-
-
+    // idea
+    SERVICE_CREATE_IDEA : {
+        message : 'Service createIdea Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    SERVICE_GET_ALL_IDEA : {
+        message : 'Service getAllIdea Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    SERVICE_GET_MY_IDEA : {
+        message : 'Service getMyIdea Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    SERVICE_GET_ADMIN_USER_IDEA : {
+        message : 'Service getAdminUserIdea Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    SERVICE_GET_IDEA : {
+        message : 'Service getIdea Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    SERVICE_UPDATE_IDEA : {
+        message : 'Service updateIdea Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    SERVICE_DELETE_IDEA : {
+        message : 'Service deleteIdea Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    // statistics
+    SERVICE_VALIDATION_FIND_IP : {
+        message : 'Service Validation findIp Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    SERVICE_CREATE_IP : {
+        message : 'Service createIp Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    SERVICE_GET_USER_COUNT : {
+        message : 'Service getUserCount Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    SERVICE_GET_TODAY_VISITOR : {
+        message : 'Service getTodayVisitor Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    SERVICE_GET_TOTAL_VISITOR : {
+        message : 'Service getTotalVisitor Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    SERVICE_UPDATE_TOTAL_VISITOR : {
+        message : 'Service updateTotalVisitor Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    SERVICE_GET_NEWS_ITEM : {
+        message : 'Service getNewsItem Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    SERVICE_CREATE_NEWS : {
+        message : 'Service createNews Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    SERVICE_DELETE_NEWS: {
+        message : 'Service deleteNews Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    SERVICE_GET_IDEA_COUNT : {
+        message : 'Service getIdeaCount Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    SERVICE_GET_USER_DATA : {
+        message : 'Service getUserData Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    SERVICE_UPDATE_ROLE : {
+        message : 'Service updateRole Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    SERVICE_UPDATE_USER_TOKEN : {
+        message : 'Service updateUserToken Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    SERVICE_GET_USER_TOKEN : {
+        message : 'Service getUserToken Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    SERVICE_LOGOUT : {
+        message : 'Service logout Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    SERVICE_FORCE_LOGOUT : {
+        message : 'Service forceLogout Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    SERVICE_GET_USER : {
+        message : 'Service getUser Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
 }
 
 const repoError = {

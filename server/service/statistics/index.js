@@ -7,7 +7,9 @@ const createIp = async (ip)=>{
     try{
         findIp = await statisticsRepo.findVisitorByIp(ip);
     }catch(err){
-        
+        if(err.message) throw new Error(err.message);
+        winston.error(`Service Validation findIp  Error :`, err);
+        throw new Error('SERVICE_VALIDATION_FIND_IP');
     }
     
     if(findIp === null){
@@ -15,7 +17,9 @@ const createIp = async (ip)=>{
         try{
             res = await statisticsRepo.createIp(ip);
         }catch(err){
-
+            if(err.message) throw new Error(err.message);
+            winston.error(`Service createIp Error :`, err);
+            throw new Error('SERVICE_CREATE_IP');
         }
         return res;
     }
@@ -26,7 +30,9 @@ const getUserCount = async ()=> {
     try{
         res = await statisticsRepo.getUserCount();
     }catch(err){
-        
+        if(err.message) throw new Error(err.message);
+        winston.error(`Service getUserCount Error :`, err);
+        throw new Error('SERVICE_GET_USER_COUNT');
     }
     return res;
 }
@@ -35,7 +41,9 @@ const getTodayVisitor = async ()=>{
     try{
         res = await statisticsRepo.getTodayVisitor();
     }catch(err){
-        
+        if(err.message) throw new Error(err.message);
+        winston.error(`Service getTodayVisitor Error :`, err);
+        throw new Error('SERVICE_GET_TODAY_VISITOR');
     }
     return res;
 }
@@ -46,7 +54,9 @@ const getTotalVisitor = async ()=>{
         let totalData = await statisticsRepo.getTotalVisitor();
         sum = parseInt(totalData.total) + today ;
     }catch(err){
-        
+        if(err.message) throw new Error(err.message);
+        winston.error(`Service getTotalVisitor Error :`, err);
+        throw new Error('SERVICE_GET_TOTAL_VISITOR');
     }
     return sum;
 }
@@ -57,8 +67,9 @@ const updateTotalVisitor = async (totalCnt)=>{
         const deleteVisitor = await statisticsRepo.deleteVisitor();
         return deleteVisitor;
     }catch(err){
-        winston.warn(`Unable to updateTotalVisitor[service] :`, err);
-        throw new Error('DB_UPDATE_TOTAL_VISITOR');
+        if(err.message) throw new Error(err.message);
+        winston.error(`Service updateTotalVisitor Error :`, err);
+        throw new Error('SERVICE_UPDATE_TOTAL_VISITOR');
     }
     
 }
@@ -68,7 +79,9 @@ const getNewsItem = async ()=>{
     try{
         res = await statisticsRepo.getNewsItem();
     }catch(err) {
-        
+        if(err.message) throw new Error(err.message);
+        winston.error(`Service  Error :`, err);
+        throw new Error('SERVICE_GET_NEWS_ITEM');
     }
     return res;
 }
@@ -78,7 +91,9 @@ const createNews = async (data)=>{
     try{
         res = await statisticsRepo.createNews(data.tit, data.subcontent, data.oid, data.aid, data.ohnm, data.dt);
     }catch(err) {
-        
+        if(err.message) throw new Error(err.message);
+        winston.error(`Service createNews Error :`, err);
+        throw new Error('SERVICE_CREATE_NEWS');
     }
     // tit, subcontent, oid, aid, ohnm, dt
 }
@@ -86,8 +101,9 @@ const deleteNews = async ()=>{
     try{
         await statisticsRepo.deleteNews();
     }catch(err){
-        winston.warn(`Unable to deleteNews[service] :`, err);
-        throw new Error('DB_DELETE_NEWS');
+        if(err.message) throw new Error(err.message);
+        winston.error(`ServicedeleteNews  Error :`, err);
+        throw new Error('SERVICE_DELETE_NEWS');
     }
 }
 const getIdeaCount = async ()=>{
@@ -95,8 +111,9 @@ const getIdeaCount = async ()=>{
     try{
         res = await statisticsRepo.getIdeaCount();
     }catch(err){
-        winston.warn(`Unable to deleteNews[service] :`, err);
-        throw new Error('DB_DELETE_NEWS');
+        if(err.message) throw new Error(err.message);
+        winston.error(`Service getIdeaCount Error :`, err);
+        throw new Error('SERVICE_GET_IDEA_COUNT');
     }
     return res;
 }
