@@ -5,8 +5,6 @@ const HTTP_CODE = {
     SERVER_ERROR : 500,
 }
 
-
-
 const preProcessing = {
     WRONG_ACCESS : { // front에서 막아둔 부분인데 비정상적인 접근
         message : 'wrong access',
@@ -46,138 +44,8 @@ const preProcessing = {
     },
 }
 
-const postProcessing = {
-    UNABLE_USERCOUNT : {
-        message : 'Unable to get userCount',
-        status : HTTP_CODE.FAIL_METHOD
-    },
-    UNABLE_TODAY_VISITOR : {
-        message : 'Unable to get todayVisitor',
-        status : HTTP_CODE.FAIL_METHOD
-    },
-    UNABLE_TOTAL_VISITOR : {
-        message : 'Unable to get totalVisitor',
-        status : HTTP_CODE.FAIL_METHOD
-    },
-    UNABLE_NEWITEMS: {
-        message : 'Unable to get newsItem',
-        status : HTTP_CODE.FAIL_METHOD
-    },
-    UNABLE_SIGNUP: {
-        message : 'Unable signup',
-        status : HTTP_CODE.FAIL_METHOD
-    },
-     UNABLE_SEND_MAIL: {
-        message : 'Unable sendEmail',
-        status : HTTP_CODE.FAIL_METHOD
-    },
-     UNABLE_CHECK_MAIL: {
-        message : 'Unable to checkEmail',
-        status : HTTP_CODE.FAIL_METHOD
-    },
-     UNABLE_FIND_ID_SEND_MAIL: {
-        message : 'Unable to findIdSendMail',
-        status : HTTP_CODE.FAIL_METHOD
-    },
-     UNABLE_FIND_PW_SEND_MAIL: {
-        message : 'Unable to findPwSendMail',
-        status : HTTP_CODE.FAIL_METHOD
-    },
-      UNABLE_UPDATE_PW: {
-        message : 'Unable to updatePw',
-        status : HTTP_CODE.FAIL_METHOD
-    },
-     UNABLE_SIGNIN: {
-        message : 'Unable to signIn',
-        status : HTTP_CODE.FAIL_METHOD
-    },
-     UNABLE_CHECKID: {
-        message : 'Unable to checkId',
-        status : HTTP_CODE.FAIL_METHOD
-    },
-     UNABLE_CHECKNICKNAME: {
-        message : 'Unable to checkNickName',
-        status : HTTP_CODE.FAIL_METHOD
-    },
-     UNABLE_USERROLE: {
-        message : 'Unable to updateUserRole',
-        status : HTTP_CODE.FAIL_METHOD
-    },
-    UNABLE_GET_USER: {
-        message : 'Unable to getUser(role:admin)',
-        status : HTTP_CODE.FAIL_METHOD
-    },
-    UNABLE_GET_USER_DATA: {
-        message : 'Unable to getUserData',
-        status : HTTP_CODE.FAIL_METHOD
-    },
-     UNABLE_LOGOUT: {
-        message : 'Unable to logout',
-        status : HTTP_CODE.FAIL_METHOD
-    },
-     UNABLE_FORCE_SIGNIN: {
-        message : 'Unable to forcesignIn',
-        status : HTTP_CODE.FAIL_METHOD
-    },
-     UNABLE_FIND_ID_USER: {
-        message : 'Unable to findIdUser',
-        status : HTTP_CODE.FAIL_METHOD
-    },
-     UNABLE_CREATEIP: {
-        message : 'Unable to create Ip',
-        status : HTTP_CODE.FAIL_METHOD
-    },
-    //comment,
-     UNABLE_POST_COMMENT: {
-        message : 'Unable to postComment',
-        status : HTTP_CODE.FAIL_METHOD
-    },
-     UNABLE_GET_COMMENT: {
-        message : 'Unable to getComment',
-        status : HTTP_CODE.FAIL_METHOD
-    },
-    //idea
-     UNABLE_POST_IDEA: {
-        message : 'Unable to postIdea',
-        status : HTTP_CODE.FAIL_METHOD
-    },
-     UNABLE_DELETE_IDEA: {
-        message : 'Unable to deleteIdea',
-        status : HTTP_CODE.FAIL_METHOD
-    },
-     UNABLE_UPDATE_IDEA: {
-        message : 'Unable to updateIdea',
-        status : HTTP_CODE.FAIL_METHOD
-    },
-     UNABLE_SHOW_IDEA: {
-        message : 'Unable to showIdea',
-        status : HTTP_CODE.FAIL_METHOD
-    },
-     UNABLE_SHOW_MY_IDEA: {
-        message : 'Unable to showMyIdea',
-        status : HTTP_CODE.FAIL_METHOD
-    },
-     UNABLE_SHOW_ADMIN_IDEA: {
-        message : 'Unable to showAdminUserIdea',
-        status : HTTP_CODE.FAIL_METHOD
-    },
-     UNABLE_CLICK_IDEA: {
-        message : 'Unable to getClickIdea',
-        status : HTTP_CODE.FAIL_METHOD
-    },
-     UNABLE_IDEA_COUNT: {
-        message : 'Unable to getIdeaCout',
-        status : HTTP_CODE.FAIL_METHOD
-    },
-     UNABLE_UPDATE_USERTOKEN: {
-        message : 'Middleware refresh : unable to updateUserToken',
-        status : HTTP_CODE.FAIL_METHOD
-    },
-    //middleware
-
-}
-
 const controllerError = {
+    //anonymous
     CONTROLLER_SIGNUP : {
         message : 'Controller signUP Error',
         status : HTTP_CODE.SERVER_ERROR
@@ -222,13 +90,80 @@ const controllerError = {
         message : 'Controller checkNickName Error',
         status : HTTP_CODE.SERVER_ERROR
     },
-
-
-/*
-Controller  Error
-*/
-
-
+    //comment
+    CONTROLLER_POST_COMMENT : {
+        message : 'Controller postComment Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    CONTROLLER_GET_COMMENT : {
+        message : 'Controller getComment Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    //idea
+    CONTROLLER_POST_IDEA : {
+        message : 'Controller postIdea Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    CONTROLLER_SHOW_IDEA : {
+        message : 'Controller showIdea Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    CONTROLLER_DELETE_IDEA : {
+        message : 'Controller deleteIdea Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    CONTROLLER_UPDATE_IDEA : {
+        message : 'Controller updateIdea Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    CONTROLLER_CLICK_IDEA : {
+        message : 'Controller getClickIdea Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    CONTROLLER_SHOW_MY_IDEA : {
+        message : 'Controller showMyIdea Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    CONTROLLER_SHOW_ADMIN_IDEA  : {
+        message : 'Controller showAdminUserIdea Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    CONTROLLER_CREATE_IP : {
+        message : 'Controller createIp Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    CONTROLLER_GET_USER_COUNT : {
+        message : 'Controller getUserCount Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    CONTROLLER_GET_TODAY_VISITOR : {
+        message : 'Controller getTodayVisitor Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    CONTROLLER_GET_TOTAL_VISITOR : {
+        message : 'Controller getTotalVisitor Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    CONTROLLER_GET_NEWS_ITEM : {
+        message : 'Controller getNewsItem Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    CONTROLLER_GET_IDEA_COUNT : {
+        message : 'Controller getIdeaCount Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    CONTROLLER_UPDATE_USER_ROLE : {
+        message : 'Controller updateUserRole Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    CONTROLLER_GET_USER_DATA : {
+        message : 'Controller getuserData Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
+    CONTROLLER_GET_USER : {
+        message : 'Controller getUser Error',
+        status : HTTP_CODE.SERVER_ERROR
+    },
 }
 
 const serviceError ={
@@ -553,7 +488,6 @@ const repoError = {
 
 module.exports = {
     ...preProcessing,
-    ...postProcessing,
     ...controllerError,
     ...serviceError,
     ...repoError,

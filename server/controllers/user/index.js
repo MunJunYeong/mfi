@@ -10,9 +10,9 @@ const updateUserRole = async (req, res) => {
     try{
         result = await userService.updateRole(data.role, data.userIdx);
     }catch(err){
-        if(err.message === 'DB_NOT_FOUND_USER')throw new Error(err.message);
-        if(err.message === 'DB_UPDATE_ROLE')throw new Error(err.message);
-        winston.error(`Unable to updateUserRole :`, err);throw new Error('UNABLE_USERROLE');
+        if(err.message)throw new Error(err.message);
+        winston.warn(`Controller updateUserRole Error :`, err);
+        throw new Error('CONTROLLER_UPDATE_USER_ROLE');
     }
     res.send(result)
 }
@@ -24,8 +24,9 @@ const getuserData = async(req, res) => {
     try{
         data = await userService.getUserData(userIdx);
     }catch(err){
-        if(err.message === 'DB_GET_USER_DATA')throw new Error(err.message);
-        winston.error(`Unable to getUserData :`, err);throw new Error('UNABLE_GET_USER_DATA');
+        if(err.message)throw new Error(err.message);
+        winston.warn(`Controller getuserData Error :`, err);
+        throw new Error('CONTROLLER_GET_USER_DATA');
     }
     res.send({data : data});
 }
@@ -36,9 +37,9 @@ const getUser = async (req, res)=> {
     try{
         data = await userService.getUser(page, nickName, limit, offset);
     }catch(err){
-        if(err.message === 'DB_GET_USER')throw new Error(err.message);
-        winston.error(`Unable to getUser(role:admin) :`, err);
-        throw new Error('UNABLE_GET_USER');
+        if(err.message)throw new Error(err.message);
+        winston.warn(`Controller getUser Error :`, err);
+        throw new Error('CONTROLLER_GET_USER');
     }
     const result = pagination.getPagingUserData(data, page, limit);
     res.send(result);
