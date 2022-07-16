@@ -12,9 +12,9 @@ const create = async (sequelize) => {
         type: DataTypes.INTEGER,
         onDelete: 'CASCADE',
         references: {
-            model: 'user',
-            key: 'userIdx',
-          },
+          model: 'user',
+          key: 'userIdx',
+        },
       },
       subject: {
         type: DataTypes.STRING
