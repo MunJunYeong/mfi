@@ -8,8 +8,9 @@ const createIdea = async (subject, content, userIdx)=>{
     try{
         res = await ideaRepo.createIdea(subject, content, userIdx);
     }catch(err){
-        winston.error(`Unable to createIdea[service] :`, err);
-        throw new Error('DB_CREATE_IDEA');
+        if(err.message) throw new Error(err.message);
+        winston.error(`Service createIdea Error :`, err);
+        throw new Error('SERVICE_CREATE_IDEA');
     }
     return res;
 }
@@ -90,8 +91,9 @@ const getAllIdea = async (limit, offset, subject, userIdx, userRole, orderData, 
     try{
         res = await ideaRepo.getAllIdea(where, userWhere, order, limit, offset)
     }catch(err){
-        winston.error(`Unable to getAllIdea[service] :`, err);
-        throw new Error('DB_GET_ALL_IDEA');
+        if(err.message) throw new Error(err.message);
+        winston.error(`Service getAllIdea Error :`, err);
+        throw new Error('SERVICE_GET_ALL_IDEA');
     }
     return res;
 }
@@ -109,8 +111,9 @@ const getMyIdea = async (limit, offset, subject, userIdx)=>{
     try{
         res = await ideaRepo.getMyIdea(where, userWhere, limit, offset);
     }catch(err){
-        winston.error(`Unable to getMyIdea[service] :`, err);
-        throw new Error('DB_GET_MY_IDEA');
+        if(err.message) throw new Error(err.message);
+        winston.error(`Service getMyIdea Error :`, err);
+        throw new Error('SERVICE_GET_MY_IDEA');
     }
     return res;
     
@@ -129,8 +132,9 @@ const getAdminUserIdea = async (limit, offset, subject, userIdx)=>{
     try{
         res = await ideaRepo.getAdminUserIdea(where, userWhere, limit, offset);
     }catch(err){
-        winston.error(`Unable to getAdminUserIdea[service] :`, err);
-        throw new Error('DB_GET_ADMIN_USER_IDEA');
+        if(err.message) throw new Error(err.message);
+        winston.error(`Service getAdminUserIdea Error :`, err);
+        throw new Error('SERVICE_GET_ADMIN_USER_IDEA');
     }
     return res;
     
@@ -145,8 +149,9 @@ const getIdea = async (ideaIdx) => {
     try{
         res = await ideaRepo.getIdea(where);
     }catch(err){
-        winston.error(`Unable to getIdea[service] :`, err);
-        throw new Error('DB_GET_IDEA');
+        if(err.message) throw new Error(err.message);
+        winston.error(`Service getIdea Error :`, err);
+        throw new Error('SERVICE_GET_IDEA');
     }
     return res;
     
@@ -157,8 +162,9 @@ const updateIdea = async(ideaIdx, subject, content) =>{
     try{
         res = await ideaRepo.updateIdea(ideaIdx, subject, content)
     }catch(err){
-        winston.error(`Unable to updateIdea[service] :`, err);
-        throw new Error('DB_UPDATE_IDEA');
+        if(err.message) throw new Error(err.message);
+        winston.error(`Service updateIdea Error :`, err);
+        throw new Error('SERVICE_UPDATE_IDEA');
     }
     return res;
     
@@ -168,8 +174,9 @@ const deleteIdea = async(ideaIdx) => {
     try{
         res = await ideaRepo.deleteIdea(ideaIdx);
     }catch(err){
-        winston.error(`Unable to deleteIdea[service] :`, err);
-        throw new Error('DB_DELETE_IDEA');
+        if(err.message) throw new Error(err.message);
+        winston.error(`Service deleteIdea Error :`, err);
+        throw new Error('SERVICE_DELETE_IDEA');
     }
     return res; 
     
