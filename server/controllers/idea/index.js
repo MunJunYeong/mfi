@@ -13,9 +13,9 @@ const postIdea = async (req, res) => {
         const result = await ideaService.createIdea(data.subject, data.content, req.userData.userIdx);
         res.send({data : result});
     }catch(err){
-        if(err.message === 'DB_CREATE_IDEA') throw new Error(err.message);
-        winston.error(`Unable to postIdea :`, err);
-        throw new Error('UNABLE_POST_IDEA');
+        if(err.message)throw new Error(err.message);
+        winston.warn(`Controller postIdea Error :`, err);
+        throw new Error('CONTROLLER_POST_IDEA');
     }
 }
 
@@ -26,9 +26,9 @@ const showIdea = async (req, res) => {
     try{
         data = await ideaService.getAllIdea(limit, offset, subject, userIdx, userRole, order, role);
     }catch(err){
-        if(err.message === 'DB_GET_ALL_IDEA')throw new Error(err.message);
-        winston.error(`Unable to showIdea :`, err);
-        throw new Error('UNABLE_SHOW_IDEA');
+        if(err.message)throw new Error(err.message);
+        winston.warn(`Controller showIdea Error :`, err);
+        throw new Error('CONTROLLER_SHOW_IDEA');
     }
     const result = pagination.getPagingIdeaData(data, page, limit);
     res.send(result);
@@ -41,9 +41,9 @@ const deleteIdea = async (req, res) => {
     try{
         result = await ideaService.deleteIdea(ideaIdx);
     }catch(err){
-        if(err.message === 'DB_DELETE_IDEA') throw new Error(err.message);
-        winston.error(`Unable to deleteIdea :`, err);
-        throw new Error('UNABLE_DELETE_IDEA');
+        if(err.message)throw new Error(err.message);
+        winston.warn(`Controller deleteIdea Error :`, err);
+        throw new Error('CONTROLLER_DELETE_IDEA');
     }
     res.send({success : '1'});
 }
@@ -57,9 +57,9 @@ const updateIdea =  async (req, res) => {
     try{
         result = await ideaService.updateIdea(ideaIdx, subject, content);
     }catch(err){
-        if(err.message === 'DB_UPDATE_IDEA')throw new Error(err.message);
-        winston.error(`Unable to updateIdea :`, err);
-        throw new Error('UNABLE_UPDATE_IDEA');
+        if(err.message)throw new Error(err.message);
+        winston.warn(`Controller updateIdea Error :`, err);
+        throw new Error('CONTROLLER_UPDATE_IDEA');
     }
     res.send({data : result});
 }
@@ -71,9 +71,9 @@ const getClickIdea = async (req, res) =>{
     try{
         result = await ideaService.getIdea(ideaIdx);
     }catch(err){
-        if(err.message === 'DB_GET_IDEA')throw new Error(err.message);
-        winston.error(`Unable to getClickIdea :`, err);
-        throw new Error('UNABLE_CLICK_IDEA');
+        if(err.message)throw new Error(err.message);
+        winston.warn(`Controller getClickIdea Error :`, err);
+        throw new Error('CONTROLLER_CLICK_IDEA');
     }
     res.send({data : result});
 }
@@ -85,9 +85,9 @@ const showMyIdea = async (req, res) => {
     try{
         data = await ideaService.getMyIdea(limit, offset, subject, userIdx);
     }catch(err){
-        if(err.message === 'DB_GET_MY_IDEA')throw new Error(err.message);
-        winston.error(`Unable to showMyIdea :`, err);
-        throw new Error('UNABLE_SHOW_MY_IDEA');
+        if(err.message)throw new Error(err.message);
+        winston.warn(`Controller showMyIdea Error :`, err);
+        throw new Error('CONTROLLER_SHOW_MY_IDEA');
     }
     const result = pagination.getPagingIdeaData(data, page, limit);
     res.send(result);
@@ -101,9 +101,9 @@ const showAdminUserIdea = async (req, res) => {
     try{
         data = await ideaService.getAdminUserIdea(limit, offset, subject, userIdx);
     }catch(err){
-        if(err.message === 'DB_GET_ADMIN_USER_IDEA')throw new Error(err.message);
-        winston.error(`Unable to showAdminUserIdea :`, err);
-        throw new Error('UNABLE_SHOW_ADMIN_IDEA');
+        if(err.message)throw new Error(err.message);
+        winston.warn(`Controller showAdminUserIdea Error :`, err);
+        throw new Error('CONTROLLER_SHOW_ADMIN_IDEA');
     }
     const result = await pagination.getPagingIdeaData(data, page, limit);
     res.send(result);

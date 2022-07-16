@@ -13,29 +13,32 @@ const signUP = async (req, res) => {
         !authValidation.isValidPw(data.pw) || !authValidation.isValidEmail(data.email)
     )  throw new Error('WRONG_ACCESS');
 
+    let result;
     try{
-        const result = await anonymousService.signUp(data.id, data.pw, data.nickName, data.email, 'normal');
+        result = await anonymousService.signUp(data.id, data.pw, data.nickName, data.email, 'normal');
         //userToken 만드는 트랜잭션은 service레이어에서 동시에 실행
-        res.send({data : result});
     }catch(err){
         if(err.message) throw new Error(err.message);
         winston.error(`Controller signUP Error :`, err);
         throw new Error('CONTROLLER_SIGNUP');
     }
+
+    res.send({data : result});
 }
 
 const sendEmail = async (req, res) => {
     const data = req.body;
     if(!authValidation.isValidEmail(data.email))throw new Error('WRONG_ACCESS');
-
+    let result;
     try{
-        const result = await anonymousService.sendEmail(data.email);
-        res.send({data : result.idx});
+        result = await anonymousService.sendEmail(data.email);
     }catch(err){
         if(err.message) throw new Error(err.message);
         winston.error(`Controller sendEmail Error :`, err);
         throw new Error('CONTROLLER_SEND_EMAIL');
     }
+
+    res.send({data : result.idx});
 }
 const checkEmail = async (req, res) => {
     const data = req.body;
@@ -43,69 +46,73 @@ const checkEmail = async (req, res) => {
 
     try{
         await anonymousService.checkEmail(data.email, data.no);
-        res.send({data : 1});
     }catch(err){
         if(err.message) throw new Error(err.message);
         winston.error(`Controller checkEmail Error :`, err);
         throw new Error('CONTROLLER_CHECK_EMAIL');
     }
+
+    res.send({data : 1});
 }
 //find Id, Pw
 const findIdSendMail = async(req, res) => {
     const data = req.body;
     if(!authValidation.isValidEmail(data.email))throw new Error('WRONG_ACCESS');
+    let result;
     try{
-        const result = await anonymousService.findIdSendMail(data.email);
-        res.send(result);
+        result = await anonymousService.findIdSendMail(data.email);
     }catch(err){
         if(err.message) throw new Error(err.message);
         winston.error(`Controller findIdSendMail Error :`, err);
         throw new Error('CONTROLLER_FIND_ID_SEND_EMAIL');
     }
-    
+
+    res.send(result);
 }
 const findPwSendMail = async(req, res) => {
     const data = req.body;
     if(!authValidation.isValidId(data.id) || !authValidation.isValidEmail(data.email)) throw new Error('WRONG_ACCESS');
-
+    let result;
     try{
-        const result = await anonymousService.findPwSendMail(data.id, data.email);
-        res.send(result);
+        result = await anonymousService.findPwSendMail(data.id, data.email);
     }catch(err){
         if(err.message) throw new Error(err.message);
         winston.error(`Controller findPwSendMail Error :`, err);
         throw new Error('CONTROLLER_FIND_PW_SEND_EMAIL');
     }
+
+    res.send(result);
 }
 const updatePw = async(req, res) => {
     const data = req.body; // data -> email, pw, id
     if(!authValidation.isValidId(data.id) || !authValidation.isValidEmail(data.email)||
     !authValidation.isValidPw(data.pw)) throw new Error('WRONG_ACCESS');
-
+    let result;
     try{
-        const result = await anonymousService.updatePw(data.email, data.pw, data.id);
-        res.send({data : result[0]});
+        result = await anonymousService.updatePw(data.email, data.pw, data.id);
     }catch(err){
         if(err.message) throw new Error(err.message);
         winston.error(`Controller updatePw Error :`, err);
         throw new Error('CONTROLLER_UPDATE_PW');
     }
-}
+    res.send({data : result[0]});
+} 
 
 //로그인
 const signIn = async (req, res) => {
     const data = req.body;
     
     if(!authValidation.isValidId(data.id) || !authValidation.isValidPw(data.pw)) throw new Error('WRONG_ACCESS');
-
+    let result;
     try{
-        const result = await anonymousService.signIn(data.id, data.pw);
-        res.send(result);
+        result = await anonymousService.signIn(data.id, data.pw);
     }catch(err){
         if(err.message) throw new Error(err.message);
         winston.error(`Controller signIn Error :`, err);
         throw new Error('CONTROLLER_SIGNIN');
     }
+
+    res.send(result);
 }
 
 // flow : isLogin을 받았을 경우 -> 1. (id, pw)로 userIdx를 찾는다. 
@@ -114,15 +121,16 @@ const forceSignIn= async(req, res) => {
     const data = req.body;
 
     if(!authValidation.isValidId(data.id) || !authValidation.isValidPw(data.pw)) throw new Error('WRONG_ACCESS');
-
+    let result;
     try{
-        const result = await anonymousService.forceSignIn(data.id, data.pw);
-        res.send(result);
+        result = await anonymousService.forceSignIn(data.id, data.pw);
     }catch(err){
         if(err.message) throw new Error(err.message);
         winston.error(`Controller forceSignIn Error :`, err);
         throw new Error('CONTROLLER_FORCE_SIGNIN');
     }
+
+    res.send(result);
 }
 const logout = async(req, res) => {
     const data = req.body;
@@ -134,6 +142,7 @@ const logout = async(req, res) => {
         winston.error(`Controller logout Error :`, err);
         throw new Error('CONTROLLER_LOGOUT');
     }
+    
     res.send(result);
 }
 
