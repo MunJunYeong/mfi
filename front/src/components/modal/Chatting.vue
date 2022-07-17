@@ -1,6 +1,6 @@
 <template>
     <div class="main">
-        <v-container  class="wrapper" v-if="!minimize">
+        <v-container  class="wrapper" v-if="chattingSize">
             <v-row  class="header">
                 <v-col cols="8" class="userName">
                     {{userName}}
@@ -43,7 +43,7 @@
             </v-row>
 
         </v-container>
-        <v-container  class="minimizeWrapper" v-if="minimize"  v-on:click="recover">
+        <v-container  class="minimizeWrapper" v-if="!chattingSize"  v-on:click="recover">
             {{userName}}
         </v-container>
     </div>
@@ -77,11 +77,19 @@ export default {
             return res;
         },
         contents : function(){
+            const data = this.$store.getters.get_chat_history(this.roomName);
             if(!this.isMounted) {
-                return this.$store.getters.get_chat_history(this.roomName);
+                return data;
             }
-            this.$refs.toBottom.scrollToBottom();
-            return this.$store.getters.get_chat_history(this.roomName);
+            if(!this.startToBottom){
+                this.startToBottom = true;
+                return data;
+            }
+           this.$refs.toBottom.scrollToBottom();
+           return data;
+        },
+        chattingSize : function(){
+            return this.$store.getters.get_chatting_size;
         }
     },
     data() {
@@ -89,7 +97,7 @@ export default {
             msg : '',
             ChattingComponent : ChattingContent,
             isMounted : false,
-            minimize : false,
+            startToBottom : false,
         }
     },
     mounted(){
@@ -124,10 +132,11 @@ export default {
             }
         },
         minimizeChatting(){
-            this.minimize = true;
+            this.$store.dispatch('minimizeChatting');
+            this.startToBottom = false;
         },
         recover(){
-            this.minimize = false;
+            this.$store.dispatch('maximizeChatting');
         }
     }
 }

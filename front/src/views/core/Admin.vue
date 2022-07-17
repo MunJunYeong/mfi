@@ -44,22 +44,34 @@
             </v-col>
         </v-row>
         <v-pagination
-        v-model="currentPage"
-        :length="totalPages && totalPages >= 1? totalPages: 1"
-        @input="handlePageChange"
-        >
-        </v-pagination>
+            v-model="currentPage"
+            :length="totalPages && totalPages >= 1? totalPages: 1"
+            @input="handlePageChange" />
+
+        <v-row v-if="joinRooms.length > 0"  class="chatting">
+            <Chatting v-for="(item,index) in this.joinRooms" :key ="index" 
+                :data="item.data"
+                :roomName = "item.roomName"
+                :chatHistory = "item.chatHistory"
+            />
+        </v-row>
+
     </v-container>
 </template>
-
+<style scoped>
+.chatting{
+    position:fixed; bottom:50px; left: 100px;
+}
+</style>
 <script>
 import UserItem from '../../components/UserItem.vue'
+import Chatting from '../../components/modal/Chatting.vue';
 export default {
     created() {
         this.createPagination();
     },
     components : {
-        UserItem
+        UserItem, Chatting
     },
     data() {
         return {
@@ -80,6 +92,9 @@ export default {
         totalItems : function(){
             return this.$store.getters.admin_get_total_items;
         },
+        joinRooms : function(){
+            return this.$store.getters.get_join_room;
+        }
     },
     methods: {
         checkAdmin(){
@@ -101,6 +116,7 @@ export default {
             }catch(err){
                 console.log(err)
             }
+            if(res === undefined) return;
             if(res.message === 'force logout'){
                 alert('다른 기기에서 로그인하여 로그아웃 되었습니다. 재 로그인 해주세요.');
                 return;

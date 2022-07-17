@@ -7,7 +7,7 @@
             <v-col cols='1' style="border-top: black solid 1px; border-bottom: black solid 1px;text-align: center;">
                 번호
             </v-col>
-            <v-col cols='3' style="border-top: black solid 1px; border-bottom: black solid 1px;text-align: center;">
+            <v-col cols='4' style="border-top: black solid 1px; border-bottom: black solid 1px;text-align: center;">
                 제목
             </v-col>
             <v-col cols='3' style="border-top: black solid 1px; border-bottom: black solid 1px;text-align: center;">
@@ -139,7 +139,12 @@ export default {
             return tempIdea;
         },
         totalPages : function(){
-            return this.$store.getters.idea_get_total_pages;
+            //temp가 observer객체로 표현이 되어서 length가 0 이상일 때 처리를 해주어 에러 해결
+            const temp = this.$store.getters.idea_get_total_pages;
+            if(temp && temp.length > 0){
+                return temp;
+            }
+            return 0;
         },
         startPageIndex : function(){
             return ((Number(this.currentPage) - 1) * 6) + 1;
