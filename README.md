@@ -66,6 +66,7 @@ Architecture
 |   |     ├── chatting.js
 |   |     ├── idea.js
 |   |     ├── index.js
+|   |     ├── statistics.js
 │   ├── store
 |   |     ├── modules
 |   |    |    ├── anonymous.js
@@ -73,6 +74,12 @@ Architecture
 |   |    |    ├── auth.js
 |   |    |    ├── chatting.js
 |   |    |    ├── idea.js
+|   |    |    ├── statistics.js
+|   |     ├── index.js
+│   ├── utils
+|   |     ├── validation
+|   |    |    ├── auth
+|   |    |    ├── core
 |   |     ├── index.js
 │   └── views
 |   |    ├── auth
@@ -116,12 +123,14 @@ Architecture
 |   |     ├── index.js
 │   ├── lib
 |   |     ├── common
+|   |     |    ├── validation
+|   |     |    |     |── anonymous.js
+|   |     |    |     |── index.js
+|   |     |    ├── error.js
 |   |     |    ├── index.js
+|   |     |    ├── jwt.js
 |   |     |    ├── middleware.js
 |   |     |    ├── pagination.js
-|   |     |    ├── error.js
-|   |     |    ├── jwt.js
-|   |     |    ├── utils.js
 |   |     |    ├── winston.js
 |   |     ├── db
 |   |     |    ├── config
@@ -140,8 +149,16 @@ Architecture
 |   |     |    |     |── visitor.js
 |   |     |    ├── seeders
 |   |     |    |     |── db model만큼.js
+|   |     |    ├── index.js
 │   ├── logs
 |   |     ├── error, warn 등 파일 저장
+│   ├── repository
+|   |     ├── anonymous
+|   |     ├── comment
+|   |     ├── idea
+|   |     ├── statistics
+|   |     ├── user
+|   |     ├── index.js
 │   ├── router
 |   |     ├── anonymous
 |   |     ├── comment
@@ -155,9 +172,9 @@ Architecture
 |   |     ├── anonymous
 |   |     ├── comment
 |   |     ├── idea
-|   |     ├── news
+|   |     ├── statistics
 |   |     ├── user
-|   |     ├── visitor
+|   |     ├── index.js
 │   ├── socketEvent
 |   |     ├── anonymous.js
 |   |     ├── chatting.js
