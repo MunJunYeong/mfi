@@ -28,6 +28,13 @@
                     </div>
                 </v-col>
             </v-row>
+            <v-row v-if="joinRooms.length > 0"  id="chatting" class="pc">
+                <Chatting v-for="(item,index) in this.joinRooms" :key ="index" 
+                    :data="item.data"
+                    :roomName = "item.roomName"
+                    :chatHistory = "item.chatHistory"
+                />
+            </v-row>
         </v-container>
 
         <v-container class="mobile">
@@ -79,10 +86,21 @@
         display: none;
     }
 }
+#chatting{
+    position:fixed; bottom:50px; left: 100px;
+}
 </style>
 <script>
+import Chatting from '../../components/modal/Chatting.vue';
 export default {
     name : 'notice',
-    
+    components : {
+      Chatting
+    },
+    computed : {
+      joinRooms : function(){
+          return this.$store.getters.get_join_room;
+      }
+    },
 }
 </script>

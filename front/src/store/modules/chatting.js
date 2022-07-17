@@ -5,6 +5,7 @@ const chattingSocketModule = {
       currentConnectUserData : [],
       room: {},
       joinRooms : [],
+      chattingSize : true,
     },
     mutations : {
       set_current_user_data(state, data){
@@ -48,6 +49,12 @@ const chattingSocketModule = {
         })
         state.joinRooms = temp;
       },
+      set_chatting_minimize(state){
+        state.chattingSize = false;
+      },
+      set_chatting_maximize(state){
+        state.chattingSize = true;
+      },
     },
     getters : {
       get_current_user_data(state){
@@ -63,9 +70,11 @@ const chattingSocketModule = {
         return state.room[roomName].chatHistory;
       },
       get_room_count(state){
-        return state.joinRooms.length
+        return state.joinRooms.length;
       },
-      
+      get_chatting_size(state){
+        return state.chattingSize;
+      }
     },
 
     actions : {
@@ -99,7 +108,14 @@ const chattingSocketModule = {
       receiveQuitChatting({commit}, data){
         alert('상대방이 채팅방을 나갔습니다.');
         commit('remove_chatting', data);
-      }
+      },
+      minimizeChatting({commit}){
+        commit('set_chatting_minimize');
+      },
+      maximizeChatting({commit}){
+        commit('set_chatting_maximize');
+      },
+
     }
 }
 
