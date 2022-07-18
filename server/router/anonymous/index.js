@@ -34,8 +34,8 @@ anonymousRouter.get('/info/idea', middleware.validateToken ,ideaController.showM
 anonymousRouter.get('/user/:userIdx/idea', ideaController.showAdminUserIdea);
 
 //OAuth
-anonymousRouter.get('/signin/naver', (req,res) => {
-    console.log(req);
+anonymousRouter.post('/signin/naver', (req,res) => {
+    console.log(req.body);
 });
 
 module.exports = anonymousRouter;

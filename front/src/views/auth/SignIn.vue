@@ -46,19 +46,18 @@
         </v-col>
       </v-row>
       <v-row justify="center" >
-        <v-col cols='3' class="authLogin" v-on:click="naverLogin">
-          <!-- <router-link to=""> -->
-              <v-img  src="@/assets/naver_login.png"  class="image" />
-          <!-- </router-link> -->
+        <v-col cols='3' class="authLogin" >
+          <div id="naver_id_login"></div>
         </v-col>
       </v-row>
-      <v-row justify="center" >
+      <!-- 카카오 로그인 -->
+      <!-- <v-row justify="center" >
         <v-col cols='3' class="authLogin">
           <router-link to="/home">
               <v-img  src="@/assets/kakao_login.png"  class="image" />
           </router-link>
         </v-col>
-      </v-row>
+      </v-row> -->
       <br><br>
     </v-container>
     <v-container class="mobile">
@@ -134,12 +133,15 @@
 <script>
   import VueCookies from "vue-cookies";
   import {signValidation} from '../../utils/validation/index';
-  import {anonymous} from '../../services';
+  import {naverService} from '../../services';
   export default {
     name: 'SignIn',
     
     props : {
       
+    },
+    mounted(){
+      naverService.setNaverLogin();
     },
     data() {
       return{
@@ -150,12 +152,8 @@
       }
     },
     methods: {
-      async naverLogin(){
-        await anonymous.naverLogin();
-      },
       async login(){
         let res;
-
         const preorderId = signValidation.checkId(this.id);
         if(preorderId.message){
           alert('[아이디] ' +preorderId.message); return;

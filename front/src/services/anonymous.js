@@ -149,24 +149,9 @@ const updatePw = async (data)=> {
     return res;
 }
 
-const naverLogin = async()=> {
-    let res;
-    const client_id = 'F3CEZShVnOqQAoKzfili';
-    const redirect_uri = 'http://127.0.0.1:8080/signin/naver';
-    const state = '';
-    const secret = '64VA9sC5Kj';
-    try{
-        console.log('1111');
-        // res =await axios.get(`https://nid.naver.com/oauth2.0/authorize?client_id=${client_id}&response_type=code&redirect_uri=${redirect_uri}&state=`);
-
-    }catch(err){
-        console.log(err);
-    }
-    console.log(res)
-}
 
 export default{
     checkId, checkNickName, sendEmail,checkAuthEmail, signUp,
     getUserData, login, forceLogin, findIdSendEmail,
-    findPwSendEmail, findPwCheckEmail, updatePw, naverLogin
+    findPwSendEmail, findPwCheckEmail, updatePw, 
 }
