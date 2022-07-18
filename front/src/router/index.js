@@ -15,6 +15,7 @@ import News from '../views/core/News.vue'
 import coreLayoutIndexVue from '../views/core/layout/Index.vue'
 import authLayoutIndexVue from '../views/auth/layout/Index.vue'
 
+import NaverSignIn from '../views/auth/NaverSignIn.vue';
 import SignIn from '../views/auth/SignIn.vue'
 import SignUp from '../views/auth/SignUp.vue'
 import FindId from '../views/auth/FindId.vue'
@@ -46,6 +47,10 @@ const routes = [
       {
         path:'signIn',
         component: SignIn,
+      },
+      {
+        path : 'signin/naver',
+        component : NaverSignIn
       },
       {
         path: 'signUp',
