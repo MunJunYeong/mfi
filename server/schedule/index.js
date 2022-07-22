@@ -1,18 +1,16 @@
-const {visitor : visitorService} = require('../service');
-const {news : newsService} = require('../service');
 const schedule = require('node-schedule');
 const axios = require('axios');
-
+const {statistics : statisticsRepo} =require('../repository');
 const addTotal = schedule.scheduleJob('0 0 0 * * *', async ()=>{
-    const totalCnt = await visitorService.getTotalVisitor();
-    const updateTotal = await visitorService.updateTotalVisitor(parseInt(totalCnt));
+    const totalCnt = await statisticsRepo.getTotalVisitor();
+    const updateTotal = await statisticsRepo.updateTotalVisitor(parseInt(totalCnt));
     if(parseInt(updateTotal)){
         console.log('success visitor update')
     }
 })
 
 const getNews = schedule.scheduleJob('0 21 13 * * *', async ()=>{
-    await newsService.deleteNews();
+    await statisticsRepo.deleteNews();
     const headers = {
         'Content-type': 'application/json; charset=UTF-8',
         'Accept': '*/*',
@@ -27,7 +25,7 @@ const getNews = schedule.scheduleJob('0 21 13 * * *', async ()=>{
     });
     let res;
     for(let i = 0; i < httpRes.data.length; i++){
-        res = await newsService.createNews(httpRes.data[i]);
+        res = await statisticsRepo.createNews(httpRes.data[i]);
     }
     
 })
