@@ -18,7 +18,11 @@ Vue.use(VueCookies);
 const init  = async () => {
   await anonymousSocket.initialize();
   let token = localStorage.getItem('accessToken');
-
+  if(token === '') {
+    localStorage.removeItem('accessToken')
+    location.href='/home';  
+    return;
+  }
   //현재 접속자 수
   await store.dispatch('current_user_count');
 
