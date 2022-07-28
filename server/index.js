@@ -12,7 +12,6 @@ const requestIp = require('request-ip');
 const cookParser = require('cookie-parser');
 
 const { Server } = require("socket.io");
-
 const db = require('./lib/db');
 //logging
 const winston = require('./lib/common/winston');
@@ -45,6 +44,7 @@ app.use(requestIp.mw());
 
 const schedule = require('./schedule');
 schedule.addTotal
+schedule.getNews
 
 app.use(router.basicRouter);
 //next를 써서 유보시키는 것이 맞는가 ?

@@ -1,6 +1,7 @@
 const schedule = require('node-schedule');
 const axios = require('axios');
 const {statistics : statisticsRepo} =require('../repository');
+
 const addTotal = schedule.scheduleJob('0 0 0 * * *', async ()=>{
     const totalCnt = await statisticsRepo.getTotalVisitor();
     const updateTotal = await statisticsRepo.updateTotalVisitor(parseInt(totalCnt));
@@ -9,6 +10,7 @@ const addTotal = schedule.scheduleJob('0 0 0 * * *', async ()=>{
     }
 })
 
+//0 21 13 * * *
 const getNews = schedule.scheduleJob('0 21 13 * * *', async ()=>{
     await statisticsRepo.deleteNews();
     const headers = {
@@ -24,8 +26,10 @@ const getNews = schedule.scheduleJob('0 21 13 * * *', async ()=>{
       headers,
     });
     let res;
+    console.log(httpRes.data[0])
     for(let i = 0; i < httpRes.data.length; i++){
-        res = await statisticsRepo.createNews(httpRes.data[i]);
+        const data = httpRes.data[i];
+        res = await statisticsRepo.createNews(data.tit, data.subcontent, data.oid, data.aid, data.ohnm, data.dt);
     }
     
 })
