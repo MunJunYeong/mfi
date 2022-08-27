@@ -1,10 +1,8 @@
 const express = require('express')
-const passport = require('passport');
 const anonymousRouter = express.Router();
 const {anonymous: anonymousController} = require('../../controllers');
 const {idea : ideaController} = require('../../controllers');
 const {middleware} = require('../../lib/common/index')
-
 
 //회원가입하기
 anonymousRouter.post('/signup', anonymousController.signUP);

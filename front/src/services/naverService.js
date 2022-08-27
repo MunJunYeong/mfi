@@ -10,7 +10,7 @@ const setNaverLogin = ()=> {
 }
 
 const getNaverData = async ()=> {
-    const naver_id_login = await new window.naver_id_login(VUE_APP_NAVER_CLIENT_ID, VUE_APP_NAVER_CALL_BACK_URL);
+    const naver_id_login = new window.naver_id_login(VUE_APP_NAVER_CLIENT_ID, VUE_APP_NAVER_CALL_BACK_URL);
     let res;
     try{
         res = await axios.post(VUE_APP_BACKEND_HOST + '/signin/naver',{

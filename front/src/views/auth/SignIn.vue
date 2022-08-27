@@ -45,6 +45,7 @@
           </div>
         </v-col>
       </v-row>
+      <!-- 네이버 로그인 -->
       <v-row justify="center" >
         <v-col cols='3' class="authLogin" >
           <div id="naver_id_login"></div>
@@ -136,7 +137,6 @@
   import {naverService} from '../../services';
   export default {
     name: 'SignIn',
-    
     props : {
       
     },
