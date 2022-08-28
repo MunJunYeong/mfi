@@ -45,14 +45,14 @@
           </div>
         </v-col>
       </v-row>
-      <!-- 네이버 로그인 -->
+      <!-- 네이버 로그인
       <v-row justify="center" >
         <v-col cols='3' class="authLogin" >
           <div id="naver_id_login"></div>
         </v-col>
-      </v-row>
-      <!-- 카카오 로그인 -->
-      <!-- <v-row justify="center" >
+      </v-row> -->
+      <!-- 카카오 로그인
+      <v-row justify="center" >
         <v-col cols='3' class="authLogin">
           <router-link to="/home">
               <v-img  src="@/assets/kakao_login.png"  class="image" />
