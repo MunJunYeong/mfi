@@ -141,7 +141,7 @@
       
     },
     mounted(){
-      naverService.setNaverLogin();
+      // naverService.setNaverLogin();
     },
     data() {
       return{
