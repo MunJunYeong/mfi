@@ -134,7 +134,7 @@
 <script>
   import VueCookies from "vue-cookies";
   import {signValidation} from '../../utils/validation/index';
-  import {naverService} from '../../services';
+  // import {naverService} from '../../services';
   export default {
     name: 'SignIn',
     props : {
