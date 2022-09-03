@@ -147,7 +147,6 @@
     </v-container>
 </template>
 <script>
-
     import IdeaItem from '../../components/IdeaItem.vue'
     import Chatting from '../../components/modal/Chatting.vue';
     export default {
