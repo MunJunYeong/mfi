@@ -1,4 +1,3 @@
-
 <template>
     <v-container style=""> 
         <!-- background-color:#F5F5F5; -->
@@ -252,7 +251,7 @@ import Chatting from '../../components/modal/Chatting.vue';
     position: relative;
 }
 .chatting{
-    position:fixed; bottom: 20px; left: 100px; margin-left: 20px;
+    position:fixed; bottom: 50px; left: 100px;
 }
 
 #mfi_mean{
