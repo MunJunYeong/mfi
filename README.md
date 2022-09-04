@@ -30,7 +30,90 @@ Skills
     - Git, sourcetree
 
 
-Architecture
+Backend Architecture
+------------
+```bash
+├── Server //각 폴더 안에는 index.js가 존재
+│   ├── controllers
+|   |     ├── anonymous
+|   |     ├── comment
+|   |     ├── idea
+|   |     ├── socket
+|   |     |    ├── anonymousSocket.js
+|   |     |    ├── chattingSocket.js
+|   |     |    ├── index.js
+|   |     ├── statistics
+|   |     ├── user
+|   |     ├── index.js
+│   ├── lib
+|   |     ├── common
+|   |     |    ├── validation
+|   |     |    |     |── anonymous.js
+|   |     |    |     |── index.js
+|   |     |    ├── error.js
+|   |     |    ├── index.js
+|   |     |    ├── jwt.js
+|   |     |    ├── middleware.js
+|   |     |    ├── pagination.js
+|   |     |    ├── winston.js
+|   |     ├── db
+|   |     |    ├── config
+|   |     |    |     |── index.js
+|   |     |    ├── migrations
+|   |     |    |     |── db model만큼 .js
+|   |     |    ├── model
+|   |     |    |     |── authentication.js
+|   |     |    |     |── comment.js
+|   |     |    |     |── idea.js
+|   |     |    |     |── index.js
+|   |     |    |     |── news.js
+|   |     |    |     |── totalVisitor.js
+|   |     |    |     |── user.js
+|   |     |    |     |── userToken.js
+|   |     |    |     |── visitor.js
+|   |     |    ├── seeders
+|   |     |    |     |── db model만큼.js
+|   |     |    ├── index.js
+│   ├── logs
+|   |     ├── error, warn 등 파일 저장
+│   ├── repository
+|   |     ├── anonymous
+|   |     ├── comment
+|   |     ├── idea
+|   |     ├── statistics
+|   |     ├── user
+|   |     ├── index.js
+│   ├── router
+|   |     ├── anonymous
+|   |     ├── comment
+|   |     ├── idea
+|   |     ├── statistics
+|   |     ├── user
+|   |     ├── index.js
+│   ├── schedule
+|   |     ├── index.js
+│   ├── service
+|   |     ├── anonymous
+|   |     ├── comment
+|   |     ├── idea
+|   |     ├── statistics
+|   |     ├── user
+|   |     ├── index.js
+│   ├── socketEvent
+|   |     ├── anonymous.js
+|   |     ├── chatting.js
+|   |     ├── index.js
+│   ├── index.js
+│   ├── .env.js
+│   ├── .sequelizerc.js
+│   ├── dockerfile.js
+│   ├── package.json
+│   └── index.js
+├── docker-compose.yaml
+```
+
+
+Front Architecture
 ------------
 
 ```bash
@@ -109,84 +192,6 @@ Architecture
 │   ├── App.vue
 │   ├── package.json
 |   |
-├── Server //각 폴더 안에는 index.js가 존재
-│   ├── controllers
-|   |     ├── anonymous
-|   |     ├── comment
-|   |     ├── idea
-|   |     ├── socket
-|   |     |    ├── anonymousSocket.js
-|   |     |    ├── chattingSocket.js
-|   |     |    ├── index.js
-|   |     ├── statistics
-|   |     ├── user
-|   |     ├── index.js
-│   ├── lib
-|   |     ├── common
-|   |     |    ├── validation
-|   |     |    |     |── anonymous.js
-|   |     |    |     |── index.js
-|   |     |    ├── error.js
-|   |     |    ├── index.js
-|   |     |    ├── jwt.js
-|   |     |    ├── middleware.js
-|   |     |    ├── pagination.js
-|   |     |    ├── winston.js
-|   |     ├── db
-|   |     |    ├── config
-|   |     |    |     |── index.js
-|   |     |    ├── migrations
-|   |     |    |     |── db model만큼 .js
-|   |     |    ├── model
-|   |     |    |     |── authentication.js
-|   |     |    |     |── comment.js
-|   |     |    |     |── idea.js
-|   |     |    |     |── index.js
-|   |     |    |     |── news.js
-|   |     |    |     |── totalVisitor.js
-|   |     |    |     |── user.js
-|   |     |    |     |── userToken.js
-|   |     |    |     |── visitor.js
-|   |     |    ├── seeders
-|   |     |    |     |── db model만큼.js
-|   |     |    ├── index.js
-│   ├── logs
-|   |     ├── error, warn 등 파일 저장
-│   ├── repository
-|   |     ├── anonymous
-|   |     ├── comment
-|   |     ├── idea
-|   |     ├── statistics
-|   |     ├── user
-|   |     ├── index.js
-│   ├── router
-|   |     ├── anonymous
-|   |     ├── comment
-|   |     ├── idea
-|   |     ├── statistics
-|   |     ├── user
-|   |     ├── index.js
-│   ├── schedule
-|   |     ├── index.js
-│   ├── service
-|   |     ├── anonymous
-|   |     ├── comment
-|   |     ├── idea
-|   |     ├── statistics
-|   |     ├── user
-|   |     ├── index.js
-│   ├── socketEvent
-|   |     ├── anonymous.js
-|   |     ├── chatting.js
-|   |     ├── index.js
-│   ├── index.js
-│   ├── .env.js
-│   ├── .sequelizerc.js
-│   ├── dockerfile.js
-│   ├── package.json
-│   └── index.js
-├── docker-compose.yaml
-
 ``` 
 
  
