@@ -23,6 +23,7 @@ Skills
 - Backend :
     - Node.js
     - Express, Sequelize
+    - Nest, TypeORM
 - DevOps :
     - AWS EC2, Route53, RDS
     - PostgreSQL
