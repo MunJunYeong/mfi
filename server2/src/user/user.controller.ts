@@ -3,6 +3,10 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
+// `constructor`를 사용하여 `UserService` 클래스를 가져와 사용한다.
+// controller에 service를 주입하기 위해서는 user.module.ts에 controller와 service가 정의되어야 한다.
+ 
+
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -14,13 +18,12 @@ export class UserController {
 
   @Get()
   async findAll() {
-    return this.userService.findAll();
-    // return await this.boardService.findAll();
+    return this.userService.findAllUserList();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+    return this.userService.findOneUser(+id);
   }
 
   @Patch(':id')

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto'; 
 import { User } from './entities/user.entity';
@@ -11,6 +11,12 @@ export class UserService {
   //signup
   async createUser(createUserDto: CreateUserDto) {
     const {id, pw, name} = createUserDto;
+
+    // nest의 NotFoundException 을 통해 손쉽게 에러핸들링 가능
+    if(!id || !pw || !name){
+      throw new NotFoundException('wrong data');
+    }
+
     let newUser = new User();
     newUser.id = id;
     newUser.pw = pw;
@@ -19,12 +25,12 @@ export class UserService {
     return await this.userRepo.save(newUser);
   }
 
-  findAll() {
-    return this.userRepo.create();
+  findAllUserList() {
+    return this.userRepo.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  findOneUser(id: number) {
+    return this.userRepo.findOne({id});
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {

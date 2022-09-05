@@ -7,5 +7,7 @@ import { User } from "./entities/user.entity";
 
 @CustomRepository(User)
 export class UserRepo extends Repository<User>{
+    
 
+    
 }
