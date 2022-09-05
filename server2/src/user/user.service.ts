@@ -9,7 +9,7 @@ export class UserService {
   constructor(private userRepo: UserRepo) {}
   
   //signup
-  async create(createUserDto: CreateUserDto) {
+  async createUser(createUserDto: CreateUserDto) {
     const {id, pw, name} = createUserDto;
     let newUser = new User();
     newUser.id = id;
