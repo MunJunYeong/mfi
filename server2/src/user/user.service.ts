@@ -4,6 +4,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { UserRepo } from './user.repo'
 
+// Nest IoC 컨테이너에서 관리할 수 있는 클래스임을 선언
 @Injectable()
 export class UserService {
   constructor(private userRepo: UserRepo) {}
@@ -25,19 +26,26 @@ export class UserService {
     return await this.userRepo.save(newUser);
   }
 
-  findAllUserList() {
-    return this.userRepo.find();
+  async findAllUserList() {
+    return await this.userRepo.find();
   }
 
-  findOneUser(id: number) {
-    return this.userRepo.findOne({id});
+  async findOneUser(userIdx: number) {
+    const userData = await  this.userRepo.findOne({
+      where : {userIdx : userIdx}
+    });
+    return userData;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async updateName(userIdx: number, updateUserDto: UpdateUserDto) {
+    const id: string = updateUserDto.id;
+    await this.userRepo.update(userIdx, {id});
+    // entity Column과 일치해야지 update 가능.
+    return `This action updates a #${userIdx} user`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async removeUser(userIdx: number) {
+    await this.userRepo.delete(userIdx);
+    return `This action removes a #${userIdx} user`;
   }
 }

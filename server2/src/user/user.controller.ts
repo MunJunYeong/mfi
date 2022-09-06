@@ -18,21 +18,21 @@ export class UserController {
 
   @Get()
   async findAll() {
-    return this.userService.findAllUserList();
+    return await this.userService.findAllUserList();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
+  @Get(':userIdx')
+  findOne(@Param('userIdx') id: string) {
     return this.userService.findOneUser(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+  @Patch(':userIdx')
+  updateName(@Param('userIdx') userIdx: number, @Body() updateUserDto: UpdateUserDto) {
+    return this.userService.updateName(userIdx, updateUserDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+  @Delete(':userIdx')
+  remove(@Param('userIdx') userIdx: number) {
+    return this.userService.removeUser(userIdx);
   }
 }
