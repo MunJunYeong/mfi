@@ -1,11 +1,29 @@
 import { Injectable } from '@nestjs/common';
+import { User } from '..//user/entities/user.entity';
+import { UserService } from '../user/user.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { Product } from './entities/product.entity';
+import { ProductRepo } from './product.repo';
 
 @Injectable()
 export class ProductService {
-  create(createProductDto: CreateProductDto) {
-    return 'This action adds a new product';
+  constructor(private productRepo: ProductRepo, private userService: UserService){}
+
+  async create(createProductDto: CreateProductDto) {
+    const {name, price, userIdx} = createProductDto;
+
+    const newProduct = new Product();
+
+    newProduct.name = name;
+    newProduct.price = price;
+
+    const getUser: User = await this.userService.findOneUser(userIdx);
+    console.log(getUser);
+    newProduct.user = getUser;
+    console.log(newProduct)
+    // return await this.productRepo.clear(getUser);
+    return 'aa';
   }
 
   findAll() {
