@@ -1,5 +1,6 @@
 const {models, Op} = require('../../lib/db');
 const winston = require('../../lib/common/winston');
+const { Sequelize } = require('sequelize/types');
 
 
 const findUserById = async (id) => {
@@ -73,6 +74,25 @@ const makeUserToken= async (idx)=> {
         throw new Error('DB_MAKE_USER_TOKEN');
     }
 }
+// 트랜잭션 예시
+// const createNewUser = async () => {
+//     Sequelize.transaction((t) => {
+//         const res = await models['user'].create({
+//             id : id,
+//             pw : pw,
+//             nickName : nickName,
+//             email : email,
+//             role : role
+//         }, t);
+//         if (!res) throw Error();
+//         const res = await models['userToken'].create({
+//             userIdx : idx,
+//             token : '',
+//             refresh : '',
+//         }, t)
+//     })
+// }
+
 const haveUserToken = async (userIdx)=> {
     try{
         const result = await models['userToken'].findOne({

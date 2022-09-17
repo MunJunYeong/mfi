@@ -17,8 +17,10 @@ export class User {
     name: string;
 
     @OneToMany(()=> Product, (product)=> product.user, {
-        onDelete : 'CASCADE'
+        onDelete : 'CASCADE',
+        nullable: true
     })
+    product: Product[];
 
     // DB에 넣기 전에 비밀번호 복호화 할 수 없게 hash함수를 이용해 저장
     @BeforeInsert()

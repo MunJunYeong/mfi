@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { User } from '..//user/entities/user.entity';
-import { UserService } from '../user/user.service';
+// import { UserService } from '../user/user.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
@@ -8,7 +8,7 @@ import { ProductRepo } from './product.repo';
 
 @Injectable()
 export class ProductService {
-  constructor(private productRepo: ProductRepo, private userService: UserService){}
+  constructor(private productRepo: ProductRepo){}
 
   async create(createProductDto: CreateProductDto) {
     const {name, price, userIdx} = createProductDto;
@@ -18,9 +18,9 @@ export class ProductService {
     newProduct.name = name;
     newProduct.price = price;
 
-    const getUser: User = await this.userService.findOneUser(userIdx);
-    console.log(getUser);
-    newProduct.user = getUser;
+    // const getUser: User = await this.userService.findOneUser(userIdx);
+    // console.log(getUser);
+    // newProduct.user = getUser;
     console.log(newProduct)
     // return await this.productRepo.clear(getUser);
     return 'aa';

@@ -12,12 +12,12 @@ export class Product {
     @Column()
     price: number;
 
-    @ManyToOne(()=> User, (user)=> user.userIdx)
+    @ManyToOne(()=> User, (user)=> user.userIdx, {nullable: true})
     @JoinColumn([
         {
             name : 'userIdx',
             referencedColumnName : 'userIdx'
-        }
+        },
     ])
     user: User;
 
