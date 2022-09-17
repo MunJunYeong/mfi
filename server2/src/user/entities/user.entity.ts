@@ -20,7 +20,7 @@ export class User {
         onDelete : 'CASCADE',
         nullable: true
     })
-    product: Product[];
+    products: Product[];
 
     // DB에 넣기 전에 비밀번호 복호화 할 수 없게 hash함수를 이용해 저장
     @BeforeInsert()
