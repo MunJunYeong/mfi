@@ -1,6 +1,6 @@
 import { BeforeInsert, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import * as argon2 from "argon2";
-import { Product } from "src/product/entities/product.entity";
+import { Product } from "../../product/entities/product.entity";
 
 @Entity('user')
 export class User {
