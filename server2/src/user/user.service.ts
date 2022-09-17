@@ -27,7 +27,8 @@ export class UserService {
   }
 
   async findAllUserList() {
-    return await this.userRepo.find();
+    console.log(await this.userRepo.findAllUserList11());
+    // return await this.userRepo.find();
   }
 
   async findOneUser(userIdx: number) {
