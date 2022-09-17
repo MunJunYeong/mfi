@@ -3,10 +3,10 @@ import { ProductService } from './product.service';
 import { ProductController } from './product.controller';
 import { TypeOrmExModule } from '../db/typeorm-ex.module';
 import { ProductRepo } from './product.repo';
-import { UserService } from '../user/user.service';
+import { UserRepo } from '../user/user.repo';
 
 @Module({
-  imports : [TypeOrmExModule.forCustomRepository([ProductRepo])],
+  imports : [TypeOrmExModule.forCustomRepository([ProductRepo, UserRepo])],
   controllers: [ProductController],
   providers: [ProductService, ],
   // exports : [ProductService],

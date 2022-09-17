@@ -9,7 +9,6 @@ import { UserRepo } from './user.repo'
 export class UserService {
   constructor(private userRepo: UserRepo) {}
   
-  //signup
   async createUser(createUserDto: CreateUserDto) {
     const {id, pw, name} = createUserDto;
 
@@ -23,19 +22,35 @@ export class UserService {
     newUser.pw = pw;
     newUser.name = name;
 
-    return await this.userRepo.save(newUser);
+    let result: object;
+    try{
+      result = await this.userRepo.save(newUser);
+    }catch(err){
+      console.log(err);
+    }
+    return result;
   }
 
   async findAllUserList() {
-    console.log(await this.userRepo.findAllUserList11());
-    // return await this.userRepo.find();
+    let result: User[];
+    try{
+      result = await this.userRepo.find();
+    }catch(err){
+      console.log(err);
+    }
+    return result;
   }
 
   async findOneUser(userIdx: number) {
-    const userData = await  this.userRepo.findOne({
-      where : {userIdx : userIdx}
-    });
-    return userData;
+    let result: User = new User();
+    try {
+      result = await  this.userRepo.findOne({
+        where : {userIdx : userIdx}
+      });
+    }catch(err){
+      console.log(err)
+    }
+    return result;
   }
 
   async updateName(userIdx: number, updateUserDto: UpdateUserDto) {
