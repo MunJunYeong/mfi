@@ -14,6 +14,7 @@ export class ProductService {
     const {name, price, userIdx} = createProductDto;
     const newProduct = new Product();
     let user: User = new User();
+    //userIdx가 없을 경우에 자동으로 처음 userData 가지고 옴
     try{
       user = await this.userRepo.findOne({
          where : {

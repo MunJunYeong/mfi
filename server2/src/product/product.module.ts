@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { ProductController } from './product.controller';
-import { TypeOrmExModule } from '../db/typeorm-ex.module';
+import { TypeOrmExModule } from '../lib/db/typeorm-ex.module';
 import { ProductRepo } from './product.repo';
 import { UserRepo } from '../user/user.repo';
 
