@@ -1,7 +1,7 @@
-import { CustomRepository } from "../db/typeorm-ex.decorator";
+import { CustomRepository } from "../lib/db/typeorm-ex.decorator";
 import { Repository } from "typeorm";
 import { User } from "./entities/user.entity";
-import { TypeOrmExModule } from "../db/typeorm-ex.module";
+import { TypeOrmExModule } from "../lib/db/typeorm-ex.module";
 import { Product } from "../product/entities/product.entity";
 import { time } from "console";
 
