@@ -6,14 +6,14 @@ const env = process.env.NODE_ENV;
 const logDir = __dirname + '/../../logs';
 
 const dailyOptions = (level: string) => {
-  return {
-    level,
-    datePattern: 'YYYY-MM-DD',
-    dirname: logDir + `/${level}`,
-    filename: `%DATE%.${level}.log`,
-    maxFiles: 30, //30일치 로그파일 저장
-    zippedArchive: true, // 로그가 쌓이면 압축하여 관리
-  };
+    return {
+      level,
+      datePattern: 'YYYY-MM-DD',
+      dirname: logDir + `/${level}`,
+      filename: `%DATE%.${level}.log`,
+      maxFiles: 30, //30일치 로그파일 저장
+      zippedArchive: true, // 로그가 쌓이면 압축하여 관리
+    };
 };
 
 // rfc5424를 따르는 winston만의 log level
@@ -26,7 +26,7 @@ export const winstonLogger = WinstonModule.createLogger({
                 winston.format.combine(
                     winston.format.timestamp(),
                     utilities.format.nestLike('local', {
-                    prettyPrint: true, // nest에서 제공하는 옵션. 로그 가독성을 높여줌
+                        prettyPrint: true, // nest에서 제공하는 옵션. 로그 가독성을 높여줌
                     }),
                 )
                 : 
