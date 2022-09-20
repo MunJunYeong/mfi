@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto'; 
 import { User } from './entities/user.entity';
@@ -11,10 +11,12 @@ export class UserService {
   
   async createUser(createUserDto: CreateUserDto) {
     const {id, pw, name} = createUserDto;
-
-    // nest의 NotFoundException 을 통해 손쉽게 에러핸들링 가능
+    
+    // value validation
     if(!id || !pw || !name){
-      throw new NotFoundException('wrong data');
+      throw new HttpException({
+        error : 'wrong data'
+      }, HttpStatus.BAD_REQUEST);
     }
 
     let newUser = new User();
@@ -26,7 +28,10 @@ export class UserService {
     try{
       result = await this.userRepo.save(newUser);
     }catch(err){
-      console.log(err);
+      throw new HttpException({
+        error : 'db error'
+      }, HttpStatus.INTERNAL_SERVER_ERROR);
+      
     }
     return result;
   }
@@ -36,7 +41,9 @@ export class UserService {
     try{
       result = await this.userRepo.find();
     }catch(err){
-      console.log(err);
+      throw new HttpException({
+        error : 'db error'
+      }, HttpStatus.INTERNAL_SERVER_ERROR);
     }
     return result;
   }
@@ -48,14 +55,28 @@ export class UserService {
         where : {userIdx : userIdx}
       });
     }catch(err){
-      console.log(err)
+      throw new HttpException({
+        error : 'db error'
+      }, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    if(result === null){
+      throw new HttpException({
+        error : 'not found'
+      }, HttpStatus.NOT_FOUND);
     }
     return result;
   }
 
   async updateName(userIdx: number, updateUserDto: UpdateUserDto) {
     const id: string = updateUserDto.id;
-    await this.userRepo.update(userIdx, {id});
+    try{
+      await this.userRepo.update(userIdx, {id});
+    }catch(err){
+      throw new HttpException({
+        error : 'db error'
+      }, HttpStatus.INTERNAL_SERVER_ERROR)
+    }
     // entity Column과 일치해야지 update 가능.
     return `This action updates a #${userIdx} user`;
   }
