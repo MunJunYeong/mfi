@@ -10,6 +10,8 @@ import { PostgresConfigService } from './configs/db/config.service';
 import { ProductModule } from './product/product.module';
 import { LoggerMiddleware } from './lib/common/middleware/logger.middleware';
 import { ProductController } from './product/product.controller';
+import { APP_FILTER } from '@nestjs/core';
+import { HttpExceptionFilter } from './lib/common/http-exception.filter';
 
 @Module({
   imports: [
@@ -26,7 +28,13 @@ import { ProductController } from './product/product.controller';
     ProductModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    { // custom exception filter가 module에 적용
+      provide : APP_FILTER,
+      useClass : HttpExceptionFilter
+    }
+  ],
 })
 
 export class AppModule implements NestModule{
