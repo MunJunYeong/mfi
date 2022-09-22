@@ -15,7 +15,8 @@ export class UserService {
     // value validation
     if(!id || !pw || !name){
       throw new HttpException({
-        error : 'wrong data'
+        error : 'wrong data',
+
       }, HttpStatus.BAD_REQUEST);
     }
 
@@ -28,6 +29,7 @@ export class UserService {
     try{
       result = await this.userRepo.save(newUser);
     }catch(err){
+      //db error 는 http 에러가 아니니깐 그 에러 해당 객체로 보내고 컨트롤러에서 http 에러로 던져ㅜ더=던가 매핑을 다시 하는 과정이 필요
       throw new HttpException({
         error : 'db error'
       }, HttpStatus.INTERNAL_SERVER_ERROR);

@@ -2,6 +2,9 @@ import { MiddlewareConsumer, Module, NestModule, Logger } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+
 
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -26,6 +29,10 @@ import { HttpExceptionFilter } from './lib/common/http-exception.filter';
     }),
     UserModule,
     ProductModule,
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      typePaths: ['./**/*.graphql'],
+    }),
   ],
   controllers: [AppController],
   providers: [
