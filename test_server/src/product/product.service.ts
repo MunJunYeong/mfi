@@ -24,7 +24,7 @@ export class ProductService {
     }catch(err){
       console.log(err);
     }
-    newProduct.user = user;
+    // newProduct.user = user;
     newProduct.name = name;
     newProduct.price = price;
     

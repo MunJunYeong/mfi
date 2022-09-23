@@ -12,7 +12,7 @@ export class Product {
     @Column()
     price: number;
 
-    @ManyToOne(()=> User, (user)=> user.products, {nullable: true})
-    user: User;
+    // @ManyToOne(()=> User, (user)=> user.products, {nullable: true})
+    // user: User;
 
 }

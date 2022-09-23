@@ -17,7 +17,7 @@ export class UserRepo extends Repository<User>{
       user.userIdx = 4;
       user.id = 'bbbb';
       user.pw = '1111';
-      user.name = '11111';
+      // user.name = '11111';
 
       this.manager.transaction(async (t) => {
         const reuslt = await t.find(User, {where : { userIdx : 1, }});
