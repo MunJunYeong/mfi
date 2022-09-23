@@ -1,3 +1,4 @@
+
 type Query {
   users: [User]
   user(id: ID!): User
@@ -7,14 +8,7 @@ type Mutation {
   createUser(createUserInput: CreateUserInput): User
 }
 
-type User {
-  id: Int
-  name: String
-  product: Product
-}
-"""
-Test comment
-"""
+
 input CreateUserInput {
   name: String
 }
