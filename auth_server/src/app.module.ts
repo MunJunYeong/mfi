@@ -1,5 +1,5 @@
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -9,6 +9,9 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PostgresConfigModule } from './configs/db/config.module';
 import { PostgresConfigService } from './configs/db/config.service';
+import { APP_FILTER } from '@nestjs/core';
+import { HttpExceptionFilter } from './lib/common/http-exception.filter';
+import { LoggerMiddleware } from './lib/common/middleware/logger.middleware';
 
 @Module({
   imports: [
@@ -28,10 +31,21 @@ import { PostgresConfigService } from './configs/db/config.service';
       useClass : PostgresConfigService,
       inject : [PostgresConfigService]
     }),
-
     UserModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    { 
+      provide : APP_FILTER,
+      useClass : HttpExceptionFilter
+    }
+  ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer){
+    consumer
+    .apply(LoggerMiddleware)
+    .forRoutes();
+  }
+}

@@ -34,10 +34,13 @@
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.2",
     "graphql": "^16.6.0",
+    "nest-winston": "^1.7.0",
     "pg": "^8.8.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "winston": "^3.8.2",
+    "winston-daily-rotate-file": "^4.7.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",
