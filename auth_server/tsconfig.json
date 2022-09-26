@@ -17,6 +17,7 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
-    "typeRoots": ["./@types", "./node_modules/@types"]
+    "esModuleInterop": true, // import { } from '' 바로 사용 가능
+    // "typeRoots": ["./@types", "./node_modules/@types"]
   }
 }
