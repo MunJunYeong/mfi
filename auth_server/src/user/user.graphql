@@ -15,8 +15,12 @@ type User  {
 
 type Query {
   findId(email: String): [User]
+  # getUser(): [User]
 }
 
+# query getUser(){
+#   user
+# }
 
 query findId($email: String) {
   user(email: $email){
