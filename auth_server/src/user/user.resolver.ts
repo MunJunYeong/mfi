@@ -16,6 +16,11 @@ export class UserResolver {
   //   return this.userService.create(createUserInput);
   // }
 
+  // @Query('getUser')
+  // getAllUser(){
+  //   return {};
+  // }
+
   @Query('findId')
   getUser(email: String) {
     return {};
