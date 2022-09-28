@@ -12,13 +12,15 @@ import { APP_FILTER } from '@nestjs/core';
 import { HttpExceptionFilter } from './lib/common/http-exception.filter';
 import { LoggerMiddleware } from './lib/common/middleware/logger.middleware';
 import { UserModule } from './user/user.module';
+import { join } from 'path';
 
 @Module({
   imports: [
     // graphQL import
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: true,
+      // autoSchemaFile: true,
+      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       // typePaths: ['./**/*.graphql'],
     }),
     // Config import
