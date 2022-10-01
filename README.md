@@ -29,6 +29,7 @@ Skills
     - PostgreSQL
     - Docker
     - Git, sourcetree
+    - Rest, GraphQL
 
 
 Backend Architecture
