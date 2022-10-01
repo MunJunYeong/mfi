@@ -1,4 +1,5 @@
 import { Field, Int, ObjectType } from "@nestjs/graphql";
+import { UserToken } from "src/user-token/entities/user-token.entity";
 import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
 
 @ObjectType() //graphql의 decorator
@@ -36,6 +37,9 @@ export class User {
     @Field(() => String)
     @Column()
     role: String
+
+    @Field(type => UserToken)
+    userToken: UserToken;
 
 
 }
