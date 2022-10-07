@@ -4,6 +4,11 @@ import { UpdateUserInput } from './dto/input/update-user.input';
 
 @Injectable()
 export class UserService {
+  signUp(createUserInput: CreateUserInput) {
+    console.log(createUserInput);
+    return 'This action adds a new user';
+  }
+
   forceLogout(token: Number) {
     throw new Error('Method not implemented.');
   }
@@ -46,9 +51,7 @@ export class UserService {
   checkMail(email: String, no: String) {
     throw new Error('Method not implemented.');
   }
-  create(createUserInput: CreateUserInput) {
-    return 'This action adds a new user';
-  }
+  
   sendMail(email: String) {
     throw new Error('Method not implemented.');
   }
