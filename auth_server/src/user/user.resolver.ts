@@ -22,14 +22,14 @@ export class UserResolver {
   checkMail(@Args('email') email: String, @Args('no') no: String){
     return this.userService.checkMail(email, no);    
   }
-  @Mutation(()=> Boolean)
-  checkId(@Args('id') id: String){
-    return this.userService.checkId(id);    
-  }
-  @Mutation(()=> Boolean)
-  checkNickName(@Args('nickName') nickName: String){
-    return this.userService.checkNickName(nickName);    
-  }
+  // @Mutation(()=> Boolean)
+  // checkId(@Args('id') id: String){
+  //   return this.userService.checkId(id);    
+  // }
+  // @Mutation(()=> Boolean)
+  // checkNickName(@Args('nickName') nickName: String){
+  //   return this.userService.checkNickName(nickName);    
+  // }
 
   // ID, PW api
   @Mutation(()=> Boolean)
