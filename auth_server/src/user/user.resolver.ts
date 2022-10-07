@@ -12,7 +12,7 @@ export class UserResolver {
   //회원가입 api
   @Mutation(() => User)
   signUp(@Args('createUserInput') createUserInput: CreateUserInput) {
-    return this.userService.create(createUserInput);
+    return this.userService.signUp(createUserInput);
   }
   @Mutation(()=> Boolean)
   sendMail(@Args('email') email: String){
