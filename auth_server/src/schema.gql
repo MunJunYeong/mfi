@@ -47,5 +47,5 @@ type Mutation {
 
 input CreateUserInput {
   """Example field (placeholder)"""
-  exampleField: Int!
+  id: Int!
 }

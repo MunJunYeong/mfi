@@ -14,6 +14,7 @@ import { LoggerMiddleware } from './lib/common/middleware/logger.middleware';
 import { UserModule } from './user/user.module';
 import { join } from 'path';
 import { UserTokenModule } from './user-token/user-token.module';
+import { AuthenticationModule } from './authentication/authentication.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { UserTokenModule } from './user-token/user-token.module';
     }),
     UserModule,
     UserTokenModule,
+    AuthenticationModule,
   ],
   controllers: [AppController],
   providers: [
