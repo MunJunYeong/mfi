@@ -1,8 +1,10 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Column, CreateDateColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @ObjectType()
+@Entity()
 export class User {
+
   @Field(() => Int)
   @PrimaryGeneratedColumn()
   userIdx: number

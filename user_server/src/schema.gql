@@ -23,10 +23,12 @@ type Query {
 }
 
 type Mutation {
-  createUser(createUserInput: CreateUserInput!): User!
+  signUp(input: CreateUserDTO!): User!
 }
 
-input CreateUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+input CreateUserDTO {
+  id: String!
+  pw: String!
+  nickName: String!
+  email: String!
 }
