@@ -26,6 +26,8 @@ type Mutation {
   signUp(input: CreateUserDTO!): User!
   sendMail(email: String!): User!
   sendIdMail(email: String!): User!
+  sendPwMail(email: String!): User!
+  checkAuth(input: AuthDTO!): User!
 }
 
 input CreateUserDTO {
@@ -33,4 +35,9 @@ input CreateUserDTO {
   pw: String!
   nickName: String!
   email: String!
+}
+
+input AuthDTO {
+  email: String!
+  no: String!
 }

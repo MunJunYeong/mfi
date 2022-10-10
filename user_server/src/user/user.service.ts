@@ -3,45 +3,81 @@ import { CreateUserDTO } from './dto/create-user.dto';
 import { UpdateUserInput } from './dto/update-user.input';
 import { User } from './entities/user.entity';
 import { UserRepo } from './user.repo';
-import {v4 as uuidv4} from 'uuid';
-import { MailService } from 'src/mail/mail.service';
+// import {v4 as uuidv4} from 'uuid';
+import { MailService } from '../mail/mail.service';
+import { Auth } from 'src/auth/entities/auth.entity';
+import { AuthDTO } from 'src/auth/dto/auth.dto';
 @Injectable()
 export class UserService {
   constructor(private userRepo: UserRepo, private readonly mailService: MailService){}
   
+  
+  checkAuth(authDto: AuthDTO) {
+    console.log(authDto)
+    let user: User = new User();
+    return user;
+  }
 
-
+  // 일치하는 email 확인 후 -> id mail 전송.
   async sendIdMail(email: string) {
-    let existEmail: boolean;
-    let user:User = new User;
+    let user:User = new User();
     try{
-      user = await this.userRepo.findUserByEmail(email);
+      user = await this.validateMail(email, true);
     }catch(err){
-
+      
     }
-    user === null? existEmail = false : existEmail = true;
-    if(!existEmail){
-      throw new Error('존재하지 않는 이메일!!!!!!');
+    if(user === null){
+      throw new Error('잘못된 email');
     }
     const tempId: string = user.id.substring(0, user.id.length-3);
     this.mailService.idMail( (tempId+'***') , email);
     return user;
   }
-
-  async sendMail(email: string) {
-    let duplicatedEmail: boolean;
+  // 일치하는 email 확인 후 -> 인증번호 전송
+  async sendPwMail(email: string) {
+    let user:User = new User();
     try{
-      await this.userRepo.findUserByEmail(email) === null? duplicatedEmail = false : duplicatedEmail = true;
+      user = await this.validateMail(email, true);
+    }catch(err){
+      
+    }
+    if(user === null){
+      throw new Error('잘못된 email');
+    }
+    try{
+      const no: string = this.mailService.authenticationMail(email);
+      let authentication:Auth = new Auth();
+      authentication.email = email;
+      authentication.no = no;
+      await this.userRepo.saveAuth(authentication);
     }catch(err){
 
     }
-    if(duplicatedEmail){
-      throw new Error('이미 존재하는 이메일 !');
+    return user;
+  }
+  // 회원가입시 이메일 중복확인을 위한 mail 전송
+  async sendMail(email: string) {
+    let user:User = new User();
+    try{
+      user = await this.validateMail(email, false);
+    }catch(err){
+      
     }
-    this.mailService.authenticationMail(email);
+    if(user !== null){
+      throw new Error('잘못된 email');
+    }
+    
+    // 이메일을 보내고 이메일에 해당하는 인증번호 저장
+    try{
+      const no: string = this.mailService.authenticationMail(email);
+      let authentication:Auth = new Auth();
+      authentication.email = email;
+      authentication.no = no;
+      await this.userRepo.saveAuth(authentication);
+    }catch(err){
+
+    }
     // 체크해주려면 이렇게 반환해서 . 어떻게 반환해야 오류가 안나는지 모르겠음 아직
-    let user: User = new User();
-    user.email = email;
     return user;
   }
 
@@ -81,7 +117,21 @@ export class UserService {
     if(res === null) throw new Error();
     return res;
   }
+//중복여부 : 중복(있음) true || 없음 false
+  async validateMail(email: string, flag: boolean){
+    let existEmail: boolean;
+    let user:User = new User;
+    try{
+      user = await this.userRepo.findUserByEmail(email);
+    }catch(err){
 
+    }
+    // user === null? existEmail = false : existEmail = true;
+    // if(flag !== existEmail){
+    //   throw new Error('잘못된 email');
+    // }
+    return user;
+  }
   findOne(id: number) {
     return `This action returns a #${id} user`;
   }

@@ -1,20 +1,21 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
+import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @ObjectType()
 @Entity()
-export class Authentication {
-
+export class Auth {
   @Field(() => Int)
   @PrimaryGeneratedColumn()
-  idx: number
+  userIdx: number
 
   @Field(() => String)
   @Column()
-  id: string
+  email: string
 
   @Field(() => String)
   @Column()
   no: string
 
 }
+
+
