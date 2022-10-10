@@ -24,6 +24,8 @@ type Query {
 
 type Mutation {
   signUp(input: CreateUserDTO!): User!
+  sendMail(email: String!): User!
+  sendIdMail(email: String!): User!
 }
 
 input CreateUserDTO {

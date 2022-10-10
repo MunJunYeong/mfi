@@ -14,6 +14,17 @@ export class UserResolver {
     // 어쩔 때는 userToken이 생성 안되는 경우가 생김 
   }
 
+  @Mutation(()=> User)
+  sendMail(@Args('email') email: string){
+    return this.userService.sendMail(email);
+  }
+  @Mutation(()=> User)
+  sendIdMail(@Args('email') email: string){
+    return this.userService.sendIdMail(email);
+  }
+  
+
+
   @Query(() => User, { name: 'user' })
   findOne(@Args('id', { type: () => Int }) id: number) {
     return this.userService.findOne(id);
