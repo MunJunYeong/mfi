@@ -15,6 +15,7 @@ import { join } from 'path';
 import { UserModule } from './user/user.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { UserTokenModule } from './user-token/user-token.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { UserTokenModule } from './user-token/user-token.module';
     UserModule,
     AuthenticationModule,
     UserTokenModule,
+    MailModule
   ],
   controllers: [AppController],
   providers: [
