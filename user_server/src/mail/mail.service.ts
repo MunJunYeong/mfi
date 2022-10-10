@@ -6,7 +6,7 @@ import { MailerService } from '@nestjs-modules/mailer';
 export class MailService {
     constructor(private readonly mailerService: MailerService){}
 
-    public authenticationMail(email: string): void {
+    public authenticationMail(email: string): string {
         let no: string = createMailNo(6);
         this.mailerService.sendMail({
             to : email,
@@ -28,6 +28,7 @@ export class MailService {
         .catch((err)=> {
             console.log(err);
         })
+        return no;
     }
 
     public idMail(id: string, email: string): void {

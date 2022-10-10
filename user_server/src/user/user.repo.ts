@@ -2,10 +2,19 @@ import { CustomRepository } from "../lib/db/typeorm-ex.decorator";
 import { UserToken } from "../user-token/entities/user-token.entity";
 import { Repository } from "typeorm";
 import { User } from "./entities/user.entity";
+import { Auth } from "../auth/entities/auth.entity";
 
 
 @CustomRepository(User)
 export class UserRepo extends Repository<User>{
+
+    async saveAuth(authentication: Auth) {
+        try{
+         await this.manager.save(Auth, authentication);   
+        }catch(err){
+
+        }
+    }
     
     async signUp(user: User){
         let createUser: User = null;

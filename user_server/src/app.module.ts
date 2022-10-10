@@ -13,9 +13,9 @@ import { HttpExceptionFilter } from './lib/common/http-exception.filter';
 import { LoggerMiddleware } from './lib/common/middleware/logger.middleware';
 import { join } from 'path';
 import { UserModule } from './user/user.module';
-import { AuthenticationModule } from './authentication/authentication.module';
 import { UserTokenModule } from './user-token/user-token.module';
 import { MailModule } from './mail/mail.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -37,9 +37,9 @@ import { MailModule } from './mail/mail.module';
       inject : [PostgresConfigService]
     }),
     UserModule,
-    AuthenticationModule,
     UserTokenModule,
-    MailModule
+    MailModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [
