@@ -9,6 +9,14 @@ import { Auth } from "../auth/entities/auth.entity";
 export class UserRepo extends Repository<User>{
 
 
+    // async updatePw(email: string, pw: string) {
+    //     try{
+    //         await this.manager.update(User,)
+    //     }catch(err){
+    //         console.log(err);
+    //     }
+    // }
+
     async deleteAuthByEmail(email: string) {
         try{
             await this.manager.delete(Auth, {email : email})

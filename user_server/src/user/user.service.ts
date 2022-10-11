@@ -1,36 +1,50 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDTO } from './dto/create-user.dto';
-import { UpdateUserInput } from './dto/update-user.input';
+import { CreateUserDTO } from './dto/input/create-user.dto';
+import { UpdateUserInput } from './dto/input/update-user.input';
 import { User } from './entities/user.entity';
 import { UserRepo } from './user.repo';
 // import {v4 as uuidv4} from 'uuid';
 import { MailService } from '../mail/mail.service';
 import { Auth } from 'src/auth/entities/auth.entity';
 import { AuthDTO } from 'src/auth/dto/auth.dto';
+import { UpdatePwDTO } from './dto/args/update-user.pw';
 @Injectable()
 export class UserService {
   constructor(private userRepo: UserRepo, private readonly mailService: MailService){}
   
+
+
   
-  async checkAuth(authDto: AuthDTO) {
+  async updatePw(updatePwDTO: UpdatePwDTO) {
+    let user:User = new User();
+    try{
+      // 트랜잭션의 고립성을 보장하기 위해 ()=> 를 사용
+      user = await this.userRepo.findUserByEmail(updatePwDTO.email);
+      user.pw = updatePwDTO.pw;
+      user = await this.userRepo.save(user);
+    }catch(err){
+      console.log(err);
+    }
+    return user;
+  }
+  async checkAuth(authDTO: AuthDTO) {
     // 1. authentication에 와있는 인증번호를 확인한다.
     let auth: Auth[] = [];
     try{
-      auth = await this.userRepo.findAuth(authDto.email);
+      auth = await this.userRepo.findAuth(authDTO.email);
     }catch(err){
 
     }
-    console.log(auth)
-    if(auth[auth.length-1].no !== authDto.no){
+    if(auth[auth.length-1].no !== authDTO.no){
       throw new Error('잘못된 인증번호!!!!!');
     }
     try{
-      await this.userRepo.deleteAuthByEmail(authDto.email);
+      await this.userRepo.deleteAuthByEmail(authDTO.email);
     }catch(err){
       
     }
     let user: User = new User();
-    user.email = authDto.email;
+    user.email = authDTO.email;
     return user;
   }
 
