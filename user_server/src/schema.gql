@@ -28,6 +28,7 @@ type Mutation {
   sendIdMail(email: String!): User!
   sendPwMail(email: String!): User!
   checkAuth(input: AuthDTO!): User!
+  updatePw(input: UpdatePwDTO!): User!
 }
 
 input CreateUserDTO {
@@ -40,4 +41,9 @@ input CreateUserDTO {
 input AuthDTO {
   email: String!
   no: String!
+}
+
+input UpdatePwDTO {
+  email: String!
+  pw: String!
 }
