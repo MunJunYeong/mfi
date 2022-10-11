@@ -12,9 +12,25 @@ export class UserService {
   constructor(private userRepo: UserRepo, private readonly mailService: MailService){}
   
   
-  checkAuth(authDto: AuthDTO) {
-    console.log(authDto)
+  async checkAuth(authDto: AuthDTO) {
+    // 1. authentication에 와있는 인증번호를 확인한다.
+    let auth: Auth[] = [];
+    try{
+      auth = await this.userRepo.findAuth(authDto.email);
+    }catch(err){
+
+    }
+    console.log(auth)
+    if(auth[auth.length-1].no !== authDto.no){
+      throw new Error('잘못된 인증번호!!!!!');
+    }
+    try{
+      await this.userRepo.deleteAuthByEmail(authDto.email);
+    }catch(err){
+      
+    }
     let user: User = new User();
+    user.email = authDto.email;
     return user;
   }
 

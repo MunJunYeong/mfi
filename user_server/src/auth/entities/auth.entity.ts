@@ -2,11 +2,11 @@ import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @ObjectType()
-@Entity()
+@Entity('authentication')
 export class Auth {
   @Field(() => Int)
   @PrimaryGeneratedColumn()
-  userIdx: number
+  idx: number
 
   @Field(() => String)
   @Column()

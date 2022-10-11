@@ -8,11 +8,36 @@ import { Auth } from "../auth/entities/auth.entity";
 @CustomRepository(User)
 export class UserRepo extends Repository<User>{
 
+
+    async deleteAuthByEmail(email: string) {
+        try{
+            await this.manager.delete(Auth, {email : email})
+        }catch(err){
+            console.log(err)
+        }
+    }
+
+    async findAuth(email: string): Promise<Auth[]> {
+        let auth: Auth[] = [];
+        //여러 번 메일이 갔을 수도 있으니깐 해당 메일에서 가장 마지막
+        try{
+            auth = await this.manager.find(Auth, {
+                where : {
+                    email : email
+                }
+            });
+        }catch(err){
+
+        }
+        return auth;
+
+    }
+
     async saveAuth(authentication: Auth) {
         try{
          await this.manager.save(Auth, authentication);   
         }catch(err){
-
+            console.log(err);
         }
     }
     
