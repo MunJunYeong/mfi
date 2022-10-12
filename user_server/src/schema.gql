@@ -23,15 +23,16 @@ type Query {
 }
 
 type Mutation {
-  signUp(input: CreateUserDTO!): User!
+  signUp(input: SignUpInputDTO!): User!
   sendMail(email: String!): User!
   sendIdMail(email: String!): User!
   sendPwMail(email: String!): User!
   checkAuth(input: AuthDTO!): User!
   updatePw(input: UpdatePwDTO!): User!
+  signIn(input: LoginInputDTO!): User!
 }
 
-input CreateUserDTO {
+input SignUpInputDTO {
   id: String!
   pw: String!
   nickName: String!
@@ -45,5 +46,10 @@ input AuthDTO {
 
 input UpdatePwDTO {
   email: String!
+  pw: String!
+}
+
+input LoginInputDTO {
+  id: String!
   pw: String!
 }

@@ -9,13 +9,27 @@ import { Auth } from "../auth/entities/auth.entity";
 export class UserRepo extends Repository<User>{
 
 
-    // async updatePw(email: string, pw: string) {
-    //     try{
-    //         await this.manager.update(User,)
-    //     }catch(err){
-    //         console.log(err);
-    //     }
-    // }
+    
+    async saveUserToken(userToken: UserToken) {
+        try{
+            await this.manager.save(UserToken, userToken)
+        }catch(err){
+            console.log(err)
+        }
+    }
+    
+    async findUserToken(userIdx: number) {
+        try{
+            return await this.manager.findOne(UserToken, {
+                where : {
+                    userIdx : userIdx
+                }
+            })
+        }catch(err){
+            console.log(err)
+        }
+    }
+
 
     async deleteAuthByEmail(email: string) {
         try{

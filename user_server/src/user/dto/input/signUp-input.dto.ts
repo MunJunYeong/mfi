@@ -5,7 +5,7 @@ import { IsEmail, IsNotEmpty } from 'class-validator';
 // isNotEmpty와 같은 추가적인 데코레이터가 추가되어야지 정상 작동
 
 @InputType()
-export class CreateUserDTO {
+export class SignUpInputDTO {
   @Field()
   @IsNotEmpty()
   id: string;
