@@ -5,7 +5,6 @@ import { SignUpInputDTO } from './dto/input/signUp-input.dto';
 import { AuthDTO } from '../auth/dto/auth.dto';
 import { UpdatePwDTO } from './dto/args/update-user.pw';
 import { LoginInputDTO } from './dto/args/login-input.dto';
-import { UserTokenDTO } from './dto/args/signIn-userToken.dto';
 // import { UpdateUserInput } from './dto/update-user.input';
 
 @Resolver(() => User)

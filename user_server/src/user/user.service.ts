@@ -3,14 +3,17 @@ import { User } from './entities/user.entity';
 import { UserRepo } from './user.repo';
 import { MailService } from '../mail/mail.service';
 import { Auth } from '../auth/entities/auth.entity';
-import jwtUtils from '../lib/common/jwtUtils';
 import { UserToken } from '../user-token/entities/user-token.entity';
-import { UserTokenDTO } from './dto/args/signIn-userToken.dto';
+import { LoginUserTokenDTO } from './dto/args/signIn-userToken.dto';
 import * as bcrypt from 'bcrypt';
+import { JwtService } from '../lib/common/jwt';
 
 @Injectable()
 export class UserService {
-  constructor(private userRepo: UserRepo, private readonly mailService: MailService){}
+  constructor(
+    private userRepo: UserRepo, private readonly mailService: MailService,
+    private readonly jwtService: JwtService,
+    ){}
 
 
   async signIn(id: string, pw: string) {
@@ -35,9 +38,16 @@ export class UserService {
     let accessToken: string, refreshToken: string;
     try{
       user.pw = '';
-      jwtUtils.sign(user);
-      console.log(accessToken)
-      refreshToken = jwtUtils.refresh();
+      console.log(user)
+      const accessUser: object = {
+        ...user
+      };
+      const refreshUser: object = {
+        userIdx : user.userIdx,
+        refresh : true
+      };
+      accessToken = await this.jwtService.signAsync(accessUser);
+      refreshToken = await this.jwtService.signAsync(refreshUser);
       const userToken: UserToken = {
         userIdx : user.userIdx,
         token : accessToken
@@ -46,11 +56,12 @@ export class UserService {
     }catch(err){
 
     }
-    const userToken: UserTokenDTO = {
+    // login한 유저한테 access, refresh token을 return 해주어야함.
+    const loginUserToken: LoginUserTokenDTO = {
       token : accessToken,
       refreshToken : refreshToken
-    } 
-    return user;
+    }
+    return loginUserToken;
   }
 
   async updatePw(email: string, pw: string) {

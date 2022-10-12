@@ -16,7 +16,6 @@ import { UserModule } from './user/user.module';
 import { UserTokenModule } from './user-token/user-token.module';
 import { MailModule } from './mail/mail.module';
 import { AuthModule } from './auth/auth.module';
-import { JwtModule } from './jwt/jwt.module';
 
 @Module({
   imports: [
@@ -41,7 +40,6 @@ import { JwtModule } from './jwt/jwt.module';
     UserTokenModule,
     MailModule,
     AuthModule,
-    JwtModule
   ],
   controllers: [AppController],
   providers: [
