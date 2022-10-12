@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { User } from './entities/user.entity';
 import { UserRepo } from './user.repo';
-import { MailService } from '../mail/mail.service';
+import { MailService } from '../lib/common/mail/mail.service';
 import { Auth } from '../auth/entities/auth.entity';
 import { UserToken } from '../user-token/entities/user-token.entity';
 import { LoginUserTokenDTO } from './dto/args/signIn-userToken.dto';
@@ -13,28 +13,60 @@ export class UserService {
   constructor(
     private userRepo: UserRepo, private readonly mailService: MailService,
     private readonly jwtService: JwtService,
-    ){}
+  ){}
 
 
-  async signIn(id: string, pw: string) {
+  async logout(userIdx: number) {
+    //로그아웃을 한다는 것은 무조건 유저가 있다는 건데 이것에 대한 처리가 되어야 하는지? 일단 넣어둠
+    // repo에서만 해야되는지, repo에서는 user말고 userToken, authentication과 관련된 entity에 접근하기 위해서 존재하긴함
+    // user와 관련된 find는 service에서 처리를 해도 되는지?
+    let user:User = new User();
+    try{
+      user = await this.userRepo.findOne({
+        where : {
+          userIdx : userIdx
+        }
+      });
+    }catch(err){
+
+    }
+    if(user === null){
+      throw new Error("잘못된 접근입니다!!!!!");
+    }
+    let userToken: UserToken = {
+      userIdx : userIdx,
+      token : ''
+    }
+    try{
+      await this.userRepo.updateUserToken(userToken);
+    }catch(err){
+
+    }
+    return userToken;
+  }
+
+  async signIn(id: string, pw: string, isForce: boolean) {
     let user:User = new User();
     try{
       user = await this.userRepo.findUserById(id);
     }catch(err){
 
     }
-    if(user === null) throw new Error('잘못된 아이디!!!!');
-    if(await bcrypt.compare(pw, user.pw) === false) throw new Error('잘못된 비밀번호!!!!');
-    let isLogin: boolean = false;
-    try{
-      const userToken = await this.userRepo.findUserToken(user.userIdx);
-      userToken.token === '' ? isLogin = false : isLogin = true;
-    }catch(err){
+    if(isForce === false){
+      if(user === null) throw new Error('잘못된 아이디!!!!');
+      if(await bcrypt.compare(pw, user.pw) === false) throw new Error('잘못된 비밀번호!!!!');
+      let isLogin: boolean = false;
+      try{
+        const userToken = await this.userRepo.findUserToken(user.userIdx);
+        userToken.token === '' ? isLogin = false : isLogin = true;
+      }catch(err){
+        
+      }
+      if(isLogin === true){
+        throw new Error('이미 로그인 중입니다!!!!');//이거에 대한 추가 핸들링 추가하기
+      }
+    }
 
-    }
-    if(isLogin === true){
-      throw new Error('이미 로그인 중입니다!!!!');//이거에 대한 추가 핸들링 추가하기
-    }
     let accessToken: string, refreshToken: string;
     try{
       user.pw = '';
@@ -52,7 +84,7 @@ export class UserService {
         userIdx : user.userIdx,
         token : accessToken
       }
-      await this.userRepo.saveUserToken(userToken);
+      await this.userRepo.updateUserToken(userToken);
     }catch(err){
 
     }

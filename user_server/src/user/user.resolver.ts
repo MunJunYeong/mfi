@@ -5,6 +5,7 @@ import { SignUpInputDTO } from './dto/input/signUp-input.dto';
 import { AuthDTO } from '../auth/dto/auth.dto';
 import { UpdatePwDTO } from './dto/args/update-user.pw';
 import { LoginInputDTO } from './dto/args/login-input.dto';
+import { UserToken } from 'src/user-token/entities/user-token.entity';
 // import { UpdateUserInput } from './dto/update-user.input';
 
 @Resolver(() => User)
@@ -35,11 +36,16 @@ export class UserResolver {
   }
   @Mutation(()=> User)
   async updatePw(@Args('input') updatePwDTO: UpdatePwDTO){
-    return this.userService.updatePw(updatePwDTO.email, updatePwDTO.pw);
+    return await this.userService.updatePw(updatePwDTO.email, updatePwDTO.pw);
   }
+  //기존 signIn과 달라진 점 : force여부를 flag로 두어서 중복되는 코드를 없앰
   @Mutation(()=> User)
   async signIn(@Args('input') loginInputDTO: LoginInputDTO){
-    return this.userService.signIn(loginInputDTO.id, loginInputDTO.pw);
+    return await this.userService.signIn(loginInputDTO.id, loginInputDTO.pw, loginInputDTO.isForce);
+  }
+  @Mutation(()=> UserToken)
+  async logout(@Args('userIdx') userIdx: number){
+    return await this.userService.logout(userIdx);
   }
 
   @Query(() => User, { name: 'user' })
