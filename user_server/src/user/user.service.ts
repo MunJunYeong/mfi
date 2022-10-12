@@ -10,12 +10,52 @@ import { JwtService } from '../lib/common/jwt';
 
 @Injectable()
 export class UserService {
+  
+  
   constructor(
     private userRepo: UserRepo, private readonly mailService: MailService,
     private readonly jwtService: JwtService,
   ){}
 
 
+  async updateUserToken(userIdx: number, token: string) {
+    let userToken:UserToken = new UserToken();
+    //try catch 를 하나의 단위마다 해야하는지 ?
+    try{
+      userToken = await this.userRepo.findUserToken(userIdx);
+    }catch(err){
+
+    }
+    if(userToken === null) throw new Error("잘못된 접근입니다!!!!!");
+    userToken.token = token;
+    try{
+      await this.userRepo.updateUserToken(userToken);
+    }catch(err){
+
+    }
+    return userToken;
+  }
+  async updateUserRole(userIdx: number, role: string) {
+    let user:User = new User();
+    //try catch 를 하나의 단위마다 해야하는지 ?
+    try{
+      user = await this.userRepo.findOne({
+        where : {
+          userIdx : userIdx
+        }
+      });
+    }catch(err){
+
+    }
+    if(user === null) throw new Error("잘못된 접근입니다!!!!!");
+    user.role = role;
+    try{
+      await this.userRepo.save(user);
+    }catch(err){
+
+    }
+    return user;
+  }
   async logout(userIdx: number) {
     //로그아웃을 한다는 것은 무조건 유저가 있다는 건데 이것에 대한 처리가 되어야 하는지? 일단 넣어둠
     // repo에서만 해야되는지, repo에서는 user말고 userToken, authentication과 관련된 entity에 접근하기 위해서 존재하긴함
@@ -30,9 +70,7 @@ export class UserService {
     }catch(err){
 
     }
-    if(user === null){
-      throw new Error("잘못된 접근입니다!!!!!");
-    }
+    if(user === null)throw new Error("잘못된 접근입니다!!!!!");
     let userToken: UserToken = {
       userIdx : userIdx,
       token : ''

@@ -2,13 +2,13 @@ import { InputType, Int, Field } from '@nestjs/graphql';
 import { IsNotEmpty } from 'class-validator';
 
 @InputType()
-export class UpdatePwDTO{
+export class UpdateUserRoleDTO{
     @Field()
     @IsNotEmpty()
-    email: string
+    userIdx: number
 
     @Field()
     @IsNotEmpty()
-    pw: string
+    role: string
     
 }

@@ -24,6 +24,7 @@ type UserToken {
 }
 
 type Query {
+  getUserData(userIdx: Int!): User!
   user(id: Int!): User!
 }
 
@@ -33,9 +34,11 @@ type Mutation {
   sendIdMail(email: String!): User!
   sendPwMail(email: String!): User!
   checkAuth(input: AuthDTO!): User!
-  updatePw(input: UpdatePwDTO!): User!
+  updatePw(input: UpdateUserPwDTO!): User!
   signIn(input: LoginInputDTO!): User!
   logout(userIdx: Float!): UserToken!
+  updateUserRole(input: UpdateUserRoleDTO!): User!
+  updateUserToken(input: UpdateUserTokenDTO!): UserToken!
 }
 
 input SignUpInputDTO {
@@ -50,7 +53,7 @@ input AuthDTO {
   no: String!
 }
 
-input UpdatePwDTO {
+input UpdateUserPwDTO {
   email: String!
   pw: String!
 }
@@ -59,4 +62,14 @@ input LoginInputDTO {
   id: String!
   pw: String!
   isForce: Boolean!
+}
+
+input UpdateUserRoleDTO {
+  userIdx: Float!
+  role: String!
+}
+
+input UpdateUserTokenDTO {
+  userIdx: Float!
+  token: String!
 }
