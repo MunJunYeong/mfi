@@ -7,9 +7,10 @@ import { Auth } from "../auth/entities/auth.entity";
 
 @CustomRepository(User)
 export class UserRepo extends Repository<User>{
+
+
     
-    
-    async saveUserToken(userToken: UserToken) {
+    async updateUserToken(userToken: UserToken) {
         try{
             await this.manager.save(UserToken, userToken)
         }catch(err){

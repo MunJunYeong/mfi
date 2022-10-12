@@ -3,7 +3,7 @@ import { UserService } from './user.service';
 import { UserResolver } from './user.resolver';
 import { TypeOrmExModule } from '../lib/db/typeorm-ex.module';
 import { UserRepo } from './user.repo';
-import { MailService } from 'src/mail/mail.service';
+import { MailService } from 'src/lib/common/mail/mail.service';
 import { JwtModule } from '../lib/common/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 

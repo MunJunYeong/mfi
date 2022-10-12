@@ -14,7 +14,7 @@ import { LoggerMiddleware } from './lib/common/middleware/logger.middleware';
 import { join } from 'path';
 import { UserModule } from './user/user.module';
 import { UserTokenModule } from './user-token/user-token.module';
-import { MailModule } from './mail/mail.module';
+import { MailModule } from './lib/common/mail/mail.module';
 import { AuthModule } from './auth/auth.module';
 
 @Module({

@@ -10,5 +10,8 @@ export class LoginInputDTO{
     @Field()
     @IsNotEmpty()
     pw: string
-    
+
+    @Field()
+    @IsNotEmpty()
+    isForce: boolean
 }
