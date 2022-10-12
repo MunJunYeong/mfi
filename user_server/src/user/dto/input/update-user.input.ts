@@ -1,7 +1,7 @@
-import { CreateUserDTO } from './create-user.dto';
-import { InputType, Field, Int, PartialType } from '@nestjs/graphql';
+// import { CreateUserDTO } from './signUp-input.dto';
+// import { InputType, Field, Int, PartialType } from '@nestjs/graphql';
 
-@InputType()
-export class UpdateUserInput extends PartialType(CreateUserDTO) {
+// @InputType()
+// export class UpdateUserInput extends PartialType(CreateUserDTO) {
   
-}
+// }
