@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { User } from './entities/user.entity';
 import { UserRepo } from './user.repo';
-// import {v4 as uuidv4} from 'uuid';
 import { MailService } from '../mail/mail.service';
 import { Auth } from '../auth/entities/auth.entity';
 import jwtUtils from '../lib/common/jwtUtils';
 import { UserToken } from '../user-token/entities/user-token.entity';
 import { UserTokenDTO } from './dto/args/signIn-userToken.dto';
+import * as bcrypt from 'bcrypt';
+
 @Injectable()
 export class UserService {
   constructor(private userRepo: UserRepo, private readonly mailService: MailService){}
@@ -20,7 +21,7 @@ export class UserService {
 
     }
     if(user === null) throw new Error('잘못된 아이디!!!!');
-    if(user.pw !== pw) throw new Error('잘못된 비밀번호!!!!');
+    if(await bcrypt.compare(pw, user.pw) === false) throw new Error('잘못된 비밀번호!!!!');
     let isLogin: boolean = false;
     try{
       const userToken = await this.userRepo.findUserToken(user.userIdx);
@@ -158,29 +159,25 @@ export class UserService {
 
     }
     if(duplicatedId || duplicatedNickName || duplicatedEmail){
-      throw new Error();
+      throw new Error('중복됨!!!!');
     }
     //user 정보 설정
     const user: User = new User();
     user.id = id;
-    user.pw = pw;
+    //비밀번호 암호화
+    user.pw = await bcrypt.hash(
+      pw, 10,
+    );
     user.nickName = nickName;
     user.email = email;
     user.role = "normal";
-    // const user: User = {
-    //   userIdx: 120,
-    //   created : new Date(),
-    //   status : '',
-    //   role : "normal",
-    //   ...createUserInput
-    // };
     let res:User;
     try{
       res = await this.userRepo.signUp(user); //transaction 유저, 유저토큰 저장 repo에서
     }catch(err){
 
     }
-    if(res === null) throw new Error();
+    // if(res === null) throw new Error();
     return res;
   }
 //중복여부 : 중복(있음) true || 없음 false

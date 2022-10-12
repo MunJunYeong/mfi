@@ -7,8 +7,7 @@ import { Auth } from "../auth/entities/auth.entity";
 
 @CustomRepository(User)
 export class UserRepo extends Repository<User>{
-
-
+    
     
     async saveUserToken(userToken: UserToken) {
         try{
