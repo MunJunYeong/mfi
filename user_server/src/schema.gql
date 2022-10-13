@@ -24,8 +24,14 @@ type UserToken {
 }
 
 type Query {
+  getUserList(input: GetUserListDTO!): [User!]!
   getUserData(userIdx: Int!): User!
   user(id: Int!): User!
+}
+
+input GetUserListDTO {
+  page: Float!
+  nickName: String!
 }
 
 type Mutation {
