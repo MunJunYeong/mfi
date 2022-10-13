@@ -10,14 +10,16 @@ import { JwtService } from '../lib/common/jwt';
 
 @Injectable()
 export class UserService {
-  
-  
   constructor(
     private userRepo: UserRepo, private readonly mailService: MailService,
     private readonly jwtService: JwtService,
   ){}
 
-
+  async getUserList(page: number, nickName: string) {
+    console.log(page)
+    let user : User = new User;
+    return user;
+  }
   async updateUserToken(userIdx: number, token: string) {
     let userToken:UserToken = new UserToken();
     //try catch 를 하나의 단위마다 해야하는지 ?

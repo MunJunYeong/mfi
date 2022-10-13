@@ -8,6 +8,7 @@ import { LoginInputDTO } from './dto/args/login-input.dto';
 import { UserToken } from 'src/user-token/entities/user-token.entity';
 import { UpdateUserRoleDTO } from './dto/args/update-userRole.dto';
 import { UpdateUserTokenDTO } from './dto/args/update-userToken.dto';
+import { GetUserListDTO } from './dto/args/user-list.dto';
 // import { UpdateUserInput } from './dto/update-user.input';
 
 @Resolver(() => User)
@@ -59,10 +60,16 @@ export class UserResolver {
     return await this.userService.updateUserToken(updateUserTokenDTO.userIdx, updateUserTokenDTO.token);
   }
   
+  @Query(()=> [User], {name : 'getUserList'})
+  async getUserList(@Args('input', {type: ()=> GetUserListDTO }) getUserListDTO: GetUserListDTO){
+    return await this.userService.getUserList(getUserListDTO.page, getUserListDTO.nickName);
+  }
+
   @Query(()=> User, {name: 'getUserData'})
   async getUserData(@Args('userIdx', { type: () => Int }) userIdx: number){
     
   }
+
 
   @Query(() => User, { name: 'user' })
   findOne(@Args('id', { type: () => Int }) id: number) {
