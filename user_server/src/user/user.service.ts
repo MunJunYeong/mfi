@@ -120,6 +120,7 @@ export class UserService {
       };
       accessToken = await this.jwtService.signAsync(accessUser);
       refreshToken = await this.jwtService.signAsync(refreshUser);
+      console.log(accessToken)
       const userToken: UserToken = {
         userIdx : user.userIdx,
         token : accessToken
@@ -133,7 +134,8 @@ export class UserService {
       token : accessToken,
       refreshToken : refreshToken
     }
-    return loginUserToken;
+    return user;
+    // return loginUserToken;
   }
 
   async updatePw(email: string, pw: string) {
@@ -172,7 +174,7 @@ export class UserService {
   async sendIdMail(email: string) {
     let user:User = new User();
     try{
-      user = await this.validateMail(email, true);
+      user = await this.validateMail(email);
     }catch(err){
       
     }
@@ -187,7 +189,7 @@ export class UserService {
   async sendPwMail(email: string) {
     let user:User = new User();
     try{
-      user = await this.validateMail(email, true);
+      user = await this.validateMail(email);
     }catch(err){
       
     }
@@ -209,7 +211,7 @@ export class UserService {
   async sendMail(email: string) {
     let user:User = new User();
     try{
-      user = await this.validateMail(email, false);
+      user = await this.validateMail(email);
     }catch(err){
       
     }
@@ -231,7 +233,7 @@ export class UserService {
     return user;
   }
 
-  async signUp(id, pw, email, nickName) {
+  async signUp(id: string, pw: string, email: string, nickName: string) {
     //중복 아이디, 이메일, 닉네임 확인
     let duplicatedId: boolean, duplicatedNickName: boolean, duplicatedEmail: boolean;
     try{
@@ -264,18 +266,13 @@ export class UserService {
     return res;
   }
 //중복여부 : 중복(있음) true || 없음 false
-  async validateMail(email: string, flag: boolean){
-    let existEmail: boolean;
+  async validateMail(email: string){
     let user:User = new User;
     try{
       user = await this.userRepo.findUserByEmail(email);
     }catch(err){
 
     }
-    // user === null? existEmail = false : existEmail = true;
-    // if(flag !== existEmail){
-    //   throw new Error('잘못된 email');
-    // }
     return user;
   }
   findOne(id: number) {
