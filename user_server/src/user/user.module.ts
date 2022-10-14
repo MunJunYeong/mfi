@@ -4,19 +4,11 @@ import { UserResolver } from './user.resolver';
 import { TypeOrmExModule } from '../lib/db/typeorm-ex.module';
 import { UserRepo } from './user.repo';
 import { MailService } from 'src/lib/common/mail/mail.service';
-import { JwtModule } from '../lib/common/jwt';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports : [
     TypeOrmExModule.forCustomRepository([UserRepo]),
-    JwtModule.registerAsync({
-      imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        secret: configService.get<string>('SECRET'),
-      }),
-      inject: [ConfigService],
-    }),
+    //jwt module는 global로 설정을 해두어서 app.module에 해둠
   ],
   providers: [UserResolver, UserService, MailService]
 })
