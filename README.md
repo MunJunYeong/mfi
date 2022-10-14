@@ -32,7 +32,7 @@ Skills
     - Rest, GraphQL
 
 
-Backend Architecture
+Main Server Architecture
 ------------
 ```bash
 ├── Server //각 폴더 안에는 index.js가 존재
@@ -114,6 +114,66 @@ Backend Architecture
 ├── docker-compose.yaml
 ```
 
+
+User Server Architecture
+------------
+```bash
+├── User-Server.src
+│   ├── auth
+|   |     ├── dto
+|   |     |    ├── auth.dto.ts
+|   |     ├── entities
+|   |     |    ├── auth.entity.ts
+|   |     ├── auth.module.ts
+|   |     ├── auth.resolver.ts
+|   |     ├── auth.service.ts
+│   ├── configs
+|   |     ├── db
+|   |     |    ├── config.module.ts
+|   |     |    ├── config.service.ts
+|   |     ├── env
+|   |     |    ├── .local.env
+|   |     |    ├── .dev.env
+
+│   ├── lib
+|   |     ├── common
+|   |     |    ├── jwt
+|   |     |    |    |── interfaces
+|   |     |    |    |── index.ts
+|   |     |    |    |── jwt.constants.ts
+|   |     |    |    |── jwt.module.ts
+|   |     |    |    |── jwt.providers.ts
+|   |     |    |    |── jwt.service.ts
+|   |     |    ├── mail
+|   |     |    |    |── mail.module.ts
+|   |     |    |    |── mail.service.ts
+|   |     |    ├── middleware
+|   |     |    |    |── logger.middleware.ts
+|   |     |    ├── http-exception.filter.ts
+|   |     |    ├── winston.util.ts
+|   |     ├── db
+|   |     |    ├── typeorm-ex.decorator.ts
+|   |     |    ├── typeorm-ex.module.ts
+│   ├── user
+|   |     ├── dto
+|   |     ├── entities
+|   |     ├── user.module.ts
+|   |     ├── user.repo.ts
+|   |     ├── user.resolver.ts
+|   |     ├── user.service.ts
+│   ├── user-token
+|   |     ├── entities
+|   |     ├── user-token.module.ts
+|   |     ├── user-token.resolver.ts
+|   |     ├── user-token.service.ts
+│   ├── app.controller.spec.ts
+│   ├── app.controller.ts
+│   ├── app.module.ts
+│   ├── app.service.ts
+│   ├── main.ts
+│   ├── schema.gql
+│   ├── test
+```
 
 Front Architecture
 ------------
