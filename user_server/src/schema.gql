@@ -24,6 +24,10 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type IsSuccessObj {
+  isSuccess: Boolean!
+}
+
 type Query {
   getUserList(input: GetUserListDTO!): [User!]!
   getUserData(userIdx: Int!): User!
@@ -36,10 +40,10 @@ input GetUserListDTO {
 }
 
 type Mutation {
-  signUp(input: SignUpInputDTO!): User!
-  sendMail(email: String!): User!
-  sendIdMail(email: String!): User!
-  sendPwMail(email: String!): User!
+  signUp(input: SignUpUserDTO!): User!
+  sendMail(email: String!): IsSuccessObj!
+  sendPwMail(email: String!): IsSuccessObj!
+  sendIdMail(email: String!): IsSuccessObj!
   checkAuth(input: AuthDTO!): User!
   updatePw(input: UpdateUserPwDTO!): User!
   signIn(input: LoginInputDTO!): User!
@@ -48,7 +52,7 @@ type Mutation {
   updateUserToken(input: UpdateUserTokenDTO!): UserToken!
 }
 
-input SignUpInputDTO {
+input SignUpUserDTO {
   id: String!
   pw: String!
   nickName: String!

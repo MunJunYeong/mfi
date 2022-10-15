@@ -8,8 +8,6 @@ import { Auth } from "../auth/entities/auth.entity";
 @CustomRepository(User)
 export class UserRepo extends Repository<User>{
 
-
-    
     async updateUserToken(userToken: UserToken) {
         try{
             await this.manager.save(UserToken, userToken)
@@ -56,11 +54,13 @@ export class UserRepo extends Repository<User>{
     }
 
     async saveAuth(authentication: Auth) {
+        let res: Auth;
         try{
-         await this.manager.save(Auth, authentication);   
+         res = await this.manager.save(Auth, authentication);   
         }catch(err){
             console.log(err);
         }
+        return res;
     }
     
     async signUp(user: User){
@@ -103,13 +103,15 @@ export class UserRepo extends Repository<User>{
         }
     }
     async findUserByEmail(email: string){
+        let res: User;
         try{
-            return await this.manager.findOne(User, {
+            res =  await this.manager.findOne(User, {
                 where : {email : email}
             })
         }catch(err){
             
         }
+        return res;
     }
 
 

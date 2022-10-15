@@ -7,6 +7,7 @@ import { UserToken } from '../user-token/entities/user-token.entity';
 import { LoginUserTokenDTO } from './dto/args/signIn-userToken.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '../lib/common/jwt';
+import { IsSuccessObj } from './dto/objs/is-success.obj';
 
 @Injectable()
 export class UserService {
@@ -15,7 +16,102 @@ export class UserService {
     private userRepo: UserRepo, private readonly mailService: MailService,
     private readonly jwtService: JwtService,
   ){}
+  async signUp(id: string, pw: string, email: string, nickName: string) {
+    //중복 아이디, 이메일, 닉네임 확인
+    let duplicatedId: boolean, duplicatedNickName: boolean, duplicatedEmail: boolean;
+    try{
+      await this.userRepo.findUserById(id) === null? duplicatedId = false : duplicatedId = true;
+      await this.userRepo.findUserByNickName(nickName) === null? duplicatedNickName = false : duplicatedNickName = true;
+      await this.userRepo.findUserByEmail(email) === null? duplicatedEmail = false : duplicatedEmail = true;
+    }catch(err){
 
+    }
+    if(duplicatedId || duplicatedNickName || duplicatedEmail){
+      throw new Error('중복됨!!!!');
+    }
+    //user 정보 설정
+    const user: User = new User();
+    user.id = id;
+    //비밀번호 암호화
+    user.pw = await bcrypt.hash(
+      pw, 10,
+    );
+    user.nickName = nickName;
+    user.email = email;
+    user.role = "normal";
+    let res:User;
+    try{
+      res = await this.userRepo.signUp(user); //transaction 유저, 유저토큰 저장 repo에서
+    }catch(err){
+
+    }
+    return res;
+  }
+  // 회원가입시 이메일 중복확인을 위한 mail 전송
+  async sendMail(email: string) {
+    let user:User = new User();
+    try{
+      user = await this.validateMail(email);
+    }catch(err){
+      
+    }
+    if(user !== null){
+      throw new Error('이미 존재함 email');
+    }
+    let auth: Auth;
+    let isSuccessObj: IsSuccessObj = new IsSuccessObj();
+    try{
+      auth = await this.saveMailAuth(email);
+      if(auth === null) isSuccessObj.isSuccess = false;
+      else isSuccessObj.isSuccess = true;
+    }catch(err){
+
+    }
+    return isSuccessObj;
+  }
+  // 일치하는 email 확인 후 -> 인증번호 전송
+  async sendPwMail(email: string) {
+    let user:User;
+    try{
+      user = await this.validateMail(email);
+      console.log(user)
+    }catch(err){
+      
+    }
+    if(user === null){
+      throw new Error('잘못된 email');
+    }
+    let auth: Auth;
+    let isSuccessObj: IsSuccessObj= new IsSuccessObj();
+    try{
+      auth = await this.saveMailAuth(email);
+      auth === null ?  isSuccessObj.isSuccess = false : isSuccessObj.isSuccess = true;
+    }catch(err){
+
+    }
+    return isSuccessObj;
+  }
+  // 일치하는 email 확인 후 -> id mail 전송.
+  async sendIdMail(email: string) {
+    let user:User = new User();
+    try{
+      user = await this.validateMail(email);
+    }catch(err){
+      
+    }
+    if(user === null){
+      throw new Error('잘못된 email');
+    }
+    let isSuccessObj = new IsSuccessObj();
+    try{
+      const tempId: string = user.id.substring(0, user.id.length-3);
+      let res: object = await this.mailService.idMail( (tempId+'***') , email);
+      res === null ? isSuccessObj.isSuccess = false : isSuccessObj.isSuccess= true;
+    }catch(err){
+
+    }
+    return isSuccessObj;
+  }
   async testFind(userIdx: number) {
     return await this.userRepo.findOne({
       where : {
@@ -179,101 +275,8 @@ export class UserService {
     return user;
   }
 
-  // 일치하는 email 확인 후 -> id mail 전송.
-  async sendIdMail(email: string) {
-    let user:User = new User();
-    try{
-      user = await this.validateMail(email);
-    }catch(err){
-      
-    }
-    if(user === null){
-      throw new Error('잘못된 email');
-    }
-    const tempId: string = user.id.substring(0, user.id.length-3);
-    this.mailService.idMail( (tempId+'***') , email);
-    return user;
-  }
-  // 일치하는 email 확인 후 -> 인증번호 전송
-  async sendPwMail(email: string) {
-    let user:User = new User();
-    try{
-      user = await this.validateMail(email);
-    }catch(err){
-      
-    }
-    if(user === null){
-      throw new Error('잘못된 email');
-    }
-    try{
-      const no: string = this.mailService.authenticationMail(email);
-      let authentication:Auth = new Auth();
-      authentication.email = email;
-      authentication.no = no;
-      await this.userRepo.saveAuth(authentication);
-    }catch(err){
 
-    }
-    return user;
-  }
-  // 회원가입시 이메일 중복확인을 위한 mail 전송
-  async sendMail(email: string) {
-    let user:User = new User();
-    try{
-      user = await this.validateMail(email);
-    }catch(err){
-      
-    }
-    if(user !== null){
-      throw new Error('잘못된 email');
-    }
-    
-    // 이메일을 보내고 이메일에 해당하는 인증번호 저장
-    try{
-      const no: string = this.mailService.authenticationMail(email);
-      let authentication:Auth = new Auth();
-      authentication.email = email;
-      authentication.no = no;
-      await this.userRepo.saveAuth(authentication);
-    }catch(err){
-
-    }
-    // 체크해주려면 이렇게 반환해서 . 어떻게 반환해야 오류가 안나는지 모르겠음 아직
-    return user;
-  }
-
-  async signUp(id: string, pw: string, email: string, nickName: string) {
-    //중복 아이디, 이메일, 닉네임 확인
-    let duplicatedId: boolean, duplicatedNickName: boolean, duplicatedEmail: boolean;
-    try{
-      await this.userRepo.findUserById(id) === null? duplicatedId = false : duplicatedId = true;
-      await this.userRepo.findUserByNickName(nickName) === null? duplicatedNickName = false : duplicatedNickName = true;
-      await this.userRepo.findUserByEmail(email) === null? duplicatedEmail = false : duplicatedEmail = true;
-    }catch(err){
-
-    }
-    if(duplicatedId || duplicatedNickName || duplicatedEmail){
-      throw new Error('중복됨!!!!');
-    }
-    //user 정보 설정
-    const user: User = new User();
-    user.id = id;
-    //비밀번호 암호화
-    user.pw = await bcrypt.hash(
-      pw, 10,
-    );
-    user.nickName = nickName;
-    user.email = email;
-    user.role = "normal";
-    let res:User;
-    try{
-      res = await this.userRepo.signUp(user); //transaction 유저, 유저토큰 저장 repo에서
-    }catch(err){
-
-    }
-    // if(res === null) throw new Error();
-    return res;
-  }
+  
 //중복여부 : 중복(있음) true || 없음 false
   async validateMail(email: string){
     let user:User = new User;
@@ -284,8 +287,18 @@ export class UserService {
     }
     return user;
   }
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
-  }
+  // 메일 전송 후 
+  async saveMailAuth(email: string): Promise<Auth>{
+    let auth: Auth;
+    try{
+      const res = await this.mailService.authMail(email);
+      let authentication:Auth = new Auth();
+      authentication.email = email;
+      authentication.no = res['no'];
+      auth = await this.userRepo.saveAuth(authentication);
+    }catch(err){
 
+    }
+    return auth;
+  }
 }
