@@ -10,10 +10,19 @@ import { JwtService } from '../lib/common/jwt';
 
 @Injectable()
 export class UserService {
+  
   constructor(
     private userRepo: UserRepo, private readonly mailService: MailService,
     private readonly jwtService: JwtService,
   ){}
+
+  async testFind(userIdx: number) {
+    return await this.userRepo.findOne({
+      where : {
+       userIdx : userIdx 
+      }
+    });
+  }
 
   async getUserList(page: number, nickName: string) {
     console.log(page)
@@ -85,7 +94,7 @@ export class UserService {
     return userToken;
   }
 
-  async signIn(id: string, pw: string, isForce: boolean) {
+  async signIn({ id, pw, isForce }: { id: string, pw: string, isForce: boolean }) {
     let user:User = new User();
     try{
       user = await this.userRepo.findUserById(id);

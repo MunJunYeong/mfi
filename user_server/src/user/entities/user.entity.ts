@@ -1,4 +1,5 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { UserToken } from 'src/user-token/entities/user-token.entity';
 import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @ObjectType()
@@ -37,6 +38,6 @@ export class User {
   @Column()
   role: string
 
-  // @Field(type => UserToken)
-  // userToken: UserToken;
+  @Field(type => UserToken)
+  userToken: UserToken;
 }

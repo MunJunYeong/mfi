@@ -11,6 +11,8 @@ export class LoggerMiddleware implements NestMiddleware {
         private readonly jwtService: JwtService,
         // private readonly userService: UserService
     ){}
+
+    // 인터셉터나 가드를 통해서 복호화하는 거 1. 롤에 대해 분별하는거 2
         //service를 통해서 repo를 할지. 아니면 바로 repo로 접근할지 ?
     async use(req: Request, res: Response, next: NextFunction){
         console.log('middleware request!!!')
