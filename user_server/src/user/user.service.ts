@@ -4,10 +4,11 @@ import { UserRepo } from './user.repo';
 import { MailService } from '../lib/common/mail/mail.service';
 import { Auth } from '../auth/entities/auth.entity';
 import { UserToken } from '../user-token/entities/user-token.entity';
-import { LoginUserTokenDTO } from './dto/args/signIn-userToken.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '../lib/common/jwt';
 import { IsSuccessObj } from './dto/objs/is-success.obj';
+import { DeleteResult } from 'typeorm';
+import { LoginTokenObj } from './dto/objs/login-token.obj';
 
 @Injectable()
 export class UserService {
@@ -16,6 +17,7 @@ export class UserService {
     private userRepo: UserRepo, private readonly mailService: MailService,
     private readonly jwtService: JwtService,
   ){}
+
   async signUp(id: string, pw: string, email: string, nickName: string) {
     //중복 아이디, 이메일, 닉네임 확인
     let duplicatedId: boolean, duplicatedNickName: boolean, duplicatedEmail: boolean;
@@ -119,7 +121,91 @@ export class UserService {
       }
     });
   }
+  async checkAuth(email: string, no: string) {
+    // 1. authentication에 와있는 인증번호를 확인한다.
+    let auth: Auth[] = [];
+    try{
+      auth = await this.userRepo.findAuth(email);
+    }catch(err){
+    }
+    if(auth.length === 0 || auth[auth.length-1].no !== no){
+      throw new Error('잘못된 인증번호!!!!!');
+    }
+    let res: DeleteResult;
+    try{
+      res = await this.userRepo.deleteAuthByEmail(email);
+    }catch(err){
+      
+    }
+    let isSuccessObj = new IsSuccessObj();
+    !res ?  isSuccessObj.isSuccess = false : isSuccessObj.isSuccess= true;
+    return isSuccessObj;
+  }
+  async updatePw(email: string, pw: string) {
+    let user:User = new User();
+    try{
+      user = await this.userRepo.findUserByEmail(email);
+    }catch(err){
+      console.log(err);
+    }
+    try{
+      user.pw = pw;
+      user = await this.userRepo.save(user);
+    }catch(err){
+      console.log(err);
+    }
+    return user;
+  }
+  async signIn({ id, pw, isForce }: { id: string, pw: string, isForce: boolean }) {
+    let user:User;
+    try{
+      user = await this.userRepo.findUserById(id);
+    }catch(err){
 
+    }
+    if(user === null) throw new Error('잘못된 아이디!!!!');
+    //초기 로그인이라면 비밀번호의 검증 절차를 걸치기!
+    if(isForce === false){
+      if(await bcrypt.compare(pw, user.pw) === false) throw new Error('잘못된 비밀번호!!!!');
+      let isLogin: boolean = false;
+      try{
+        const userToken = await this.userRepo.findUserToken(user.userIdx);
+        userToken.token === '' ? isLogin = false : isLogin = true;
+      }catch(err){
+        
+      }
+      if(isLogin === true){
+        throw new Error('이미 로그인 중입니다!!!!');//이거에 대한 추가 핸들링 추가하기
+      }
+    }
+
+    let accessToken: string, refreshToken: string;
+    user.pw = '';
+    const accessUser: object = {
+      ...user
+    };
+    const refreshUser: object = {
+      userIdx : user.userIdx,
+      refresh : true
+    };
+    try{
+      accessToken = await this.jwtService.signAsync(accessUser);
+      refreshToken = await this.jwtService.signAsync(refreshUser);
+      const userToken: UserToken = {
+        userIdx : user.userIdx,
+        token : accessToken
+      }
+      await this.userRepo.updateUserToken(userToken);
+    }catch(err){
+
+    }
+    // login한 유저한테 access, refresh token을 return 해주어야함.
+    const loginUserToken: LoginTokenObj = {
+      token : accessToken,
+      refreshToken : refreshToken
+    }
+    return loginUserToken;
+  }
   async getUserList(page: number, nickName: string) {
     console.log(page)
     let user : User = new User;
@@ -190,90 +276,10 @@ export class UserService {
     return userToken;
   }
 
-  async signIn({ id, pw, isForce }: { id: string, pw: string, isForce: boolean }) {
-    let user:User = new User();
-    try{
-      user = await this.userRepo.findUserById(id);
-    }catch(err){
 
-    }
-    if(isForce === false){
-      if(user === null) throw new Error('잘못된 아이디!!!!');
-      if(await bcrypt.compare(pw, user.pw) === false) throw new Error('잘못된 비밀번호!!!!');
-      let isLogin: boolean = false;
-      try{
-        const userToken = await this.userRepo.findUserToken(user.userIdx);
-        userToken.token === '' ? isLogin = false : isLogin = true;
-      }catch(err){
-        
-      }
-      if(isLogin === true){
-        throw new Error('이미 로그인 중입니다!!!!');//이거에 대한 추가 핸들링 추가하기
-      }
-    }
 
-    let accessToken: string, refreshToken: string;
-    try{
-      user.pw = '';
-      console.log(user)
-      const accessUser: object = {
-        ...user
-      };
-      const refreshUser: object = {
-        userIdx : user.userIdx,
-        refresh : true
-      };
-      accessToken = await this.jwtService.signAsync(accessUser);
-      refreshToken = await this.jwtService.signAsync(refreshUser);
-      console.log(accessToken)
-      const userToken: UserToken = {
-        userIdx : user.userIdx,
-        token : accessToken
-      }
-      await this.userRepo.updateUserToken(userToken);
-    }catch(err){
 
-    }
-    // login한 유저한테 access, refresh token을 return 해주어야함.
-    const loginUserToken: LoginUserTokenDTO = {
-      token : accessToken,
-      refreshToken : refreshToken
-    }
-    return user;
-    // return loginUserToken;
-  }
-
-  async updatePw(email: string, pw: string) {
-    let user:User = new User();
-    try{
-      user = await this.userRepo.findUserByEmail(email);
-      user.pw = pw;
-      user = await this.userRepo.save(user);
-    }catch(err){
-      console.log(err);
-    }
-    return user;
-  }
-  async checkAuth(email: string, no: string) {
-    // 1. authentication에 와있는 인증번호를 확인한다.
-    let auth: Auth[] = [];
-    try{
-      auth = await this.userRepo.findAuth(email);
-    }catch(err){
-
-    }
-    if(auth[auth.length-1].no !== no){
-      throw new Error('잘못된 인증번호!!!!!');
-    }
-    try{
-      await this.userRepo.deleteAuthByEmail(email);
-    }catch(err){
-      
-    }
-    let user: User = new User();
-    user.email = email;
-    return user;
-  }
+  
 
 
   
