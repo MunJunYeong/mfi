@@ -1,37 +1,38 @@
 import { Resolver, Query, Mutation, Args, Int, ResolveField, Parent } from '@nestjs/graphql';
 import { UserService } from './user.service';
 import { User } from './entities/user.entity';
-import { SignUpInputDTO } from './dto/input/signUp-input.dto';
 import { AuthDTO } from '../auth/dto/auth.dto';
+import { SignUpUserDTO } from './dto/args/signUp-user.dto';
 import { UpdateUserPwDTO } from './dto/args/update-userPw.dto';
 import { LoginInputDTO } from './dto/args/login-input.dto';
 import { UserToken } from 'src/user-token/entities/user-token.entity';
 import { UpdateUserRoleDTO } from './dto/args/update-userRole.dto';
 import { UpdateUserTokenDTO } from './dto/args/update-userToken.dto';
 import { GetUserListDTO } from './dto/args/user-list.dto';
-// import { UpdateUserInput } from './dto/update-user.input';
+import { IsSuccessObj } from './dto/objs/is-success.obj';
 
 @Resolver(() => User)
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
   @Mutation(() => User)
-  async signUp(@Args('input') signUPInputDTO: SignUpInputDTO) {
+  async signUp(@Args('input') signUPInputDTO: SignUpUserDTO) {
     return this.userService.signUp(signUPInputDTO.id, signUPInputDTO.pw, signUPInputDTO.email, signUPInputDTO.nickName);
     // 어쩔 때는 userToken이 생성 안되는 경우가 생김 
   }
-  @Mutation(()=> User)
+  @Mutation(()=> IsSuccessObj)
   async sendMail(@Args('email') email: string){
     return await this.userService.sendMail(email);
   }
-  @Mutation(()=> User)
-  async sendIdMail(@Args('email') email: string){
-    return await this.userService.sendIdMail(email);
-  }
-  @Mutation(()=> User)
+  @Mutation(()=> IsSuccessObj)
   async sendPwMail(@Args('email') email: string){
     return await this.userService.sendPwMail(email);
   }
+  @Mutation(()=> IsSuccessObj)
+  async sendIdMail(@Args('email') email: string){
+    return await this.userService.sendIdMail(email);
+  }
+  
   @Mutation(()=> User)
   async checkAuth(@Args('input') authDTO: AuthDTO ){
     return this.userService.checkAuth(authDTO.email, authDTO.no);
@@ -73,11 +74,6 @@ export class UserResolver {
   @Query(()=> User, {name: 'test'})
   async find(@Args('userIdx', { type: () => Int }) userIdx: number){
     return await this.userService.testFind(userIdx);
-  }
-
-  @ResolveField()
-  async userIdx(@Parent() user: User) {
-    return '211231321'
   }
 
   @ResolveField()

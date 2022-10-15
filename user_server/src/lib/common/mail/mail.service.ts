@@ -6,9 +6,9 @@ import { MailerService } from '@nestjs-modules/mailer';
 export class MailService {
     constructor(private readonly mailerService: MailerService){}
 
-    public authenticationMail(email: string): string {
+    async authMail(email: string) {
         let no: string = createMailNo(6);
-        this.mailerService.sendMail({
+        let res: any = await this.mailerService.sendMail({
             to : email,
             from : 'mfinvest.kr@gmail.com',
             subject : 'MFI 계정 인증번호',
@@ -23,16 +23,18 @@ export class MailService {
                 </p>`,
         })
         .then((success)=> {
-            console.log(success)
+            return success;
         })
         .catch((err)=> {
             console.log(err);
         })
-        return no;
+        res.no = no;
+        return res;
     }
 
-    public idMail(id: string, email: string): void {
-        this.mailerService.sendMail({
+    async idMail(id: string, email: string) {
+        let res: object;
+        res = await this.mailerService.sendMail({
             to : email,
             from : 'mfinvest.kr@gmail.com',
             subject : 'MFI 아이디 찾기 결과',
@@ -46,11 +48,12 @@ export class MailService {
                 </p>`,
         })
         .then((success)=> {
-            console.log(success)
+            return success;
         })
         .catch((err)=> {
-            console.log(err);
+            throw new Error(err);
         })
+        return res;
     }
 
 }
