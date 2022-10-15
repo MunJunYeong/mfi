@@ -28,6 +28,11 @@ type IsSuccessObj {
   isSuccess: Boolean!
 }
 
+type LoginTokenObj {
+  token: String!
+  refreshToken: String!
+}
+
 type Query {
   getUserList(input: GetUserListDTO!): [User!]!
   getUserData(userIdx: Int!): User!
@@ -44,9 +49,9 @@ type Mutation {
   sendMail(email: String!): IsSuccessObj!
   sendPwMail(email: String!): IsSuccessObj!
   sendIdMail(email: String!): IsSuccessObj!
-  checkAuth(input: AuthDTO!): User!
+  checkAuth(input: AuthDTO!): IsSuccessObj!
   updatePw(input: UpdateUserPwDTO!): User!
-  signIn(input: LoginInputDTO!): User!
+  signIn(input: LoginInputDTO!): LoginTokenObj!
   logout(userIdx: Float!): UserToken!
   updateUserRole(input: UpdateUserRoleDTO!): User!
   updateUserToken(input: UpdateUserTokenDTO!): UserToken!

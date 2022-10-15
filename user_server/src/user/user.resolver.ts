@@ -10,6 +10,8 @@ import { UpdateUserRoleDTO } from './dto/args/update-userRole.dto';
 import { UpdateUserTokenDTO } from './dto/args/update-userToken.dto';
 import { GetUserListDTO } from './dto/args/user-list.dto';
 import { IsSuccessObj } from './dto/objs/is-success.obj';
+import { DeleteResult } from 'typeorm';
+import { LoginTokenObj } from './dto/objs/login-token.obj';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -32,8 +34,7 @@ export class UserResolver {
   async sendIdMail(@Args('email') email: string){
     return await this.userService.sendIdMail(email);
   }
-  
-  @Mutation(()=> User)
+  @Mutation(()=> IsSuccessObj)
   async checkAuth(@Args('input') authDTO: AuthDTO ){
     return this.userService.checkAuth(authDTO.email, authDTO.no);
   }
@@ -42,17 +43,16 @@ export class UserResolver {
     return await this.userService.updatePw(updateUserPwDTO.email, updateUserPwDTO.pw);
   }
   //기존 signIn과 달라진 점 : force여부를 flag로 두어서 중복되는 코드를 없앰
-  @Mutation(()=> User)
+  @Mutation(()=> LoginTokenObj)
   async signIn(@Args('input') loginInputDTO: LoginInputDTO){
     // 주소 참조를 안하기 위해서 새로 오브젝트로 만들어서 새로운 주소로 만들기 위함
     return await this.userService.signIn({ id:loginInputDTO.id, pw: loginInputDTO.pw, isForce: loginInputDTO.isForce });
   }
-
-  //need middleware
   @Mutation(()=> UserToken)
   async logout(@Args('userIdx') userIdx: number){
     return await this.userService.logout(userIdx);
   }
+  //need middleware
   @Mutation(()=> User)
   async updateUserRole(@Args('input') updateUserRoleDTO : UpdateUserRoleDTO){
     return await this.userService.updateUserRole(updateUserRoleDTO.userIdx, updateUserRoleDTO.role);
@@ -71,11 +71,13 @@ export class UserResolver {
   async getUserData(@Args('userIdx', { type: () => Int }) userIdx: number){
     
   }
+
+
+  //test
   @Query(()=> User, {name: 'test'})
   async find(@Args('userIdx', { type: () => Int }) userIdx: number){
     return await this.userService.testFind(userIdx);
   }
-
   @ResolveField()
   async userToken(@Parent() user: User) {
     const { userIdx } = user;

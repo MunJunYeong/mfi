@@ -1,6 +1,6 @@
 import { CustomRepository } from "../lib/db/typeorm-ex.decorator";
 import { UserToken } from "../user-token/entities/user-token.entity";
-import { Repository } from "typeorm";
+import { DeleteResult, Repository } from "typeorm";
 import { User } from "./entities/user.entity";
 import { Auth } from "../auth/entities/auth.entity";
 
@@ -30,11 +30,13 @@ export class UserRepo extends Repository<User>{
 
 
     async deleteAuthByEmail(email: string) {
+        let res: DeleteResult;
         try{
-            await this.manager.delete(Auth, {email : email})
+            res = await this.manager.delete(Auth, {email : email})
         }catch(err){
             console.log(err)
         }
+        return res;
     }
 
     async findAuth(email: string): Promise<Auth[]> {
