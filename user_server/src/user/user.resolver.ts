@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, ResolveField, Parent } from '@nestjs/graphql';
 import { UserService } from './user.service';
 import { User } from './entities/user.entity';
 import { SignUpInputDTO } from './dto/input/signUp-input.dto';
@@ -43,7 +43,8 @@ export class UserResolver {
   //기존 signIn과 달라진 점 : force여부를 flag로 두어서 중복되는 코드를 없앰
   @Mutation(()=> User)
   async signIn(@Args('input') loginInputDTO: LoginInputDTO){
-    return await this.userService.signIn(loginInputDTO.id, loginInputDTO.pw, loginInputDTO.isForce);
+    // 주소 참조를 안하기 위해서 새로 오브젝트로 만들어서 새로운 주소로 만들기 위함
+    return await this.userService.signIn({ id:loginInputDTO.id, pw: loginInputDTO.pw, isForce: loginInputDTO.isForce });
   }
 
   //need middleware
@@ -69,6 +70,23 @@ export class UserResolver {
   async getUserData(@Args('userIdx', { type: () => Int }) userIdx: number){
     
   }
+  @Query(()=> User, {name: 'test'})
+  async find(@Args('userIdx', { type: () => Int }) userIdx: number){
+    return await this.userService.testFind(userIdx);
+  }
 
+  @ResolveField()
+  async userIdx(@Parent() user: User) {
+    return '211231321'
+  }
+
+  @ResolveField()
+  async userToken(@Parent() user: User) {
+    const { userIdx } = user;
+    return {
+      userIdx: 1,
+      token: 'adsfsdf'
+    }
+  }
 
 }

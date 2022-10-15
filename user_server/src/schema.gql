@@ -2,6 +2,11 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type UserToken {
+  userIdx: Int!
+  token: String!
+}
+
 type User {
   userIdx: Int!
   id: String!
@@ -11,6 +16,7 @@ type User {
   created: DateTime!
   status: String
   role: String!
+  userToken: UserToken!
 }
 
 """
@@ -18,14 +24,10 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type UserToken {
-  userIdx: Int!
-  token: String!
-}
-
 type Query {
   getUserList(input: GetUserListDTO!): [User!]!
   getUserData(userIdx: Int!): User!
+  test(userIdx: Int!): User!
 }
 
 input GetUserListDTO {
