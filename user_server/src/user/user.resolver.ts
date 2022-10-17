@@ -12,6 +12,8 @@ import { GetUserListDTO } from './dto/args/user-list.dto';
 import { IsSuccessObj } from './dto/objs/is-success.obj';
 import { DeleteResult } from 'typeorm';
 import { LoginTokenObj } from './dto/objs/login-token.obj';
+import { LoggingInterceptor } from 'src/lib/common/middleware/logging.interceptor';
+import { UseInterceptors } from '@nestjs/common';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -53,8 +55,10 @@ export class UserResolver {
     return await this.userService.logout(userIdx);
   }
   //need middleware
+  @UseInterceptors(LoggingInterceptor)
   @Mutation(()=> User)
   async updateUserRole(@Args('input') updateUserRoleDTO : UpdateUserRoleDTO){
+    console.log('dfasfdsfsafs')
     return await this.userService.updateUserRole(updateUserRoleDTO.userIdx, updateUserRoleDTO.role);
   }
   @Mutation(()=> UserToken)
