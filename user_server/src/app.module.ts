@@ -31,12 +31,13 @@ import { JwtModule } from './lib/common/jwt';
       isGlobal: true,
       envFilePath : `./src/configs/env/.${process.env.NODE_ENV}.env`
     }),
-    //TypeORM import
+    // TypeORM import
     TypeOrmModule.forRootAsync({
       imports : [PostgresConfigModule],
       useClass : PostgresConfigService,
       inject : [PostgresConfigService]
     }),
+    // JWT import
     JwtModule.registerAsync({
       imports : [ConfigModule],
       useFactory: async (configService: ConfigService) => ({

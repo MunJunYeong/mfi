@@ -55,8 +55,8 @@ export class UserResolver {
     return await this.userService.logout(userIdx);
   }
   //need middleware
-  @UseInterceptors(LoggingInterceptor)
   @Mutation(()=> User)
+  @UseInterceptors(LoggingInterceptor)
   async updateUserRole(@Args('input') updateUserRoleDTO : UpdateUserRoleDTO){
     console.log('dfasfdsfsafs')
     return await this.userService.updateUserRole(updateUserRoleDTO.userIdx, updateUserRoleDTO.role);
