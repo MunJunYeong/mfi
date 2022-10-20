@@ -10,10 +10,9 @@ import { UpdateUserRoleDTO } from './dto/args/update-userRole.dto';
 import { UpdateUserTokenDTO } from './dto/args/update-userToken.dto';
 import { GetUserListDTO } from './dto/args/user-list.dto';
 import { IsSuccessObj } from './dto/objs/is-success.obj';
-import { DeleteResult } from 'typeorm';
 import { LoginTokenObj } from './dto/objs/login-token.obj';
-import { LoggingInterceptor } from 'src/lib/common/middleware/logging.interceptor';
-import { UseInterceptors } from '@nestjs/common';
+import { UseGuards } from '@nestjs/common';
+import { AdminGuard, UserGuard } from 'src/lib/common/guard/role.guard';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -54,11 +53,10 @@ export class UserResolver {
   async logout(@Args('userIdx') userIdx: number){
     return await this.userService.logout(userIdx);
   }
-  //need middleware
+  // @UseInterceptors(LoggingInterceptor)
   @Mutation(()=> User)
-  @UseInterceptors(LoggingInterceptor)
+  @UseGuards(AdminGuard)
   async updateUserRole(@Args('input') updateUserRoleDTO : UpdateUserRoleDTO){
-    console.log('dfasfdsfsafs')
     return await this.userService.updateUserRole(updateUserRoleDTO.userIdx, updateUserRoleDTO.role);
   }
   @Mutation(()=> UserToken)
@@ -67,21 +65,18 @@ export class UserResolver {
   }
   
   @Query(()=> [User], {name : 'getUserList'})
+  @UseGuards(AdminGuard)
   async getUserList(@Args('input', {type: ()=> GetUserListDTO }) getUserListDTO: GetUserListDTO){
     return await this.userService.getUserList(getUserListDTO.page, getUserListDTO.nickName);
   }
 
   @Query(()=> User, {name: 'getUserData'})
+  @UseGuards(UserGuard)
   async getUserData(@Args('userIdx', { type: () => Int }) userIdx: number){
     
   }
 
 
-  //test
-  @Query(()=> User, {name: 'test'})
-  async find(@Args('userIdx', { type: () => Int }) userIdx: number){
-    return await this.userService.testFind(userIdx);
-  }
   @ResolveField()
   async userToken(@Parent() user: User) {
     const { userIdx } = user;
