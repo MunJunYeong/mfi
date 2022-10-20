@@ -36,7 +36,6 @@ type LoginTokenObj {
 type Query {
   getUserList(input: GetUserListDTO!): [User!]!
   getUserData(userIdx: Int!): User!
-  test(userIdx: Int!): User!
 }
 
 input GetUserListDTO {
