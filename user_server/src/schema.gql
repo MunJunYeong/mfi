@@ -33,9 +33,14 @@ type LoginTokenObj {
   refreshToken: String!
 }
 
+type UserListObj {
+  userList: [User!]
+  count: Float!
+}
+
 type Query {
   getUserData(userIdx: Int!): User!
-  getUserList(input: GetUserListDTO!): User!
+  getUserList(input: GetUserListDTO!): UserListObj!
 }
 
 input GetUserListDTO {

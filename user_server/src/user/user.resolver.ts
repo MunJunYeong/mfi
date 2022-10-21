@@ -70,15 +70,19 @@ export class UserResolver {
   async getUserData(@Args('userIdx', { type: () => Int }) userIdx: number){
     return await this.userService.getUserData(userIdx);
   }
+
   @Query(()=> UserListObj, {name : 'getUserList'})
-  // @UseGuards(AdminGuard)
+  @UseGuards(AdminGuard)
   async getUserList(@Args('input', {type: ()=> GetUserListDTO }) getUserListDTO: GetUserListDTO){
-    const res = await this.userService.getUserList(getUserListDTO.page, getUserListDTO.nickName);
+    let res: UserListObj;
+    try{
+      res = await this.userService.getUserList(getUserListDTO.page, getUserListDTO.nickName);
+
+    }catch(err){
+
+    }
     return res;
   }
-
-  
-
 
   @ResolveField()
   async userToken(@Parent() user: User) {

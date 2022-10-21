@@ -4,9 +4,9 @@ import { User } from 'src/user/entities/user.entity';
 
 @ObjectType()
 export class UserListObj{
-    @Field()
+    @Field(type => [User], {nullable : true})
     @IsNotEmpty()
-    userList: User[]
+    userList: User[] | null;
 
     @Field()
     @IsNotEmpty()
