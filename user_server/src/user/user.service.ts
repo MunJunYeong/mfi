@@ -279,9 +279,7 @@ export class UserService {
     }catch(err){
 
     }
-    console.log(userList)
-    //userList [0] -> userList
-    //userList[1] -> count
+    
     const res: UserListObj = {
       userList : userList[0],
       count : userList[1]
@@ -301,9 +299,6 @@ export class UserService {
     }
     return user;
   }
-
-
-  
 
 
   
