@@ -13,6 +13,7 @@ import { IsSuccessObj } from './dto/objs/is-success.obj';
 import { LoginTokenObj } from './dto/objs/login-token.obj';
 import { UseGuards } from '@nestjs/common';
 import { AdminGuard, UserGuard } from 'src/lib/common/guard/role.guard';
+import { UserListObj } from './dto/objs/user-list.obj';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -63,18 +64,20 @@ export class UserResolver {
   async updateUserToken(@Args('input') updateUserTokenDTO : UpdateUserTokenDTO){
     return await this.userService.updateUserToken(updateUserTokenDTO.userIdx, updateUserTokenDTO.token);
   }
-  
-  @Query(()=> [User], {name : 'getUserList'})
-  @UseGuards(AdminGuard)
-  async getUserList(@Args('input', {type: ()=> GetUserListDTO }) getUserListDTO: GetUserListDTO){
-    return await this.userService.getUserList(getUserListDTO.page, getUserListDTO.nickName);
-  }
 
   @Query(()=> User, {name: 'getUserData'})
   @UseGuards(UserGuard)
   async getUserData(@Args('userIdx', { type: () => Int }) userIdx: number){
-    
+    return await this.userService.getUserData(userIdx);
   }
+  @Query(()=> UserListObj, {name : 'getUserList'})
+  // @UseGuards(AdminGuard)
+  async getUserList(@Args('input', {type: ()=> GetUserListDTO }) getUserListDTO: GetUserListDTO){
+    const res = await this.userService.getUserList(getUserListDTO.page, getUserListDTO.nickName);
+    return res;
+  }
+
+  
 
 
   @ResolveField()

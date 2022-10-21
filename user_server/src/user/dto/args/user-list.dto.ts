@@ -1,5 +1,5 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
-import { IsNotEmpty } from 'class-validator';
+import { InputType, Field } from '@nestjs/graphql';
+import { IsEmpty, IsNotEmpty, IsString } from 'class-validator';
 
 @InputType()
 export class GetUserListDTO{
@@ -8,6 +8,6 @@ export class GetUserListDTO{
     page: number
 
     @Field()
+    @IsString()
     nickName: string
-    
 }
