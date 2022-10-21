@@ -1,12 +1,29 @@
 import { CustomRepository } from "../lib/db/typeorm-ex.decorator";
 import { UserToken } from "../user-token/entities/user-token.entity";
-import { DeleteResult, Repository } from "typeorm";
+import { DeleteResult, Like, Not, Repository } from "typeorm";
 import { User } from "./entities/user.entity";
 import { Auth } from "../auth/entities/auth.entity";
 
 
 @CustomRepository(User)
 export class UserRepo extends Repository<User>{
+    async getUserList(nickName: string, limit: number, offset: number){
+        let res: [User[], number];
+        // Like(`%${userSearch}%`)
+        try {
+            res = await this.manager.findAndCount(User, {
+                where : {
+                    role : Not('admin'),
+                    nickName : Like(`%${nickName}%`),
+                },
+                // limit, 
+                // offset
+            })
+        } catch(err){
+
+        }     
+        return res;
+    }
 
     async updateUserToken(userToken: UserToken) {
         try{

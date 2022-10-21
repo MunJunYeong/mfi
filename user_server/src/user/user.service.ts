@@ -9,10 +9,11 @@ import { JwtService } from '../lib/common/jwt';
 import { IsSuccessObj } from './dto/objs/is-success.obj';
 import { DeleteResult } from 'typeorm';
 import { LoginTokenObj } from './dto/objs/login-token.obj';
+import { getPagination } from '../lib/common/pagination';
+import { UserListObj } from './dto/objs/user-list.obj';
 
 @Injectable()
 export class UserService {
-  
   constructor(
     private userRepo: UserRepo, private readonly mailService: MailService,
     private readonly jwtService: JwtService,
@@ -206,11 +207,6 @@ export class UserService {
     }
     return loginUserToken;
   }
-  async getUserList(page: number, nickName: string) {
-    console.log(page)
-    let user : User = new User;
-    return user;
-  }
   async updateUserToken(userIdx: number, token: string) {
     let userToken:UserToken = new UserToken();
     //try catch 를 하나의 단위마다 해야하는지 ?
@@ -275,8 +271,36 @@ export class UserService {
     }
     return userToken;
   }
+  async getUserList(page: number, nickName: string) {
+    const {limit, offset} = getPagination(page);
+    let userList: [User[], number];
+    try{
+      userList = await this.userRepo.getUserList(nickName, limit, offset);
+    }catch(err){
 
+    }
+    console.log(userList)
+    //userList [0] -> userList
+    //userList[1] -> count
+    const res: UserListObj = {
+      userList : userList[0],
+      count : userList[1]
+    }
+    return res;
+  }
+  async getUserData(userIdx: number) {
+    let user: User = new User();
+    try{
+      user = await this.userRepo.findOne({
+        where : {
+          userIdx : userIdx
+        }
+      });
+    }catch(err){
 
+    }
+    return user;
+  }
 
 
   
