@@ -20,6 +20,7 @@ const errorCode = require('./lib/common/error');
 const anonymousSocket = require('./socketEvent/anonymous');
 const chattingSocket = require('./socketEvent/chatting');
 const jwtUtils = require('./lib/common/jwt');
+const { GraphQLClient, gql } = require('graphql-request');
 const port = 8080;
 
 const whitelist = ['http://localhost:8081','http://localhost:8080', 'http://mfinvest.kr', 'http://backend.mfinvest.kr','www.mfinvest.kr']
@@ -33,6 +34,30 @@ const corsOptions = {
   },
   credentials: true,
 }
+
+const getQuery = (userIdx) => {
+  const query = gql`
+    {
+      getUserData(userIdx : ${userIdx}){    
+            userIdx
+            id
+            nickName
+          
+        }
+    }
+  `
+  return query
+}
+const graphQLClient = new GraphQLClient('http://localhost:3000/graphql/', {
+  headers: {
+    authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWR4IjozMCwiaWQiOiJhYmFiIiwicHciOiIiLCJuaWNrTmFtZSI6ImFiYWIiLCJlbWFpbCI6ImFhQG5hdmVyLmNvbSIsImNyZWF0ZWQiOiIyMDIyLTEwLTE3VDA3OjA5OjM3LjgyM1oiLCJzdGF0dXMiOm51bGwsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY2NjQxNzA5Nn0.FD5FYiqcxvHK9Xe2tVaupZ9S9aVSFJuBT0Bdfqs--lM',
+  },
+})
+
+graphQLClient.request(getQuery(30)).then((data) => console.log(data)).catch((err) => {
+  console.log(1111111);
+  console.log(err);
+});
 
 app.use(cors(corsOptions));
 

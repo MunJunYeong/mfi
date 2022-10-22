@@ -26,16 +26,19 @@ export class UserRepo extends Repository<User>{
     }
 
     async updateUserToken(userToken: UserToken) {
+        let res: UserToken;
         try{
-            await this.manager.save(UserToken, userToken)
+            res = await this.manager.save(UserToken, userToken)
         }catch(err){
             console.log(err)
         }
+        return res;
     }
     
     async findUserToken(userIdx: number) {
+        let res: UserToken;
         try{
-            return await this.manager.findOne(UserToken, {
+            res = await this.manager.findOne(UserToken, {
                 where : {
                     userIdx : userIdx
                 }
@@ -43,6 +46,7 @@ export class UserRepo extends Repository<User>{
         }catch(err){
             console.log(err)
         }
+        return res;
     }
 
 
@@ -69,7 +73,6 @@ export class UserRepo extends Repository<User>{
 
         }
         return auth;
-
     }
 
     async saveAuth(authentication: Auth) {
@@ -104,22 +107,26 @@ export class UserRepo extends Repository<User>{
 
 
     async findUserById(id: string){
+        let res: User;
         try{
-            return await this.manager.findOne(User, {
+            res = await this.manager.findOne(User, {
                 where : {id : id}
             })
         }catch(err){
 
         }
+        return res;
     }
     async findUserByNickName(nickName: string){
+        let res: User;
         try{
-            return await this.manager.findOne(User, {
+            res = await this.manager.findOne(User, {
                 where : {nickName : nickName}
             })
         }catch(err){
             
         }
+        return res;
     }
     async findUserByEmail(email: string){
         let res: User;
