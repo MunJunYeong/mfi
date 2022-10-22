@@ -77,7 +77,6 @@ export class UserResolver {
     let res: UserListObj;
     try{
       res = await this.userService.getUserList(getUserListDTO.page, getUserListDTO.nickName);
-
     }catch(err){
 
     }
