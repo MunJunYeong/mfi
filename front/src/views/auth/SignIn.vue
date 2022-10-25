@@ -28,6 +28,11 @@
               v-on:click="login"
             >로그인
             </v-btn>
+            <v-btn
+            elevation="2" block
+              v-on:click="test">
+              테스트
+              </v-btn>  
             <v-checkbox
               v-model="saveId"
               :label="`아이디 저장하기`"
@@ -85,7 +90,8 @@
             <v-btn
               elevation="2" block
               v-on:click="login"
-            >로그인</v-btn>              
+            >로그인</v-btn> 
+                     
           </div>
         </v-col>
       </v-row>
@@ -133,6 +139,7 @@
 </style>
 <script>
   import VueCookies from "vue-cookies";
+  import gql from 'graphql-tag'
   import {signValidation} from '../../utils/validation/index';
   // import {naverService} from '../../services';
   export default {
@@ -152,6 +159,25 @@
       }
     },
     methods: {
+      async test(){
+        const input = {
+          id : this.id,
+          pw : this.pw
+        }
+        console.log(input)
+        const result = await this.$apollo.mutate({
+          mutation: gql`mutation ($input: object) {
+            signIn(input: $input) {
+              token
+              
+            }
+          }`,
+          variables: {
+            input
+          },
+        })
+        console.log(result)
+      },
       async login(){
         let res;
         const preorderId = signValidation.checkId(this.id);
@@ -162,7 +188,6 @@
         if(preorderPw.message){
           alert('[비밀번호] ' +preorderPw.message); return;
         }
-
         try {
           res = await this.$store.dispatch('auth_login', {
             id : this.id,
