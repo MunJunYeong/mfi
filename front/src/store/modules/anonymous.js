@@ -4,6 +4,9 @@ import jwt_decode from 'jwt-decode'
 import anonymous from '../../services/anonymous';
 import * as chattingSocket from '../../lib/chattingSocket';
 
+import {apolloClient} from '../../graphql/apollo';
+import graphqlQuery from '../../graphql/queries';
+
 const anonymousModule = {
     state: {
         userData : {},
@@ -53,19 +56,54 @@ const anonymousModule = {
             return await anonymous.signUp(data.id, data.pw, data.nickName, data.email);
         },
         //로그인
-        async auth_login ({ commit }, data) {
-            const res = await anonymous.login(data);
-            if(res.data.token){                
-                localStorage.setItem("accessToken", res.data.token);
-                localStorage.setItem("refreshToken", res.data.refreshToken);
-                await this.dispatch('get_user_data', res.data.token ); //login part라서 return값이 불 필요.
+        async sign_in({commit}, data){
+            const input = {
+                id : data.id,
+                pw : data.pw,
+                isForce: data.isForce
+            }
+            let res;
+            try{
+                res = await apolloClient.mutate({
+                    mutation : graphqlQuery.signIn,
+                    variables : {
+                        input
+                    }
+                })
+            }catch(err){
+                if(err.message === 'GraphQL error: wrong pw'){
+                    throw new Error('wrong pw');
+                }
+                if(err.message === 'GraphQL error: wrong id'){
+                    throw new Error('wrong id');
+                }
+                if(err.message === 'GraphQL error: isLogin'){
+                    throw new Error('isLogin');
+                }
+            }
+            res = res.data.signIn;
+            if(res.token){
+                localStorage.setItem("accessToken", res.token);
+                localStorage.setItem("refreshToken", res.refreshToken);
+                await this.dispatch('get_user_data', res.token ); //login part라서 return값이 불 필요.
                 await chattingSocket.initialize();
                 history.back();
-                return res.data;
-            }else if(res.data.message){
-                return res.data;
+                return res;
             }
         },
+        // async auth_login ({ commit }, data) {
+        //     const res = await anonymous.login(data);
+        //     if(res.data.token){                
+        //         localStorage.setItem("accessToken", res.data.token);
+        //         localStorage.setItem("refreshToken", res.data.refreshToken);
+        //         await this.dispatch('get_user_data', res.data.token ); //login part라서 return값이 불 필요.
+        //         await chattingSocket.initialize();
+        //         history.back();
+        //         return res.data;
+        //     }else if(res.data.message){
+        //         return res.data;
+        //     }
+        // },
         async auth_force_login ({ commit }, data) {
             const res = await anonymous.forceLogin(data);
 

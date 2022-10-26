@@ -138,8 +138,9 @@
 }
 </style>
 <script>
+
   import VueCookies from "vue-cookies";
-  import gql from 'graphql-tag'
+  // import gql from 'graphql-tag'
   import {signValidation} from '../../utils/validation/index';
   // import {naverService} from '../../services';
   export default {
@@ -152,31 +153,43 @@
     },
     data() {
       return{
-        id : VueCookies.isKey('id')?VueCookies.get('id'):'',
-        pw : '',
+        // id : VueCookies.isKey('id')?VueCookies.get('id'):'',
+        id : 'bb',
+        pw : 'bb',
         show1: false, show2 : false,
         saveId : VueCookies.isKey('saveId')?VueCookies.get('saveId'):false,
       }
     },
     methods: {
       async test(){
-        const input = {
-          id : this.id,
-          pw : this.pw
-        }
-        console.log(input)
-        const result = await this.$apollo.mutate({
-          mutation: gql`mutation ($input: object) {
-            signIn(input: $input) {
-              token
-              
+        try{
+          await this.$store.dispatch('sign_in', {
+            id : this.id,
+            pw : this.pw,
+            isForce : false
+          })
+        }catch(err){
+          if(err.message === 'wrong id'){
+            alert('잘못된 아이디입니다.'); return;
+          }
+          if(err.message === 'wrong pw'){
+            alert('잘못된 비밀번호입니다.'); return;
+          }
+          if(err.message === 'isLogin'){
+            let flag = confirm('다른 기기에서 로그인 중입니다.' + '\n' + '강제 로그아웃 하고 현재 기기에서 로그인 하시겠습니까?');
+            if(flag){
+              try{
+                await this.$store.dispatch('sign_in', {
+                  id : this.id,
+                  pw : this.pw,
+                  isForce : true
+                })
+              }catch(err){
+                alert('통신 오류');
+              }
             }
-          }`,
-          variables: {
-            input
-          },
-        })
-        console.log(result)
+          }
+        }
       },
       async login(){
         let res;

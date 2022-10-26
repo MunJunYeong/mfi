@@ -164,10 +164,10 @@ export class UserService {
     }catch(err){
 
     }
-    if(user === null) throw new Error('잘못된 아이디!!!!');
+    if(user === null) throw new Error('wrong id');
     //초기 로그인이라면 비밀번호의 검증 절차를 걸치기!
     if(isForce === false){
-      if(await bcrypt.compare(pw, user.pw) === false) throw new Error('잘못된 비밀번호!!!!');
+      if(await bcrypt.compare(pw, user.pw) === false) throw new Error('wrong pw');
       let isLogin: boolean = false;
       try{
         const userToken = await this.userRepo.findUserToken(user.userIdx);
@@ -176,10 +176,11 @@ export class UserService {
         
       }
       if(isLogin === true){
-        throw new Error('이미 로그인 중입니다!!!!');//이거에 대한 추가 핸들링 추가하기
+        throw new Error('isLogin');//이거에 대한 추가 핸들링 추가하기
       }
     }
-
+    //위에서 확인해줬다고 해도 재확인 필요
+    if(await bcrypt.compare(pw, user.pw) === false) throw new Error('wrong pw');
     let accessToken: string, refreshToken: string;
     user.pw = '';
     const accessUser: object = {

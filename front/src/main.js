@@ -8,11 +8,25 @@ import VueCookies from "vue-cookies";
 import * as anonymousSocket from "./lib/anonymousSocket";
 import * as chattingSocket from "./lib/chattingSocket";
 
-import ApolloClient from 'apollo-boost';
-import VueApollo from 'vue-apollo';
-const apolloClient = new ApolloClient({
-  uri: 'https://localhost:3000/graphql',
-})
+//apollo 적용
+// import ApolloClient from 'apollo-boost';
+// import { InMemoryCache } from 'apollo-cache-inmemory';
+// import VueApollo from 'vue-apollo';
+// import { typeDefs } from './graphql/resolver'
+
+// const cache = new InMemoryCache();
+// const apolloClient = new ApolloClient({
+//   uri: 'http://localhost:3000/graphql',
+//   cache,
+//   typeDefs,
+//   resolvers : {},
+// })
+// Vue.use(VueApollo)
+// const apolloProvider = new VueApollo({
+//   defaultClient: apolloClient,
+// })
+
+
 
 Vue.config.productionTip = false;
 // .vue 파일에서만 this.$함수이름 : 프로토타입 가능
@@ -20,10 +34,7 @@ Vue.prototype.$Vue = Vue;
 Vue.prototype.$cookie = VueCookies;
 Vue.use(VueCookies);
 
-Vue.use(VueApollo)
-const apolloProvider = new VueApollo({
-  defaultClient: apolloClient,
-})
+
 
 const init  = async () => {
   await anonymousSocket.initialize();
@@ -58,7 +69,7 @@ const init  = async () => {
     store,
     router,
     vuetify,
-    apolloProvider,
+    // provide : apolloProvider.provide(),
     render: h => h(App)
   }).$mount('#app')
 }
