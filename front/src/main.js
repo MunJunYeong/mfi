@@ -5,8 +5,8 @@ import store from './store'
 import router from './router'
 import vuetify from './plugins/vuetify'
 import VueCookies from "vue-cookies";
-import * as anonymousSocket from "./lib/anonymousSocket";
-import * as chattingSocket from "./lib/chattingSocket";
+import * as anonymousSocket from "./lib/socket/anonymousSocket";
+import * as chattingSocket from "./lib/socket/chattingSocket";
 
 //apollo 적용
 // import ApolloClient from 'apollo-boost';

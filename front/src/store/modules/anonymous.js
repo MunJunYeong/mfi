@@ -2,10 +2,10 @@
 
 import jwt_decode from 'jwt-decode'
 import anonymous from '../../services/anonymous';
-import * as chattingSocket from '../../lib/chattingSocket';
+import * as chattingSocket from '../../lib/socket/chattingSocket';
 
-import {apolloClient} from '../../graphql/apollo';
-import graphqlQuery from '../../graphql/queries';
+import {apolloClient} from '../../lib/graphql/apollo';
+import graphqlQuery from '../../lib/graphql/queries';
 
 const anonymousModule = {
     state: {

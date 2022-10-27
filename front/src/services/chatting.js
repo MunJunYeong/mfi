@@ -1,4 +1,4 @@
-import {socket} from '../lib/chattingSocket';
+import {socket} from '../lib/socket/chattingSocket';
 
 
 const toApplyChatting = async (userIdx)=> {
