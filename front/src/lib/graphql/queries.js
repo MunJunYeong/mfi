@@ -9,6 +9,14 @@ const signIn = gql`
     }
 `;
 
+const checkId =  gql`
+    mutation checkId($id: String!){
+        checkId(id: $id){
+            isSuccess
+        }
+    }
+`;
+
 export default {
-    signIn
+    signIn, checkId
 }

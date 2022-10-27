@@ -50,6 +50,32 @@ export class UserService {
     }
     return res;
   }
+
+  async checkNickName(nickName: string) {
+    let isSuccessObj: IsSuccessObj = new IsSuccessObj();
+    isSuccessObj.isSuccess = false; 
+    let user: User = new User();
+    try{
+      user = await this.userRepo.findUserByNickName(nickName);
+    }catch(err){
+
+    }
+    if(user === null) isSuccessObj.isSuccess = true;
+    return isSuccessObj;
+  }
+  async checkId(id: string) {
+    let isSuccessObj: IsSuccessObj = new IsSuccessObj();
+    isSuccessObj.isSuccess = false; 
+    let user: User = new User();
+    try{
+      user = await this.userRepo.findUserById(id);
+    }catch(err){
+
+    }
+    if(user === null) isSuccessObj.isSuccess = true;
+    return isSuccessObj;
+  }
+
   // 회원가입시 이메일 중복확인을 위한 mail 전송
   async sendMail(email: string) {
     let user:User = new User();
