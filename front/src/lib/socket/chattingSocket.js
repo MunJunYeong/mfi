@@ -1,6 +1,6 @@
 
 import { io } from "socket.io-client";
-import store from '../store'
+import store from '../../store'
 const { VUE_APP_BACKEND_HOST } = process.env;
 
 let socket;
@@ -67,7 +67,6 @@ const applyResponse = async ()=> {
   if(!socket) return;
 
 }
-
 
 const initialize = async () => {
   await chatSocketInit();
