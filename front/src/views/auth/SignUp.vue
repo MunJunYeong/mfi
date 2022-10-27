@@ -278,11 +278,12 @@
     methods : {
       // 중복 아이디 확인 axios
       async checkId(){
+        /////////////////////////////////전처리/////////////////////////////////
         const preorder = signValidation.checkId(this.id);
         if(preorder.message){
           alert(preorder.message); return;
         }
-
+        ///////////////////////////////////////////////////////////////////////
         let res;
         try{
           res = await this.$store.dispatch('check_id', {
@@ -382,6 +383,7 @@
       },
       // 회원가입 axious
       async signUp(){
+        /////////////////////////////////전처리/////////////////////////////////
         if(this.pw !== this.checkPw){
           alert('비밀번호가 일치하지 않습니다.!'); return;
         }
@@ -396,19 +398,20 @@
         }else if(!this.overlapAuthentication){
           alert('이메일 인증을 해주세요'); return;
         }
-
+        if(!this.overlapId || !this.overlapNickName || !this.overlapAuthentication){
+          alert('중복확인을 해주세요'); return;
+        }
+        ///////////////////////////////////////////////////////////////////////
         let res;
-        if(this.overlapId && this.overlapNickName && this.overlapAuthentication){
-          try{
-            res = await this.$store.dispatch('sign_up', {
-              id : this.id,
-              pw : this.pw,
-              nickName : this.nickName,
-              email : this.email
-            })
-          }catch(err){
-            console.log(err);
-          }
+        try{
+          res = await this.$store.dispatch('sign_up', {
+            id : this.id,
+            pw : this.pw,
+            nickName : this.nickName,
+            email : this.email
+          })
+        }catch(err){
+          console.log(err);
         }
         if(res.data.message){
           alert(res.data.message); return;

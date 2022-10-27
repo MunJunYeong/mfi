@@ -50,6 +50,8 @@ input GetUserListDTO {
 
 type Mutation {
   signUp(input: SignUpUserDTO!): User!
+  checkId(id: String!): IsSuccessObj!
+  checkNickName(nickName: String!): IsSuccessObj!
   sendMail(email: String!): IsSuccessObj!
   sendPwMail(email: String!): IsSuccessObj!
   sendIdMail(email: String!): IsSuccessObj!

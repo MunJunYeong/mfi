@@ -71,14 +71,15 @@ const anonymousModule = {
                     }
                 })
             }catch(err){
-                if(err.message === 'GraphQL error: wrong pw'){
-                    throw new Error('wrong pw');
+                err = err.graphQLErrors[0];
+                if(err.message === 'wrong pw'){
+                    throw new Error(err.message);
                 }
-                if(err.message === 'GraphQL error: wrong id'){
-                    throw new Error('wrong id');
+                if(err.message === 'wrong id'){
+                    throw new Error(err.message);
                 }
-                if(err.message === 'GraphQL error: isLogin'){
-                    throw new Error('isLogin');
+                if(err.message === 'isLogin'){
+                    throw new Error(err.message);
                 }
             }
             res = res.data.signIn;
@@ -89,32 +90,6 @@ const anonymousModule = {
                 await chattingSocket.initialize();
                 history.back();
                 return res;
-            }
-        },
-        // async auth_login ({ commit }, data) {
-        //     const res = await anonymous.login(data);
-        //     if(res.data.token){                
-        //         localStorage.setItem("accessToken", res.data.token);
-        //         localStorage.setItem("refreshToken", res.data.refreshToken);
-        //         await this.dispatch('get_user_data', res.data.token ); //login part라서 return값이 불 필요.
-        //         await chattingSocket.initialize();
-        //         history.back();
-        //         return res.data;
-        //     }else if(res.data.message){
-        //         return res.data;
-        //     }
-        // },
-        async auth_force_login ({ commit }, data) {
-            const res = await anonymous.forceLogin(data);
-
-            if(res.data.token){
-                localStorage.setItem("accessToken", res.data.token);
-                localStorage.setItem("refreshToken", res.data.refreshToken);       
-                await this.dispatch('get_user_data', res.data.token); //login part라서 return값이 불 필요.
-                await chattingSocket.initialize();
-                history.back();
-            }else if(res.data.message){
-                return res.data;
             }
         },
         async find_id_send_email({commit}, data){

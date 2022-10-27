@@ -25,6 +25,14 @@ export class UserResolver {
     // 어쩔 때는 userToken이 생성 안되는 경우가 생김 
   }
   @Mutation(()=> IsSuccessObj)
+  async checkId(@Args('id') id: string){
+    return await this.userService.sendMail(id);
+  }
+  @Mutation(()=> IsSuccessObj)
+  async checkNickName(@Args('nickName') nickName: string){
+    return await this.userService.sendMail(nickName);
+  }
+  @Mutation(()=> IsSuccessObj)
   async sendMail(@Args('email') email: string){
     return await this.userService.sendMail(email);
   }
@@ -64,6 +72,7 @@ export class UserResolver {
   async updateUserToken(@Args('input') updateUserTokenDTO : UpdateUserTokenDTO){
     return await this.userService.updateUserToken(updateUserTokenDTO.userIdx, updateUserTokenDTO.token);
   }
+
 
   @Query(()=> User, {name: 'getUserData'})
   @UseGuards(UserGuard)
