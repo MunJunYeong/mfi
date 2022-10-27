@@ -27,12 +27,7 @@
               elevation="2" block
               v-on:click="login"
             >로그인
-            </v-btn>
-            <v-btn
-            elevation="2" block
-              v-on:click="test">
-              테스트
-              </v-btn>  
+            </v-btn>  
             <v-checkbox
               v-model="saveId"
               :label="`아이디 저장하기`"
@@ -138,9 +133,8 @@
 }
 </style>
 <script>
-
+/* eslint-disable */
   import VueCookies from "vue-cookies";
-  // import gql from 'graphql-tag'
   import {signValidation} from '../../utils/validation/index';
   // import {naverService} from '../../services';
   export default {
@@ -153,15 +147,24 @@
     },
     data() {
       return{
-        // id : VueCookies.isKey('id')?VueCookies.get('id'):'',
-        id : 'bb',
-        pw : 'bb',
+        id : VueCookies.isKey('id')?VueCookies.get('id'):'',
+        pw : '',
         show1: false, show2 : false,
         saveId : VueCookies.isKey('saveId')?VueCookies.get('saveId'):false,
       }
     },
     methods: {
-      async test(){
+      async login(){
+        /////////////////////////////////전처리/////////////////////////////////
+        // const preorderId = signValidation.checkId(this.id);
+        // if(preorderId.message){
+        //   alert('[아이디] ' +preorderId.message); return;
+        // }
+        // const preorderPw = signValidation.checkPw(this.pw);
+        // if(preorderPw.message){
+        //   alert('[비밀번호] ' +preorderPw.message); return;
+        // }
+        ///////////////////////////////////////////////////////////////////////
         try{
           await this.$store.dispatch('sign_in', {
             id : this.id,
@@ -169,6 +172,7 @@
             isForce : false
           })
         }catch(err){
+          /////////////////////////////////Wrong/////////////////////////////////
           if(err.message === 'wrong id'){
             alert('잘못된 아이디입니다.'); return;
           }
@@ -190,54 +194,17 @@
             }
           }
         }
-      },
-      async login(){
-        let res;
-        const preorderId = signValidation.checkId(this.id);
-        if(preorderId.message){
-          alert('[아이디] ' +preorderId.message); return;
-        }
-        const preorderPw = signValidation.checkPw(this.pw);
-        if(preorderPw.message){
-          alert('[비밀번호] ' +preorderPw.message); return;
-        }
-        try {
-          res = await this.$store.dispatch('auth_login', {
-            id : this.id,
-            pw : this.pw,
-          })
-        } catch (err) {
-          console.log(err)
-          alert('통신 오류');
-        }
-        //아이디 저장하기 + 쿠키에 id 값이 없다면 
+        /////////////////////////////////후처리/////////////////////////////////
         if(this.saveId && !VueCookies.isKey('id') ){
           VueCookies.set('id', this.id);
           VueCookies.set('saveId', true);
         }
-        //아이디 저장하기를 안하는데 쿠키가 있을 경우엔 전부 초기화
         if(!this.saveId && VueCookies.isKey('id')){
           VueCookies.remove('id');
           VueCookies.remove('saveId');
         }
-        
-        if(res.message === 'isLogin'){
-          let flag = confirm('다른 기기에서 로그인 중입니다.' + '\n' + '강제 로그아웃 하고 현재 기기에서 로그인 하시겠습니까?');
-          if(flag){
-            try{
-              await this.$store.dispatch('auth_force_login', {
-                id : this.id,
-                pw : this.pw
-              })
-            }catch(err){
-              alert('통신 오류');
-            }
-          }
-          return;
-        }else if(res.message){
-          alert(res.message);
-        }
-      }
+        ///////////////////////////////////////////////////////////////////////
+      },
     },
   }
 </script>
