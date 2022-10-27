@@ -26,11 +26,11 @@ export class UserResolver {
   }
   @Mutation(()=> IsSuccessObj)
   async checkId(@Args('id') id: string){
-    return await this.userService.sendMail(id);
+    return await this.userService.checkId(id);
   }
   @Mutation(()=> IsSuccessObj)
   async checkNickName(@Args('nickName') nickName: string){
-    return await this.userService.sendMail(nickName);
+    return await this.userService.checkNickName(nickName);
   }
   @Mutation(()=> IsSuccessObj)
   async sendMail(@Args('email') email: string){
