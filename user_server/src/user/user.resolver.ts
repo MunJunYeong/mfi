@@ -33,6 +33,10 @@ export class UserResolver {
     return await this.userService.checkNickName(nickName);
   }
   @Mutation(()=> IsSuccessObj)
+  async checkEmail(@Args('email') email: string){
+    return await this.userService.checkEmail(email);
+  }
+  @Mutation(()=> IsSuccessObj)
   async sendMail(@Args('email') email: string){
     return await this.userService.sendMail(email);
   }

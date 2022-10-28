@@ -14,6 +14,7 @@ import { UserListObj } from './dto/objs/user-list.obj';
 
 @Injectable()
 export class UserService {
+  
   constructor(
     private userRepo: UserRepo, private readonly mailService: MailService,
     private readonly jwtService: JwtService,
@@ -30,7 +31,7 @@ export class UserService {
 
     }
     if(duplicatedId || duplicatedNickName || duplicatedEmail){
-      throw new Error('중복됨!!!!');
+      throw new Error('duplicated');
     }
     //user 정보 설정
     const user: User = new User();
@@ -75,17 +76,28 @@ export class UserService {
     if(user === null) isSuccessObj.isSuccess = true;
     return isSuccessObj;
   }
+  async checkEmail(email: any) {
+    let isSuccessObj: IsSuccessObj = new IsSuccessObj();
+    isSuccessObj.isSuccess = false; 
+    let user: User = new User();
+    try{
+      user = await this.userRepo.findUserByEmail(email);
+    }catch(err){
 
+    }
+    if(user === null) isSuccessObj.isSuccess = true;
+    return isSuccessObj;
+    }
   // 회원가입시 이메일 중복확인을 위한 mail 전송
   async sendMail(email: string) {
     let user:User = new User();
     try{
       user = await this.validateMail(email);
     }catch(err){
-      
+      throw new Error(err);
     }
     if(user !== null){
-      throw new Error('이미 존재함 email');
+      throw new Error('exist email');
     }
     let auth: Auth;
     let isSuccessObj: IsSuccessObj = new IsSuccessObj();
@@ -108,7 +120,7 @@ export class UserService {
       
     }
     if(user === null){
-      throw new Error('잘못된 email');
+      throw new Error('wrong email');
     }
     let auth: Auth;
     let isSuccessObj: IsSuccessObj= new IsSuccessObj();
@@ -129,7 +141,7 @@ export class UserService {
       
     }
     if(user === null){
-      throw new Error('잘못된 email');
+      throw new Error('wrong email');
     }
     let isSuccessObj = new IsSuccessObj();
     try{
@@ -154,9 +166,10 @@ export class UserService {
     try{
       auth = await this.userRepo.findAuth(email);
     }catch(err){
+      
     }
     if(auth.length === 0 || auth[auth.length-1].no !== no){
-      throw new Error('잘못된 인증번호!!!!!');
+      throw new Error('wrong no');
     }
     let res: DeleteResult;
     try{

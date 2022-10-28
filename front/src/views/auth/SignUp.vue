@@ -337,9 +337,9 @@
           alert('인증 번호가 이미 발송되었습니다.'); return;
         }
         //이메일 형식 확인
-        if(!signValidation.validationEmail(this.email)){
-          alert('이메일 형식에 맞추어 작성해주세요.'); return;
-        }
+        // if(!signValidation.validationEmail(this.email)){
+        //   alert('이메일 형식에 맞추어 작성해주세요.'); return;
+        // }
         let res;
         try{
           res = await this.$store.dispatch('send_email', {
@@ -348,13 +348,15 @@
         }catch(err){
           console.log(err);
         }
-        if(res.data.message === 'exist email'){
+        if(res.message === 'exist email'){
           alert('이미 존재하는 이메일입니다.'); return;
-        }else {
-          this.authEmailIf = true;
-          this.overlapEmail = true;
-          alert('이메일을 보냈습니다.');
         }
+        if(!res){
+          alert('이메일 전송에 오류가 생겼습니다. 잠시 후 다시 시도해주세요..'); return;
+        }
+        this.authEmailIf = true;
+        this.overlapEmail = true;
+        alert('이메일을 보냈습니다.');
       },
       //이메일 인증하기 
       async checkAuthEmail(){
@@ -368,18 +370,16 @@
             no : this.authEmail
           })
         }catch(err){
-          console.log(err);
+          if(err.message){
+            alert('인증번호가 일치하지 않습니다.'); return;
+          }else {
+            alert('인증에 실패했습니다.'); this.overlapAuthentication = false; return;
+          }
         }
-        if(res.data.message === 'wrong no'){
-          alert('인증번호가 일치하지 않습니다.'); return;
-        }
-        if(res.data.data){
+        if(res){
           alert('인증이 완료되었습니다.');
           this.authEmailIf = false;
           this.overlapAuthentication = true;
-        }else {
-          alert('인증에 실패했습니다.');
-          this.overlapAuthentication = false;
         }
       },
       // 회원가입 axious
@@ -414,8 +414,8 @@
         }catch(err){
           console.log(err);
         }
-        if(res.data.message){
-          alert(res.data.message); return;
+        if(!res.userIdx){
+          alert('문제가 생겼습니다. 다시 시도해주세요.'); return;
         }
         alert('회원가입이 성공적으로 완료됐습니다!');
         history.back();
