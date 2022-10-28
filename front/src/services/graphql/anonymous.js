@@ -100,8 +100,55 @@ const signUp = async (input) => {
             }
         })
     }catch(err){
-
+        console.log(err);
     }
+    return res;
+}
+const sendIdMail = async (email) => {
+    let res;
+    try{
+        res= await apolloClient.mutate({
+            mutation : graphqlQuery.sendIdMail,
+            variables : {
+                email
+            }
+        })
+    }catch(err){
+        const errMessage = err.graphQLErrors[0].message;
+        throw new Error(errMessage);
+    }
+    return res;
+}
+const sendPwMail = async (email, id) => {
+    let res;
+    try{
+        res= await apolloClient.mutate({
+            mutation : graphqlQuery.sendPwMail,
+            variables : {
+                email, id
+            }
+        })
+    }catch(err){
+        const errMessage = err.graphQLErrors[0].message;
+        throw new Error(errMessage);
+    }
+    return res;
+}
+const updatePw = async (input) => {
+    let res;
+    try{
+        res= await apolloClient.mutate({
+            mutation : graphqlQuery.updatePw,
+            variables : {
+                input
+            }
+        })
+    }catch(err){
+        console.log(err);
+        const errMessage = err.graphQLErrors[0].message;
+        throw new Error(errMessage);
+    }
+    console.log(res);
     return res;
 }
 const temp = async (id) => {
@@ -121,5 +168,6 @@ const temp = async (id) => {
 
 export default {
     signIn, checkId, checkNickName, checkEmail,
-    sendMail, checkAuth, signUp
+    sendMail, checkAuth, signUp, sendIdMail,
+    sendPwMail, updatePw
 }

@@ -54,7 +54,7 @@ type Mutation {
   checkNickName(nickName: String!): IsSuccessObj!
   checkEmail(email: String!): IsSuccessObj!
   sendMail(email: String!): IsSuccessObj!
-  sendPwMail(email: String!): IsSuccessObj!
+  sendPwMail(email: String!, id: String!): IsSuccessObj!
   sendIdMail(email: String!): IsSuccessObj!
   checkAuth(input: AuthDTO!): IsSuccessObj!
   updatePw(input: UpdateUserPwDTO!): User!
