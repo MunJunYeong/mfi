@@ -1,4 +1,4 @@
-import  chattingService from '../../services/chatting';
+import  {chatting} from '../../services/rest';
 
 const chattingSocketModule = {
     state : {
@@ -83,26 +83,26 @@ const chattingSocketModule = {
         commit('set_current_user_data', data);
       },
       resultApplyChatting({commit}, data){
-        chattingService.sendResultApply(data);
+        chatting.sendResultApply(data);
       },
       rejectMaximumChatting({commit}, data){
-        chattingService.rejectMaximumChatting(data);
+        chatting.rejectMaximumChatting(data);
       },
       joinRoom({commit}, data){
-        chattingService.joinTargetRoom(data);
+        chatting.joinTargetRoom(data);
         commit('set_join_room',data )
       },
       joinTargetRoom({commit}, data){
         commit('set_join_room',data )
       },
       sendMessage({commit}, data){
-        chattingService.sendMsg(data);
+        chatting.sendMsg(data);
       },
       receiveMsg({commit}, data){
         commit('set_receive_msg', data);
       },
       quitChatting({commit}, data){
-        chattingService.quitChatting(data);
+        chatting.quitChatting(data);
         commit('remove_chatting', data);
       },
       receiveQuitChatting({commit}, data){

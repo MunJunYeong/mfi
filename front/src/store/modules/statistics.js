@@ -1,4 +1,4 @@
-import  {statistics} from '../../services';
+import  {statistics} from '../../services/rest';
 import VueCookies from "vue-cookies";
 
 const chattingSocketModule = {

@@ -16,7 +16,14 @@ const checkId =  gql`
         }
     }
 `;
+const checkNickName =  gql`
+    mutation checkNickName($nickName: String!){
+        checkNickName(nickName: $nickName){
+            isSuccess
+        }
+    }
+`;
 
 export default {
-    signIn, checkId
+    signIn, checkId, checkNickName
 }

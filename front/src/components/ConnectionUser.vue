@@ -16,7 +16,7 @@
     
 </template>
 <script>
-import {chatting} from '../services';
+import {chatting} from '../services/rest';
 
 export default {
     name: 'ConnectionUser',

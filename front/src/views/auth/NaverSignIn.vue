@@ -6,7 +6,7 @@
 
 <script>
 /* eslint-disable */
-import {naverService} from '../../services';
+import {naverService} from '../../services/rest';
 export default {
   mounted() {
     const naverData = naverService.getNaverData();

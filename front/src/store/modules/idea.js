@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import idea from '../../services/idea';
+import {idea} from '../../services/rest';
 
 const ideaModule = {
     state: {
