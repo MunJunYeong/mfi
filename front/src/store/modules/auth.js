@@ -1,5 +1,5 @@
 /* eslint-disable */
-import auth from '../../services/auth';
+import auth from '../../services/rest/auth';
 
 const authModule = {
     state : {

@@ -292,7 +292,7 @@
         }catch(err){
           console.log(err);
         }
-        if(res.data.value === "true"){
+        if(res){
           let result = confirm("사용가능한 아이디입니다. 아이디를 사용하시겠습니까?");
           if(result){ 
             this.overlapId = true;
@@ -305,11 +305,12 @@
       },
       // 중복 닉네임 확인 axios
       async checkNickName(){
+        /////////////////////////////////전처리/////////////////////////////////
         const preorder = signValidation.checkNickName(this.nickName);
         if(preorder.message){
           alert(preorder.message); return;
         }
-
+        ///////////////////////////////////////////////////////////////////////
         let res;
         try{
           res = await this.$store.dispatch('check_nick_name', {
@@ -318,7 +319,7 @@
         }catch(err){
           console.log(err);
         }
-        if(res.data.value === 'true'){
+        if(res){
           let result = confirm("사용가능한 닉네임입니다. 닉네임을 사용하시겠습니까?");
           if(result){
             this.overlapNickName = true;

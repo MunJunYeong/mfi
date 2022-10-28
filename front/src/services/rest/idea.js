@@ -1,4 +1,4 @@
-import axios from "../lib/axios";
+import axios from "../../lib/axios";
 const { VUE_APP_BACKEND_HOST } = process.env;
 
 const getIdea = async (data)=> {

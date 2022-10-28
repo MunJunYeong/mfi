@@ -1,5 +1,5 @@
 const { VUE_APP_BACKEND_HOST } = process.env;
-import axios from "../lib/axios";
+import axios from "../../lib/axios";
 
 const getUserData = async (userIdx, token)=> {
     let res;

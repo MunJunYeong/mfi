@@ -1,4 +1,4 @@
-import axios from "../lib/axios/index";
+import axios from "../../lib/axios";
 const { VUE_APP_BACKEND_HOST, VUE_APP_NAVER_CLIENT_ID, VUE_APP_NAVER_CALL_BACK_URL} = process.env;
 
 const setNaverLogin = ()=> {

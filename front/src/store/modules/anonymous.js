@@ -1,7 +1,8 @@
 /* eslint-disable */
 
 import jwt_decode from 'jwt-decode'
-import anonymous from '../../services/anonymous';
+import {anonymous} from '../../services/rest'
+import {anonymousService} from '../../services/graphql';
 import * as chattingSocket from '../../lib/socket/chattingSocket';
 
 import {apolloClient} from '../../lib/graphql/apollo';
@@ -41,10 +42,23 @@ const anonymousModule = {
         },
         //회원가입
         async check_id({commit}, data){
-            return await anonymous.checkId(data.id);
+            let res;
+            try{
+                res =await anonymousService.checkId(data.id);
+            }catch(err){
+                console.log(err);
+            }
+            return res.data.checkId.isSuccess;
         },
         async check_nick_name({commit}, data){
-            return await anonymous.checkNickName(data.nickName);
+            let res;
+            try{
+                res =await anonymousService.checkNickName(data.nickName);
+            }catch(err){
+                console.log(err);
+            }
+            console.log(res)
+            return res.data.checkNickName.isSuccess;
         },
         async send_email({commit}, data){
             return await anonymous.sendEmail(data.email);
@@ -64,14 +78,8 @@ const anonymousModule = {
             }
             let res;
             try{
-                res = await apolloClient.mutate({
-                    mutation : graphqlQuery.signIn,
-                    variables : {
-                        input
-                    }
-                })
+                res= await anonymousService.signIn(input);
             }catch(err){
-                err = err.graphQLErrors[0];
                 if(err.message === 'wrong pw'){
                     throw new Error(err.message);
                 }
