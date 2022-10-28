@@ -5,9 +5,6 @@ import {anonymous} from '../../services/rest'
 import {anonymousService} from '../../services/graphql';
 import * as chattingSocket from '../../lib/socket/chattingSocket';
 
-import {apolloClient} from '../../lib/graphql/apollo';
-import graphqlQuery from '../../lib/graphql/queries';
-
 const anonymousModule = {
     state: {
         userData : {},
@@ -140,20 +137,47 @@ const anonymousModule = {
             }
         },
         async find_id_send_email({commit}, data){
-            const res = await anonymous.findIdSendEmail(data);
-            return res.data;
+            let res;
+            try{
+                res = await anonymousService.sendIdMail(data.email)
+            }catch(err){
+                if(err.message === 'wrong email'){
+                    throw new Error(err.message);
+                } else {
+                    throw new Error('system error');
+                }
+            }
+            return res.data.sendIdMail.isSuccess;
         },
         async find_pw_send_email({commit}, data){
-            const res = await anonymous.findPwSendEmail(data);
-            return res;            
-        },
-        async find_pw_check_email({commit}, data){
-            const res = await anonymous.findPwCheckEmail(data);
-            return res;            
+            let res;
+            try{
+                res = await anonymousService.sendPwMail(data.email, data.id);
+            }catch(err){
+                console.log(err)
+                if(err.message === 'wrong email'){
+                    throw new Error(err.message);
+                }
+                if(err.message === 'wrong id'){
+                    throw new Error(err.message);
+                }
+                throw new Error(err.message);
+            }
+            return res.data.sendPwMail.isSuccess;
         },
         async update_pw({commit}, data){
-            const res = await anonymous.updatePw(data);
-            return res;            
+            let res;
+            const input = {
+                email : data.email,
+                pw : data.pw,
+            }
+            try{
+                res = await anonymousService.updatePw(input);
+            }catch(err){
+                console.log(err);
+            }
+            if(res) return true;
+            else return false;
         },
     }
 }

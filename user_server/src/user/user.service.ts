@@ -111,16 +111,18 @@ export class UserService {
     return isSuccessObj;
   }
   // 일치하는 email 확인 후 -> 인증번호 전송
-  async sendPwMail(email: string) {
+  async sendPwMail(email: string, id: string) {
     let user:User;
     try{
       user = await this.validateMail(email);
-      console.log(user)
     }catch(err){
       
     }
     if(user === null){
       throw new Error('wrong email');
+    }
+    if(user.id !== id){
+      throw new Error('wrong id');
     }
     let auth: Auth;
     let isSuccessObj: IsSuccessObj= new IsSuccessObj();
@@ -189,8 +191,10 @@ export class UserService {
       console.log(err);
     }
     try{
-      user.pw = pw;
-      user = await this.userRepo.save(user);
+      user.pw = await bcrypt.hash(
+        pw, 10,
+      );
+      await this.userRepo.update(user.userIdx, user);
     }catch(err){
       console.log(err);
     }
@@ -319,7 +323,6 @@ export class UserService {
     }catch(err){
 
     }
-    
     const res: UserListObj = {
       userList : userList[0],
       count : userList[1]

@@ -41,8 +41,8 @@ export class UserResolver {
     return await this.userService.sendMail(email);
   }
   @Mutation(()=> IsSuccessObj)
-  async sendPwMail(@Args('email') email: string){
-    return await this.userService.sendPwMail(email);
+  async sendPwMail(@Args('email') email: string, @Args('id') id: string,){
+    return await this.userService.sendPwMail(email, id);
   }
   @Mutation(()=> IsSuccessObj)
   async sendIdMail(@Args('email') email: string){

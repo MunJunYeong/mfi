@@ -94,11 +94,13 @@ export default {
             email : this.email
           })
         }catch(err){
-          console.log(err);
+          if(err.message=== 'wrong email'){
+            alert('이메일이 존재하지 않습니다. 다시 확인해주세요.'); return;
+          }else {
+            alert(err.message); return;
+          }
         }
-        if(res.message){
-          alert(res.message);
-        }else {
+        if(res){
           alert('사용자님의 이메일로 아이디를 발송했습니다.');
           history.back();
         }

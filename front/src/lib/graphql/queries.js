@@ -51,8 +51,30 @@ const signUp =  gql`
         }
     }
 `;
+const sendIdMail =  gql`
+    mutation sendIdMail($email: String!){
+        sendIdMail(email: $email){
+            isSuccess
+        }
+    }
+`;
+const sendPwMail =  gql`
+    mutation sendPwMail($email: String!, $id: String!){
+        sendPwMail(email: $email, id: $id){
+            isSuccess
+        }
+    }
+`;
+const updatePw =  gql`
+    mutation updatePw($input: UpdateUserPwDTO!){
+        updatePw(input: $input){
+            userIdx
+        }
+    }
+`;
 
 export default {
     signIn, checkId, checkNickName, checkEmail,
-    sendMail, checkAuth, signUp
+    sendMail, checkAuth, signUp, sendIdMail,
+    sendPwMail, updatePw
 }

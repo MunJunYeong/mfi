@@ -258,16 +258,15 @@ export default {
           res = await this.$store.dispatch('update_pw', {
             email : this.email,
             pw : this.pw,
-            id : this.id
           })
         }catch(err){
           console.log(err);
         }
-        if(res.data.data === 1){
-          alert('비밀번호 변경이 완료되었습니다.');
-          history.back();
-        }else{
-          alert(res.data.message);
+        if(res){
+            alert('비밀번호 변경이 완료되었습니다.');
+            history.back();
+          }else {
+            alert('시스템 오류가 발생했습니다..');
         }
       },
 
@@ -290,11 +289,15 @@ export default {
             email : this.email
           })
         }catch(err){
-          console.log(err);
+          if(err.message === 'wrong email'){
+              alert('해당 이메일이 존재하지 않습니다..'); return;
+          }
+          if(err.message === 'wrong id'){
+              alert('해당 아이디가 존재하지 않습니다.'); return;
+          }
+          alert('시스템 오류입니다. 잠시 후 다시 요청해주세요.'); return;
         }
-        if(res.data.message){
-          alert(res.data.message); return;
-        }else {
+        if(res){
           this.authEmailIf = true;
           this.overlapEmail = true;
           this.overlapId = true;
@@ -311,16 +314,18 @@ export default {
         }
         let res;
         try{
-          res =await this.$store.dispatch('find_pw_check_email', {
+          res =await this.$store.dispatch('check_auth_email', {
             email : this.email,
             no : this.authEmail
           })
-        }catch (err){
-          console.log(err);
+        }catch(err){
+          if(err.message){
+            alert('인증번호가 일치하지 않습니다.'); return;
+          }else {
+            alert('인증에 실패했습니다.'); this.overlapAuthentication = false; return;
+          }
         }
-        if(res.data.message){
-          alert('잘못된 인증번호 입니다.'); return;
-        }else{
+        if(res){
           this.beforeCheck = false;
           this.authEmailIf = false;
           this.after = true;
