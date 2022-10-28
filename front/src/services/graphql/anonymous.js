@@ -47,11 +47,71 @@ const checkNickName = async (nickName) => {
     }
     return res;
 }
+const checkEmail = async (email) => {
+    let res;
+    try{
+        res= await apolloClient.mutate({
+            mutation : graphqlQuery.checkEmail,
+            variables : {
+                email
+            }
+        })
+    }catch(err){
+
+    }
+    return res;
+}
+const sendMail = async (email) => {
+    let res;
+    try{
+        res= await apolloClient.mutate({
+            mutation : graphqlQuery.sendMail,
+            variables : {
+                email
+            }
+        })
+    }catch(err){
+
+    }
+    return res;
+}
+const checkAuth = async (input) => {
+    let res;
+    try{
+        res= await apolloClient.mutate({
+            mutation : graphqlQuery.checkAuth,
+            variables : {
+                input
+            }
+        })
+    }catch(err){
+        const errMessage = err.graphQLErrors[0].message;
+        throw new Error(errMessage);
+    }
+    return res;
+}
+const signUp = async (input) => {
+    let res;
+    try{
+        res= await apolloClient.mutate({
+            mutation : graphqlQuery.signUp,
+            variables : {
+                input
+            }
+        })
+    }catch(err){
+
+    }
+    return res;
+}
 const temp = async (id) => {
     let res;
     try{
         res= await apolloClient.mutate({
-            
+            mutation : graphqlQuery,
+            variables : {
+                id
+            }
         })
     }catch(err){
 
@@ -60,5 +120,6 @@ const temp = async (id) => {
 }
 
 export default {
-    signIn, checkId, checkNickName
+    signIn, checkId, checkNickName, checkEmail,
+    sendMail, checkAuth, signUp
 }

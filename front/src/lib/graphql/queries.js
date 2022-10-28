@@ -23,7 +23,36 @@ const checkNickName =  gql`
         }
     }
 `;
+const checkEmail =  gql`
+    mutation checkEmail($email: String!){
+        checkEmail(email: $email){
+            isSuccess
+        }
+    }
+`;
+const sendMail =  gql`
+    mutation sendMail($email: String!){
+        sendMail(email: $email){
+            isSuccess
+        }
+    }
+`;
+const checkAuth =  gql`
+    mutation checkAuth($input: AuthDTO!){
+        checkAuth(input: $input){
+            isSuccess
+        }
+    }
+`;
+const signUp =  gql`
+    mutation signUp($input: SignUpUserDTO!){
+        signUp(input: $input){
+            userIdx
+        }
+    }
+`;
 
 export default {
-    signIn, checkId, checkNickName
+    signIn, checkId, checkNickName, checkEmail,
+    sendMail, checkAuth, signUp
 }

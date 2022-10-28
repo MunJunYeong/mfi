@@ -57,17 +57,56 @@ const anonymousModule = {
             }catch(err){
                 console.log(err);
             }
-            console.log(res)
             return res.data.checkNickName.isSuccess;
         },
         async send_email({commit}, data){
-            return await anonymous.sendEmail(data.email);
+            let checkFlag;
+            try{
+                checkFlag =await anonymousService.checkEmail(data.email);
+            }catch(err){
+                console.log(err);
+            }
+            if(!checkFlag.data.checkEmail.isSuccess){
+                return {message : 'exist email'}
+            }
+            let res;
+            try{
+                res = await anonymousService.sendMail(data.email);
+            }catch(err){
+                console.log(err);
+            }
+            return res.data.sendMail.isSuccess;
         },
         async check_auth_email({commit}, data){
-            return await anonymous.checkAuthEmail(data.email, data.no);
+            let res;
+            const input = {
+                email : data.email,
+                no : data.no
+            }
+            try{
+                res =await anonymousService.checkAuth(input);
+            }catch(err){
+                if(err.message === 'wrong no'){
+                    throw new Error(err.message);
+                }
+            }
+            console.log(res)
+            return res.data.checkAuth.isSuccess;
         },
         async sign_up({commit}, data){
-            return await anonymous.signUp(data.id, data.pw, data.nickName, data.email);
+            let res;
+            const input = {
+                id : data.id,
+                pw : data.pw,
+                nickName : data.nickName,
+                email : data.email
+            }
+            try{
+                res =await anonymousService.signUp(input);
+            }catch(err){
+                console.log(err);
+            }
+            return res.data.signUp;
         },
         //로그인
         async sign_in({commit}, data){
