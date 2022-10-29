@@ -14,7 +14,7 @@ export class AdminGuard implements CanActivate {
     ){}
     canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
         const req = getHttpReq(context);
-        if(!req.headers.authorization) throw new Error('block wrong access'); 
+        if(!req.headers.authorization) throw new Error('wrong access'); 
 
         const decodedToken = this.jwtService.verify(req.headers.authorization);
         if(decodedToken.role !== 'admin') throw new Error('not admin');
@@ -29,12 +29,18 @@ export class UserGuard implements CanActivate {
     constructor(
         private readonly jwtService: JwtService,
     ){}
-    canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
+    async canActivate(context: ExecutionContext) {
         const req = getHttpReq(context);
-        if(!req.headers.authorization) throw new Error('block wrong access');
-
-        const decodedToken = this.jwtService.verify(req.headers.authorization);
-        req['user'] = decodedToken;
+        if(!req.headers.authorization) throw new Error('wrong access');
+        let decodedToken: any;
+        try{
+            decodedToken = await this.jwtService.verifyAsync(req.headers.authorization);
+        }catch(err){
+            console.log(err);
+            throw new Error('');
+        }
+        req.user = {};
+        req.user = decodedToken;
         return true;
     }
     

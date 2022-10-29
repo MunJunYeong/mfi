@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, Scope } from '@nestjs/common';
 import { User } from './entities/user.entity';
 import { UserRepo } from './user.repo';
 import { MailService } from '../lib/common/mail/mail.service';
@@ -11,13 +11,16 @@ import { DeleteResult } from 'typeorm';
 import { LoginTokenObj } from './dto/objs/login-token.obj';
 import { getPagination } from '../lib/common/pagination';
 import { UserListObj } from './dto/objs/user-list.obj';
+import { REQUEST } from '@nestjs/core';
+import { Request } from 'express';
 
-@Injectable()
+@Injectable({scope : Scope.REQUEST})
 export class UserService {
   
   constructor(
+    @Inject(REQUEST) private readonly req: Request,
     private userRepo: UserRepo, private readonly mailService: MailService,
-    private readonly jwtService: JwtService,
+    private readonly jwtService: JwtService
   ){}
 
   async signUp(id: string, pw: string, email: string, nickName: string) {
@@ -329,16 +332,17 @@ export class UserService {
     }
     return res;
   }
-  async getUserData(userIdx: number) {
-    let user: User = new User();
+  async getUserData(token: String) {
+    // req의 req안에 user가 있음. 왜인지 ?
+    const user:User = this.req['req'].user; //토큰값에 되어져있는 유저
+    let userToken: UserToken = new UserToken(); 
     try{
-      user = await this.userRepo.findOne({
-        where : {
-          userIdx : userIdx
-        }
-      });
+      userToken = await this.userRepo.findUserToken(user.userIdx);
     }catch(err){
-
+      throw new Error('wrong data');
+    }
+    if(token !== userToken.token){
+      throw new Error('force logout');
     }
     return user;
   }

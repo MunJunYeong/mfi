@@ -151,17 +151,25 @@ const updatePw = async (input) => {
     console.log(res);
     return res;
 }
-const temp = async (id) => {
+
+//getUserData 부분에서 parameter를 제거해야되는데 제거하면 돌아가지를 않음.
+const getUserData = async (token) => {
     let res;
     try{
-        res= await apolloClient.mutate({
-            mutation : graphqlQuery,
+        res= await apolloClient.query({
+            query : graphqlQuery.getUserData,
+            context : {
+                headers : {
+                    Authorization : token
+                }
+            },
             variables : {
-                id
+                token
             }
         })
     }catch(err){
-
+        const errMessage = err.graphQLErrors[0].message;
+        throw new Error(errMessage);
     }
     return res;
 }
@@ -169,5 +177,5 @@ const temp = async (id) => {
 export default {
     signIn, checkId, checkNickName, checkEmail,
     sendMail, checkAuth, signUp, sendIdMail,
-    sendPwMail, updatePw
+    sendPwMail, updatePw, getUserData
 }

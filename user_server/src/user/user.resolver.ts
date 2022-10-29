@@ -80,8 +80,14 @@ export class UserResolver {
 
   @Query(()=> User, {name: 'getUserData'})
   @UseGuards(UserGuard)
-  async getUserData(@Args('userIdx', { type: () => Int }) userIdx: number){
-    return await this.userService.getUserData(userIdx);
+  async getUserData(@Args('token', { type: () => String }) token: String){
+    let res: User;
+    try{
+      res = await this.userService.getUserData(token); 
+    }catch(err){
+      throw new Error(err.message);
+    }
+    return res;
   }
 
   @Query(()=> UserListObj, {name : 'getUserList'})
