@@ -73,8 +73,27 @@ const updatePw =  gql`
     }
 `;
 
+const getUserData = gql`
+    query getUserData($token: String!){
+        getUserData(token: $token){
+            userIdx
+            nickName
+            email
+            role
+            # created
+        }
+    }
+`;
+// const getUserData = gql`
+//     query getUserData{
+//         userIdx
+//     }
+// `;
+
+
+
 export default {
     signIn, checkId, checkNickName, checkEmail,
     sendMail, checkAuth, signUp, sendIdMail,
-    sendPwMail, updatePw
+    sendPwMail, updatePw, getUserData
 }

@@ -1,8 +1,6 @@
 /* eslint-disable */
 
-import jwt_decode from 'jwt-decode'
-import {anonymous} from '../../services/rest'
-import {anonymousService} from '../../services/graphql';
+import {anonymous} from '../../services/graphql';
 import * as chattingSocket from '../../lib/socket/chattingSocket';
 
 const anonymousModule = {
@@ -26,22 +24,33 @@ const anonymousModule = {
     },
     actions: {
         //해당 토큰을 가진 userIdx를 찾은 다음 user 정보 가져오기
+        //1. 토큰이 유효한지, 2. 토큰의 값과 해당 유저의 값과 일치한지
         async get_user_data({commit}, token){
-            const userIdx = jwt_decode(token).userIdx 
-            const res = await anonymous.getUserData(userIdx, token);
-            if(res.data.message === 'force logout'){
-                localStorage.removeItem('accessToken');
-                localStorage.removeItem('refreshToken');
-                return res.data.message;
+            let res;
+            try{
+                res = await anonymous.getUserData(token);
+            }catch(err){
+                if(err.message.indexOf('Invalid token') === 0){
+                    localStorage.removeItem('accessToken');
+                    localStorage.removeItem('refreshToken');
+                    alert('유효하지 않는 토큰입니다. 다시 로그인해주세요.');//accesstoken만 이상하고 refresh같은경우 보완해줘야됨
+                    return;
+                }
+                if(err.message === 'force logout'){
+                    localStorage.removeItem('accessToken');
+                    localStorage.removeItem('refreshToken');
+                    alert('다른 기기에서 로그인 하였습니다. 다시 로그인해주세요.');
+                    return;
+                }
             }
-            await commit('auth_set_data', res.data.data);
+            commit('auth_set_data', res.data.getUserData);
             return {data : 1};
         },
         //회원가입
         async check_id({commit}, data){
             let res;
             try{
-                res =await anonymousService.checkId(data.id);
+                res =await anonymous.checkId(data.id);
             }catch(err){
                 console.log(err);
             }
@@ -50,7 +59,7 @@ const anonymousModule = {
         async check_nick_name({commit}, data){
             let res;
             try{
-                res =await anonymousService.checkNickName(data.nickName);
+                res =await anonymous.checkNickName(data.nickName);
             }catch(err){
                 console.log(err);
             }
@@ -59,7 +68,7 @@ const anonymousModule = {
         async send_email({commit}, data){
             let checkFlag;
             try{
-                checkFlag =await anonymousService.checkEmail(data.email);
+                checkFlag =await anonymous.checkEmail(data.email);
             }catch(err){
                 console.log(err);
             }
@@ -68,7 +77,7 @@ const anonymousModule = {
             }
             let res;
             try{
-                res = await anonymousService.sendMail(data.email);
+                res = await anonymous.sendMail(data.email);
             }catch(err){
                 console.log(err);
             }
@@ -81,7 +90,7 @@ const anonymousModule = {
                 no : data.no
             }
             try{
-                res =await anonymousService.checkAuth(input);
+                res =await anonymous.checkAuth(input);
             }catch(err){
                 if(err.message === 'wrong no'){
                     throw new Error(err.message);
@@ -99,7 +108,7 @@ const anonymousModule = {
                 email : data.email
             }
             try{
-                res =await anonymousService.signUp(input);
+                res =await anonymous.signUp(input);
             }catch(err){
                 console.log(err);
             }
@@ -114,7 +123,7 @@ const anonymousModule = {
             }
             let res;
             try{
-                res= await anonymousService.signIn(input);
+                res= await anonymous.signIn(input);
             }catch(err){
                 if(err.message === 'wrong pw'){
                     throw new Error(err.message);
@@ -139,7 +148,7 @@ const anonymousModule = {
         async find_id_send_email({commit}, data){
             let res;
             try{
-                res = await anonymousService.sendIdMail(data.email)
+                res = await anonymous.sendIdMail(data.email)
             }catch(err){
                 if(err.message === 'wrong email'){
                     throw new Error(err.message);
@@ -152,7 +161,7 @@ const anonymousModule = {
         async find_pw_send_email({commit}, data){
             let res;
             try{
-                res = await anonymousService.sendPwMail(data.email, data.id);
+                res = await anonymous.sendPwMail(data.email, data.id);
             }catch(err){
                 console.log(err)
                 if(err.message === 'wrong email'){
@@ -172,7 +181,7 @@ const anonymousModule = {
                 pw : data.pw,
             }
             try{
-                res = await anonymousService.updatePw(input);
+                res = await anonymous.updatePw(input);
             }catch(err){
                 console.log(err);
             }

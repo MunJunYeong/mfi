@@ -1,5 +1,6 @@
-import anonymousService from './anonymous';
+import anonymous from './anonymous';
+import authService from './auth';
 
 export {
-    anonymousService,
+    anonymous, authService
  }
