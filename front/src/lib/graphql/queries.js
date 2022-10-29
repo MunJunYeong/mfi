@@ -73,22 +73,18 @@ const updatePw =  gql`
     }
 `;
 
+
 const getUserData = gql`
     query getUserData($token: String!){
         getUserData(token: $token){
             userIdx
             nickName
             email
+            # created 직렬화 문제
             role
-            # created
         }
     }
 `;
-// const getUserData = gql`
-//     query getUserData{
-//         userIdx
-//     }
-// `;
 
 
 

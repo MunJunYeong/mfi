@@ -1,6 +1,6 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { UserToken } from 'src/user-token/entities/user-token.entity';
-import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, Timestamp } from 'typeorm';
 
 @ObjectType()
 @Entity()
@@ -27,7 +27,7 @@ export class User {
   email: string
 
   @Field(() => Date)
-  @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
+  @Column({ type: 'timestamptz' })
   created: Date
 
   @Field(() => String, { nullable: true })

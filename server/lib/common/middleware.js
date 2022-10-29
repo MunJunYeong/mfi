@@ -2,34 +2,51 @@
 
 const jwtUtils = require('../common/jwt');
 const userService = require('../../service/user');
+const {makeGraphqlClient, getUserDataQuery} = require('../../graphqlRequest');
+const { gql } = require('graphql-request');
+
+
+
+// const getUserData = (userIdx) => {
+//     const query = gql`
+//       {
+//         getUserData(userIdx : ${userIdx}){    
+//               userIdx
+//               id
+//               nickName
+            
+//           }
+//       }
+//     `
+//     return query
+//   }
+  
+  
+//   graphQLClient.request(getUserData(30)).then((data) => console.log(data)).catch((err) => {
+//     console.log(1111111);
+//     console.log(err);
+//   });
 
 //검증할 때 토큰이 유효한지 + 저장된 토큰과 일치한지도 확인
 
 const validateToken = async (req, res, next) => {
     let token = req.headers.authorization;
-    // token = token.replace("Bearer ",  "");
+
     if(!token){
         res.send({message : 'need token'});
         return;
     }
-
     let userData;
-    userData = await jwtUtils.verify(token);
-    if(userData === 'accesstoken expired'){
-        console.log('accesstoken 비정상적인 토큰');
-        res.status(401).send({message : 'unvalid accesstoken'});
-        return;
+    // userData = await jwtUtils.verify(token);
+    const graphqlClient = makeGraphqlClient(token);
+    try{
+        userData = await graphqlClient.request(getUserDataQuery(token));
+    }catch(err){
+        res.status(401).send({message : 'unvalid accesstoken'}); return;
     }
-
-    let dataToken = await userService.getUserToken(userData.userIdx);
-    if(token !== dataToken){
-        await userService.forceLogout(token);
-        res.send({message : 'force logout'});
-        return;
-    }else {
-        req.userData = userData;
-        next();
-    }
+    userData = userData.getUserData;
+    req.userData = userData;
+    next();
 }
 
 const refreshToken = async (req, res, next) => {

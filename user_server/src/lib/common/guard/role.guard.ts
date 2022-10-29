@@ -36,8 +36,7 @@ export class UserGuard implements CanActivate {
         try{
             decodedToken = await this.jwtService.verifyAsync(req.headers.authorization);
         }catch(err){
-            console.log(err);
-            throw new Error('');
+            throw new Error('unvalid accesstoken');
         }
         req.user = {};
         req.user = decodedToken;

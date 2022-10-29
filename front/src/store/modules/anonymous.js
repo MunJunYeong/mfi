@@ -30,7 +30,8 @@ const anonymousModule = {
             try{
                 res = await anonymous.getUserData(token);
             }catch(err){
-                if(err.message.indexOf('Invalid token') === 0){
+                console.log(err.message);
+                if(err.message === 'unvalid accesstoken'){
                     localStorage.removeItem('accessToken');
                     localStorage.removeItem('refreshToken');
                     alert('유효하지 않는 토큰입니다. 다시 로그인해주세요.');//accesstoken만 이상하고 refresh같은경우 보완해줘야됨
