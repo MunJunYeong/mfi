@@ -1,6 +1,12 @@
 import gql from 'graphql-tag';
 
 const typeDefs = gql`
+    scalar DateTime
+
+    type Query{
+        time : DateTime
+    }
+
     type LoginTokenObj {
         token: String!
         refreshToken: String!
