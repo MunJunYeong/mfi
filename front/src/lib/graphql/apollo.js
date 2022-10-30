@@ -3,18 +3,34 @@ import ApolloClient from 'apollo-boost';
 import VueApollo from 'vue-apollo';
 import { typeDefs } from './resolver'
 
-const apolloClient = new ApolloClient({
-    uri: 'http://localhost:3000/graphql',
-    typeDefs,
-    resolvers : {},
-})
+let _apolloClient;
 
-const apolloProvider = new VueApollo({
-    defaultClient: apolloClient,
-})
+const init = () =>{
+    if(_apolloClient) return _apolloClient;
 
-apolloProvider.provide();
+    _apolloClient = new ApolloClient({
+        uri: 'http://localhost:3000/graphql',
+        typeDefs,
+        resolvers : {},
+    })
+    
+    const apolloProvider = new VueApollo({
+        defaultClient: apolloClient,
+    })
+    
+    apolloProvider.provide();
+
+    return _apolloClient;
+}
+
+const apolloClient = () => {
+    if(_apolloClient) return _apolloClient;
+
+    const client = init();
+    return client
+}
 
 export  {
-    apolloClient
+    apolloClient,
+    init,
 }

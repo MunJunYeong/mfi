@@ -3,29 +3,6 @@
 const jwtUtils = require('../common/jwt');
 const userService = require('../../service/user');
 const {makeGraphqlClient, getUserDataQuery} = require('../../graphqlRequest');
-const { gql } = require('graphql-request');
-
-
-
-// const getUserData = (userIdx) => {
-//     const query = gql`
-//       {
-//         getUserData(userIdx : ${userIdx}){    
-//               userIdx
-//               id
-//               nickName
-            
-//           }
-//       }
-//     `
-//     return query
-//   }
-  
-  
-//   graphQLClient.request(getUserData(30)).then((data) => console.log(data)).catch((err) => {
-//     console.log(1111111);
-//     console.log(err);
-//   });
 
 //검증할 때 토큰이 유효한지 + 저장된 토큰과 일치한지도 확인
 

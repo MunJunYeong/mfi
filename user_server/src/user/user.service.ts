@@ -344,6 +344,8 @@ export class UserService {
     if(token !== userToken.token){
       throw new Error('force logout');
     }
+
+    console.log(user);
     return user;
   }
 
