@@ -80,7 +80,7 @@ const getUserData = gql`
             userIdx
             nickName
             email
-            # created 직렬화 문제
+            created 
             role
         }
     }

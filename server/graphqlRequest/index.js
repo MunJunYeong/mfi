@@ -1,11 +1,11 @@
 const { GraphQLClient, gql } = require('graphql-request');
 
-const makeGraphqlClient = (token)=> {
+const makeGraphqlClient = ()=> {
     const graphQLClient = new GraphQLClient(process.env.LOCAL_AUTH_SERVER, {
-        headers: {
-            authorization: token,
-        },
+        
     })
+    console.log(graphQLClient.setHeader('authorization','111'));
+    console.log(graphQLClient);
     return  graphQLClient;
 }
 

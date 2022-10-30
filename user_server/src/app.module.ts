@@ -17,6 +17,7 @@ import { UserTokenModule } from './user-token/user-token.module';
 import { MailModule } from './lib/common/mail/mail.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtModule } from './lib/common/jwt';
+import { DateTimeResolver } from 'graphql-scalars';
 
 @Module({
   imports: [

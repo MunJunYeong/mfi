@@ -5,7 +5,7 @@ import graphqlQuery from '../../lib/graphql/queries';
 const signIn = async (input)=> {
     let res;
     try{
-        res = await apolloClient.mutate({
+        res = await apolloClient().mutate({
             mutation : graphqlQuery.signIn,
             variables : {
                 input
@@ -21,7 +21,7 @@ const signIn = async (input)=> {
 const checkId = async (id) => {
     let res;
     try{
-        res= await apolloClient.mutate({
+        res= await apolloClient().mutate({
             mutation : graphqlQuery.checkId,
             variables : {
                 id
@@ -36,7 +36,7 @@ const checkId = async (id) => {
 const checkNickName = async (nickName) => {
     let res;
     try{
-        res= await apolloClient.mutate({
+        res= await apolloClient().mutate({
             mutation : graphqlQuery.checkNickName,
             variables : {
                 nickName
@@ -50,7 +50,7 @@ const checkNickName = async (nickName) => {
 const checkEmail = async (email) => {
     let res;
     try{
-        res= await apolloClient.mutate({
+        res= await apolloClient().mutate({
             mutation : graphqlQuery.checkEmail,
             variables : {
                 email
@@ -64,7 +64,7 @@ const checkEmail = async (email) => {
 const sendMail = async (email) => {
     let res;
     try{
-        res= await apolloClient.mutate({
+        res= await apolloClient().mutate({
             mutation : graphqlQuery.sendMail,
             variables : {
                 email
@@ -78,7 +78,7 @@ const sendMail = async (email) => {
 const checkAuth = async (input) => {
     let res;
     try{
-        res= await apolloClient.mutate({
+        res= await apolloClient().mutate({
             mutation : graphqlQuery.checkAuth,
             variables : {
                 input
@@ -93,7 +93,7 @@ const checkAuth = async (input) => {
 const signUp = async (input) => {
     let res;
     try{
-        res= await apolloClient.mutate({
+        res= await apolloClient().mutate({
             mutation : graphqlQuery.signUp,
             variables : {
                 input
@@ -107,7 +107,7 @@ const signUp = async (input) => {
 const sendIdMail = async (email) => {
     let res;
     try{
-        res= await apolloClient.mutate({
+        res= await apolloClient().mutate({
             mutation : graphqlQuery.sendIdMail,
             variables : {
                 email
@@ -122,7 +122,7 @@ const sendIdMail = async (email) => {
 const sendPwMail = async (email, id) => {
     let res;
     try{
-        res= await apolloClient.mutate({
+        res= await apolloClient().mutate({
             mutation : graphqlQuery.sendPwMail,
             variables : {
                 email, id
@@ -137,7 +137,7 @@ const sendPwMail = async (email, id) => {
 const updatePw = async (input) => {
     let res;
     try{
-        res= await apolloClient.mutate({
+        res= await apolloClient().mutate({
             mutation : graphqlQuery.updatePw,
             variables : {
                 input
@@ -156,7 +156,7 @@ const updatePw = async (input) => {
 const getUserData = async (token) => {
     let res;
     try{
-        res= await apolloClient.query({
+        res= await apolloClient().query({
             query : graphqlQuery.getUserData,
             context : {
                 headers : {

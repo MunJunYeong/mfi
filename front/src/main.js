@@ -7,6 +7,10 @@ import vuetify from './plugins/vuetify'
 import VueCookies from "vue-cookies";
 import * as anonymousSocket from "./lib/socket/anonymousSocket";
 import * as chattingSocket from "./lib/socket/chattingSocket";
+import { init as apolloInit, apolloClient}  from './lib/graphql/apollo';
+
+
+
 
 //apollo 적용
 // import ApolloClient from 'apollo-boost';
@@ -38,6 +42,7 @@ Vue.use(VueCookies);
 
 const init  = async () => {
   await anonymousSocket.initialize();
+  await apolloInit();
   let token = localStorage.getItem('accessToken');
   if(token === '') {
     localStorage.removeItem('accessToken')
