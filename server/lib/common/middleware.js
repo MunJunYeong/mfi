@@ -19,7 +19,7 @@ const validateToken = async (req, res, next) => {
         console.log(err);
         res.status(401).send({message : 'unvalid accesstoken'}); return;
     }
-    console.log(isValidToken)
+    // token verify 를 통해서 error가 넘어오지 않는다면 
     next();
 }
 
