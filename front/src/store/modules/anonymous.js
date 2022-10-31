@@ -3,6 +3,12 @@
 import {anonymous} from '../../services/graphql';
 import * as chattingSocket from '../../lib/socket/chattingSocket';
 
+
+const deleteToken = ()=> {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+}
+
 const anonymousModule = {
     state: {
         userData : {},
@@ -31,15 +37,13 @@ const anonymousModule = {
                 res = await anonymous.getUserData(token);
             }catch(err){
                 console.log(err.message);
-                if(err.message === 'unvalid accesstoken'){
-                    localStorage.removeItem('accessToken');
-                    localStorage.removeItem('refreshToken');
+                if(err.message.indexOf('malformed') === 0){
+                    deleteToken();
                     alert('유효하지 않는 토큰입니다. 다시 로그인해주세요.');//accesstoken만 이상하고 refresh같은경우 보완해줘야됨
                     return;
                 }
                 if(err.message === 'force logout'){
-                    localStorage.removeItem('accessToken');
-                    localStorage.removeItem('refreshToken');
+                    deleteToken();
                     alert('다른 기기에서 로그인 하였습니다. 다시 로그인해주세요.');
                     return;
                 }

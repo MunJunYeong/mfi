@@ -13,9 +13,11 @@ import { getPagination } from '../lib/common/pagination';
 import { UserListObj } from './dto/objs/user-list.obj';
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
+import { combineLatestInit } from 'rxjs/internal/observable/combineLatest';
 
 @Injectable({scope : Scope.REQUEST})
 export class UserService {
+  
   
   constructor(
     @Inject(REQUEST) private readonly req: Request,
@@ -345,11 +347,23 @@ export class UserService {
       throw new Error('force logout');
     }
 
-    console.log(user);
     return user;
   }
 
-
+  async validateToken(token: string) {
+    // console.log(token)
+    let res: any;
+    try{
+      res = await this.jwtService.verifyAsync(token);
+    }catch(err){
+      throw new Error(err.message);
+    }
+    // catch로 안 빠졌다는 것은 올바른 토큰이란 것
+    const isSuccessObj: IsSuccessObj = {
+      isSuccess : true
+    };
+    return isSuccessObj;
+  }
   
 //중복여부 : 중복(있음) true || 없음 false
   async validateMail(email: string){
@@ -357,7 +371,7 @@ export class UserService {
     try{
       user = await this.userRepo.findUserByEmail(email);
     }catch(err){
-
+      console.log(err);
     }
     return user;
   }

@@ -41,6 +41,7 @@ type UserListObj {
 type Query {
   getUserData(token: String!): User!
   getUserList(input: GetUserListDTO!): UserListObj!
+  validateToken(token: String!): IsSuccessObj!
 }
 
 input GetUserListDTO {

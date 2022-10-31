@@ -66,7 +66,6 @@ export class UserResolver {
   async logout(@Args('userIdx') userIdx: number){
     return await this.userService.logout(userIdx);
   }
-  // @UseInterceptors(LoggingInterceptor)
   @Mutation(()=> User)
   @UseGuards(AdminGuard)
   async updateUserRole(@Args('input') updateUserRoleDTO : UpdateUserRoleDTO){
@@ -76,7 +75,6 @@ export class UserResolver {
   async updateUserToken(@Args('input') updateUserTokenDTO : UpdateUserTokenDTO){
     return await this.userService.updateUserToken(updateUserTokenDTO.userIdx, updateUserTokenDTO.token);
   }
-
 
   @Query(()=> User, {name: 'getUserData'})
   @UseGuards(UserGuard)
@@ -89,7 +87,6 @@ export class UserResolver {
     }
     return res;
   }
-
   @Query(()=> UserListObj, {name : 'getUserList'})
   @UseGuards(AdminGuard)
   async getUserList(@Args('input', {type: ()=> GetUserListDTO }) getUserListDTO: GetUserListDTO){
@@ -101,6 +98,19 @@ export class UserResolver {
     }
     return res;
   }
+
+  @Query(()=> IsSuccessObj, {name : 'validateToken'})
+  async validateToken(@Args('token') token: string  ){
+    let res: IsSuccessObj;
+    try{
+      res = await this.userService.validateToken(token);
+    }catch(err){
+      // invalid token, expired token
+      throw new Error(err.message);
+    }
+    return this.userService.validateToken(token);
+  }
+
 
   @ResolveField()
   async userToken(@Parent() user: User) {
