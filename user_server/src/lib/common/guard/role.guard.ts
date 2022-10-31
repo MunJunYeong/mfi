@@ -30,11 +30,14 @@ export class UserGuard implements CanActivate {
         private readonly jwtService: JwtService,
     ){}
     async canActivate(context: ExecutionContext) {
-        const req = getHttpReq(context);
-        if(!req.headers.authorization) throw new Error('wrong access');
+        // const ctx = GqlExecutionContext.create(context);
+        // let token:string = ctx.getArgs()['token'];
+        let req = getHttpReq(context);
+        const token: string = req.headers.authorization;
+        if(!token) throw new Error('wrong access');
         let decodedToken: any;
         try{
-            decodedToken = await this.jwtService.verifyAsync(req.headers.authorization);
+            decodedToken = await this.jwtService.verifyAsync(token);
         }catch(err){
             throw new Error('unvalid accesstoken');
         }
@@ -42,7 +45,6 @@ export class UserGuard implements CanActivate {
         req.user = decodedToken;
         return true;
     }
-    
 }
 
 const getHttpReq = (context: ExecutionContext)=> {

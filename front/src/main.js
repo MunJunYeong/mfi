@@ -7,30 +7,7 @@ import vuetify from './plugins/vuetify'
 import VueCookies from "vue-cookies";
 import * as anonymousSocket from "./lib/socket/anonymousSocket";
 import * as chattingSocket from "./lib/socket/chattingSocket";
-import { init as apolloInit, apolloClient}  from './lib/graphql/apollo';
-
-
-
-
-//apollo 적용
-// import ApolloClient from 'apollo-boost';
-// import { InMemoryCache } from 'apollo-cache-inmemory';
-// import VueApollo from 'vue-apollo';
-// import { typeDefs } from './graphql/resolver'
-
-// const cache = new InMemoryCache();
-// const apolloClient = new ApolloClient({
-//   uri: 'http://localhost:3000/graphql',
-//   cache,
-//   typeDefs,
-//   resolvers : {},
-// })
-// Vue.use(VueApollo)
-// const apolloProvider = new VueApollo({
-//   defaultClient: apolloClient,
-// })
-
-
+import { init as apolloInit}  from './lib/graphql/apollo';
 
 Vue.config.productionTip = false;
 // .vue 파일에서만 this.$함수이름 : 프로토타입 가능
@@ -39,13 +16,13 @@ Vue.prototype.$cookie = VueCookies;
 Vue.use(VueCookies);
 
 
-
 const init  = async () => {
   await anonymousSocket.initialize();
   await apolloInit();
   let token = localStorage.getItem('accessToken');
   if(token === '') {
-    localStorage.removeItem('accessToken')
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
     location.href='/home';  
     return;
   }
@@ -55,12 +32,7 @@ const init  = async () => {
   //토큰 유효성 검사
   const settingVerifyToken = async () => {
     if(token !== null){
-      const getDataMsg = await store.dispatch('get_user_data', token);
-      console.log(getDataMsg)
-      // if(getDataMsg === 'force logout'){
-      //   alert('다른 기기에서 로그인하여 로그아웃 되었습니다. 재 로그인 해주세요.');
-      //   return;
-      // }
+      await store.dispatch('get_user_data', token);
       await chattingSocket.initialize();
     }
   }

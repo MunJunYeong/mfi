@@ -2,27 +2,24 @@
 
 const jwtUtils = require('../common/jwt');
 const userService = require('../../service/user');
-const {makeGraphqlClient, getUserDataQuery} = require('../../graphqlRequest');
-
+const {makeGraphqlClient, middlewareQuery} = require('../../graphqlRequest');
 //검증할 때 토큰이 유효한지 + 저장된 토큰과 일치한지도 확인
 
 const validateToken = async (req, res, next) => {
     let token = req.headers.authorization;
-
     if(!token){
         res.send({message : 'need token'});
         return;
     }
-    let userData;
-    // userData = await jwtUtils.verify(token);
-    const graphqlClient = makeGraphqlClient(token);
+    let isValidToken;
+    const graphqlClient = makeGraphqlClient();
     try{
-        userData = await graphqlClient.request(getUserDataQuery(token));
+        isValidToken = await graphqlClient.request(middlewareQuery(token));
     }catch(err){
+        console.log(err);
         res.status(401).send({message : 'unvalid accesstoken'}); return;
     }
-    userData = userData.getUserData;
-    req.userData = userData;
+    console.log(isValidToken)
     next();
 }
 

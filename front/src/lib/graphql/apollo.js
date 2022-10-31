@@ -2,14 +2,14 @@
 import ApolloClient from 'apollo-boost';
 import VueApollo from 'vue-apollo';
 import { typeDefs } from './resolver'
-
+const { VUE_APP_USER_BACKEND_HOST } = process.env;
 let _apolloClient;
 
 const init = () =>{
     if(_apolloClient) return _apolloClient;
 
     _apolloClient = new ApolloClient({
-        uri: 'http://localhost:3000/graphql',
+        uri: VUE_APP_USER_BACKEND_HOST,
         typeDefs,
         resolvers : {},
     })
@@ -19,13 +19,11 @@ const init = () =>{
     })
     
     apolloProvider.provide();
-
     return _apolloClient;
 }
 
 const apolloClient = () => {
     if(_apolloClient) return _apolloClient;
-
     const client = init();
     return client
 }

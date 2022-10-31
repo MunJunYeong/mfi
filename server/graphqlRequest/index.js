@@ -2,20 +2,15 @@ const { GraphQLClient, gql } = require('graphql-request');
 
 const makeGraphqlClient = ()=> {
     const graphQLClient = new GraphQLClient(process.env.LOCAL_AUTH_SERVER, {
-        
     })
-    console.log(graphQLClient.setHeader('authorization','111'));
-    console.log(graphQLClient);
     return  graphQLClient;
 }
 
-const getUserDataQuery = (token) => {
+const middlewareQuery = (token) => {
     const query = gql`
         {
-            getUserData(token : "${token}"){
-                userIdx
-                id
-                nickName
+            validateToken(token : "${token}"){
+                isSuccess
             }
         }
     `
@@ -26,5 +21,5 @@ const getUserDataQuery = (token) => {
 
 
 module.exports = {
-    makeGraphqlClient, getUserDataQuery
+    makeGraphqlClient, middlewareQuery
 }
