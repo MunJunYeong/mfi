@@ -33,9 +33,16 @@ export class JwtService {
     return jwt.sign(payload, secret, signOptions);
   }
 
+  // const token = this.jwtService.sign(payload, {
+  //   secret: this.configService.get('JWT_ACCESS_TOKEN_SECRET'),
+  //   expiresIn: `${this.configService.get(
+  //     'JWT_ACCESS_TOKEN_EXPIRATION_TIME',
+  //   )}s`,
+  // });
+
   async signAsync(
     payload: string | Buffer | object,
-    options?: JwtSignOptions
+    options?: JwtSignOptions,
   ): Promise<string> {
     const signOptions = this.mergeJwtOptions(
       { ...options },

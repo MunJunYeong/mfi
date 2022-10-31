@@ -28,7 +28,8 @@ const checkId = async (id) => {
             }
         })
     }catch(err){
-        console.log(err);
+        const errMessage = err.graphQLErrors[0].message;
+        throw new Error(errMessage);
     }
     return res;
 }
@@ -43,7 +44,8 @@ const checkNickName = async (nickName) => {
             }
         })
     }catch(err){
-
+        const errMessage = err.graphQLErrors[0].message;
+        throw new Error(errMessage);
     }
     return res;
 }
@@ -57,7 +59,8 @@ const checkEmail = async (email) => {
             }
         })
     }catch(err){
-
+        const errMessage = err.graphQLErrors[0].message;
+        throw new Error(errMessage);
     }
     return res;
 }
@@ -71,7 +74,8 @@ const sendMail = async (email) => {
             }
         })
     }catch(err){
-
+        const errMessage = err.graphQLErrors[0].message;
+        throw new Error(errMessage);
     }
     return res;
 }
@@ -100,7 +104,8 @@ const signUp = async (input) => {
             }
         })
     }catch(err){
-        console.log(err);
+        const errMessage = err.graphQLErrors[0].message;
+        throw new Error(errMessage);
     }
     return res;
 }
@@ -144,7 +149,6 @@ const updatePw = async (input) => {
             }
         })
     }catch(err){
-        console.log(err);
         const errMessage = err.graphQLErrors[0].message;
         throw new Error(errMessage);
     }

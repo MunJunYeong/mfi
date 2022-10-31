@@ -108,7 +108,7 @@ export class UserResolver {
       // invalid token, expired token
       throw new Error(err.message);
     }
-    return this.userService.validateToken(token);
+    return res;
   }
 
 

@@ -36,17 +36,17 @@ const anonymousModule = {
             try{
                 res = await anonymous.getUserData(token);
             }catch(err){
-                console.log(err.message);
-                if(err.message.indexOf('malformed') === 0){
+                console.log(err.message)
+                if(err.message === 'accessToken expired'){
+                    // 일단 temp고 graphql.interceptors 에서 이런 오류를 받을 경우 
                     deleteToken();
-                    alert('유효하지 않는 토큰입니다. 다시 로그인해주세요.');//accesstoken만 이상하고 refresh같은경우 보완해줘야됨
+                    alert('임시 새로고침합니다.');//accesstoken만 이상하고 refresh같은경우 보완해줘야됨
                     return;
                 }
-                if(err.message === 'force logout'){
-                    deleteToken();
-                    alert('다른 기기에서 로그인 하였습니다. 다시 로그인해주세요.');
-                    return;
-                }
+                // wrong token || force logout -> 잘못된 경우
+                deleteToken();
+                alert('유효하지 않는 토큰입니다. 다시 로그인해주세요.');//accesstoken만 이상하고 refresh같은경우 보완해줘야됨
+                return;
             }
             commit('auth_set_data', res.data.getUserData);
             return {data : 1};
@@ -101,7 +101,6 @@ const anonymousModule = {
                     throw new Error(err.message);
                 }
             }
-            console.log(res)
             return res.data.checkAuth.isSuccess;
         },
         async sign_up({commit}, data){

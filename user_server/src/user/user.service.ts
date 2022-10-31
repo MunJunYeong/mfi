@@ -239,8 +239,12 @@ export class UserService {
       refresh : true
     };
     try{
-      accessToken = await this.jwtService.signAsync(accessUser);
-      refreshToken = await this.jwtService.signAsync(refreshUser);
+      accessToken = await this.jwtService.signAsync(accessUser, {
+        expiresIn: '4h',
+      });
+      refreshToken = await this.jwtService.signAsync(refreshUser, {
+        expiresIn: '14d',
+      });
       const userToken: UserToken = {
         userIdx : user.userIdx,
         token : accessToken
@@ -356,7 +360,11 @@ export class UserService {
     try{
       res = await this.jwtService.verifyAsync(token);
     }catch(err){
-      throw new Error(err.message);
+      if(err.message === 'jwt expired') {
+        throw new Error('accessToken expired');
+    }
+      // jwt malformed || invalid token
+      throw new Error('wrong token');
     }
     // catch로 안 빠졌다는 것은 올바른 토큰이란 것
     const isSuccessObj: IsSuccessObj = {
