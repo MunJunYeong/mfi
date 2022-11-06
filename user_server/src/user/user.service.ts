@@ -13,10 +13,13 @@ import { getPagination } from '../lib/common/pagination';
 import { UserListObj } from './dto/objs/user-list.obj';
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
-import { combineLatestInit } from 'rxjs/internal/observable/combineLatest';
+
+const expireAccess = '3h';
+const expireRefresh= '14d';
 
 @Injectable({scope : Scope.REQUEST})
 export class UserService {
+  
   
   
   constructor(
@@ -240,10 +243,10 @@ export class UserService {
     };
     try{
       accessToken = await this.jwtService.signAsync(accessUser, {
-        expiresIn: '4h',
+        expiresIn: expireAccess,
       });
       refreshToken = await this.jwtService.signAsync(refreshUser, {
-        expiresIn: '14d',
+        expiresIn: expireRefresh,
       });
       const userToken: UserToken = {
         userIdx : user.userIdx,
@@ -353,7 +356,46 @@ export class UserService {
 
     return user;
   }
-
+  async issueAccessToken(refreshToken: string): Promise<UserToken> {
+    
+    //1차 - 검증 : refresh 토큰 검증
+    let validateRefresh: any;
+    try{
+      validateRefresh = await this.jwtService.verifyAsync(refreshToken);
+    }catch(err){
+      // refresh에서 나오는 error는  전부 재 로그인 시키기
+      throw new Error('relogin');
+    }
+    //2차 - 작업 : 해당 userIdx로 user 정보 가져오기.
+    let user:User;
+    try{
+      user = await this.userRepo.findOne({
+        where : {
+          userIdx : validateRefresh.userIdx
+        }
+      });
+    }catch(err){
+      console.log(err);
+    }
+    user.pw = '';
+    //3차 - 발행 : user 데이터로 accessToken 새로 발급
+    const accessUser: object = {
+      ...user
+    };
+    let newAccessToken: string;
+    try{
+      newAccessToken = await this.jwtService.signAsync(accessUser, {
+        expiresIn: expireAccess,
+      });
+    }catch(err){
+      console.log(err);
+    }
+    let userToken: UserToken = {
+      token : newAccessToken,
+      userIdx : user.userIdx
+    }
+    return userToken;
+  }
   async validateToken(token: string) {
     // console.log(token)
     let res: any;

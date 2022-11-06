@@ -75,10 +75,20 @@ export class UserResolver {
   async updateUserToken(@Args('input') updateUserTokenDTO : UpdateUserTokenDTO){
     return await this.userService.updateUserToken(updateUserTokenDTO.userIdx, updateUserTokenDTO.token);
   }
+  @Mutation(()=> UserToken)
+  async issueAccessToken(@Args('refreshToken') refreshToken : string){
+    let userToken: UserToken;
+    try{
+      userToken = await this.userService.issueAccessToken(refreshToken);
+    }catch(err){
+      console.log(err);
+    }
+    return userToken;
+  }
 
   @Query(()=> User, {name: 'getUserData'})
   @UseGuards(UserGuard)
-  async getUserData(@Args('token', { type: () => String }) token: String){
+  async getUserData(@Args('token', { type: () => String }) token: string){
     let res: User;
     try{
       res = await this.userService.getUserData(token); 
@@ -111,6 +121,8 @@ export class UserResolver {
     return res;
   }
 
+
+  
 
   @ResolveField()
   async userToken(@Parent() user: User) {
