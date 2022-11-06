@@ -63,6 +63,7 @@ type Mutation {
   logout(userIdx: Float!): UserToken!
   updateUserRole(input: UpdateUserRoleDTO!): User!
   updateUserToken(input: UpdateUserTokenDTO!): UserToken!
+  issueAccessToken(refreshToken: String!): UserToken!
 }
 
 input SignUpUserDTO {
