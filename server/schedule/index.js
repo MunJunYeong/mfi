@@ -35,8 +35,8 @@ const getNews = schedule.scheduleJob('0 0 10 * * *', async ()=>{
         const data = httpRes.data[i];
         res = await statisticsRepo.createNews(data.tit, data.subcontent, data.oid, data.aid, data.ohnm, data.dt);
     }
-    
 })
+
 module.exports = {
     addTotal,
     getNews
