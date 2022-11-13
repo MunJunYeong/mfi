@@ -1,6 +1,6 @@
 /* eslint-disable */
 import auth from '../../services/rest/auth';
-
+import { authService } from '../../services/graphql';
 const authModule = {
     state : {
         userListData : [],
@@ -80,6 +80,15 @@ const authModule = {
             }
             localStorage.setItem('accessToken', renewToken.data);
             return renewToken.data;
+        },
+        async auth_re_issue_token({commit}, token) {
+            let newToken;
+            try{
+                newToken = await authService.issueAccessToken(token.refreshToken);
+            }catch(err){
+                console.log(err);
+            }
+            console.log(newToken)
         },
     }
   }

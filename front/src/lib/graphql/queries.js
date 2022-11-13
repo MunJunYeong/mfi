@@ -87,9 +87,16 @@ const getUserData = gql`
 `;
 
 
+const issueAccessToken =  gql`
+    mutation issueAccessToken($refreshToken: String!){
+        issueAccessToken(refreshToken: $refreshToken){
+            token
+        }
+    }
+`;
 
 export default {
     signIn, checkId, checkNickName, checkEmail,
     sendMail, checkAuth, signUp, sendIdMail,
-    sendPwMail, updatePw, getUserData
+    sendPwMail, updatePw, getUserData, issueAccessToken
 }
