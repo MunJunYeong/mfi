@@ -14,13 +14,11 @@ import { UserListObj } from './dto/objs/user-list.obj';
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
 
-const expireAccess = '3h';
+const expireAccess = '2s';
 const expireRefresh= '14d';
 
 @Injectable({scope : Scope.REQUEST})
 export class UserService {
-  
-  
   
   constructor(
     @Inject(REQUEST) private readonly req: Request,
