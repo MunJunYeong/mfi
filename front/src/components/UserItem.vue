@@ -54,14 +54,14 @@ export default {
             }
         },
         async changeRole(){
-            let role = 'winner';
-            if(this.role === 'winner'){
-                role = 'normal';
+            let role = "winner";
+            if(this.role === "winner"){
+                role = "normal";
             }
             try {
-                await this.$store.dispatch('change_user_role', {
-                    role : role,
-                    userIdx : this.userIdx
+                await this.$store.dispatch('update_user_role', {
+                    userIdx : this.userIdx,
+                    role : role
                 })
             }catch(err){
                 console.log(err);

@@ -37,6 +37,31 @@ const authModule = {
         }
     },
     actions: {
+        async auth_reissue_token({commit}, token) {
+            let newToken;
+            try{
+                newToken = await authService.issueAccessToken(token.refreshToken);
+            }catch(err){
+                console.log(err);
+            }
+            return newToken.data.issueAccessToken.token;
+        },
+        async update_user_role({commit}, data){
+            let res;
+            try{
+                res = await authService.updateUserRole(data);
+            }catch(err){
+                console.log(err);
+            }
+            const cleanResult = res.data.updateUserRole;
+            commit('set_user_role', { userIdx: cleanResult.userIdx, role: cleanResult.role } );
+        },
+        // async change_user_role({commit}, data){
+        //     let token = localStorage.getItem('accessToken');
+        //     const res = await auth.changeUserRole(data, token);
+        //     commit('set_user_role', { userIdx: data.userIdx, role: res.data } );
+        // },
+
         //admin이 유저 리스트 가져오기
         async get_user_list_admin({commit}, data){
             let token = localStorage.getItem('accessToken');
@@ -59,11 +84,7 @@ const authModule = {
             commit('user_set_data_admin', res.data);
             
         },
-        async change_user_role({commit}, data){
-            let token = localStorage.getItem('accessToken');
-            const res = await auth.changeUserRole(data, token);
-            commit('set_user_role', { userIdx: data.userIdx, role: res.data } );
-        },
+        
         async logout({commit}, userIdx){
             const res = await auth.logout(userIdx);
             localStorage.removeItem('accessToken');
@@ -81,15 +102,11 @@ const authModule = {
             localStorage.setItem('accessToken', renewToken.data);
             return renewToken.data;
         },
-        async auth_re_issue_token({commit}, token) {
-            let newToken;
-            try{
-                newToken = await authService.issueAccessToken(token.refreshToken);
-            }catch(err){
-                console.log(err);
-            }
-            console.log(newToken)
-        },
+
+
+
+
+        
     }
   }
 

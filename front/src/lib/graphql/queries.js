@@ -8,7 +8,6 @@ const signIn = gql`
         }
     }
 `;
-
 const checkId =  gql`
     mutation checkId($id: String!){
         checkId(id: $id){
@@ -72,8 +71,6 @@ const updatePw =  gql`
         }
     }
 `;
-
-
 const getUserData = gql`
     query getUserData($token: String!){
         getUserData(token: $token){
@@ -86,7 +83,7 @@ const getUserData = gql`
     }
 `;
 
-
+// auth part
 const issueAccessToken =  gql`
     mutation issueAccessToken($refreshToken: String!){
         issueAccessToken(refreshToken: $refreshToken){
@@ -94,9 +91,19 @@ const issueAccessToken =  gql`
         }
     }
 `;
+const updateUserRole =  gql`
+    mutation updateUserRole($input: UpdateUserRoleDTO!){
+        updateUserRole(input: $input){
+            userIdx,
+            role
+        }
+    }
+`;
+
 
 export default {
     signIn, checkId, checkNickName, checkEmail,
     sendMail, checkAuth, signUp, sendIdMail,
-    sendPwMail, updatePw, getUserData, issueAccessToken
+    sendPwMail, updatePw, getUserData, issueAccessToken,
+    updateUserRole
 }

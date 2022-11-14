@@ -23,8 +23,17 @@ const reIssueToken = async (err)=> {
             accessToken : accessToken
         }
         newAccessToken = await store.dispatch('auth_reissue_token', tokenData);
-        // console.log(newAccessToken)
+        if(exe){
+            exe.resolve();
+        }
+        isTokenRefreshing = false;
+    }else {
+        console.log('waiting part');
+        newAccessToken = await promiseHandling();
     }
+    // 기존 req의 header에 setting 및 body에 실리는 token도 수정해서 재 요청을 보내고
+
+    
 }
 
 export {
