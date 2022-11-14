@@ -13,6 +13,7 @@ export class AdminGuard implements CanActivate {
         private readonly jwtService: JwtService,
     ){}
     async canActivate(context: ExecutionContext) {
+        console.log('dfafasfsd')
         const req = getHttpReq(context);
         const token: string = req.headers.authorization;
         if(!token) throw new Error('wrong access'); 

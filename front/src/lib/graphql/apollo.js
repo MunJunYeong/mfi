@@ -27,12 +27,6 @@ const init = () =>{
         // },
     })
 
-    // const test = new ApolloLink((operation, forward) => {
-    //     operation.setContext({ start: new Date() });
-    //     console.log(222222);
-    //     return forward(operation);
-    // });
-
     const apolloProvider = new VueApollo({
         defaultClient: apolloClient,
     })

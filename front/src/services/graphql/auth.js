@@ -16,7 +16,22 @@ const issueAccessToken = async (refreshToken) => {
     }
     return res;
 }
+const updateUserRole = async (input) => {
+    let res;
+    console.log(input)
+    try{
+        res = await apolloClient().mutate({
+            mutation : graphqlQuery.updateUserRole,
+            variables : {
+                input
+            }
+        })
+    }catch(err){
+        console.log(err);
+    }
+    return res;
+}
 
 export default {
-    issueAccessToken
+    issueAccessToken, updateUserRole
 }

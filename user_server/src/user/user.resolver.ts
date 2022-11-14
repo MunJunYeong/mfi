@@ -69,7 +69,13 @@ export class UserResolver {
   @Mutation(()=> User)
   @UseGuards(AdminGuard)
   async updateUserRole(@Args('input') updateUserRoleDTO : UpdateUserRoleDTO){
-    return await this.userService.updateUserRole(updateUserRoleDTO.userIdx, updateUserRoleDTO.role);
+    let user: User;
+    try{
+      user = await this.userService.updateUserRole(updateUserRoleDTO.userIdx, updateUserRoleDTO.role);
+    }catch(err){
+      console.log(err);
+    }
+    return user;
   }
   @Mutation(()=> UserToken)
   async updateUserToken(@Args('input') updateUserTokenDTO : UpdateUserTokenDTO){
