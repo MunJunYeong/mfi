@@ -1,5 +1,5 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { UserToken } from 'src/user-token/entities/user-token.entity';
+import { UserToken } from '../../user-token/entities/user-token.entity';
 import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, Timestamp } from 'typeorm';
 import { DateTimeResolver } from 'graphql-scalars';
 
