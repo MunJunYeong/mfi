@@ -5,6 +5,7 @@ let exe;
 let promiseHandling = {}
 
 const reIssueToken = async (err)=> {
+    console.log(err);
     let newAccessToken;
     if(isTokenRefreshing === false){
         isTokenRefreshing = true;
@@ -22,6 +23,7 @@ const reIssueToken = async (err)=> {
             refreshToken : refreshToken,
             accessToken : accessToken
         }
+        console.log(`accessToekn ${accessToken}`);
         newAccessToken = await store.dispatch('auth_reissue_token', tokenData);
         if(exe){
             exe.resolve();
@@ -32,7 +34,8 @@ const reIssueToken = async (err)=> {
         newAccessToken = await promiseHandling();
     }
     // 기존 req의 header에 setting 및 body에 실리는 token도 수정해서 재 요청을 보내고
-
+    console.log(`newAccessToken ${newAccessToken}`);
+    return newAccessToken
     
 }
 

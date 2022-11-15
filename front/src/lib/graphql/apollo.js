@@ -15,10 +15,29 @@ const init = () =>{
         uri: VUE_APP_USER_BACKEND_HOST,
         typeDefs,
         resolvers : {},
-        onError: (error) => {
-            if(error.graphQLErrors[0].message === 'accessToken expired'){
-                reIssueToken(error);
+        onError: ({ graphQLErrors, networkError, operation, forward }) => {
+            if (graphQLErrors) {
+                graphQLErrors.forEach(async err => {
+                    if(graphQLErrors[0].message === 'accessToken expired'){
+                        const result = await reIssueToken({ graphQLErrors, networkError, operation, forward });
+                        console.log(result);
+                        operation.setContext({
+                            headers: {
+                            ...operation.getContext().headers,
+                            authorization: result,
+                            },
+                        });
+
+                        operation.variables.token = result;
+
+                    }
+
+                    return forward(operation)
+                })
+                console.log(operation);
+                
             }
+            
             // 다른 경우에는 강제로 로그인 시켜버리기
         },
         // request:(operation) => {
@@ -40,6 +59,17 @@ const apolloClient = () => {
     if(_apolloClient) return _apolloClient;
     const client = init();
     return client
+}
+
+
+const query = async (variables) => {
+
+
+    const result = apolloClient().query(variables);
+
+    
+
+    return
 }
 
 

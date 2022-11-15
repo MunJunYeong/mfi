@@ -14,7 +14,7 @@ import { UserListObj } from './dto/objs/user-list.obj';
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
 
-const expireAccess = '2h';
+const expireAccess = '3s';
 const expireRefresh= '14d';
 
 @Injectable({scope : Scope.REQUEST})
