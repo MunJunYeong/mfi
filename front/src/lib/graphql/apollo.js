@@ -62,18 +62,23 @@ const apolloClient = () => {
 }
 
 
-const query = async (variables) => {
-
-
-    const result = apolloClient().query(variables);
-
+const apolloQuery = async (variables) => {
+    let result;
+    try{
+        result =await  apolloClient().query(variables);
+    }catch(err){
+        console.log(err);
+    }
+    console.log(result);
     
 
     return
 }
 
 
+
 export  {
     apolloClient,
     init,
+    apolloQuery,
 }

@@ -1,16 +1,17 @@
 import {apolloClient} from '../../lib/graphql/apollo';
 import graphqlQuery from '../../lib/graphql/queries';
-
+import { apolloMutation } from '../../lib/graphql/temp';
 
 const signIn = async (input)=> {
     let res;
     try{
-        res = await apolloClient().mutate({
+        const reqQuery =await  apolloClient().mutate({
             mutation : graphqlQuery.signIn,
             variables : {
                 input
             }
         })
+        res = await apolloMutation(reqQuery);
     }catch(err){
         const errMessage = err.graphQLErrors[0].message;
         throw new Error(errMessage);
