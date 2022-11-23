@@ -356,7 +356,6 @@ export class UserService {
     return user;
   }
   async issueAccessToken(refreshToken: string): Promise<UserToken> {
-    
     //1차 - 검증 : refresh 토큰 검증
     let validateRefresh: any;
     try{
@@ -389,10 +388,17 @@ export class UserService {
     }catch(err){
       console.log(err);
     }
-    let userToken: UserToken = {
-      token : newAccessToken,
-      userIdx : user.userIdx
+    //4차 - 재등록 : 이중로그인 방지를 위하여 다시 업데이트해주기
+    const userToken: UserToken = {
+      userIdx : user.userIdx,
+      token : newAccessToken
     }
+    try{
+      await this.userRepo.updateUserToken(userToken);
+    }catch(err){
+      console.log(err);
+    }
+    
     return userToken;
   }
   async validateToken(token: string) {
