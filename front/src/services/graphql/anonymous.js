@@ -1,20 +1,18 @@
-import {apolloClient} from '../../lib/graphql/apollo';
 import graphqlQuery from '../../lib/graphql/queries';
-import { apolloMutation } from '../../lib/graphql/temp';
+import { apolloQuery, apolloMutation } from '../../lib/graphql/interceptors';
 
 const signIn = async (input)=> {
     let res;
     try{
-        const reqQuery =await  apolloClient().mutate({
+        const query = {
             mutation : graphqlQuery.signIn,
             variables : {
                 input
             }
-        })
-        res = await apolloMutation(reqQuery);
+        }
+        res = await apolloMutation(query);
     }catch(err){
-        const errMessage = err.graphQLErrors[0].message;
-        throw new Error(errMessage);
+        throw new Error(err.message);
     }
     return res;
 }
@@ -22,15 +20,15 @@ const signIn = async (input)=> {
 const checkId = async (id) => {
     let res;
     try{
-        res= await apolloClient().mutate({
+        const query = {
             mutation : graphqlQuery.checkId,
             variables : {
                 id
             }
-        })
+        }
+        res = await apolloMutation(query);
     }catch(err){
-        const errMessage = err.graphQLErrors[0].message;
-        throw new Error(errMessage);
+        throw new Error(err.message);
     }
     return res;
 }
@@ -38,120 +36,121 @@ const checkId = async (id) => {
 const checkNickName = async (nickName) => {
     let res;
     try{
-        res= await apolloClient().mutate({
+        const query = {
             mutation : graphqlQuery.checkNickName,
             variables : {
                 nickName
             }
-        })
+        }
+        res = await apolloMutation(query);
     }catch(err){
-        const errMessage = err.graphQLErrors[0].message;
-        throw new Error(errMessage);
+        throw new Error(err.message);
     }
     return res;
 }
 const checkEmail = async (email) => {
     let res;
     try{
-        res= await apolloClient().mutate({
+        const query = {
             mutation : graphqlQuery.checkEmail,
             variables : {
                 email
             }
-        })
+        }
+        res = await apolloMutation(query);
     }catch(err){
-        const errMessage = err.graphQLErrors[0].message;
-        throw new Error(errMessage);
+        throw new Error(err.message);
     }
     return res;
 }
 const sendMail = async (email) => {
     let res;
     try{
-        res= await apolloClient().mutate({
+        const query = {
             mutation : graphqlQuery.sendMail,
             variables : {
                 email
             }
-        })
+        }
+        res = await apolloMutation(query);
     }catch(err){
-        const errMessage = err.graphQLErrors[0].message;
-        throw new Error(errMessage);
+        throw new Error(err.message);
     }
     return res;
 }
 const checkAuth = async (input) => {
     let res;
     try{
-        res= await apolloClient().mutate({
+        const query = {
             mutation : graphqlQuery.checkAuth,
             variables : {
                 input
             }
-        })
+        }
+        res = await apolloMutation(query);
+        
     }catch(err){
-        const errMessage = err.graphQLErrors[0].message;
-        throw new Error(errMessage);
+        throw new Error(err.message);
     }
     return res;
 }
 const signUp = async (input) => {
     let res;
     try{
-        res= await apolloClient().mutate({
+        const query = {
             mutation : graphqlQuery.signUp,
             variables : {
                 input
             }
-        })
+        }
+        res = await apolloMutation(query);
     }catch(err){
-        const errMessage = err.graphQLErrors[0].message;
-        throw new Error(errMessage);
+        throw new Error(err.message);
     }
     return res;
 }
 const sendIdMail = async (email) => {
     let res;
     try{
-        res= await apolloClient().mutate({
+        const query = {
             mutation : graphqlQuery.sendIdMail,
             variables : {
                 email
             }
-        })
+        }
+        res = await apolloMutation(query);
     }catch(err){
-        const errMessage = err.graphQLErrors[0].message;
-        throw new Error(errMessage);
+        throw new Error(err.message);
     }
     return res;
 }
 const sendPwMail = async (email, id) => {
     let res;
     try{
-        res= await apolloClient().mutate({
+        const query = {
             mutation : graphqlQuery.sendPwMail,
             variables : {
                 email, id
             }
-        })
+        }
+        res = await apolloMutation(query);
     }catch(err){
-        const errMessage = err.graphQLErrors[0].message;
-        throw new Error(errMessage);
+        throw new Error(err.message);
     }
     return res;
 }
 const updatePw = async (input) => {
     let res;
     try{
-        res= await apolloClient().mutate({
+        const query = {
             mutation : graphqlQuery.updatePw,
             variables : {
                 input
             }
-        })
+        }
+        res = await apolloMutation(query);
     }catch(err){
-        const errMessage = err.graphQLErrors[0].message;
-        throw new Error(errMessage);
+        throw new Error(err.message);
     }
     console.log(res);
     return res;
@@ -161,7 +160,7 @@ const updatePw = async (input) => {
 const getUserData = async (token) => {
     let res;
     try{
-        res= await apolloClient().query({
+        const query = {
             query : graphqlQuery.getUserData,
             context : {
                 headers : {
@@ -171,10 +170,11 @@ const getUserData = async (token) => {
             variables : {
                 token
             }
-        })
+        }
+
+        res= await apolloQuery(query);
     }catch(err){
-        const errMessage = err.graphQLErrors[0].message;
-        throw new Error(errMessage);
+        throw new Error(err.message);
     }
     return res;
 }

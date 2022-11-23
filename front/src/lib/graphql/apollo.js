@@ -2,8 +2,7 @@
 import ApolloClient from 'apollo-boost';
 // import { ApolloLink } from 'apollo-boost';
 import VueApollo from 'vue-apollo';
-import { reIssueToken } from './interceptor';
-import { typeDefs } from './resolver'
+import { typeDefs } from './dataType'
 
 const { VUE_APP_USER_BACKEND_HOST } = process.env;
 let _apolloClient;
@@ -15,35 +14,6 @@ const init = () =>{
         uri: VUE_APP_USER_BACKEND_HOST,
         typeDefs,
         resolvers : {},
-        onError: ({ graphQLErrors, networkError, operation, forward }) => {
-            if (graphQLErrors) {
-                graphQLErrors.forEach(async err => {
-                    if(graphQLErrors[0].message === 'accessToken expired'){
-                        const result = await reIssueToken({ graphQLErrors, networkError, operation, forward });
-                        console.log(result);
-                        operation.setContext({
-                            headers: {
-                            ...operation.getContext().headers,
-                            authorization: result,
-                            },
-                        });
-
-                        operation.variables.token = result;
-
-                    }
-
-                    return forward(operation)
-                })
-                console.log(operation);
-                
-            }
-            
-            // 다른 경우에는 강제로 로그인 시켜버리기
-        },
-        // request:(operation) => {
-        //     operation.setContext({ start: new Date() });
-        //     console.log(operation);            
-        // },
     })
 
     const apolloProvider = new VueApollo({
@@ -69,9 +39,6 @@ const apolloQuery = async (variables) => {
     }catch(err){
         console.log(err);
     }
-    console.log(result);
-    
-
     return
 }
 

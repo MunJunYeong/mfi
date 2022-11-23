@@ -36,7 +36,7 @@ const anonymousModule = {
             try{
                 res = await anonymous.getUserData(token);
             }catch(err){
-                console.log(err.message)
+                // console.log(err.message)
                 //이 부분에서 임시로 작성해둠. 인터셉터 부분이 완성되면 삭제
                 if(err.message === 'accessToken expired'){
                     // 일단 temp고 graphql.interceptors 에서 이런 오류를 받을 경우 
