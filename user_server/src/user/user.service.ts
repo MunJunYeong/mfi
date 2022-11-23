@@ -22,7 +22,8 @@ export class UserService {
   
   constructor(
     @Inject(REQUEST) private readonly req: Request,
-    private userRepo: UserRepo, private readonly mailService: MailService,
+    private userRepo: UserRepo, 
+    private readonly mailService: MailService,
     private readonly jwtService: JwtService
   ){}
 

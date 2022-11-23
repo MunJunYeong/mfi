@@ -6,20 +6,24 @@ import { MailService } from '../lib/common/mail/mail.service';
 
 describe('UserService', () => {
   let service: UserService;
+  let repo: UserRepo;
   let mailService: MailService;
-
+  let jwtService: JwtService;
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [UserService, UserRepo, JwtService, MailService],
+      // imports : [MailService],
+      providers: [UserService, UserRepo, MailService, JwtService],
     }).compile();
 
     service = module.get<UserService>(UserService);
-    const mailSer = jest.spyOn(MailService, 'auth' );
+    repo = module.get<UserRepo>(UserRepo);
+    mailService = module.get<MailService>(MailService);
+
   });
 
   it('happy case#1 - input user', () => {
     console.log(TestingModule);
-    expect(TestingModule).toBeDefined();
+    // expect(TestingModule).toBeDefined();
   });
 
   // it('happy case#1 - input admin', () => {
