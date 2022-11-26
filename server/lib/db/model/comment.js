@@ -51,4 +51,15 @@ const create = async (sequelize) => {
 
   return commentTable;
 }
+
+
+let tester1 = (a,b,...opt) => {       
+  let sum1 = 0;
+
+  console.log(opt);
+  if(opt && Array.isArray(opt)){
+    sum1 = opt.reduce((acc, sum)=>{ return sum + acc} , 0)
+  }
+  return a + b + sum1;  
+} 
 module.exports = create;
