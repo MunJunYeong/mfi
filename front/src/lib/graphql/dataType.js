@@ -6,7 +6,6 @@ const typeDefs = gql`
     type Query{
         time : DateTime
     }
-
     type LoginTokenObj {
         token: String!
         refreshToken: String!
@@ -49,7 +48,6 @@ const typeDefs = gql`
         userList: [User!]
         count: Float!
     }
-
     input GetUserListDTO {
         page: Float!
         nickName: String!

@@ -1,6 +1,5 @@
 //apollo 적용
 import ApolloClient from 'apollo-boost';
-// import { ApolloLink } from 'apollo-boost';
 import VueApollo from 'vue-apollo';
 import { typeDefs } from './dataType'
 
