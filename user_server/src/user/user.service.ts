@@ -35,8 +35,11 @@ export class UserService {
       await this.userRepo.findUserByNickName(nickName) === null? duplicatedNickName = false : duplicatedNickName = true;
       await this.userRepo.findUserByEmail(email) === null? duplicatedEmail = false : duplicatedEmail = true;
     }catch(err){
-
+      throw new Error(err);
     }
+    console.log(duplicatedId)
+    console.log(duplicatedNickName)
+    console.log(duplicatedEmail)
     if(duplicatedId || duplicatedNickName || duplicatedEmail){
       throw new Error('duplicated');
     }
@@ -54,7 +57,7 @@ export class UserService {
     try{
       res = await this.userRepo.signUp(user); //transaction 유저, 유저토큰 저장 repo에서
     }catch(err){
-
+      throw new Error(err.message)
     }
     return res;
   }
