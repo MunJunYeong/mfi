@@ -37,9 +37,7 @@ export class UserService {
     }catch(err){
       throw new Error(err);
     }
-    console.log(duplicatedId)
-    console.log(duplicatedNickName)
-    console.log(duplicatedEmail)
+ 
     if(duplicatedId || duplicatedNickName || duplicatedEmail){
       throw new Error('duplicated');
     }
@@ -69,7 +67,7 @@ export class UserService {
     try{
       user = await this.userRepo.findUserByNickName(nickName);
     }catch(err){
-
+      throw new Error(err.message);
     }
     if(user === null) isSuccessObj.isSuccess = true;
     return isSuccessObj;
@@ -81,7 +79,7 @@ export class UserService {
     try{
       user = await this.userRepo.findUserById(id);
     }catch(err){
-
+      throw new Error(err.message);
     }
     if(user === null) isSuccessObj.isSuccess = true;
     return isSuccessObj;
@@ -93,7 +91,7 @@ export class UserService {
     try{
       user = await this.userRepo.findUserByEmail(email);
     }catch(err){
-
+      throw new Error(err.message);
     }
     if(user === null) isSuccessObj.isSuccess = true;
     return isSuccessObj;
@@ -116,7 +114,7 @@ export class UserService {
       if(auth === null) isSuccessObj.isSuccess = false;
       else isSuccessObj.isSuccess = true;
     }catch(err){
-
+      throw new Error(err.message);
     }
     return isSuccessObj;
   }
@@ -126,7 +124,7 @@ export class UserService {
     try{
       user = await this.validateMail(email);
     }catch(err){
-      
+      throw new Error(err.message);
     }
     if(user === null){
       throw new Error('wrong email');
@@ -140,7 +138,7 @@ export class UserService {
       auth = await this.saveMailAuth(email);
       auth === null ?  isSuccessObj.isSuccess = false : isSuccessObj.isSuccess = true;
     }catch(err){
-
+      throw new Error(err.message);
     }
     return isSuccessObj;
   }
@@ -150,7 +148,7 @@ export class UserService {
     try{
       user = await this.validateMail(email);
     }catch(err){
-      
+      throw new Error(err.message);
     }
     if(user === null){
       throw new Error('wrong email');
@@ -161,7 +159,7 @@ export class UserService {
       let res: object = await this.mailService.idMail( (tempId+'***') , email);
       res === null ? isSuccessObj.isSuccess = false : isSuccessObj.isSuccess= true;
     }catch(err){
-
+      throw new Error(err.message);
     }
     return isSuccessObj;
   }
@@ -443,7 +441,7 @@ export class UserService {
       authentication.no = res['no'];
       auth = await this.userRepo.saveAuth(authentication);
     }catch(err){
-
+      throw new Error(err.message);
     }
     return auth;
   }
