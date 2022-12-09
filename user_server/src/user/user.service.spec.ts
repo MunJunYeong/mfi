@@ -80,7 +80,7 @@ describe('UserService', () => {
     service = await module.resolve(UserService);
   });
 
-  it('happy case#1 - signUp', async () => {
+  it('signUp - happy case#1', async () => {
     const id: string = "bbb111";
     const pw: string = "bbb111";
     const email: string = "bbb111";
@@ -93,7 +93,7 @@ describe('UserService', () => {
     }
     expect(res).toBeInstanceOf(User);
   });
-  it('unhappy case#1 - signUp', async () => {
+  it('signUp - unhappy case#1', async () => {
     const id: string = "aaa111";
     const pw: string = "aaa111";
     const email: string = "aaa111";
@@ -102,12 +102,11 @@ describe('UserService', () => {
     try{
       res = await service.signUp(id, pw, email, nickName);
     }catch(err){
-      console.log(err);
+      expect(err.message).toBe('duplicated');
     }
-    expect(res).toBeInstanceOf(User);
   });
 
-  it('happy case#2 - checkNickName', async () => {
+  it('checkNickName - happy case#2', async () => {
     const nickName: string = "bbb111";
     let res:IsSuccessObj;
     try{
@@ -117,7 +116,7 @@ describe('UserService', () => {
     }
     expect(res.isSuccess).toBeTruthy();
   });
-  it('unhappy case#2 - checkNickName', async () => {
+  it('checkNickName - unhappy case#2', async () => {
     const nickName: string = "aaa111";
     let res:IsSuccessObj;
     try{
@@ -125,9 +124,9 @@ describe('UserService', () => {
     }catch(err){
       console.log(err);
     }
-    expect(res.isSuccess).toBeTruthy();
+    expect(res.isSuccess).toBeFalsy();
   });
-  it('happy case#3 - checkId', async () => {
+  it('checkId - happy case#3', async () => {
     const id: string = "bbb111";
     let res:IsSuccessObj;
     try{
@@ -137,7 +136,7 @@ describe('UserService', () => {
     }
     expect(res.isSuccess).toBeTruthy();
   });
-  it('unhappy case#3 - checkId', async () => {
+  it('checkId - unhappy case#3', async () => {
     const id: string = "aaa111";
     let res:IsSuccessObj;
     try{
@@ -145,9 +144,9 @@ describe('UserService', () => {
     }catch(err){
       console.log(err);
     }
-    expect(res.isSuccess).toBeTruthy();
+    expect(res.isSuccess).toBeFalsy();
   });
-  it('happy case#4 - checkEmail', async () => {
+  it('checkEmail - happy case#4', async () => {
     const email: string = "bbb111@naver.com";
     let res:IsSuccessObj;
     try{
@@ -157,7 +156,7 @@ describe('UserService', () => {
     }
     expect(res.isSuccess).toBeTruthy();
   });
-  it('unhappy case#4 - checkEmail', async () => {
+  it('checkEmail - unhappy case#4', async () => {
     const email: string = "aaa111@naver.com";
     let res:IsSuccessObj;
     try{
@@ -165,10 +164,10 @@ describe('UserService', () => {
     }catch(err){
       console.log(err);
     }
-    expect(res.isSuccess).toBeTruthy();
+    expect(res.isSuccess).toBeFalsy();
   });
 
-  it('happy case#5 - sendMail', async () => {
+  it('sendMail - happy case#5', async () => {
     const email: string = "bbb111@naver.com";
     let res:IsSuccessObj;
     try{
@@ -178,18 +177,17 @@ describe('UserService', () => {
     }
     expect(res.isSuccess).toBeTruthy();
   });
-  it('unhappy case#5 - sendMail', async () => {
+  it('sendMail - unhappy case#5', async () => {
     const email: string = "aaa111@naver.com";
     let res:IsSuccessObj;
     try{
       res = await service.sendMail(email);
     }catch(err){
-      console.log(err);
+      expect(err.message).toBe('exist email');
     }
-    expect(res.isSuccess).toBeTruthy();
   });
 
-  it('happy case#6 - sendPwMail', async () => {
+  it('sendPwMail - happy case#6', async () => {
     const email: string = "aaa111@naver.com";
     const id:string = 'aaa111'
     let res:IsSuccessObj;
@@ -200,19 +198,28 @@ describe('UserService', () => {
     }
     expect(res.isSuccess).toBeTruthy();
   });
-  it('unhappy case#6 - sendPwMail', async () => {
+  it('sendPwMail - unhappy case#6-1', async () => {
     const email: string = "bbb111@naver.com";
     const id:string = 'bbb111'
     let res:IsSuccessObj;
     try{
       res = await service.sendPwMail(email, id);
     }catch(err){
-      console.log(err);
+      expect(err.message).toBe('wrong email');
     }
-    expect(res.isSuccess).toBeTruthy();
+  });
+  it('sendPwMail - unhappy case#6-2', async () => {
+    const email: string = "aaa111@naver.com";
+    const id:string = 'bbb111'
+    let res:IsSuccessObj;
+    try{
+      res = await service.sendPwMail(email, id);
+    }catch(err){
+      expect(err.message).toBe('wrong id');
+    }
   });
 
-  it('happy case#7 - sendIdMail', async () => {
+  it('sendIdMail - happy case#7', async () => {
     const email: string = "aaa111@naver.com";
     let res:IsSuccessObj;
     try{
@@ -222,15 +229,14 @@ describe('UserService', () => {
     }
     expect(res.isSuccess).toBeTruthy();
   });
-  it('unhappy case#7 - sendIdMail', async () => {
+  it('sendIdMail - unhappy case#7', async () => {
     const email: string = "bbb111@naver.com";
     let res:IsSuccessObj;
     try{
       res = await service.sendIdMail(email);
     }catch(err){
-      console.log(err);
+      expect(err.message).toBe('wrong email');
     }
-    expect(res.isSuccess).toBeTruthy();
   });
 
 });
